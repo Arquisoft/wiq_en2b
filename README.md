@@ -7,8 +7,11 @@
 This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
 
 ## Contributors
-Gonzalo Alonso Fernández - UO282104
-Sergio Rodríguez García - UO282598
+| Nombre | UO |
+|--------|----|
+| Gonzalo Alonso Fernández | UO282104 |
+| Sergio Rodríguez García | UO282598 |
+| Jorge Joaquín Gancedo Fernández | UO282161 |
 
 This repo is a basic application composed of several components.
 
