@@ -8,6 +8,7 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 
 ## Contributors
 Gonzalo Alonso Fernández - UO282104
+Sergio Rodríguez García - UO282598
 
 This repo is a basic application composed of several components.
 
