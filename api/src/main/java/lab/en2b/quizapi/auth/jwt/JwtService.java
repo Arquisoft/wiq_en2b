@@ -20,6 +20,7 @@ public class JwtService {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
+    //MUST BE SET AS ENVIRONMENT VARIABLE
     @Value("${JWT_SECRET}")
     private String jwtSecret;
 
@@ -32,7 +33,6 @@ public class JwtService {
         return Jwts.builder()
                 .subject(userPrincipal.getEmail())
                 .issuedAt(new Date())
-                .claim("type","user-password")
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSignInKey())
                 .compact();
@@ -42,7 +42,6 @@ public class JwtService {
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
-                .claim("type","user-password")
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSignInKey())
                 .compact();
