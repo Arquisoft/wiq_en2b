@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.dtos.LoginDto;
+import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     public ResponseEntity<?> login(LoginDto loginRequest) {
+        throw new UnsupportedOperationException();
+    }
+
+    public ResponseEntity<?> register(RegisterDto registerRequest) {
         throw new UnsupportedOperationException();
     }
 }
