@@ -2,6 +2,7 @@ package lab.en2b.quizapi.auth;
 
 import jakarta.validation.Valid;
 import lab.en2b.quizapi.auth.dtos.LoginDto;
+import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginDto loginRequest){
         return authService.login(loginRequest);
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@Valid RefreshTokenDto refreshTokenRequest){
+        return authService.refreshToken(refreshTokenRequest);
     }
 }

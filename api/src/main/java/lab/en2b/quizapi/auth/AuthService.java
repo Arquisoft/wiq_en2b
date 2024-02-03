@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.dtos.LoginDto;
+import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,10 @@ public class AuthService {
     }
 
     public ResponseEntity<?> register(RegisterDto registerRequest) {
+        throw new UnsupportedOperationException();
+    }
+
+    public ResponseEntity<?> refreshToken(RefreshTokenDto refreshTokenRequest) {
         throw new UnsupportedOperationException();
     }
 }
