@@ -1,9 +1,9 @@
 package lab.en2b.quizapi.auth.jwt;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class JwtService {
     public String extractUsername(String token) {
         throw new UnsupportedOperationException();

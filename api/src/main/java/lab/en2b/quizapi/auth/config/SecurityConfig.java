@@ -1,6 +1,6 @@
 package lab.en2b.quizapi.auth.config;
 
-import lab.en2b.quizapi.auth.UserService;
+import lab.en2b.quizapi.user.UserService;
 import lab.en2b.quizapi.auth.jwt.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
