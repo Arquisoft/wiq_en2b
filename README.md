@@ -15,6 +15,7 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 | Jorge Joaquín Gancedo Fernández | UO282161 |
 | Sergio Quintana Fernández       | UO288090 |
 | Diego Villanueva Berros         | UO283615 |
+| Gonzalo Suárez Losada           | UO283928 |
 
 This repo is a basic application composed of several components.
 
