@@ -40,18 +40,6 @@ public class JwtService {
                 .signWith(getSignInKey())
                 .compact();
     }
-
-    public String generateTokenFromUsername(String email) {
-        return Jwts.builder()
-                .subject(email)
-                .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(getSignInKey())
-                .compact();
-    }
-    public String extractUsername(String token) {
-        throw new UnsupportedOperationException();
-    }
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(authToken);
