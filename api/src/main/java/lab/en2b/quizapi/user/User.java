@@ -2,7 +2,6 @@ package lab.en2b.quizapi.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,18 +9,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lab.en2b.quizapi.user.role.Role;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(	name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email"),
-                @UniqueConstraint(columnNames = "name")
+                @UniqueConstraint(columnNames = "username")
         })
 @RequiredArgsConstructor
 @NoArgsConstructor
@@ -38,7 +34,7 @@ public class User {
     @NotBlank
     @Size(max=255)
     @NonNull
-    private String name;
+    private String username;
 
     @NotBlank
     @Size(max = 255)

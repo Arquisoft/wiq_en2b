@@ -28,10 +28,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = parseJwt(request);
-        String username = jwtService.getSubjectFromJwtToken(token);
+        String email = jwtService.getSubjectFromJwtToken(token);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && isValidJwt(token)) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null && isValidJwt(token)) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            // this invokes UsernamePasswordAuthenticationToken, although it uses email as subject not username
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
                     null, userDetails.getAuthorities());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

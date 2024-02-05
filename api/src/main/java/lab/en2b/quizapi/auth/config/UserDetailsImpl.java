@@ -9,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,8 +17,6 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    @Serial
-    private static final long serialVersionUID = 1L;
     private Long id;
     private String username;
     private String email;
@@ -31,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
         for(Role role : user.getRoles()){
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        return new UserDetailsImpl(user.getId(),user.getName() , user.getEmail(), user.getPassword(), authorities);
+        return new UserDetailsImpl(user.getId(),user.getUsername() , user.getEmail(), user.getPassword(), authorities);
     }
 
     @Override
