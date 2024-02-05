@@ -6,6 +6,7 @@ import lab.en2b.quizapi.auth.dtos.LoginDto;
 import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lab.en2b.quizapi.auth.jwt.JwtService;
+import lab.en2b.quizapi.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,12 +16,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
+    private final UserService userService;
     /**
      * Creates a session for a user. Throws an 401 unauthorized exception otherwise
      * @param loginRequest the request containing the login info
@@ -44,7 +47,8 @@ public class AuthService {
     }
 
     public ResponseEntity<?> register(RegisterDto registerRequest) {
-        throw new UnsupportedOperationException();
+        userService.createUser(registerRequest,Set.of("user"));
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     public ResponseEntity<?> refreshToken(RefreshTokenDto refreshTokenRequest) {
