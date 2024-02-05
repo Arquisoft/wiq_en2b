@@ -30,6 +30,13 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    /**
+     * Builds the authorization manager taking into account password encoding
+     * @param http the http request to secure
+     * @return the newly created authentication manager
+     * @throws Exception if something goes wrong when creating the manager
+     */
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
