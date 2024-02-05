@@ -31,18 +31,16 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtService.generateJwtTokenUserPassword(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        String refreshToken = userService.createRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponseDto(jwt,
-                refreshToken,
+
+        return ResponseEntity.ok(new JwtResponseDto(
+                jwtService.generateJwtTokenUserPassword(authentication),
+                jwtService.createRefreshToken(userDetails.getId()),
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                userDetails.getStringRoles())
+        );
     }
 
     public ResponseEntity<?> register(RegisterDto registerRequest) {
