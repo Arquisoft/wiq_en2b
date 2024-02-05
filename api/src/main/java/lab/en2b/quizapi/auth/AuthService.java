@@ -25,7 +25,12 @@ import java.util.stream.Collectors;
 public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+
+    /**
+     * Creates a session for a user. Throws an 401 unauthorized exception otherwise
+     * @param loginRequest the request containing the login info
+     * @return a response containing a fresh jwt token and a refresh token
+     */
     @Transactional
     public ResponseEntity<JwtResponseDto> login(LoginDto loginRequest){
         Authentication authentication = authenticationManager.authenticate(
