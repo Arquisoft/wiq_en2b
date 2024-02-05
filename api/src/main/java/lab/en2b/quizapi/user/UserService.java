@@ -15,8 +15,4 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return UserDetailsImpl.build(userRepository.findUserByEmail(email).orElseThrow());
     }
-
-    public String createRefreshToken(Long id) {
-        throw new UnsupportedOperationException();
-    }
 }

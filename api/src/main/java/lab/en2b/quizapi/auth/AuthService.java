@@ -6,43 +6,41 @@ import lab.en2b.quizapi.auth.dtos.LoginDto;
 import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lab.en2b.quizapi.auth.jwt.JwtService;
-import lab.en2b.quizapi.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+
+    /**
+     * Creates a session for a user. Throws an 401 unauthorized exception otherwise
+     * @param loginRequest the request containing the login info
+     * @return a response containing a fresh jwt token and a refresh token
+     */
     @Transactional
     public ResponseEntity<JwtResponseDto> login(LoginDto loginRequest){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtService.generateJwtTokenUserPassword(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        String refreshToken = userService.createRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponseDto(jwt,
-                refreshToken,
+
+        return ResponseEntity.ok(new JwtResponseDto(
+                jwtService.generateJwtTokenUserPassword(authentication),
+                jwtService.createRefreshToken(userDetails.getId()),
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                userDetails.getStringRoles())
+        );
     }
 
     public ResponseEntity<?> register(RegisterDto registerRequest) {

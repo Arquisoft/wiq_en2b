@@ -27,6 +27,9 @@ public class JwtService {
     @Value("${JWT_EXPIRATION_MS}")
     private int jwtExpirationMs;
 
+    public String createRefreshToken(Long id) {
+        throw new UnsupportedOperationException();
+    }
     public String generateJwtTokenUserPassword(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
