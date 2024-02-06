@@ -1,8 +1,8 @@
-package lab.en2b.quizapi.user;
+package lab.en2b.quizapi.commons.user;
 
 import lab.en2b.quizapi.auth.config.UserDetailsImpl;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
-import lab.en2b.quizapi.user.role.RoleRepository;
+import lab.en2b.quizapi.commons.user.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;

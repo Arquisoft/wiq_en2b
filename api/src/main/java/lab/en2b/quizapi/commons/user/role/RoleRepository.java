@@ -1,7 +1,6 @@
-package lab.en2b.quizapi.user.role;
+package lab.en2b.quizapi.commons.user.role;
 
 
-import lab.en2b.quizapi.user.role.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package lab.en2b.quizapi.user;
+package lab.en2b.quizapi.commons.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lab.en2b.quizapi.commons.exceptions.TokenRefreshException;
-import lab.en2b.quizapi.user.role.Role;
+import lab.en2b.quizapi.commons.user.role.Role;
 import lombok.*;
 
 import java.time.Instant;

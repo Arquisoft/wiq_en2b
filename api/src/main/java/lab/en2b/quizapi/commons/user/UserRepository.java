@@ -1,4 +1,4 @@
-package lab.en2b.quizapi.user;
+package lab.en2b.quizapi.commons.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

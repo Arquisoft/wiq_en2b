@@ -1,8 +1,8 @@
 package lab.en2b.quizapi.auth.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lab.en2b.quizapi.user.User;
-import lab.en2b.quizapi.user.role.Role;
+import lab.en2b.quizapi.commons.user.User;
+import lab.en2b.quizapi.commons.user.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

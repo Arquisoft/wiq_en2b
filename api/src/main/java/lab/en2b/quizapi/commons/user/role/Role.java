@@ -1,12 +1,10 @@
-package lab.en2b.quizapi.user.role;
+package lab.en2b.quizapi.commons.user.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lab.en2b.quizapi.user.User;
+import lab.en2b.quizapi.commons.user.User;
 import lombok.*;
 
 import java.util.Set;
