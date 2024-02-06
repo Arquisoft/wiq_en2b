@@ -19,7 +19,7 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private UserService userDetailsService;
@@ -28,9 +28,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         String token = parseJwt(request);
-        String email = jwtService.getSubjectFromJwtToken(token);
+        String email = null;
+        if(token != null){
+             email = jwtUtils.getSubjectFromJwtToken(token);
+        }
+        System.out.println("entered");
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null && isValidJwt(token)) {
+        if ( email != null && SecurityContextHolder.getContext().getAuthentication() == null && isValidJwt(token)) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             // this invokes UsernamePasswordAuthenticationToken, although it uses email as subject not username
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
@@ -42,7 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private boolean isValidJwt(String token) {
-        return token != null && jwtService.validateJwtToken(token);
+        return token != null && jwtUtils.validateJwtToken(token);
     }
 
     private String parseJwt(HttpServletRequest request) {

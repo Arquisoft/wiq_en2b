@@ -16,9 +16,9 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
-public class JwtService {
+public class JwtUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     //MUST BE SET AS ENVIRONMENT VARIABLE
     @Value("${JWT_SECRET}")

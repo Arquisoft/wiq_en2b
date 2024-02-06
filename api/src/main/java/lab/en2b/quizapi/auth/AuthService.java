@@ -5,7 +5,7 @@ import lab.en2b.quizapi.auth.dtos.JwtResponseDto;
 import lab.en2b.quizapi.auth.dtos.LoginDto;
 import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
-import lab.en2b.quizapi.auth.jwt.JwtService;
+import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthService {
-    private final JwtService jwtService;
+    private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     /**
@@ -37,8 +38,8 @@ public class AuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         return ResponseEntity.ok(new JwtResponseDto(
-                jwtService.generateJwtTokenUserPassword(authentication),
-                jwtService.createRefreshToken(userDetails.getId()),
+                jwtUtils.generateJwtTokenUserPassword(authentication),
+                jwtUtils.createRefreshToken(userDetails.getId()),
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
