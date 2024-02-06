@@ -1,11 +1,11 @@
 package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.config.UserDetailsImpl;
-import lab.en2b.quizapi.auth.dtos.JwtResponseDto;
-import lab.en2b.quizapi.auth.dtos.LoginDto;
-import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
-import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.auth.dtos.*;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
+import lab.en2b.quizapi.commons.exceptions.TokenRefreshException;
+import lab.en2b.quizapi.auth.dtos.RefreshTokenResponseDto;
+import lab.en2b.quizapi.user.User;
 import lab.en2b.quizapi.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AuthService {
     private final JwtUtils jwtUtils;
@@ -39,7 +38,7 @@ public class AuthService {
 
         return ResponseEntity.ok(new JwtResponseDto(
                 jwtUtils.generateJwtTokenUserPassword(authentication),
-                jwtUtils.createRefreshToken(userDetails.getId()),
+                userService.assignNewRefreshToken(userDetails.getId()),
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
@@ -53,6 +52,8 @@ public class AuthService {
     }
 
     public ResponseEntity<?> refreshToken(RefreshTokenDto refreshTokenRequest) {
-        throw new UnsupportedOperationException();
+        User user = userService.findByRefreshToken(refreshTokenRequest.getRefreshToken()).orElseThrow(() -> new TokenRefreshException(
+                "Refresh token is not in database!"));
+        return ResponseEntity.ok(new RefreshTokenResponseDto(jwtUtils.generateTokenFromEmail(user.getEmail()), user.obtainRefreshIfValid()));
     }
 }

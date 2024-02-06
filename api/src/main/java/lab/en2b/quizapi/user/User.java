@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lab.en2b.quizapi.commons.exceptions.TokenRefreshException;
 import lab.en2b.quizapi.user.role.Role;
 import lombok.*;
 
@@ -65,4 +66,11 @@ public class User {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "permissions"})
     @JsonProperty("role")
     private Set<Role> roles;
+
+    public String obtainRefreshIfValid() {
+        if(getRefreshExpiration() == null || getRefreshExpiration().compareTo(Instant.now()) < 0){
+            throw new TokenRefreshException( "Invalid refresh token. Please make a new login request");
+        }
+        return getRefreshToken();
+    }
 }

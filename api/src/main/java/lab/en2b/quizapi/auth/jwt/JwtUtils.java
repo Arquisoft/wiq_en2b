@@ -22,21 +22,18 @@ public class JwtUtils {
 
     //MUST BE SET AS ENVIRONMENT VARIABLE
     @Value("${JWT_SECRET}")
-    private String jwtSecret;
-
+    private String JWT_SECRET;
     @Value("${JWT_EXPIRATION_MS}")
-    private int jwtExpirationMs;
+    private Long JWT_EXPIRATION_MS;
 
-    public String createRefreshToken(Long id) {
-        throw new UnsupportedOperationException();
-    }
+
     public String generateJwtTokenUserPassword(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
                 .subject(userPrincipal.getEmail())
                 .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .expiration(new Date((new Date()).getTime() + JWT_EXPIRATION_MS))
                 .signWith(getSignInKey())
                 .compact();
     }
@@ -76,7 +73,16 @@ public class JwtUtils {
         }
     }
     private SecretKey getSignInKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String generateTokenFromEmail(String email) {
+        return Jwts.builder()
+                .subject(email)
+                .issuedAt(new Date())
+                .expiration(new Date((new Date()).getTime() + JWT_EXPIRATION_MS))
+                .signWith(getSignInKey())
+                .compact();
     }
 }
