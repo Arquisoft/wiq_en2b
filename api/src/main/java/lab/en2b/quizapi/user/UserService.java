@@ -2,6 +2,7 @@ package lab.en2b.quizapi.user;
 
 import lab.en2b.quizapi.auth.config.UserDetailsImpl;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.user.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package lab.en2b.quizapi.user;
+package lab.en2b.quizapi.user.role;
 
 
 import lab.en2b.quizapi.user.role.Role;
