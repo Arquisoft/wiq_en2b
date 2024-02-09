@@ -6,68 +6,58 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [role="arc42help"]
 ****
-.Content
-This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
-
-* models, especially domain models
-* architecture or design patterns
-* rules for using specific technology
-* principal, often technical decisions of an overarching (= cross-cutting) nature
-* implementation rules
 
 
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
+.Domain Model
+These diagram is just a sketch, it should be replaced by a more accurate version upon discussion.
 
-Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
+[plantuml,"ConceptsDomainModel1",png]
+----
+@startuml
 
+enum Category {
+    HISTORY
+    GEOGRAPHY
+    MATHS
+}
 
-.Form
-The form can be varied:
+class Question{
+    id: int
+    content: String
+    category: Category
+    language: String
+}
 
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
+class User{
+    id: int
+    name: String
+    email: String
+    password: String
+    answered: List<Question>
+}
 
-.Structure
-A potential (but not mandatory) structure for this section could be:
+class Score{
+    user: User
+    rightRate: float
+    timeAvg: float
+    answeredQuestions: int
+}
 
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
+User o--> Question
+User --> Score
 
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
+@enduml
+----
 
-image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
+|===
+| Class | Explanation
+| Question | The model of the questions
+| User | The people using the application
+| Score | A class that keeps tracks of each user scores
+|===
 
+.Architecture and design patterns
+We decided to use a React based frontend with BootSpring for the backend, which will follow the model view controller pattern to make the code clear.
 
-.Further Information
-
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
-
-
-=== _<Concept 1>_
-
-_<explanation>_
-
-
-
-=== _<Concept 2>_
-
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_
+.User Experience
+As this is a game, the focus must be in user experience so players can have an enjoyable experience, for achieving this, the response time should be as low as possible and the interfaces should be intuitive and beautiful.
