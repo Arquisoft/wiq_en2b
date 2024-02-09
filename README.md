@@ -5,7 +5,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 
 This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
-
+ 
 ## Contributors
 | Nombre                          | UO       |
 |---------------------------------|----------|
@@ -15,6 +15,7 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 | Jorge Joaquín Gancedo Fernández | UO282161 |
 | Sergio Quintana Fernández       | UO288090 |
 | Diego Villanueva Berros         | UO283615 |
+| Gonzalo Suárez Losada           | UO283928 |
 
 This repo is a basic application composed of several components.
 
