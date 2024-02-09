@@ -1,0 +1,28 @@
+[
+    {
+      "link": "/",
+      "name": "Home"
+    },
+    {
+      "link": "/play",
+      "name": "Play"
+    },
+    {
+      "link": "/api",
+      "name": "API Documentation"
+    },
+    {
+      "link": "/statistics",
+      "name": "Statistics",
+      "children": [
+        {
+            "link": "/personal",
+            "name": "My statistics"
+        },
+        {
+            "link": "/",
+            "name": "General statistics"
+        }
+      ]
+    }
+]

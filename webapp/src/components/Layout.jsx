@@ -1,59 +1,44 @@
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import pages from "./pages.json";
 import {Outlet} from "react-router-dom";
-import {useMediaQuery} from "@mui/material";
-import Link from "@mui/material/Link";
-import {useEffect, useState} from "react";
+import React from "react";
+import {Button, Container, Flex, Grid, GridItem, Link, Menu, MenuButton, MenuItem, MenuList} from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 
 function TopBar() {
+  function parseMenu(page){
+    return <Menu>
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+        {page.name}
+      </MenuButton>
+      <MenuList>
+        {page.children.map(p => <MenuItem as={Link} href={p.link}>{p.name}</MenuItem>)}
+      </MenuList>
+    </Menu>
+  }
 
-  const pages = ['Play', 'Statistics', 'API Docs'];
-  const isMobile = useMediaQuery("@media screen and (max-width: 950px)");
+  function parsePage(page) {
+    if (page.children !== undefined) {
+      return parseMenu(page)
+    }
+    return <Button as={Link} href={page.link} mr={"1vw"}>{page.name}</Button>
+  }
 
-  const [position, setPosition] = useState("static");
-  const [direction, setDirection] = useState("row");
-
-  useEffect(() => {
-    setPosition(isMobile ? "static" : "relative");
-    setDirection(isMobile ? "column" : "row")
-  },[isMobile]);
-
-  return (
-    <AppBar position={position} sx={{backgroundColor: "#365486" }}>
-      <Container maxWidth="xl">
-        <Toolbar>
-          <Typography sx={{
-            mr: 2,
-            fontSize: 24,
-            display: {xs: 'none', md: 'flex'},
-            fontFamily: 'monospace',
-            fontWeight: 400,
-            letterSpacing: '.3rem',
-            textDecoration: 'none',
-          }}>WIQ_EN2B</Typography>
-          <Container sx={{display: "flex", flexDirection: direction}}>
-            {pages.map((page) => (
-              <Link
-                key={page}
-                to={page.url}
-                sx={{my: 2, color: 'white', display: 'block',  marginRight: "2%"}}
-              >
-                {page}
-              </Link>
-            ))}
-          </Container>
-        </Toolbar>
-      </Container>
-    </AppBar>
-  );
+  return <Grid padding={"1.5vh 1.5vw"}
+            bgColor="#365486" as="nav" templateColumns={"repeat(5, 20%);"}>
+      <GridItem colSpan={4}>
+      { pages.map(page => parsePage(page)) }
+      </GridItem>
+      <GridItem as={Flex} justifyContent={"right"}>
+        <Button as={Link} mr={"1vw"}>Log in</Button>
+        <Button as={Link} mr={"1vw"}>Register</Button>
+      </GridItem>
+    </Grid>
 }
 export default function Layout() {
   return <>
     <TopBar />
-    <Container maxWidth="lg" minWidth="sm" xs={{backgroundColor:"#7FC7D9"}}>
+    <Container bgColor="#7FC7D9">
       <Outlet />
     </Container>
   </>
