@@ -7,6 +7,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [role="arc42help"]
 ****
 
+During the application development process, decisions had to be made as issues emerged. The most interesting design decisions are reflected in this architectural records:
 
 |===
 |*Decision* |*Explanation*
