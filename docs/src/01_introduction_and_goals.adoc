@@ -14,6 +14,7 @@ These include
 * quality goals for the architecture and
 * relevant stakeholders and their expectations
 ****
+RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new experimental version of the quiz show Saber y Ganar. This application will be called WIQ, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. For each question answered correctly, points will be obtained.
 
 === Requirements Overview
 
@@ -38,8 +39,97 @@ Keep these excerpts as short as possible. Balance readability of this document w
 .Further Information
 
 See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
-
 ****
+
+* The system will provide non-registered users with the option to sign up.
+* The system will provide unidentified users with the option to log in.
+* The system can only be used by registered users.
+* The system will have a game mode with 9 rounds.
+* In each round, the system will generate a question.
+* In each round, the system will generate four answers, with only one being correct.
+* The system will offer registered users access to the number of games they have played.
+* The system will offer registered users access the number of questions they have answered correctly.
+* The system will offer registered users access the number of questions they have answered incorrectly.
+* The system will offer registered users access the time they have spent within the system.
+* The system will offer registered users access the ranking of the game.
+* The system will set a time limit for registered users to respond to each question.
+
+==== Functional Requirements
+===== Users Sign up.
+[none or no-bullet]
+* FR-USU 1. The system will offer to an unregistered user a registration form.
+* FR-USU 2. The system will request the necessary data to register the new user.
+[none or no-bullet]
+** FR-USU 2.1. The system will request the following data to register the new user:
+[none or no-bullet]
+*** FR-USU 2.1.1. Username.
+*** FR-USU 2.1.2. Email address.
+*** FR-USU 2.1.3. Password.
+*** FR-USU 2.1.4. All data fields are mandatory.
+* FR-USU 3. When any value entered by the new user is invalid, the user will receive a message notifying the error and will not be able to register.
+* FR-USU 4. When all the values entered by the new user are valid, the system will check if the user is already registered in the persistence system.
+[none or no-bullet]
+** FR-USU 4.1. When a user with the same data is already found in the persistence system, the user will not be able to create a new account since it already exists.
+** FR-USU 4.2. When no user matching the data is found in the persistence system.
+[none or no-bullet]
+*** FR-USU 4.2.1. The new user will be registered in the system.
+
+===== Users Log in.
+[none or no-bullet]
+* FR-ULI 1. The system must allow an unidentified user to log in.
+[none or no-bullet]
+** FR-ULI 1.1. The system will request the email address as the user identifier.
+[none or no-bullet]
+*** FR-ULI 1.1.1. The system must check that its format is valid.
+*** FR-ULI 1.1.2. It is a mandatory field.
+** FR-ULI 1.2. The system will request the user's password.
+[none or no-bullet]
+*** FR-ULI 1.2.1. It is a mandatory field.
+** FR-ULI 1.3. The system will automatically validate the entered data to verify when it corresponds to a registered user account.
+[none or no-bullet]
+*** FR-ULI 1.3.1. When the user is not stored in the persistence system, an error message will be displayed.
+*** FR-ULI 1.3.2. When the user exists in the persistence system, but the passwords do not match, a message will be displayed to the user notifying them of the error.
+*** FR-ULI 1.3.3. When the user is stored in the persistence system and the passwords match, the user will be logged in.
+* FR-ULI 2. The system must allow users who are logged in to log out.
+
+===== Data management by the user.
+[none or no-bullet]
+* FR-DMU 1. The system will allow all registered users to access their historical data from their participation.
+[none or no-bullet]
+** FR-DMU 1.1. Registered users will be able to access the number of games they have played.
+** FR-DMU 1.2. Registered users will be able to access the number of questions they have answered correctly.
+** FR-DMU 1.3. Registered users will be able to access the number of questions they have answered incorrectly.
+** FR-DMU 1.4. Registered users will be able to access the time they have spent within the system.
+** FR-DMU 1.5. Registered users will be able to access the ranking of the game.
+
+===== Play to WIQ.
+[none or no-bullet]
+* FR-PWIQ 1. The system will only allow registered users to play the WIQ game.
+* FR-PWIQ 2. The game consists of nine rounds.
+[none or no-bullet]
+** FR-PWIQ 2.1. In each round, the system will automatically generate a question to the registered user.
+** FR-PWIQ 2.2. In each round, the system will provide the registered user with four automatically generated possible answers.
+** FR-PWIQ 2.3. In each round, there will always be only one correct answer.
+** FR-PWIQ 2.4. The system will automatically end the game after completing the ninth round.
+* FR-PWIQ 3. The registered user must respond to the question before the specified time expires.
+[none or no-bullet]
+** FR-PWIQ 3.1. When the specified time has not ended, and the registered user has provided an answer:
+[none or no-bullet]
+*** FR-PWIQ 3.1.1. The system will check if the answer is correct.
+[none or no-bullet]
+**** FR-PWIQ 3.1.1.1. When the answer is correct:
+[none or no-bullet]
+***** FR-PWIQ 3.1.1.1.1. The registered user will earn 10 points.
+***** FR-PWIQ 3.1.1.1.2. When the registered user is in the ninth round, the system will end the game.
+***** FR-PWIQ 3.1.1.1.3. When the registered user is not in the ninth round, the system will move to the next round.
+**** FR-PWIQ 3.1.1.2. When the answer is incorrect:
+[none or no-bullet]
+***** FR-PWIQ 3.1.1.2.1. When the registered user is in the ninth round, the system will end the game.
+***** FR-PWIQ 3.1.1.2.2. When the registered user is not in the ninth round, the system will move to the next round.
+** FR-PWIQ 3.2. When the specified time has ended:
+[none or no-bullet]
+*** FR-PWIQ 3.2.1. When the registered user is in the ninth round, the system will end the game.
+*** FR-PWIQ 3.2.2. When the registered user is not in the ninth round, the system will move to the next round.
 
 === Quality Goals
 
@@ -62,6 +152,20 @@ If you as an architect do not know how the quality of your work will be judged..
 .Form
 A table with quality goals and concrete scenarios, ordered by priorities
 ****
+
+[options="header",cols="1,3"]
+|===
+|Goal|Description
+| Functional suitability | The system must fulfill its intended purpose effectively and efficiently, allowing users to register, log in, play the quiz, and access their historical data.
+| Security | The system must prioritize user data security. It must implement robust authentication mechanisms for user registration and login. The API access points for user information and generated questions must be secured with proper authorization. 
+| Reliability | The system should be reliable in generating questions from Wikidata, ensuring that questions are accurate and diverse. The system must handle user registrations, logins, and game data storage without errors.
+| Availability | The system must be available 99.99% of the time a user tries to access it.
+| Maintainability | The system must be designed and implemented in a way that facilitates easy maintenance and updates.
+| Performance efficiency | The system must deliver optimal performance, ensuring responsive interactions for users. The automatic generation of questions from Wikidata and the real-time gameplay must be efficient. The system must handle 20 concurrent users.
+| Usability | The system must provide a user-friendly interface, making it easy for users to register, log in, and play the game. The system learning time for a user should be less than 4 hours.
+| Compatibility | The system must be compatible with various web browsers and devices, ensuring a seamless experience for users regardless of their choice of platform. It has to be well-optimized for different screen sizes and functionalities.
+| Transferability | The system must allow for easy transfer of user data and game-related information through its APIs.
+|===
 
 === Stakeholders
 
@@ -88,6 +192,15 @@ Table with role names, person names, and their expectations with respect to the 
 [options="header",cols="1,2,2"]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| RTVE  | Client | _<Expectation-1>_
+| HappySw | Software Development Team | _<Expectation-2>_
+| Registered user | _<Contact-3>_ | _<Expectation-2>_
+| Usability expert | _<Contact-3>_ | _<Expectation-2>_
+| Accesibility expert | _<Contact-3>_ | _<Expectation-2>_
+| Security expert | _<Contact-3>_ | _<Expectation-2>_
+| Design expert | _<Contact-3>_ | _<Expectation-2>_
+| DNS provider | _<Contact-3>_ | _<Expectation-2>_
+| Translation team | _<Contact-3>_ | _<Expectation-2>_
+| Project Manager | _<Contact-3>_ | _<Expectation-2>_
+| Wikidata | _<Contact-3>_ | _<Expectation-2>_
 |===
