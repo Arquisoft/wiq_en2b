@@ -4,22 +4,19 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Risks and Technical Debts
 
 
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
+|===
+|*Risk* |*Explanation* | *Mitigation proposed*
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
+|Little knowledge of the technologies to be used
+|For most of the members of the team, is the first time working with technologies as React or Wikidata
+|Explore technologies documentation to familiarize ourselves with the technology, and seek examples of use.
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
+|Lack of time   
+|We may face time constraints in fulfilling all the requirements for each deliverable and meeting every deadline.
+|Try to maintain a steady and sustainable development pace. Prioritize building functional components initially, then iterate and enhance from there.
 
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
+|Coordination and responsability problems
+|It is probably the first time involvement in developing a project from scratch, including decisions on architecture, design, and implementation, introduces various challenges. Misunderstandings regarding tasks and version control management errors can result in individuals inadvertently disrupting the work of others. Additionally, the necessity to make numerous decisions and reach agreements increases the likelihood of errors, potentially consuming significant time and effort.
+|To ensure effective collaboration and organization, adhere to the teachers' instructions concerning GitHub, including utilizing features such as issues and pull requests, and maintain a disciplined approach to your work. Furthermore, leverage the collective knowledge and suggestions of every team member, integrating them with your existing expertise.
 
-
-.Further Information
-
-See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
-
-****
+In terms of technical debt, it's likely to be significant due to our lack of familiarity with the majority of the technologies involved for most of the team. Both Wikidata and React present considerable challenges, and we anticipate accumulating substantial technical debt in both areas. At present, our only strategy for mitigation is to search for potential solutions online.
