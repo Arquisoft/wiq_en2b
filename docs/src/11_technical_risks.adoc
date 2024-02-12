@@ -18,5 +18,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Coordination and responsability problems
 |It is probably the first time involvement in developing a project from scratch, including decisions on architecture, design, and implementation, introduces various challenges. Misunderstandings regarding tasks and version control management errors can result in individuals inadvertently disrupting the work of others. Additionally, the necessity to make numerous decisions and reach agreements increases the likelihood of errors, potentially consuming significant time and effort.
 |To ensure effective collaboration and organization, adhere to the teachers' instructions concerning GitHub, including utilizing features such as issues and pull requests, and maintain a disciplined approach to your work. Furthermore, leverage the collective knowledge and suggestions of every team member, integrating them with your existing expertise.
+|===
 
 In terms of technical debt, it's likely to be significant due to our lack of familiarity with the majority of the technologies involved for most of the team. Both Wikidata and React present considerable challenges, and we anticipate accumulating substantial technical debt in both areas. At present, our only strategy for mitigation is to search for potential solutions online.
