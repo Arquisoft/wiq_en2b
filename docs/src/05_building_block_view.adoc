@@ -44,24 +44,30 @@ See https://docs.arc42.org/section-5/[Building Block View] in the arc42 document
 
 [role="arc42help"]
 ****
-This is the overall view of the application. The diagram is composed of 3 elements that will interact between each other.
 
 ****
 
-_**<Overview Diagram>**_
+This is the overall view of the application. The diagram is composed of 3 elements that will interact between each other.
+
+_**Overview Diagram**_
 
 image::BusinessContext.png["Overall view of the business context"]
 
 Motivation::
-
-_<text explanation>_
-
+This will be the general sketch of the elements interacting inside the application, including the external elements that will include the application.
 
 Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
+****
+
+* **Player:** This is the user that will be playing with our application. They will need tl be authenticated to be able to play.
+* **WIQ Application:** This is the main application that will reproduce how the game will work. This part will be more detailed in the following parts.
+* **WikiData API:** This is an external API, which will provide us with the information to produce the questions.
+
+****
 
 Important Interfaces::
 _<Description of important interfaces>_
+//TODO
 
 [role="arc42help"]
 ****
