@@ -161,7 +161,7 @@ This diagram describes the internal organization of the WIQ Application.
 _<white box template>_
 
 Motivation::
-The WIQ Application
+An inner view on the WIQ Application and its components inside
 
 ==== White Box _<building block 2>_
 
