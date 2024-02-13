@@ -26,9 +26,10 @@ We also have a Whatsapp community for the team, and a Notion wiki.
 === Important quality-related decisions
 
 |===
-|Quality attribute pursued|Solution chosen
-|Privacy|All stored password will be hashed, both client-side and server-side, to avoid password disclosure. The client-side password is also intended to prevent password discoverage in case it is a repeated one.|
-|Robustness|Currently, all validations will take place server-side to avoid not being properly taken care of due to JavaScript desactivation, such as when using the NoScript plug-in|
+|*Quality attribute pursued*|*Solution chosen*
+|Privacy|All stored password will be hashed, both client-side and server-side, to avoid password disclosure. The client-side password is also intended to prevent password discoverage in case it is a repeated one.
+|Robustness|Currently, all validations will take place server-side to avoid not being properly taken care of due to JavaScript desactivation, such as when using the NoScript plug-in
+|Speed|Since Wikidata has a 1 minute limit related to the API, the backend will start querying it upon start and fill the database with questions to increase speed and thus improve user experience|
 |===
 
 === Workflow
@@ -37,7 +38,7 @@ We have divided ourselves in teams related to our own areas of expertise, but th
 
 All in all, we strive to achieve a very flexible workflow in which everyone's input may be considered if they wish to give it.
 
-=== Code style
+=== Code Style
 
 Regarding the code style, we must make two important distinctions: the frontend and backend. In the latter, we will mainly use Object Oriented Programming because our language of choice is Java, which strongly favours it. Regarding the former, it will be more of a case-by-case approach, as for instance, OOP-oriented React is deprecated in favor of a functional approach, but sometimes we may need OOP's strengths.
 
