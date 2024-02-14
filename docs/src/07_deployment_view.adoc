@@ -4,6 +4,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Deployment View
 
+image::DeploymentDiagram.png[align="center",title="Deployment Diagram",link="DeploymentDiagram.png]
+
 === Infrastructure Level 1
 
 Motivation::
