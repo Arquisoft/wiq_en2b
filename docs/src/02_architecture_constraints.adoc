@@ -6,22 +6,30 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [role="arc42help"]
 ****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
-
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
-
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
+The application must be developed according to some constraints that were defined by the professors. These constraints are meant to be the cornerstones of our project as they are mandatory and provide a baseline to work on. The following tables will define the constraints.
 
 
-.Further Information
+*Technical constraints*
+|===
+| *Constraint* | *Description* 
+| Web accesible front-end | The application must be possible to access through a web browser
+| Use of WikiData | The system must make use of WikiData to gather information
+| Automatic questions | The questions prompted by the game must be generated automatically
+|===
 
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
+*Organizational constraints*
+|===
+| *Constraint* | *Description* 
+| Weekly meetings | Each class week, the team must meet and discuss the development
+| Use of GitHub | GitHub must be used to communicate and keep track of the development process
+| Deliverables | The project will be reviewed by the professors on three occasions
+|===
+
+*Conventional constraints*
+|===
+| *Constraint* | *Description*
+| Documentation in Arc42 | The documentation must follow the Arc42 template
+|===
+
 
 ****
