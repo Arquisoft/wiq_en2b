@@ -37,4 +37,4 @@ Our main idea is that the server will be a self-contained .jar file with all the
 
 ===== Database
 
-The database will contain the data used by the system. Therefore, it will contain user data and questions and their answers.
+The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers. The databases to store the questions (and therefore the answers) and the user data might be different, though.
