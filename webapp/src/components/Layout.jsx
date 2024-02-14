@@ -34,15 +34,15 @@ export function TopBar() {
       { pages.map(page => parsePage(page)) }
       </GridItem>
       <GridItem as={Flex} justifyContent={"right"} key={"right-navbar"}>
-        <Button as={Link} mr={"1vw"}>{t("nav.login")}</Button>
-        <Button as={Link} mr={"1vw"}>{t("nav.register")}</Button>
+        <Button as={Link} href="/login" mr={"1vw"}>{t("nav.login")}</Button>
+        <Button as={Link} href="/register" mr={"1vw"}>{t("nav.register")}</Button>
       </GridItem>
     </Grid>
 }
 export default function Layout() {
   return <>
     <TopBar />
-    <Container bgColor="#DCF2F1" minW={"100%"} minH={"100%"}>
+    <Container minW={"100%"} minH={"100%"}>
       <Outlet />
     </Container>
   </>
