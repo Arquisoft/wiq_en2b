@@ -3,40 +3,17 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-glossary]]
 == Glossary
 
-[role="arc42help"]
-****
-.Contents
-The most important domain and technical terms that your stakeholders use when discussing the system.
-
-You can also see the glossary as source for translations if you work in multi-language teams.
-
-.Motivation
-You should clearly define your terms, so that all stakeholders
-
-* have an identical understanding of these terms
-* do not use synonyms and homonyms
-
-
-.Form
-
-A table with columns <Term> and <Definition>.
-
-Potentially more columns in case you need translations.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
-
-****
 
 [cols="e,2e" options="header"]
 |===
 |Term |Definition
 
-|<Term-1>
-|<definition-1>
+|React
+|An open-source JavaScript library for developing user interfaces. It can be used to develop web applications, and it has to be complemented with other libraries to develop full-fledged products.
 
-|<Term-2>
-|<definition-2>
+|SpringBoot
+|Java Spring Boot (Spring Boot) is a tool that makes developing web application and microservices with Spring Framework faster and easier through three core capabilities: Autoconfiguration, an opinionated approach to configuration, the ability to create standalone applications.
+
+|PostgreSQL
+|Object-relational database management system (ORDMBS), which means that it has relational capabilities and an object-oriented design
 |===

@@ -1,0 +1,18 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+!include <c4/C4_Context.puml>
+
+title Context Diagram for the WIQ System
+LAYOUT_WITH_LEGEND()
+
+'Containers
+Person(player, Player,"An authenticated player that wants to play WIQ games")
+
+Container(wiq, "WIQ Application","", "Application that allows the users to play WIQ games")
+
+System_Ext(wikidata,"WikiData API","Contains the information used for the question generation")
+
+'RELATIONS
+Rel(player,wiq,"Plays games")
+Rel(wiq,wikidata,"Asks for data for question generation")
+@enduml

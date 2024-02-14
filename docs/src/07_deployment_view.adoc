@@ -55,7 +55,7 @@ Describe (usually in a combination of diagrams, tables, and text):
 
 For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
 ****
-
+image::DeploymentView.png[align="center",title="Deployment View",link="DeploymentView.png]
 _**<Overview Diagram>**_
 
 Motivation::
