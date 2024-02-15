@@ -27,7 +27,6 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     public final UserService userService;
-
     public final JwtAuthFilter authenticationJwtTokenFilter;
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,8 +35,8 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
         // Configure CORS settings here
+        CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");

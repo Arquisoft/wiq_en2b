@@ -24,7 +24,6 @@ public class JwtUtils {
     @Value("${JWT_EXPIRATION_MS}")
     private Long JWT_EXPIRATION_MS;
 
-
     public String generateJwtTokenUserPassword(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -52,13 +51,6 @@ public class JwtUtils {
         }
         return false;
     }
-    private Claims extractAllClaims(String token){
-        return Jwts.parser()
-                .verifyWith(getSignInKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -70,11 +62,6 @@ public class JwtUtils {
             throw new IllegalArgumentException();
         }
     }
-    private SecretKey getSignInKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
     public String generateTokenFromEmail(String email) {
         return Jwts.builder()
                 .subject(email)
@@ -82,5 +69,16 @@ public class JwtUtils {
                 .expiration(new Date((new Date()).getTime() + JWT_EXPIRATION_MS))
                 .signWith(getSignInKey())
                 .compact();
+    }
+    private SecretKey getSignInKey(){
+        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+    private Claims extractAllClaims(String token){
+        return Jwts.parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

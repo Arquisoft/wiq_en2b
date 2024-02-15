@@ -31,7 +31,6 @@ public class UserDetailsImpl implements UserDetails {
         }
         return new UserDetailsImpl(user.getId(),user.getUsername() , user.getEmail(), user.getPassword(), authorities);
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -48,6 +47,11 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    public List<String> getStringRoles() {
+        return getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -56,11 +60,5 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
-    }
-
-    public List<String> getStringRoles() {
-        return getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
     }
 }

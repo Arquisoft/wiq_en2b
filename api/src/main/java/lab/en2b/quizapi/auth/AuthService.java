@@ -46,11 +46,22 @@ public class AuthService {
         );
     }
 
+    /**
+     * Registers a user. Throws an 400 unauthorized exception otherwise
+     * @param registerRequest the request containing the register info
+     * @return a response containing a message
+     */
     public ResponseEntity<?> register(RegisterDto registerRequest) {
         userService.createUser(registerRequest,Set.of("user"));
         return ResponseEntity.ok("User registered successfully!");
     }
 
+    /**
+     * Refreshes the jwt token. Throws an 404 unauthorized exception if the refresh token is not in the database or
+     * an 400 unauthorized exception if the refresh token is not valid
+     * @param refreshTokenRequest the request containing the refresh token
+     * @return a response containing a fresh jwt token and a refresh token
+     */
     public ResponseEntity<?> refreshToken(RefreshTokenDto refreshTokenRequest) {
         User user = userService.findByRefreshToken(refreshTokenRequest.getRefreshToken()).orElseThrow(() -> new TokenRefreshException(
                 "Refresh token is not in database!"));
