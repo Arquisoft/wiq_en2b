@@ -1,0 +1,80 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-annex]]
+== Annex
+=== Functional Requirements
+==== Users Sign up.
+[none or no-bullet]
+* FR-USU 1. The system will offer to an unregistered user a registration form.
+* FR-USU 2. The system will request the necessary data to register the new user.
+[none or no-bullet]
+** FR-USU 2.1. The system will request the following data to register the new user:
+[none or no-bullet]
+*** FR-USU 2.1.1. Username.
+*** FR-USU 2.1.2. Email address.
+*** FR-USU 2.1.3. Password.
+*** FR-USU 2.1.4. All data fields are mandatory.
+* FR-USU 3. When any value entered by the new user is invalid, the user will receive a message notifying the error and will not be able to register.
+* FR-USU 4. When all the values entered by the new user are valid, the system will check if the user is already registered in the persistence system.
+[none or no-bullet]
+** FR-USU 4.1. When a user with the same data is already found in the persistence system, the user will not be able to create a new account since it already exists.
+** FR-USU 4.2. When no user matching the data is found in the persistence system.
+[none or no-bullet]
+*** FR-USU 4.2.1. The new user will be registered in the system.
+
+==== Users Log in.
+[none or no-bullet]
+* FR-ULI 1. The system must allow an unidentified user to log in.
+[none or no-bullet]
+** FR-ULI 1.1. The system will request the email address as the user identifier.
+[none or no-bullet]
+*** FR-ULI 1.1.1. The system must check that its format is valid.
+*** FR-ULI 1.1.2. It is a mandatory field.
+** FR-ULI 1.2. The system will request the user's password.
+[none or no-bullet]
+*** FR-ULI 1.2.1. It is a mandatory field.
+** FR-ULI 1.3. The system will automatically validate the entered data to verify when it corresponds to a registered user account.
+[none or no-bullet]
+*** FR-ULI 1.3.1. When the user is not stored in the persistence system, an error message will be displayed.
+*** FR-ULI 1.3.2. When the user exists in the persistence system, but the passwords do not match, a message will be displayed to the user notifying them of the error.
+*** FR-ULI 1.3.3. When the user is stored in the persistence system and the passwords match, the user will be logged in.
+* FR-ULI 2. The system must allow users who are logged in to log out.
+
+==== Data management by the user.
+[none or no-bullet]
+* FR-DMU 1. The system will allow all registered users to access their historical data from their participation.
+[none or no-bullet]
+** FR-DMU 1.1. Registered users will be able to access the number of games they have played.
+** FR-DMU 1.2. Registered users will be able to access the number of questions they have answered correctly.
+** FR-DMU 1.3. Registered users will be able to access the number of questions they have answered incorrectly.
+** FR-DMU 1.4. Registered users will be able to access the time they have spent within the system.
+** FR-DMU 1.5. Registered users will be able to access the ranking of the game.
+
+==== Play to WIQ.
+[none or no-bullet]
+* FR-PWIQ 1. The system will only allow registered users to play the WIQ game.
+* FR-PWIQ 2. The game consists of nine rounds.
+[none or no-bullet]
+** FR-PWIQ 2.1. In each round, the system will automatically generate a question to the registered user.
+** FR-PWIQ 2.2. In each round, the system will provide the registered user with four automatically generated possible answers.
+** FR-PWIQ 2.3. In each round, there will always be only one correct answer.
+** FR-PWIQ 2.4. The system will automatically end the game after completing the ninth round.
+* FR-PWIQ 3. The registered user must respond to the question before the specified time expires.
+[none or no-bullet]
+** FR-PWIQ 3.1. When the specified time has not ended, and the registered user has provided an answer:
+[none or no-bullet]
+*** FR-PWIQ 3.1.1. The system will check if the answer is correct.
+[none or no-bullet]
+**** FR-PWIQ 3.1.1.1. When the answer is correct:
+[none or no-bullet]
+***** FR-PWIQ 3.1.1.1.1. The registered user will earn 10 points.
+***** FR-PWIQ 3.1.1.1.2. When the registered user is in the ninth round, the system will end the game.
+***** FR-PWIQ 3.1.1.1.3. When the registered user is not in the ninth round, the system will move to the next round.
+**** FR-PWIQ 3.1.1.2. When the answer is incorrect:
+[none or no-bullet]
+***** FR-PWIQ 3.1.1.2.1. When the registered user is in the ninth round, the system will end the game.
+***** FR-PWIQ 3.1.1.2.2. When the registered user is not in the ninth round, the system will move to the next round.
+** FR-PWIQ 3.2. When the specified time has ended:
+[none or no-bullet]
+*** FR-PWIQ 3.2.1. When the registered user is in the ninth round, the system will end the game.
+*** FR-PWIQ 3.2.2. When the registered user is not in the ninth round, the system will move to the next round.
