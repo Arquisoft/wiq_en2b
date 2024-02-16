@@ -1,4 +1,9 @@
 node_modules
 coverage
 docs/build
+
+### IntelliJ IDEA ###
 .idea
+*.iws
+*.iml
+*.ipr

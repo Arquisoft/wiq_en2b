@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { RouterProvider } from 'react-router-dom';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import router from 'components/Router';
+import { ChakraProvider } from '@chakra-ui/react';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import "./i18n";
+
+const root = ReactDOM.createRoot(document.querySelector("body"));
+const browserRouter = createBrowserRouter(router);
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <ChakraProvider>
+    <React.StrictMode>
+      <RouterProvider router={browserRouter} />
+    </React.StrictMode>
+  </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

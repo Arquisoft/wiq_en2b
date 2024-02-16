@@ -1,0 +1,14 @@
+{
+    "nav":{
+        "home": "Inicio",
+        "api_docs": "Documentación de la API",
+        "statistics": {
+            "title": "Estadísticas",
+            "personal": "Mis estadísticas",
+            "general": "Estadísticas generales"
+        },
+        "play": "Jugar",
+        "login": "Iniciar sesión",
+        "register": "Registrarse"
+    }
+}
