@@ -5,6 +5,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
 
+
+////
 [role="arc42help"]
 ****
 .Content
@@ -39,15 +41,15 @@ Thus it contains the white box description of selected building blocks of level 
 See https://docs.arc42.org/section-5/[Building Block View] in the arc42 documentation.
 
 ****
+////
+
 
 === Whitebox Overall System
 
 [role="arc42help"]
 ****
-
-****
-
 This is the overall view of the application. The diagram is composed of 3 elements that will interact between each other.
+****
 
 _**Overview Diagram**_
 
@@ -66,9 +68,10 @@ Contained Building Blocks::
 ****
 
 Important Interfaces::
-_<Description of important interfaces>_
-//TODO
+This part will be more detailed later, since the structure of the different interfaces/classes has not been discussed by the team yet.
 
+
+////
 [role="arc42help"]
 ****
 Insert your explanations of black boxes from level 1:
@@ -136,20 +139,18 @@ _<black box template>_
 
 ==== <Name interface m>
 
+////
+
 
 
 === Level 2
 
 [role="arc42help"]
 ****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
-
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
+Here is an specification of the inner structure of the WIQ Application.
 ****
 
-==== White Box _<building block 1>_
+==== White Box _<WIQ Application>_
 
 image::ContainerDiagram.png["Container for the WIQ System"]
 
@@ -158,11 +159,23 @@ image::ContainerDiagram.png["Container for the WIQ System"]
 This diagram describes the internal organization of the WIQ Application.
 ****
 
-_<white box template>_
+//_<white box template>_
 
 Motivation::
-An inner view on the WIQ Application and its components inside
+An inner view on the WIQ Application and its components inside. How the WIQ application will be structured inside and its main components.
 
+Contained Building Blocks::
+****
+* **WIQ Client:** This is the connection between the user and the application. It will allow the users to play the WIQ game. This part will be developed in React with Typescript for its clear component structure, simplified code quality and separation of concerns.
+* **WIQ REST API:** This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in Springboot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.
+* **WIQ Database:** This is where the most important data is going to be stored. Such as, users questions and other game info that will be specified in the future. The database we chose to use is PostgreSQL, since it is compatible with Docker and it's an object-relational kind of database, which is easier for the developers to use. Another alternative would've been to use MySQL.
+****
+
+Important Interfaces::
+This part will be more detailed later, since the structure of the different interfaces/classes has not been discussed by the team yet.
+
+
+////
 ==== White Box _<building block 2>_
 
 
@@ -208,3 +221,5 @@ _<white box template>_
 ==== White Box <_building block y.1_>
 
 _<white box template>_
+////
+
