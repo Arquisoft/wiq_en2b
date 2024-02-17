@@ -29,7 +29,7 @@ We also have a Whatsapp community for the team, and a Notion wiki.
 |*Quality attribute pursued*|*Solution chosen*
 |Privacy|All stored password will be hashed, both client-side and server-side, to avoid password disclosure. The client-side password is also intended to prevent password discoverage in case it is a repeated one.
 |Robustness|Currently, all validations will take place server-side to avoid not being properly taken care of due to JavaScript desactivation, such as when using the NoScript plug-in
-|Speed|Since Wikidata has a 1 minute limit related to the API, the backend will start querying it upon start and fill the database with questions to increase speed and thus improve user experience|
+|Availability|Since Wikidata has a 1 minute limit related to the API, the backend will start querying it upon start and fill the database with questions to increase speed and thus improve user experience|
 |===
 
 === Workflow
