@@ -18,7 +18,7 @@ To obtain a measurable system response to stimulus corresponding to the various 
 | Security | User data shall be securely handled. Robust authentication mechanisms shall be in place for user registration and login. API access points for user information and generated questions shall be secured with proper authorization. | High, High 
 | Reliability | The system shall reliably generate accurate and diverse questions from Wikidata. User registrations, logins, and game data storage shall be handled without errors. | High, Medium
 | Availability | The system shall be available 99.99% of the time when a user attempts to access it. | High, High
-| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. It shall efficiently generate questions from Wikidata and handle real-time gameplay with up to 20 concurrent users. | High, High
+| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. It shall efficiently generate questions from Wikidata and handle real-time gameplay with up to N concurrent users. | High, High
 | Usability | The system shall provide a user-friendly interface, allowing users to register, log in, and play the game with a learning time of less than 4 hours. | High, Medium
 | Compatibility | The system shall be compatible with various web browsers and devices, providing a seamless experience for users regardless of their choice of platform. It shall be well-optimized for different screen sizes and functionalities. | High, Medium
 | Transferability | The system shall allow for easy transfer of user data and game-related information through its APIs. | Medium, High
