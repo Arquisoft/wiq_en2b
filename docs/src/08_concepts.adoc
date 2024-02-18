@@ -3,11 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
-
-[role="arc42help"]
-****
-
-
 .Domain Model
 These diagram is just a sketch, it should be replaced by a more accurate version upon discussion.
 
