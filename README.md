@@ -1,10 +1,17 @@
-# wiq_en2b
+# 🧠🤔 wiq_en2b ❓📚
 
-[![Deploy on release](https://github.com/Arquisoft/wiq_en2b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_en2b/actions/workflows/release.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
+WIQ is a quiz game project inspired by the engaging and thought-provoking show "Saber y Ganar." 
+We aim to create a platform that not only challenges your knowledge but also sparks curiosity and the thrill of discovery.
 
-This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
+
+## What Sets WIQ Apart
+🤔 Thoughtful Questions: Dive into a world of intriguing and diverse questions, all generated procedurally using WikiData.  
+🌐 Encourage to improve: WIQ lets you keep track of your score to see in which areas you need to improve.
+
+## Features
+🏆 Adaptable  difficulty: You can adjust the difficulty to push your limits.  
+🌐 Multiplayer: Compete with friends and strangers to prove you are the best.
+
 
 ## Contributors
 | Nombre                          | UO       |
@@ -15,7 +22,16 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 | Jorge Joaquín Gancedo Fernández | UO282161 |
 | Sergio Quintana Fernández       | UO288090 |
 | Diego Villanueva Berros         | UO283615 |
-| Gonzalo Suárez Losada           | UO283928 |
+| Gonzalo Suárez Losada           | UO283928 |   
+    
+***
+
+
+[![Deploy on release](https://github.com/Arquisoft/wiq_en2b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_en2b/actions/workflows/release.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
+
+This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
 
 This repo is a basic application composed of several components.
 
