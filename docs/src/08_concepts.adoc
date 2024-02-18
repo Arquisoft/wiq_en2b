@@ -56,3 +56,16 @@ We decided to use a React based frontend with BootSpring for the backend, which 
 
 .User Experience
 As this is a game, the focus must be in user experience so players can have an enjoyable experience, for achieving this, the response time should be as low as possible and the interfaces should be intuitive and beautiful.
+
+.Safety and Security concepts:
+Authentication is done in SpringBoot3. Passwords must be hashed both in client and in API to ensure as much security as possible.
+
+.Robustness:
+It is desired to make the application as independant as possible from Wikidata. This way, if it is down our application can still manage to be available for our users.
+In order to archieve this, we will implement two modules regarding questions, one for retrieving it from Wikidata and storing it in our own DB and another for getting questions from it.
+
+.Development concepts:
+Our code will be deployed within an Azure's Virtual Machine using continuous integration. 
+
+.Under-the-hood:
+Regarding Data persistence, our project has two DB, one for storing questions as stated before while the other one will be in charge of storing any other meaningful data for the game such us users or game's histories.
