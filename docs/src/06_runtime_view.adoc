@@ -2,64 +2,95 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-runtime-view]]
 == Runtime View
+Here we can see what the main workflow of main parts of the project.
 
+=== General Game's life cycle
+* This diagram shows how should the application behave for an expected normal case scenario.
 
-[role="arc42help"]
-****
-.Contents
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
-
-* important use cases or features: how do building blocks execute them?
-* interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?
-* operation and administration: launch, start-up, stop
-* error and exception scenarios
-
-Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their *architectural relevance*. It is *not* important to describe a large number of scenarios. You should rather document a representative selection.
-
-.Motivation
-You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).
-
-.Form
-There are many notations for describing scenarios, e.g.
-
-* numbered list of steps (in natural language)
-* activity diagrams or flow charts
-* sequence diagrams
-* BPMN or EPCs (event process chains)
-* state machines
-* ...
-
-
-.Further Information
-
-See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
-
-****
-
-=== <Runtime Scenario 1>
-
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
-[plantuml,"Sequence diagram",png]
+[plantuml,"Game's life cycle diagram",png]
 ----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+@startuml Game's life cycle
+
+actor Client
+
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+Client --> API : start game
+loop One question
+  API --> QuestionRetriever         : ask for question
+  QuestionRetriever --> QuestionDB  : querying question
+
+  QuestionDB --> QuestionRetriever  : return first question and all answers
+  QuestionRetriever --> API         : return first question and all answers
+
+  API --> Client : return first question and all answers
+  Client -> API  : send chosen answer
+  API --> API    : check answer is correct
+  API --> Client : inform user guessed right
+end loop One question
+
+
+API --> Client : inform user guessed right last question
+API --> API    : update ranking
+API --> Client : show ranking
+
+@enduml
 ----
 
-=== <Runtime Scenario 2>
+=== Sign Up
+[plantuml,"Sign up diagram",png]
+----
+@startuml sign up
 
-=== ...
+actor Client
 
-=== <Runtime Scenario n>
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+Client --> API : enters credentials
+API --> BD     : check credentials unused
+API --> BD     : register user
+BD --> Client  : return user token
+
+@enduml
+----
+
+=== Login
+[plantuml,"Login diagram",png]
+----
+@startuml login
+
+actor Client
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+Client --> API : enters credentials
+API --> BD     : check credentials correct
+BD --> API     : return user token
+API --> BD     : save SWT
+API --> Client : return user token
+
+@enduml
+----
+
+=== Question Generation
+[plantuml,"Question generation diagram",png]
+----
+@startuml question generator
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+QuestionGenerator --> WikiDataQS  : querying correct answer
+QuestionGenerator <-- WikiDataQS  : return correct answer
+
+QuestionGenerator --> WikiDataQS  : querying wrong answers
+QuestionGenerator <-- WikiDataQS  : return wrong answers
+
+QuestionGenerator --> QuestionDB  : store question
+QuestionGenerator --> QuestionDB  : store correct answer
+QuestionGenerator --> QuestionDB  : store wrong answers
+
+@enduml
+----
+
