@@ -9,7 +9,7 @@ What follows is a summary of our solution's main decisions, and the approach we 
 
 Regarding the technologies, we decided to use the following ones:
 
- * **React** for the frotend, using the **Chakra UI** component library. Although the preferred way to use React is currently through a framework, we preferred this approach due to this being many of us first time using it, as well as a lack of experience using any framework in any of us.
+ * **React** for the frontend, using the **Chakra UI** component library. Although the preferred way to use React is currently through a framework, we preferred this approach due to this being many of us first time using it, as well as a lack of experience using any framework in any of us.
 
  ** As a consecuence of this, pure JavaScript is being used due to React 18 not supporting Typescript 5.
 
@@ -42,7 +42,7 @@ All in all, we strive to achieve a very flexible workflow in which everyone's in
 
 Regarding the code style, we must make two important distinctions: the frontend and backend. In the latter, we will mainly use Object Oriented Programming because our language of choice is Java, which strongly favours it. Regarding the former, it will be more of a case-by-case approach, as for instance, OOP-oriented React is deprecated in favor of a functional approach, but sometimes we may need OOP's strengths.
 
- * In the backend, the structure will that of a typical Maven project.
+ * In the backend, the structure will be that of a typical Maven project.
  * In the frontend, the structure will be quite different:
- ** The `src/components` will be contain single components which we may reuse.
+ ** The `src/components` will contain single components which we may reuse.
  ** The `src/pages` will contain the endpoints and will follow a simple structure. For instance, given a `/statistics/personal` and a `/statistics/general` endpoints, both will be independent React components that will return the page and be placed under the `src/pages/statistics` folder.
