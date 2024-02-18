@@ -13,42 +13,64 @@ These diagram is just a sketch, it should be replaced by a more accurate version
 enum Category {
     HISTORY
     GEOGRAPHY
-    MATHS
+    SCIENCE
+}
+
+enum Type {
+    TEXT
+    IMAGE
+    AUDIO
 }
 
 class Question{
-    id: int
+    id: long
     content: String
+    answers: List<Answer>
+    correct: Answer
     category: Category
     language: String
+    Type: Type
 }
 
 class User{
-    id: int
-    name: String
-    email: String
-    password: String
-    answered: List<Question>
-}
-
-class Score{
-    user: User
-    rightRate: float
-    timeAvg: float
     answeredQuestions: int
 }
 
-User o--> Question
-User --> Score
+class UserStat{
+}
+
+class Answer {
+    text: String
+    category: Category
+    Type: Type
+}
+
+class Game {
+    user: User
+    questions: List<Question>
+}
+
+
+class Ranking << Singleton >> {
+    
+}
+
+User  o--> Question
+User "1" --> "1" UserStat
+Game  o--> Question
+Game "n" --> "n" User
+Question "n" --> "n" Answer
+Ranking "1" --> "n" User
 
 @enduml
 ----
 
 |===
 | Class | Explanation
-| Question | The model of the questions
-| User | The people using the application
-| Score | A class that keeps tracks of each user scores
+| Question | The model of the questions, has a type to specify if it is text, image or audio. Stores both right and wrong answers
+| User | The people using the application, they have statistics and take part in a ranking to compete
+| Answer | Models each possible answer, created to reuse answers that are common to different questions, as well as distractors
+| Game | It is created when the user starts a game and destroyed just when it ends.
 |===
 
 .Architecture and design patterns
