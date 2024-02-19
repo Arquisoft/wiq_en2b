@@ -4,7 +4,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Cross-cutting Concepts
 
 .Domain Model
-These diagram is just a sketch, it should be replaced by a more accurate version upon discussion.
+This is the first version of the diagram, it will be updated if needed.
 
 [plantuml,"ConceptsDomainModel1",png]
 ----
