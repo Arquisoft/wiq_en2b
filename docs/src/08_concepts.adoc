@@ -51,16 +51,16 @@ class Game {
 }
 
 
-class Ranking << Singleton >> {
+class Ranking {
     
 }
 
 User  o--> Question
-User "1" --> "1" UserStat
+User -->  UserStat
 Game  o--> Question
-Game "n" --> "n" User
-Question "n" --> "n" Answer
-Ranking "1" --> "n" User
+Game --> User
+Question --> Answer
+Ranking  --> User
 
 @enduml
 ----
