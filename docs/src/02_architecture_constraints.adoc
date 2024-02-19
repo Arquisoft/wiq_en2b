@@ -3,9 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-architecture-constraints]]
 == Architecture Constraints
 
-
-[role="arc42help"]
-****
 The application must be developed according to some constraints that were defined by the professors. These constraints are meant to be the cornerstones of our project as they are mandatory and provide a baseline to work on. The following tables will define the constraints.
 
 
