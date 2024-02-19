@@ -28,5 +28,3 @@ The application must be developed according to some constraints that were define
 | Documentation in Arc42 | The documentation must follow the Arc42 template
 |===
 
-
-****
