@@ -23,7 +23,7 @@ This will be the general sketch of the elements interacting inside the applicati
 Contained Building Blocks::
 ****
 
-* **Player:** This is the user that will be playing with our application. They will need tl be authenticated to be able to play.
+* **Player:** This is the user that will be playing with our application. They will need to be authenticated to be able to play.
 * **WIQ Application:** This is the main application that will reproduce how the game will work. This part will be more detailed in the following parts.
 * **WikiData API:** This is an external API, which will provide us with the information to produce the questions.
 
@@ -40,7 +40,7 @@ This part will be more detailed later, since the structure of the different inte
 Here is an specification of the inner structure of the WIQ Application.
 ****
 
-==== White Box _<WIQ Application>_
+==== White Box _WIQ Application_
 
 image::ContainerDiagram.png["Container for the WIQ System"]
 
@@ -48,8 +48,6 @@ image::ContainerDiagram.png["Container for the WIQ System"]
 ****
 This diagram describes the internal organization of the WIQ Application.
 ****
-
-//_<white box template>_
 
 Motivation::
 An inner view on the WIQ Application and its components inside. How the WIQ application will be structured inside and its main components.
