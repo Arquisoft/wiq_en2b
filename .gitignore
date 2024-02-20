@@ -1,6 +1,11 @@
 node_modules
 coverage
 docs/build
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
 .idea
 .vscode
 .DS_Store

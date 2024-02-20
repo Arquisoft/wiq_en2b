@@ -12,7 +12,6 @@ We aim to create a platform that not only challenges your knowledge but also spa
 🏆 Adaptable  difficulty: You can adjust the difficulty to push your limits.  
 🌐 Multiplayer: Compete with friends and strangers to prove you are the best.
 
-
 ## Contributors
 | Nombre                          | UO       |
 |---------------------------------|----------|
@@ -22,7 +21,7 @@ We aim to create a platform that not only challenges your knowledge but also spa
 | Jorge Joaquín Gancedo Fernández | UO282161 |
 | Sergio Quintana Fernández       | UO288090 |
 | Diego Villanueva Berros         | UO283615 |
-| Gonzalo Suárez Losada           | UO283928 |   
+| Gonzalo Suárez Losada           | UO283928 |
     
 ***
 

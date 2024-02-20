@@ -1,0 +1,14 @@
+{
+    "nav":{
+        "home": "Home",
+        "api_docs": "API Documentation",
+        "statistics": {
+            "title": "Statistics",
+            "personal": "My statistics",
+            "general": "General statistics"
+        },
+        "play": "Play",
+        "login": "Log in",
+        "register": "Register"
+    }
+}

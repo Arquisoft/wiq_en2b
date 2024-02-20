@@ -1,0 +1,28 @@
+[
+    {
+      "link": "/",
+      "name": "nav.home"
+    },
+    {
+      "link": "/play",
+      "name": "nav.play"
+    },
+    {
+      "link": "/api",
+      "name": "nav.api_docs"
+    },
+    {
+      "link": "/statistics",
+      "name": "nav.statistics.title",
+      "children": [
+        {
+            "link": "/statistics/personal",
+            "name": "nav.statistics.personal"
+        },
+        {
+            "link": "/statistics/general",
+            "name": "nav.statistics.general"
+        }
+      ]
+    }
+]
