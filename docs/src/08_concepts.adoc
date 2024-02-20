@@ -3,71 +3,91 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
+.Domain Model
+This is the first version of the diagram, it will be updated if needed.
 
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
+[plantuml,"ConceptsDomainModel1",png]
+----
+@startuml
 
-* models, especially domain models
-* architecture or design patterns
-* rules for using specific technology
-* principal, often technical decisions of an overarching (= cross-cutting) nature
-* implementation rules
+enum Category {
+    HISTORY
+    GEOGRAPHY
+    SCIENCE
+}
 
+enum Type {
+    TEXT
+    IMAGE
+    AUDIO
+}
 
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
+class Question{
+    id: long
+    content: String
+    answers: List<Answer>
+    correct: Answer
+    category: Category
+    language: String
+    Type: Type
+}
 
-Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
+class User{
+    answeredQuestions: int
+}
 
+class UserStat{
+}
 
-.Form
-The form can be varied:
+class Answer {
+    text: String
+    category: Category
+    Type: Type
+}
 
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
-
-.Structure
-A potential (but not mandatory) structure for this section could be:
-
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
-
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
-
-image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
-
-
-.Further Information
-
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
+class Game {
+    user: User
+    questions: List<Question>
+}
 
 
-=== _<Concept 1>_
+class Ranking << Singleton >> {
+    
+}
 
-_<explanation>_
+User  o--> Question
+User "1" --> "1" UserStat
+Game  o--> Question
+Game "n" --> "n" User
+Question "n" --> "n" Answer
+Ranking "1" --> "n" User
 
+@enduml
+----
 
+|===
+| Class | Explanation
+| Question | The model of the questions, has a type to specify if it is text, image or audio. Stores both right and wrong answers
+| User | The people using the application, they have statistics and take part in a ranking to compete
+| Answer | Models each possible answer, created to reuse answers that are common to different questions, as well as distractors
+| Game | It is created when the user starts a game and destroyed just when it ends.
+|===
 
-=== _<Concept 2>_
+.Architecture and design patterns
+We decided to use a React based frontend with BootSpring for the backend, which will follow the model view controller pattern to make the code clear.
 
-_<explanation>_
+.User Experience
+As this is a game, the focus must be in user experience so players can have an enjoyable experience, for achieving this, the response time should be as low as possible and the interfaces should be intuitive and beautiful.
 
-...
+.Safety and Security concepts:
+Authentication is done in SpringBoot3. Passwords must be hashed both in client and in API to ensure as much security as possible.
 
-=== _<Concept n>_
+.Robustness:
+It is desired to make the application as independant as possible from Wikidata. This way, if it is down our application can still manage to be available for our users.
+In order to archieve this, we will implement two modules regarding questions, one for retrieving it from Wikidata and storing it in our own DB and another for getting questions from it.
 
-_<explanation>_
+.Development concepts:
+Our code will be deployed within an Azure's Virtual Machine using continuous integration. 
+
+.Under-the-hood:
+Regarding Data persistence, our project has two DB, one for storing questions as stated before while the other one will be in charge of storing any other meaningful data for the game such us users or game's histories.

@@ -1,0 +1,23 @@
+@startuml 
+title Quality attributes
+agent Quality
+agent Security
+agent Reliability
+agent Transferability
+agent Usability
+agent "Performance Efficiency"
+agent Maintainability
+agent Availability
+agent Compatibility
+agent "Functional Suitability"
+
+Quality --- Security
+Quality --- Reliability
+Quality --- Transferability
+Quality --- Usability
+Quality --- "Performance Efficiency"
+Quality --- Maintainability
+Quality --- Availability
+Quality --- Compatibility
+Quality --- "Functional Suitability"
+@enduml

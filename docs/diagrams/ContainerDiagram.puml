@@ -1,0 +1,24 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+!include <c4/C4_Context.puml>
+
+title Context Diagram for the WIQ System
+LAYOUT_WITH_LEGEND()
+
+'Containers
+Person(player, Player,"An authenticated player that wants to play WIQ games")
+
+System_Boundary(wiq,"WIQ"){
+    Container(web_app, "WIQ Client", "React, Typescript", "Allows the user to play WIQ games")
+    Container(backend_api, "WIQ REST API","Java SpringBoot 3","Handles the users, game logic and question generation")
+    ContainerDb(database,"WIQ Database","PostgreSQL","Stores users, questions and other game info")
+}
+
+System_Ext(wikidata,"WikiData API","Contains the information used for the question generation")
+
+'RELATIONS
+Rel(player,web_app,"Uses","HTTPS")
+Rel(backend_api,wikidata,"Asks for data","SPARQL,HTTPS")
+Rel(web_app,backend_api,"Asks for user/game information","JSON,HTTPS")
+Rel(backend_api,database,"Stores game/user information","JPA")
+@enduml
