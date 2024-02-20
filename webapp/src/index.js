@@ -9,11 +9,10 @@ import { ChakraProvider } from '@chakra-ui/react';
 import "./i18n";
 
 const root = ReactDOM.createRoot(document.querySelector("body"));
-const browserRouter = createBrowserRouter(router);
 root.render(
   <ChakraProvider>
     <React.StrictMode>
-      <RouterProvider router={browserRouter} />
+      <RouterProvider router={router} />
     </React.StrictMode>
   </ChakraProvider>
 );
