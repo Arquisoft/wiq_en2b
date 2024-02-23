@@ -1,0 +1,59 @@
+package lab.en2b.quizapi.auth;
+
+import lab.en2b.quizapi.auth.config.SecurityConfig;
+import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.auth.jwt.JwtUtils;
+import lab.en2b.quizapi.commons.user.UserService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
+
+import static lab.en2b.quizapi.commons.utils.TestUtils.asJsonString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(AuthController.class)
+@AutoConfigureMockMvc
+@Import(SecurityConfig.class)
+public class AuthControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+    @MockBean
+    AuthService authService;
+    @MockBean
+    JwtUtils jwtUtils;
+    @MockBean
+    UserService userService;
+    @Test
+    void registerUserShouldReturn200() throws Exception {
+        when(authService.register(any())).thenReturn(ResponseEntity.ok().build());
+        testRegister(asJsonString( new RegisterDto("test@email.com","test","testing"))
+                ,status().isOk());
+    }
+    @Test
+    void registerEmptyBodyShouldReturn400() throws Exception {
+        testRegister("{}",status().isBadRequest());
+    }
+    @Test
+    void registerEmptyEmailShouldReturn400() throws Exception {
+        testRegister(asJsonString( new RegisterDto("","test","testing")),
+                status().isBadRequest());
+    }
+
+    private void testRegister(String content, ResultMatcher code) throws Exception {
+        mockMvc.perform(post("/auth/register")
+                        .content(content)
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(code);
+    }
+}
