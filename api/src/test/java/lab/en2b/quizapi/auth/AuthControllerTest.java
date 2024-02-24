@@ -51,6 +51,12 @@ public class AuthControllerTest {
     }
 
     @Test
+    void registerInvalidEmailShouldReturn400() throws Exception {
+        testRegister(asJsonString( new RegisterDto("iAmAnInvalidEmail","test","testing")),
+                status().isBadRequest());
+    }
+
+    @Test
     void registerEmptyUsernameShouldReturn400() throws Exception {
         testRegister(asJsonString( new RegisterDto("test@email.com","","testing")),
                 status().isBadRequest());
@@ -76,6 +82,12 @@ public class AuthControllerTest {
     @Test
     void loginEmptyEmailShouldReturn400() throws Exception {
         testLogin(asJsonString( new LoginDto("","password")),
+                status().isBadRequest());
+    }
+
+    @Test
+    void loginInvalidEmailShouldReturn400() throws Exception {
+        testLogin(asJsonString( new LoginDto("iAmAnInvalidEmail","password")),
                 status().isBadRequest());
     }
 
