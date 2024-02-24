@@ -1,10 +1,9 @@
 package lab.en2b.quizapi.questions.question;
 
+import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,12 @@ public class QuestionController {
     }
 
     @GetMapping
-    private ResponseEntity<List<Question>> getQuestions() { return ResponseEntity.ok(questionService.getQuestions()); }
+    private ResponseEntity<List<Question>> getQuestions() {
+        return ResponseEntity.ok(questionService.getQuestions());
+    }
+
+    @PostMapping("/{questionId}/answer")
+    private ResponseEntity<String> answerQuestion(@RequestParam Long questionId, @RequestBody AnswerDto answerDto){
+        return ResponseEntity.ok(questionService.answerQuestion(questionId,answerDto));
+    }
 }
