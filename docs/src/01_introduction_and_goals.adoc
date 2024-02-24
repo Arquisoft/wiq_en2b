@@ -26,22 +26,21 @@ See the complete functional requirements in the xref:#section-annex[Annex] of th
 |===
 |Goal|Description
 | Functional suitability | The system shall fulfill its intended purpose effectively and efficiently, allowing users to register, log in, play the quiz, and access their user statistics.
-| Security | The system must prioritize user data security. It must implement robust authentication mechanisms for user registration and login. The API access points for user information and generated questions must be secured with proper authorization. 
-| Reliability | The system should be reliable in generating questions from Wikidata, ensuring that questions are accurate and diverse. The system must handle user registrations, logins, and game data storage without errors.
-| Availability | The system must be available 99.99% of the time a user tries to access it.
-| Maintainability | The system must be designed and implemented in a way that facilitates easy maintenance and updates.
-| Performance efficiency | The system must deliver optimal performance, ensuring responsive interactions for users. The automatic generation of questions from Wikidata and the real-time gameplay must be efficient. The system must handle N concurrent users.
-| Usability | The system must provide a user-friendly interface, making it easy for users to register, log in, and play the game. The system learning time for a user should be less than 4 hours.
-| Compatibility | The system must be compatible with various web browsers and devices, ensuring a seamless experience for users regardless of their choice of platform. It has to be well-optimized for different screen sizes and functionalities.
-| Transferability | The system must allow for easy transfer of user data and game-related information through its APIs.
+| Reliability | The system should be reliable in generating questions from Wikidata, ensuring that questions are accurate and diverse. The system shall handle user registrations, logins, and game data storage without errors.
+| Availability | The system shall be available 99.99% of the time a user tries to access it.
+| Maintainability | The system shall be designed and implemented in a way that facilitates easy maintenance and updates.
+| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. The automatic generation of questions from Wikidata and the real-time gameplay shall be efficient. The system shall handle N concurrent users.
+| Security | The system shall prioritize user data security. It shall implement robust authentication mechanisms for user registration and login. The API access points for user information and generated questions shall be secured with proper authorization. 
+| Usability | The system shall provide a user-friendly interface, making it easy for users to register, log in, and play the game. The system learning time for a user should be less than 4 hours.
+| Compatibility | The system shall be compatible with various web browsers and devices, ensuring a seamless experience for users regardless of their choice of platform. It has to be well-optimized for different screen sizes and functionalities.
 |===
 
 === Stakeholders
-[options="header",cols="1,1,2"]
+[options="header",cols="1,2"]
 |===
-|Role/Name|Contact|Expectations
-| RTVE  | rtve@email.com | To have a new experimental version of the Saber y Ganar quiz show.
-| HappySw | happysw@email.com | Develop a good application that fullfills the requirements expected by the client.
-| Registered user | Unknown | To play with an entertaining and easy-to-use application. An application with which the user learn about different topics.
-| Wikidata | wikid@email.com | Being able to offer service allowing people to use the data through the API.
+|Role/Name|Expectations
+| RTVE  | To have a new experimental version of the Saber y Ganar quiz show.
+| HappySw | Develop a good application that fullfills the requirements expected by the client.
+| Registered user | To play with an entertaining and easy-to-use application. An application with which the user learn about different topics.
+| Wikidata | Being able to offer service allowing people to use the data through the API.
 |===

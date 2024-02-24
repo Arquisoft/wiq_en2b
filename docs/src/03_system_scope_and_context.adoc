@@ -2,7 +2,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-system-scope-and-context]]
 == System Scope and Context
 === Business Context
-**<Diagram or Table>**
 
 image::BusinessContext.png[align="center",title="Business Context",link="BusinessContext.png]
 

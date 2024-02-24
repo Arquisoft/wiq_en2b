@@ -6,9 +6,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 During the application development process, decisions had to be made as issues emerged. The most interesting design decisions are reflected in this architectural records:
 
+[options="header",cols="1,4"]
 |===
-|*Decision* |*Explanation*
-
+|Decision|Explanation
 |React
 |Offers a powerful combination of performance, flexibility, and developer experience, making it a popular choice for building modern web applications. One of the members of the group has already worked with it in the past. It allows us to build a good user interface for the application.
 
