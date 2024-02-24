@@ -7,11 +7,8 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Setter;
 
-@Entity
-public class QuestionType {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
-    private Long id;
+
+public enum QuestionType {
+    TEXT, VIDEO, IMAGE, AUDIO
 
 }

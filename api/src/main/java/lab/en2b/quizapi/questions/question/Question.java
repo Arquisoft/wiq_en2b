@@ -2,6 +2,8 @@ package lab.en2b.quizapi.questions.question;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lab.en2b.quizapi.questions.answer.Answer;
+import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lombok.AccessLevel;
 import lombok.Setter;
 
@@ -25,11 +27,11 @@ public class Question {
     )
     private List<Answer> answers;
     @ManyToOne
+    @JoinColumn(name = "answer_id")
     private Answer correctAnswer;
-    @ManyToOne
-    private QuestionCategory category;
+    private QuestionCategory questionCategory;
+    private AnswerCategory answerCategory;
     private String language;
-    @ManyToOne
     private QuestionType type;
 
 
