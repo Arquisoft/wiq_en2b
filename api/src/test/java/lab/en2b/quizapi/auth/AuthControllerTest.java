@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.config.SecurityConfig;
+import lab.en2b.quizapi.auth.dtos.LoginDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
@@ -49,8 +50,45 @@ public class AuthControllerTest {
                 status().isBadRequest());
     }
 
+    @Test
+    void registerEmptyUsernameShouldReturn400() throws Exception {
+        testRegister(asJsonString( new RegisterDto("test@email.com","","testing")),
+                status().isBadRequest());
+    }
+
+    @Test
+    void registerEmptyPasswordShouldReturn400() throws Exception {
+        testRegister(asJsonString( new RegisterDto("test@email.com","test","")),
+                status().isBadRequest());
+    }
+
+    @Test
+    void loginUserShouldReturn200() throws Exception {
+        when(authService.login(any())).thenReturn(ResponseEntity.ok().build());
+        testLogin(asJsonString( new LoginDto("test@email.com","password"))
+                ,status().isOk());
+    }
+
+    @Test
+    void loginEmptyBodyShouldReturn400() throws Exception {
+        testLogin("{}",status().isBadRequest());
+    }
+    @Test
+    void loginEmptyEmailShouldReturn400() throws Exception {
+        testLogin(asJsonString( new LoginDto("","password")),
+                status().isBadRequest());
+    }
+
     private void testRegister(String content, ResultMatcher code) throws Exception {
         mockMvc.perform(post("/auth/register")
+                        .content(content)
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(code);
+    }
+
+    private void testLogin(String content, ResultMatcher code) throws Exception {
+        mockMvc.perform(post("/auth/login")
                         .content(content)
                         .contentType("application/json")
                         .with(csrf()))

@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.auth.dtos;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NonNull;
 public class RegisterDto {
     @NotBlank
     @NonNull
+    @Email
     private String email;
     @NonNull
     @NotBlank
