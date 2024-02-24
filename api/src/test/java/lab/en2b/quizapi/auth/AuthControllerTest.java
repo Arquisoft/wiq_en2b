@@ -2,6 +2,7 @@ package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.config.SecurityConfig;
 import lab.en2b.quizapi.auth.dtos.LoginDto;
+import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
@@ -91,6 +92,25 @@ public class AuthControllerTest {
                 status().isBadRequest());
     }
 
+    @Test
+    void refreshTokenShouldReturn200() throws Exception {
+        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
+        testRefreshToken(asJsonString( new RefreshTokenDto("58ca95e9-c4ef-45fd-93cf-55c040aaff9c"))
+                ,status().isOk());
+    }
+
+    @Test
+    void refreshTokenEmptyBodyShouldReturn400() throws Exception {
+        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
+        testRefreshToken("{}",status().isBadRequest());
+    }
+
+    @Test
+    void refreshTokenEmptyTokenShouldReturn400() throws Exception {
+        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
+        testRefreshToken(asJsonString( new RefreshTokenDto("")), status().isBadRequest());
+    }
+
     private void testRegister(String content, ResultMatcher code) throws Exception {
         mockMvc.perform(post("/auth/register")
                         .content(content)
@@ -101,6 +121,14 @@ public class AuthControllerTest {
 
     private void testLogin(String content, ResultMatcher code) throws Exception {
         mockMvc.perform(post("/auth/login")
+                        .content(content)
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(code);
+    }
+
+    private void testRefreshToken(String content, ResultMatcher code) throws Exception {
+        mockMvc.perform(post("/auth/refresh-token")
                         .content(content)
                         .contentType("application/json")
                         .with(csrf()))

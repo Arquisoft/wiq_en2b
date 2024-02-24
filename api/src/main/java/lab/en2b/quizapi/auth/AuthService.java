@@ -23,6 +23,7 @@ import java.util.Set;
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final JwtUtils jwtUtils;
     /**
      * Creates a session for a user. Throws an 401 unauthorized exception otherwise
      * @param loginRequest the request containing the login info
@@ -36,7 +37,7 @@ public class AuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         return ResponseEntity.ok(new JwtResponseDto(
-                JwtUtils.generateJwtTokenUserPassword(authentication),
+                jwtUtils.generateJwtTokenUserPassword(authentication),
                 userService.assignNewRefreshToken(userDetails.getId()),
                 userDetails.getId(),
                 userDetails.getUsername(),
@@ -64,6 +65,6 @@ public class AuthService {
     public ResponseEntity<?> refreshToken(RefreshTokenDto refreshTokenRequest) {
         User user = userService.findByRefreshToken(refreshTokenRequest.getRefreshToken()).orElseThrow(() -> new TokenRefreshException(
                 "Refresh token is not in database!"));
-        return ResponseEntity.ok(new RefreshTokenResponseDto(JwtUtils.generateTokenFromEmail(user.getEmail()), user.obtainRefreshIfValid()));
+        return ResponseEntity.ok(new RefreshTokenResponseDto(jwtUtils.generateTokenFromEmail(user.getEmail()), user.obtainRefreshIfValid()));
     }
 }
