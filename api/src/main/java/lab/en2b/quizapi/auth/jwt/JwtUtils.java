@@ -20,11 +20,11 @@ public class JwtUtils {
 
     //MUST BE SET AS ENVIRONMENT VARIABLE
     @Value("${JWT_SECRET}")
-    private String JWT_SECRET;
+    private static String JWT_SECRET;
     @Value("${JWT_EXPIRATION_MS}")
-    private Long JWT_EXPIRATION_MS;
+    private static Long JWT_EXPIRATION_MS;
 
-    public String generateJwtTokenUserPassword(Authentication authentication) {
+    public static String generateJwtTokenUserPassword(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
@@ -34,7 +34,7 @@ public class JwtUtils {
                 .signWith(getSignInKey())
                 .compact();
     }
-    public boolean validateJwtToken(String authToken) {
+    public static boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(authToken);
             return true;
@@ -51,18 +51,18 @@ public class JwtUtils {
         }
         return false;
     }
-    public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
+    public static <T> T extractClaim(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
-    public String getSubjectFromJwtToken(String token) {
+    public static String getSubjectFromJwtToken(String token) {
         if(validateJwtToken(token)){
             return extractClaim(token, Claims::getSubject);
         }else{
             throw new IllegalArgumentException();
         }
     }
-    public String generateTokenFromEmail(String email) {
+    public static String generateTokenFromEmail(String email) {
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
@@ -70,11 +70,11 @@ public class JwtUtils {
                 .signWith(getSignInKey())
                 .compact();
     }
-    private SecretKey getSignInKey(){
+    private static SecretKey getSignInKey(){
         byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-    private Claims extractAllClaims(String token){
+    private static Claims extractAllClaims(String token){
         return Jwts.parser()
                 .verifyWith(getSignInKey())
                 .build()
