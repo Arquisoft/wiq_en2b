@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     @Value("${REFRESH_TOKEN_DURATION_MS}")
-    private Long REFRESH_TOKEN_DURATION_MS;
+    private long REFRESH_TOKEN_DURATION_MS;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow());
