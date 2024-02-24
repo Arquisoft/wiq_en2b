@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.questions;
 
 import lab.en2b.quizapi.auth.config.SecurityConfig;
+import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.questions.question.QuestionController;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,6 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class QuestionControllerTest {
     @Autowired
     MockMvc mockMvc;
+    @Mock
+    JwtUtils jwtUtils;
     @Test
     void getQuestionShouldReturn200() throws Exception {
         mockMvc.perform(get("/questions")

@@ -19,6 +19,6 @@ public class QuestionController {
         return "Who the hell is Steve Jobs?";
     }
 
-    @GetMapping("/questions")
+    @GetMapping
     private ResponseEntity<List<Question>> getQuestions() { return ResponseEntity.ok(questionService.getQuestions()); }
 }

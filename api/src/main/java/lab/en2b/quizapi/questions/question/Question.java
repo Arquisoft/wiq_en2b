@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
-import lombok.AccessLevel;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
+@Table(name = "questions")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Question {
 
     @Id
@@ -27,7 +31,7 @@ public class Question {
     )
     private List<Answer> answers;
     @ManyToOne
-    @JoinColumn(name = "answer_id")
+    @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
     private QuestionCategory questionCategory;
     private AnswerCategory answerCategory;
