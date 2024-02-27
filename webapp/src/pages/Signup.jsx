@@ -1,20 +1,34 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text } from "@chakra-ui/react";
+import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText } from "@chakra-ui/react";
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 
 export default function Signup() {
 
     const [hasError, setHasError] = useState(false);
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const {register, watch} = useForm();
 
     const [showPassword, setShowPassword] = useState(false);
     const changeShowP = () => setShowPassword(!showPassword);
 
+    const [confirmPassword, setConfirmPassword] = useState(null);
+    const handleConfirmPasswordChange = (event) => {
+        setConfirmPassword(event.target.value);
+    };
+
+    const handleSubmit = () => {
+        if (confirmPassword !== watch('password')) {
+            return; 
+        }
+    };
+
+    const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
@@ -52,8 +66,8 @@ export default function Signup() {
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaUserAlt color="gray.300" />}/>
-                                <Input type="text" placeholder={t("Correo Electrónico")} />
+                                <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />}/>
+                                <Input type="text" placeholder={t("Correo Electrónico")} /> {/* To be changed */}
                             </InputGroup>
                         </FormControl>
                         <FormControl>
@@ -63,16 +77,35 @@ export default function Signup() {
                             </InputGroup>
                         </FormControl>
                         <FormControl>
-                            <InputGroup>
-                                <InputLeftElement children={<ChakraFaLock color="gray.300" />}/>
-                                <Input type={showPassword ? "text" : "password"}  placeholder={t("session.password")}/>
-                                <InputRightElement width="4.5rem">
-                                    <Button h="1.75rem" size="sm" onClick={changeShowP}>{
-                                        showPassword ? "Hide" : "Show"
-                                    }</Button>
-                                </InputRightElement>
-                            </InputGroup>
-                        </FormControl>
+                <InputGroup>
+                    <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
+                    <Input type={showPassword ? 'text' : 'password'} placeholder={'Contraseña'} {...register('password', { required: true })} />
+                    <InputRightElement width="4.5rem">
+                        <Button h="1.75rem" size="sm" onClick={changeShowP}>
+                            {showPassword ? 'Hide' : 'Show'}
+                        </Button>
+                    </InputRightElement>
+                </InputGroup>
+                    </FormControl>
+                    <FormControl>
+                        <InputGroup>
+                            <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
+                            <Input
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder={'Confirmar contraseña'}
+                                value={confirmPassword}
+                                onChange={handleConfirmPasswordChange}
+                            />
+                            <InputRightElement width="4.5rem">
+                                <Button h="1.75rem" size="sm" onClick={changeShowP}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                </Button>
+                            </InputRightElement>
+                        </InputGroup>
+                        {confirmPassword && confirmPassword !== watch('password') && (
+                            <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
+                        )}
+                    </FormControl>
                         <Button type="submit" variant="solid" colorScheme="blue" onClick={sendLogin}>Sign Up</Button>
                     </Stack>
                 </Box>
