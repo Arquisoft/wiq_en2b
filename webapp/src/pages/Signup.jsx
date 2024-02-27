@@ -4,6 +4,7 @@ import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import "../styles/Signup.css";
 
 export default function Signup() {
 
@@ -24,15 +25,11 @@ export default function Signup() {
     return (
         <Center display={"flex"} flexDirection={"column"} maxW={"100%"} minW={"30%"} mt={"2vh"}>
             <Heading as="h2">{ t("common.register")}</Heading>
-            { 
-                !hasError ? 
-                <></> : 
-                <Center bgColor={"#FFA98A"} margin={"1vh 0vw"} padding={"1vh 0vw"} 
-                    color={"#FF0500"} border={"0.1875em solid #FF0500"}
-                    borderRadius={"0.75em"} maxW={"100%"} minW={"30%"}>
-                        <Text>Error</Text>
-                </Center> 
-            }
+            {hasError && (
+                <div className="error-container">
+                    <Text>Error</Text>
+                </div>
+            )}
             <Stack spacing={4} mt={4} width="100%" mx={"auto"} maxWidth={"400px"}>
                 <FormControl as="fieldset" padding={"1vh 0vw"} isRequired>
                     <FormLabel>{ t("session.username") }</FormLabel>
@@ -46,7 +43,7 @@ export default function Signup() {
                     <FormLabel> {t("session.password")}</FormLabel>
                     <Input type="password" />
                 </FormControl>
-                <Button type="submit" onClick={sendLogin}>Enviar</Button>
+                <Button type="submit" colorScheme={"blue"} onClick={sendLogin}>Enviar</Button>
             </Stack>
         </Center>
     );

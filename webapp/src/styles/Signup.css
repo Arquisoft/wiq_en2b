@@ -1,0 +1,10 @@
+.error-container {
+    background-color: #FFA98A;
+    margin: 1vh 0vw;
+    padding: 1vh 0vw;
+    color: #FF0500;
+    border: 0.1875em solid #FF0500;
+    border-radius: 0.75em;
+    max-width: 100%;
+    min-width: 30%;
+}
