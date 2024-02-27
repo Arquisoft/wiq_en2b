@@ -68,6 +68,7 @@ jobs:
         user: ${{ secrets.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_KEY }}
         command: |
+          sudo apt-get install docker.io
           wget https://raw.githubusercontent.com/arquisoft/wiq_en2b/master/docker-compose.yml -O docker-compose.yml
           wget https://raw.githubusercontent.com/arquisoft/wiq_en2b/master/.env -O .env
           docker compose down
