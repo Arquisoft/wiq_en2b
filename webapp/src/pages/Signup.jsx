@@ -4,7 +4,6 @@ import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import "../styles/Signup.css";
 
 export default function Signup() {
 
