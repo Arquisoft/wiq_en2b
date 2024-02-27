@@ -1,9 +1,9 @@
 import { Center } from "@chakra-ui/layout";
-import { Button, FormControl, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Heading, Input, Text, Stack } from "@chakra-ui/react";
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
@@ -21,19 +21,19 @@ export default function Login() {
         }
     }
 
-    return <Center display={"flex"} flexDirection={"column"} maxW={"100%"} 
-                minW={"30%"} mt={"2vh"}>
-        <Heading as="h2">{ t("common.login")}</Heading>
-        { 
-            !hasError ? 
-            <></> : 
-            <Center bgColor={"#FFA98A"} margin={"1vh 0vw"} padding={"1vh 0vw"} 
-                color={"#FF0500"} border={"0.1875em solid #FF0500"}
-                borderRadius={"0.75em"} maxW={"100%"} minW={"30%"}>
-                    <Text>Error</Text>
-            </Center> 
-        }
-            <Form onSubmit={sendLogin}>
+    return (
+        <Center display={"flex"} flexDirection={"column"} maxW={"100%"} minW={"30%"} mt={"2vh"}>
+            <Heading as="h2">{ t("common.login")}</Heading>
+            { 
+                !hasError ? 
+                <></> : 
+                <Center bgColor={"#FFA98A"} margin={"1vh 0vw"} padding={"1vh 0vw"} 
+                    color={"#FF0500"} border={"0.1875em solid #FF0500"}
+                    borderRadius={"0.75em"} maxW={"100%"} minW={"30%"}>
+                        <Text>Error</Text>
+                </Center> 
+            }
+            <Stack spacing={4} mt={4} width="100%" mx={"auto"} maxWidth={"400px"}>
                 <FormControl as="fieldset" padding={"1vh 0vw"} isRequired>
                     <FormLabel>{ t("session.username") }</FormLabel>
                     <Input type="text" />
@@ -42,7 +42,8 @@ export default function Login() {
                     <FormLabel> {t("session.password")}</FormLabel>
                     <Input type="password" />
                 </FormControl>
-                <Button type="submit">Enviar</Button>
-            </Form>
-    </Center>
+                <Button type="submit" onClick={sendLogin}>Enviar</Button>
+            </Stack>
+        </Center>
+    );
 }

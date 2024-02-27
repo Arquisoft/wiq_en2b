@@ -7,7 +7,7 @@ import Layout from "./Layout";
 const router = [
   {
     path: "/",
-    element: <Layout />,
+    // element: <Layout />,
     children: [
       {
         path: "/",
