@@ -73,5 +73,5 @@ jobs:
           echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          docker compose down
-          docker compose --profile prod up -d
+          sudo docker compose down
+          sudo docker compose --profile prod up -d
