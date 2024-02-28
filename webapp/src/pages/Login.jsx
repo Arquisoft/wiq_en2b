@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import '../styles/AppView.css';
 
 export default function Login() {
 
@@ -31,11 +32,6 @@ export default function Login() {
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
             bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
-            {hasError && (
-                <div className="error-container">
-                    <Text>Error</Text>
-                </div>
-            )}
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">{ t("common.login")}</Heading>
@@ -67,7 +63,7 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <Button type="submit" variant="solid" colorScheme="blue" onClick={sendLogin}>Login</Button>
+                        <Button type="submit" variant="solid" colorScheme="blue" style={{ margin: "10px" }} className={`custom-button effect1`} onClick={sendLogin}>Login</Button>
                     </Stack>
                 </Box>
             </Stack>
