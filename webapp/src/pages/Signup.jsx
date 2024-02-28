@@ -18,14 +18,11 @@ export default function Signup() {
     const changeShowP = () => setShowPassword(!showPassword);
 
     const [confirmPassword, setConfirmPassword] = useState(null);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const changeShowConfirmP = () => setShowConfirmPassword(!showConfirmPassword);
+
     const handleConfirmPasswordChange = (event) => {
         setConfirmPassword(event.target.value);
-    };
-
-    const handleSubmit = () => {
-        if (confirmPassword !== watch('password')) {
-            return; 
-        }
     };
 
     const ChakraFaCardAlt = chakra(FaAddressCard);
@@ -91,20 +88,20 @@ export default function Signup() {
                         <InputGroup>
                             <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
                             <Input
-                                type={showPassword ? 'text' : 'password'}
+                                type={showConfirmPassword ? 'text' : 'password'}
                                 placeholder={'Confirmar contraseña'}
                                 value={confirmPassword}
                                 onChange={handleConfirmPasswordChange}
                             />
                             <InputRightElement width="4.5rem">
-                                <Button h="1.75rem" size="sm" onClick={changeShowP}>
-                                    {showPassword ? 'Hide' : 'Show'}
+                                <Button h="1.75rem" size="sm" onClick={changeShowConfirmP}>
+                                    {showConfirmPassword ? 'Hide' : 'Show'}
                                 </Button>
                             </InputRightElement>
                         </InputGroup>
                         {confirmPassword && confirmPassword !== watch('password') && (
-                            <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
-                        )}
+                            <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText> 
+                        )} {/* To be changed */}
                     </FormControl>
                         <Button type="submit" variant="solid" colorScheme="blue" onClick={sendLogin}>Sign Up</Button>
                     </Stack>
