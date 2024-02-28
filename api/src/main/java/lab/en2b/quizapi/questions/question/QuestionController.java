@@ -22,7 +22,7 @@ public class QuestionController {
     }
 
     @PostMapping("/{questionId}/answer")
-    private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@RequestParam Long questionId, @RequestBody AnswerDto answerDto){
+    private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@PathVariable Long questionId, @RequestBody AnswerDto answerDto){
         return ResponseEntity.ok(questionService.answerQuestion(questionId,answerDto));
     }
 
