@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.questions.question;
 
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
+import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class QuestionController {
     }
 
     @GetMapping
-    private ResponseEntity<List<Question>> getQuestions() {
+    private ResponseEntity<List<QuestionResponseDto>> getQuestions() {
         return ResponseEntity.ok(questionService.getQuestions());
     }
 

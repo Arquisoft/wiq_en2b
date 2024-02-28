@@ -1,15 +1,15 @@
 package lab.en2b.quizapi.questions.question.dtos;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerResponseDto;
+import lab.en2b.quizapi.questions.question.Question;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionType;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public class QuestionResponseDto {
     private Long id;
     private String content;
@@ -18,4 +18,7 @@ public class QuestionResponseDto {
     private AnswerCategory answerCategory;
     private String language;
     private QuestionType type;
+
+
+
 }
