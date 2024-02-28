@@ -15,11 +15,6 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
 
-    @GetMapping("/dummy")
-    private String getDummyQuestion(){
-        return "Who the hell is Steve Jobs?";
-    }
-
     // TODO: REMOVE WHEN NOT USED FOR TESTING
     @GetMapping
     private ResponseEntity<List<QuestionResponseDto>> getQuestions() {

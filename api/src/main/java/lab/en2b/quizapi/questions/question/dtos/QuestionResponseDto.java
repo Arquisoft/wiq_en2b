@@ -2,7 +2,6 @@ package lab.en2b.quizapi.questions.question.dtos;
 
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerResponseDto;
-import lab.en2b.quizapi.questions.question.Question;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionType;
 import lombok.Builder;
