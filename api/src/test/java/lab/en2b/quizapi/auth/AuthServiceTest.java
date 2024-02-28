@@ -1,8 +1,8 @@
 package lab.en2b.quizapi.auth;
 
+import ch.qos.logback.core.util.TimeUtil;
 import lab.en2b.quizapi.auth.config.UserDetailsImpl;
-import lab.en2b.quizapi.auth.dtos.JwtResponseDto;
-import lab.en2b.quizapi.auth.dtos.LoginDto;
+import lab.en2b.quizapi.auth.dtos.*;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserRepository;
@@ -20,6 +20,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.swing.text.html.Option;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -33,6 +35,7 @@ import static org.mockito.Mockito.when;
 public class AuthServiceTest {
     @InjectMocks
     AuthService authService;
+    @Mock
     UserService userService;
     @Mock
     UserRepository userRepository;
@@ -53,6 +56,8 @@ public class AuthServiceTest {
                 .username("test")
                 .roles(Set.of(new Role("user")))
                 .password("password")
+                .refreshToken("token")
+                .refreshExpiration(Instant.ofEpochSecond(TimeUtil.computeStartOfNextSecond(System.currentTimeMillis()+ 1000)))
                 .build();
     }
     @Test
@@ -76,6 +81,31 @@ public class AuthServiceTest {
                         .roles(List.of("user"))
                         .build()))
                 ,actual);
+
+    }
+    @Test
+    void testRegister(){
+
+        when(userRepository.existsByEmail(any())).thenReturn(false);
+        when(userRepository.existsByUsername(any())).thenReturn(false);
+        when(userRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
+        when(roleRepository.findByName(any())).thenReturn(Optional.of(new Role("user")));
+
+        ResponseEntity<?> actual = authService.register(new RegisterDto("test","username","password"));
+
+        assertEquals(ResponseEntity.of(Optional.of("User registered successfully!")),actual);
+
+    }
+
+    @Test
+    void testRefreshToken(){
+
+        when(userRepository.findByRefreshToken(any())).thenReturn(Optional.of(defaultUser));
+        when(jwtUtils.generateTokenFromEmail(any())).thenReturn("jwtToken");
+
+        ResponseEntity<?> actual = authService.refreshToken(new RefreshTokenDto("token"));
+
+        assertEquals(ResponseEntity.of(Optional.of(new RefreshTokenResponseDto("jwtToken","token"))),actual);
 
     }
 }
