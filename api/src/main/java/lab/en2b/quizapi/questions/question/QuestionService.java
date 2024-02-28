@@ -24,4 +24,8 @@ public class QuestionService {
             return "Wrong!";
         }
     }
+
+    public Question getQuestion() {
+        return null;
+    }
 }
