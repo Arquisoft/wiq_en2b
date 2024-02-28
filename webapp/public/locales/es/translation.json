@@ -13,6 +13,8 @@
     },
     "session": {
         "username": "Nombre de usuario",
-        "password": "Contraseña"
+        "password": "Contraseña",
+        "email": "Correo electrónico",
+        "confirm_password": "Confirmar contraseña"
     }
 }

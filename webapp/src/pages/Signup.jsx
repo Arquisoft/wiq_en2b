@@ -64,7 +64,7 @@ export default function Signup() {
                         <FormControl>
                             <InputGroup>
                                 <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />}/>
-                                <Input type="text" placeholder={t("Correo Electrónico")} /> {/* To be changed */}
+                                <Input type="text" placeholder={t("session.email")} />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
@@ -76,7 +76,7 @@ export default function Signup() {
                         <FormControl>
                 <InputGroup>
                     <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
-                    <Input type={showPassword ? 'text' : 'password'} placeholder={'Contraseña'} {...register('password', { required: true })} />
+                    <Input type={showPassword ? 'text' : 'password'} placeholder={t("session.password")} {...register('password', { required: true })} />
                     <InputRightElement width="4.5rem">
                         <Button h="1.75rem" size="sm" onClick={changeShowP}>
                             {showPassword ? 'Hide' : 'Show'}
@@ -89,7 +89,7 @@ export default function Signup() {
                             <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
                             <Input
                                 type={showConfirmPassword ? 'text' : 'password'}
-                                placeholder={'Confirmar contraseña'}
+                                placeholder={t("session.confirm_password")}
                                 value={confirmPassword}
                                 onChange={handleConfirmPasswordChange}
                             />
