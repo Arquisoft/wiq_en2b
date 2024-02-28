@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.questions.question;
 
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
+import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +19,24 @@ public class QuestionService {
         return questionRepository.findAll().stream().map(questionResponseDtoMapper).toList();
     }
 
-    public String answerQuestion(Long id, AnswerDto answerDto) {
+    public AnswerCheckResponseDto answerQuestion(Long id, AnswerDto answerDto) {
         Question question = questionRepository.findById(id).orElseThrow();
-        if(question.getAnswers().stream().filter(i -> i.getId().equals(answerDto.getAnswerId())).findFirst().isPresent()){
-            return "Correct!";
+        if(question.getCorrectAnswer().getId().equals(answerDto.getAnswerId())){
+            return new AnswerCheckResponseDto(true);
         }
-        else{
-            return "Wrong!";
+        else if(question.getAnswers().stream().noneMatch(i -> i.getId().equals(answerDto.getAnswerId()))){
+            throw new IllegalArgumentException("The answer you provided is not one of the options");
+        }
+        else {
+            return new AnswerCheckResponseDto(false);
         }
     }
 
-    public Question getQuestion() {
-        return null;
+    public QuestionResponseDto getQuestion() {
+        return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion());
+    }
+
+    public QuestionResponseDto getQuestionById(Long id) {
+        return questionResponseDtoMapper.apply(questionRepository.findById(id).orElseThrow());
     }
 }
