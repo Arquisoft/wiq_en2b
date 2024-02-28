@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
 
 export default function Login() {
@@ -63,7 +64,8 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <Button type="submit" variant="solid" colorScheme="blue" style={{ margin: "10px" }} className={`custom-button effect1`} onClick={sendLogin}>Login</Button>
+                        {/* <Button type="submit" variant="solid" colorScheme="blue" style={{ margin: "10px" }} className={`custom-button effect1`} onClick={sendLogin}>Login</Button> */}
+                        <ButtonEf text="Login" onClick={sendLogin}/>
                     </Stack>
                 </Box>
             </Stack>
