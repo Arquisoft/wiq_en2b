@@ -5,7 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import router from 'components/Router';
 import { ChakraProvider } from '@chakra-ui/react';
-
 import "./i18n";
 
 const root = ReactDOM.createRoot(document.querySelector("body"));

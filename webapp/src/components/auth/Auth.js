@@ -5,7 +5,7 @@ export const authContext = createContext({
     setJwt: (newJwt) => {}
 });
 
-export function authProvider({children}) {
+export function AuthProvider({children}) {
 
     const [jwt, setJwt] = useState(null);
     

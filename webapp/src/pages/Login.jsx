@@ -1,12 +1,13 @@
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text } from "@chakra-ui/react";
-import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
+import {logIn} from "../components/auth/AuthUtils";
+import {HttpStatusCode} from "axios";
 
 export default function Login() {
 
@@ -20,14 +21,20 @@ export default function Login() {
     const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaLock = chakra(FaLock);
 
-    const sendLogin = async () => {
-        let data = {};
-        let response = await axios.post(process.env.API_URL, data);
-        if (response.status === HttpStatusCode.Accepted) {
-            navigate("/home");
-        } else {
-            setHasError(true);
-        }
+    const sendLogin = () => {
+        let data = {
+            "email": document.getElementById("user").value,
+            "password": document.getElementById("password").value
+        };
+        logIn(data).then(result => {
+            if (result.status === HttpStatusCode.Ok) {
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('refreshToken', result.refreshToken);
+                navigate("/dashboard");
+            } else {
+                setHasError(true);
+            }
+        })
     }
 
     return (
@@ -50,13 +57,13 @@ export default function Login() {
                         <FormControl>
                             <InputGroup>
                                 <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />}/>
-                                <Input type="text" placeholder={t("session.email")} />
+                                <Input type="text" id="user" placeholder={t("session.email")} />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
                             <InputGroup>
                                 <InputLeftElement children={<ChakraFaLock color="gray.300" />}/>
-                                <Input type={showPassword ? "text" : "password"}  placeholder={t("session.password")}/>
+                                <Input type={showPassword ? "text" : "password"} id="password" placeholder={t("session.password")}/>
                                 <InputRightElement width="4.5rem">
                                     <Button h="1.75rem" size="sm" onClick={changeShowP}>{
                                         showPassword ? "Hide" : "Show"
