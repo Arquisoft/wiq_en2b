@@ -8,18 +8,18 @@ describe('Signup Component', () => {
   it('renders form elements correctly', () => {
     const { getByPlaceholderText, getByText } = render(<Signup />);
     
-    expect(getByPlaceholderText('Email')).toBeInTheDocument();
-    expect(getByPlaceholderText('Username')).toBeInTheDocument();
-    expect(getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(getByPlaceholderText('Confirm Password')).toBeInTheDocument();
+    expect(getByPlaceholderText('session.email')).toBeInTheDocument();
+    expect(getByPlaceholderText('session.username')).toBeInTheDocument();
+    expect(getByPlaceholderText('session.password')).toBeInTheDocument();
+    expect(getByPlaceholderText('session.confirm_password')).toBeInTheDocument();
     expect(getByText('Sign Up')).toBeInTheDocument();
   });
 
   it('toggles password visibility', () => {
     const { getByPlaceholderText, getByText } = render(<Signup />);
   
-    const passwordInput = getByPlaceholderText('Password');
-    const confirmPasswordInput = getByPlaceholderText('Confirm Password');
+    const passwordInput = getByPlaceholderText('session.password');
+    const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
     const showPasswordButton = getByText('Show');
     const showConfirmPasswordButton = getByText('Show');
   
@@ -49,10 +49,10 @@ describe('Signup Component', () => {
     const { getByPlaceholderText, getByText } = render(<Signup />);
   
     // Get form elements and submit button by their text and placeholder values
-    const emailInput = getByPlaceholderText('Email');
-    const usernameInput = getByPlaceholderText('Username');
-    const passwordInput = getByPlaceholderText('Password');
-    const confirmPasswordInput = getByPlaceholderText('Confirm Password');
+    const emailInput = getByPlaceholderText('session.email');
+    const usernameInput = getByPlaceholderText('session.username');
+    const passwordInput = getByPlaceholderText('session.password');
+    const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
     const signUpButton = getByText('Sign Up');
     
     // Fill out the form with valid data and submit it
