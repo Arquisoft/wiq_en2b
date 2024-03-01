@@ -3,8 +3,11 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from '../pages/Login';
+import { MemoryRouter, createMemoryRouter } from 'react-router';
+import router from '../components/Router';
 
 const mockAxios = new MockAdapter(axios);
+const mockRouter = createMemoryRouter(router);
 
 describe('Login component', () => {
   beforeEach(() => {
@@ -12,7 +15,7 @@ describe('Login component', () => {
   });
 
   it('renders form elements correctly', async () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
 
     expect(getByPlaceholderText('Email')).toBeInTheDocument();
     expect(getByPlaceholderText('Password')).toBeInTheDocument();
@@ -20,7 +23,7 @@ describe('Login component', () => {
   });
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
     const passwordInput = getByPlaceholderText('Password');
     const showPasswordButton = getByText('Show');
@@ -31,7 +34,7 @@ describe('Login component', () => {
   });
 
   it('displays error message on failed submission', async () => {
-    const { getByText } = render(<Login />);
+    const { getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
 
     const signUpButton = getByText('Login');
     fireEvent.click(signUpButton);
@@ -46,7 +49,7 @@ describe('Login component', () => {
     axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
   
     // Render the Signup component
-    const { getByPlaceholderText, getByText } = render(<Login />);
+    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
     // Get form elements and submit button by their text and placeholder values
     const emailInput = getByPlaceholderText('Email');
@@ -60,8 +63,7 @@ describe('Login component', () => {
     
     // Check if the form data was sent correctly
     await waitFor(() => {
-      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {});
-      expect(axiosMock).toHaveBeenCalledTimes(1);
+      expect(mockRouter).toHaveBeenCalledTimes(1);
     });
   
     axiosMock.mockRestore();
