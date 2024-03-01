@@ -21,9 +21,9 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final JwtUtils jwtUtils;
     /**
      * Creates a session for a user. Throws an 401 unauthorized exception otherwise
      * @param loginRequest the request containing the login info
