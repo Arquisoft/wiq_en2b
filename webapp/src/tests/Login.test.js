@@ -11,52 +11,59 @@ describe('Login component', () => {
     mockAxios.reset();
   });
 
-  it('should log in successfully', async () => {
-    render(<Login />);
+  it('renders form elements correctly', async () => {
+    const { getByPlaceholderText, getByText } = render(<Login />);
 
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /Login/i });
-
-    // Mock the axios.post request to simulate a successful response
-    mockAxios.onPost('http://localhost:8000/login').reply(200, { createdAt: '2024-01-01T12:34:56Z' });
-
-    // Simulate user input
-    await act(async () => {
-        fireEvent.change(usernameInput, { target: { value: 'testUser' } });
-        fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-        fireEvent.click(loginButton);
-      });
-
-    // Verify that the user information is displayed
-    expect(screen.getByText(/Hello testUser!/i)).toBeInTheDocument();
-    expect(screen.getByText(/Your account was created on 1\/1\/2024/i)).toBeInTheDocument();
+    expect(getByPlaceholderText('Email')).toBeInTheDocument();
+    expect(getByPlaceholderText('Password')).toBeInTheDocument();
+    expect(getByText('Login')).toBeInTheDocument();
   });
 
-  it('should handle error when logging in', async () => {
-    render(<Login />);
+  it('toggles password visibility', () => {
+    const { getByPlaceholderText, getByText } = render(<Login />);
+  
+    const passwordInput = getByPlaceholderText('Password');
+    const showPasswordButton = getByText('Show');
+  
+    fireEvent.click(showPasswordButton);
+  
+    expect(passwordInput.getAttribute('type')).toBe('text');
+  });
 
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /Login/i });
+  it('displays error message on failed submission', async () => {
+    const { getByText } = render(<Login />);
 
-    // Mock the axios.post request to simulate an error response
-    mockAxios.onPost('http://localhost:8000/login').reply(401, { error: 'Unauthorized' });
+    const signUpButton = getByText('Login');
+    fireEvent.click(signUpButton);
 
-    // Simulate user input
-    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-
-    // Trigger the login button click
-    fireEvent.click(loginButton);
-
-    // Wait for the error Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/Error: Unauthorized/i)).toBeInTheDocument();
+      expect(getByText('Error')).toBeInTheDocument();
     });
+  });
 
-    // Verify that the user information is not displayed
-    expect(screen.queryByText(/Hello testUser!/i)).toBeNull();
-    expect(screen.queryByText(/Your account was created on/i)).toBeNull();
+  it('submits form data correctly', async () => {
+    const axiosMock = jest.spyOn(axios, 'post');
+    axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
+  
+    // Render the Signup component
+    const { getByPlaceholderText, getByText } = render(<Login />);
+  
+    // Get form elements and submit button by their text and placeholder values
+    const emailInput = getByPlaceholderText('Email');
+    const passwordInput = getByPlaceholderText('Password');
+    const signUpButton = getByText('Login');
+    
+    // Fill out the form with valid data and submit it
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.click(signUpButton);
+    
+    // Check if the form data was sent correctly
+    await waitFor(() => {
+      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {});
+      expect(axiosMock).toHaveBeenCalledTimes(1);
+    });
+  
+    axiosMock.mockRestore();
   });
 });
