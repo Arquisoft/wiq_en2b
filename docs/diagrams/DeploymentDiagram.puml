@@ -1,0 +1,32 @@
+@startuml
+
+title WIQ Deployment View
+
+legend right
+    |Color| Type |
+    |<#PeachPuff>| WIQ Server |
+    |<#DarkSalmon>| External Service |
+end legend
+
+node "Server Hosting WIQ" #PeachPuff {
+  node "WIQ WebApp Server"{
+    component "WIQ React Application"
+  }
+  node "WIQ API" {
+      component "WIQ_API.jar"
+  }
+  node "PostgreSQL Docker" {
+    database "WIQ Database"
+  }
+}
+node "User Computer" #DarkSalmon{
+  frame "Web Client"
+}
+node "WikiData Server" #DarkSalmon {
+    frame "WikiData REST API"
+}
+"Web Client" ..> "WIQ React Application" : "HTTPS"
+"WIQ React Application" ..> "WIQ_API.jar" : "HTTPS"
+"WIQ_API.jar" ..> "WIQ Database" : "JPA"
+"WIQ API" ..> "WikiData REST API" : "HTTPS, SPARQL"
+@enduml

@@ -3,7 +3,9 @@ coverage
 docs/build
 
 ### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
+.idea
+.vscode
+.DS_Store

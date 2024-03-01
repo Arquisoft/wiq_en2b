@@ -4,32 +4,20 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Architecture Decisions
 
 
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.
+During the application development process, decisions had to be made as issues emerged. The most interesting design decisions are reflected in this architectural records:
 
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
+|===
+|*Decision* |*Explanation*
 
-Avoid redundancy. 
-Refer to section 4, where you already captured the most important decisions of your architecture.
+|React
+|Offers a powerful combination of performance, flexibility, and developer experience, making it a popular choice for building modern web applications. One of the members of the group has already worked with it in the past. It allows us to build a good user interface for the application.
 
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
+|SpringBoot
+|This choice is based on the extensive experience accumulated by our team in developing with Java, as well as the familiarity and comfort offered by the tools and practices associated with the Spring Boot ecosystem.
 
-.Form
-Various options:
+|PostgreSQL
+|We have chosen to use the PostgreSQL database instead of MongoDB due to the relational nature of PostgreSQL, which offers a robust and coherent structure for storing and relating data. We made this decision to ensure data integrity, perform complex queries, and maintain consistency in our storage operations.
 
-* ADR (https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions]) for every important decision
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
-
-.Further Information
-
-See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 documentation.
-There you will find links and examples about ADR.
-
-****
+|React Libraries
+|To enhance the efficiency and effectiveness of our development process, we've taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.
+|===

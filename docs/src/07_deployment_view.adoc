@@ -2,93 +2,39 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-deployment-view]]
 
-
 == Deployment View
 
-[role="arc42help"]
-****
-.Content
-The deployment view describes:
-
- 1. technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and
-
-2. mapping of (software) building blocks to that infrastructure elements.
-
-Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.
-
-Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.
-
-From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.
-
-.Motivation
-Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.
-
-.Form
-
-Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:
-
-* UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.
-* When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
-
-****
+image::DeploymentDiagram.png[align="center",title="Deployment Diagram",link="DeploymentDiagram.png]
 
 === Infrastructure Level 1
 
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
-
-* distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them
-* important justifications or motivations for this deployment structure
-* quality and/or performance features of this infrastructure
-* mapping of software artifacts to elements of this infrastructure
-
-For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
-****
-
-_**<Overview Diagram>**_
-
 Motivation::
 
-_<explanation in text form>_
+The above diagram shows the initial version of the architecture and the division between its components. We will be using a simple client-server architecture, and the server will be querying Wikidata for the questions. By separating the architecture in this way we enforce a clear separation between the client/frontend and the server/backend, which benefits the system as a whole because so long the common API is implemented, the implementations themselves shall remain interchangeable.
 
 Quality and/or Performance Features::
 
-_<explanation in text form>_
+As stated before, we consider the main advantage of this architecture the interchangeability of the components. There remain details to be scratched out though, but this is still an initial version.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
 
+ * The webapp/frontend/client is contained within the `webapp` subfolder.
+ * The API/backend is contained within the `api` subfolder.
+ ** The database will be generated on deployment.
+ ** Wikidata is an external component, so although it is an important part of the deployment architecture, it is something we do not have access to changing.
 
 === Infrastructure Level 2
 
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
+==== Frontend/Client
 
-Please copy the structure from level 1 for each selected element.
-****
+This component is self-contained and does not require much explanation.
 
-==== _<Infrastructure Element 1>_
+==== API/Backend
 
-_<diagram + explanation>_
+===== Server
 
-==== _<Infrastructure Element 2>_
+Our main idea is that the server will be a self-contained .jar file with all the dependencies required within. It will communicate with the database and periodically query Wikidata to generate questions until a certain number has been obtained once per minute to fill up the database and improve speed.
 
-_<diagram + explanation>_
+===== Database
 
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_
+The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers. The databases to store the questions (and therefore the answers) and the user data might be different, though.
