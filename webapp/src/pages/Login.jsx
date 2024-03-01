@@ -4,7 +4,7 @@ import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+import { FaLock, FaAddressCard } from "react-icons/fa";
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
 
@@ -17,7 +17,7 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const changeShowP = () => setShowPassword(!showPassword);
 
-    const ChakraFaUserAlt = chakra(FaUserAlt);
+    const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaLock = chakra(FaLock);
 
     const sendLogin = async () => {
@@ -49,8 +49,8 @@ export default function Login() {
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaUserAlt color="gray.300" />}/>
-                                <Input type="text" placeholder={t("session.username")} />
+                                <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />}/>
+                                <Input type="text" placeholder={t("session.email")} />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
@@ -64,7 +64,6 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        {/* <Button type="submit" variant="solid" colorScheme="blue" style={{ margin: "10px" }} className={`custom-button effect1`} onClick={sendLogin}>Login</Button> */}
                         <ButtonEf text="Login" onClick={sendLogin}/>
                     </Stack>
                 </Box>

@@ -13,6 +13,7 @@
     },
     "session": {
         "username": "Nombre de usuario",
-        "password": "Contraseña"
+        "password": "Contraseña",
+        "email": "Correo electrónico"
     }
 }
