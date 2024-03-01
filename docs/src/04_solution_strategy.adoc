@@ -3,30 +3,46 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-solution-strategy]]
 == Solution Strategy
 
+What follows is a summary of our solution's main decisions, and the approach we decided to use to create the system. 
 
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
+=== Technologies breakdown
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+Regarding the technologies, we decided to use the following ones:
 
-.Motivation
-These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.
+ * **React** for the frontend, using the **Chakra UI** component library. Although the preferred way to use React is currently through a framework, we preferred this approach due to this being many of us first time using it, as well as a lack of experience using any framework in any of us.
 
-.Form
-Keep the explanations of such key decisions short.
+ ** As a consecuence of this, pure JavaScript is being used due to React 18 not supporting Typescript 5.
 
-Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.
+ * **PostgreSQL** as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those that did preferring SQL. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.
 
+ * **Java SpringBoot** for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.
 
-.Further Information
+=== Organizational breakdown 
 
-See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
+Currently, we have been meeting twice a week, but that may change in the future. Most, if not all of us, were present for these meetings, and relevant decisions were also discussed on the side and between members, as well discussions related to opinions on some matter. Some of these meetings took place in person while others took place on a Discord Server.
 
-****
+We also have a Whatsapp community for the team, and a Notion wiki.
+
+=== Important quality-related decisions
+
+|===
+|*Quality attribute pursued*|*Solution chosen*
+|Privacy|All stored password will be hashed, both client-side and server-side, to avoid password disclosure. The client-side password is also intended to prevent password discoverage in case it is a repeated one.
+|Robustness|Currently, all validations will take place server-side to avoid not being properly taken care of due to JavaScript desactivation, such as when using the NoScript plug-in
+|Availability|Since Wikidata has a 1 minute limit related to the API, the backend will start querying it upon start and fill the database with questions to increase speed and thus improve user experience|
+|===
+
+=== Workflow
+
+We have divided ourselves in teams related to our own areas of expertise, but those divisions are indicative, and frontend teams may review or comment PRs if they wish, or vice versa. The frontend team may also ask input from the backend team if they wish, and the backend team may do the same.
+
+All in all, we strive to achieve a very flexible workflow in which everyone's input may be considered if they wish to give it.
+
+=== Code Style
+
+Regarding the code style, we must make two important distinctions: the frontend and backend. In the latter, we will mainly use Object Oriented Programming because our language of choice is Java, which strongly favours it. Regarding the former, it will be more of a case-by-case approach, as for instance, OOP-oriented React is deprecated in favor of a functional approach, but sometimes we may need OOP's strengths.
+
+ * In the backend, the structure will be that of a typical Maven project.
+ * In the frontend, the structure will be quite different:
+ ** The `src/components` will contain single components which we may reuse.
+ ** The `src/pages` will contain the endpoints and will follow a simple structure. For instance, given a `/statistics/personal` and a `/statistics/general` endpoints, both will be independent React components that will return the page and be placed under the `src/pages/statistics` folder.
