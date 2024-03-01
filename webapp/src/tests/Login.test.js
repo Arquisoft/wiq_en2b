@@ -17,15 +17,15 @@ describe('Login component', () => {
   it('renders form elements correctly', async () => {
     const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
 
-    expect(getByPlaceholderText('Email')).toBeInTheDocument();
-    expect(getByPlaceholderText('Password')).toBeInTheDocument();
+    expect(getByPlaceholderText('session.email')).toBeInTheDocument();
+    expect(getByPlaceholderText('session.password')).toBeInTheDocument();
     expect(getByText('Login')).toBeInTheDocument();
   });
 
   it('toggles password visibility', () => {
     const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
-    const passwordInput = getByPlaceholderText('Password');
+    const passwordInput = getByPlaceholderText('session.password');
     const showPasswordButton = getByText('Show');
   
     fireEvent.click(showPasswordButton);
@@ -52,8 +52,8 @@ describe('Login component', () => {
     const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
     // Get form elements and submit button by their text and placeholder values
-    const emailInput = getByPlaceholderText('Email');
-    const passwordInput = getByPlaceholderText('Password');
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
     const signUpButton = getByText('Login');
     
     // Fill out the form with valid data and submit it
