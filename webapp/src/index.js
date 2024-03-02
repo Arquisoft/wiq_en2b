@@ -6,9 +6,11 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import router from 'components/Router';
 import { ChakraProvider } from '@chakra-ui/react';
 import "./i18n";
+import axios from "axios";
 
 const root = ReactDOM.createRoot(document.querySelector("body"));
 const browserRouter = createBrowserRouter(router);
+axios.defaults.headers.post["Content-Type"] = "application/json";
 root.render(
   <ChakraProvider>
     <React.StrictMode>

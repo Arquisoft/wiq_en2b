@@ -6,16 +6,21 @@ import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
-import {logIn} from "../components/auth/AuthUtils";
+import {logIn, useLoggedState} from "../components/auth/AuthUtils";
 import {HttpStatusCode} from "axios";
 
 export default function Login() {
 
-    const [hasError, setHasError] = useState(false);
     const navigate = useNavigate();
+    if (useLoggedState()) {
+        navigate("/dashboard");
+    }
+
+    const [hasError, setHasError] = useState(false);
     const { t } = useTranslation();
 
     const [showPassword, setShowPassword] = useState(false);
+
     const changeShowP = () => setShowPassword(!showPassword);
 
     const ChakraFaCardAlt = chakra(FaAddressCard);

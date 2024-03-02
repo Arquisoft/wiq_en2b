@@ -14,6 +14,6 @@ export async function logIn(loginData, onSuccess, onError) {
     return {
         status: requestAnswer.status,
         token: requestAnswer.data.token,
-        refreshToken: requestAnswer.data.refreshToken
+        refreshToken: requestAnswer.data.refresh_Token
     };
 }
