@@ -68,9 +68,7 @@ jobs:
         user: ${{ secrets.DEPLOY_USER }}
         key: ${{ secrets.DEPLOY_KEY }}
         command: |
-          wget https://raw.githubusercontent.com/arquisoft/wiq_en2b/master/docker-compose.yml -O docker-compose.yml
-          wget -r -np https://raw.githubusercontent.com/arquisoft/wiq_en2b/master/api/
-          wget https://raw.githubusercontent.com/arquisoft/wiq_en2b/master/.env -O .env
+          git clone https://github.com/arquisoft/wiq_en2b.git
           echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
