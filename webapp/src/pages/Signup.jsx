@@ -90,7 +90,7 @@ export default function Signup() {
                             <Input
                                 type={showConfirmPassword ? 'text' : 'password'}
                                 placeholder={t("session.confirm_password")}
-                                value={confirmPassword}
+                                value={confirmPassword || ''}
                                 onChange={handleConfirmPasswordChange}
                             />
                             <InputRightElement width="4.5rem">
