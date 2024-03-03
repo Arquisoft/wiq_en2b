@@ -9,9 +9,12 @@
         },
         "play": "Play",
         "login": "Log in",
+        "logout": "Log Out",
         "register": "Register",
         "submit": "Submit",
-        "rules": "Rules"
+        "rules": "Rules",
+        "dashboard": "User's Dashboard",
+        "goBack": "Go Back"
     },
     "session": {
         "username": "Username",
