@@ -2,11 +2,9 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-technical-risks]]
 == Risks and Technical Debts
-
-
+[options="header",cols="1,2,2"]
 |===
-|*Risk* |*Explanation* | *Mitigation proposed*
-
+|Risk|Explanation|Mitigation proposed
 |Little knowledge of the technologies to be used
 |For most of the members of the team, is the first time working with technologies as React or Wikidata
 |Explore technologies documentation to familiarize ourselves with the technology, and seek examples of use.
