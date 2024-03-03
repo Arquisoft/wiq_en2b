@@ -27,7 +27,7 @@ See the complete functional requirements in the xref:#section-annex[Annex] of th
 |Goal|Description
 | Functional suitability | The system shall fulfill its intended purpose effectively and efficiently, allowing users to register, log in, play the quiz, and access their user statistics.
 | Reliability | The system should be reliable in generating questions from Wikidata, ensuring that questions are accurate and diverse. The system shall handle user registrations, logins, and game data storage without errors.
-| Availability | The system shall be available 99.99% of the time a user tries to access it.
+| Availability | The system shall be available 99% of the time a user tries to access it.
 | Maintainability | The system shall be designed and implemented in a way that facilitates easy maintenance and updates.
 | Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. The automatic generation of questions from Wikidata and the real-time gameplay shall be efficient. The system shall handle N concurrent users.
 | Security | The system shall prioritize user data security. It shall implement robust authentication mechanisms for user registration and login. The API access points for user information and generated questions shall be secured with proper authorization. 
