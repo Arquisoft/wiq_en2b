@@ -1,9 +1,6 @@
 name: Deploy on release
 
 on:
-  push:
-    branches:
-      - 'chore/actions-fixing'
   release:
     types: [published]
 
