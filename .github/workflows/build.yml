@@ -35,6 +35,10 @@ jobs:
         java-version: '17'
     - run: mvn test
       working-directory: api
+      env:
+        DATABASE_USER: ${{ secrets.DATABASE_USER }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
