@@ -1,10 +1,11 @@
 import React from "react";
 import Root from "../pages/Root";
-import Layout from "./Layout";
-import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import Login from "../pages/Login";
+import { Route, createRoutesFromElements } from "react-router-dom";
 
 export default createRoutesFromElements(
-    <Route path="/" element={<Layout />} >
+    <Route path="/" >
       <Route index element={<Root />} />
+      <Route path="/login" element={<Login />}/>
     </Route>
   )

@@ -1,5 +1,5 @@
 {
-    "nav":{
+    "common": {
         "home": "Home",
         "api_docs": "API Documentation",
         "statistics": {
@@ -9,6 +9,15 @@
         },
         "play": "Play",
         "login": "Log in",
-        "register": "Register"
+        "register": "Register",
+        "submit": "Submit"
+    },
+    "session": {
+        "username": "Username",
+        "password": "Password",
+        "email": "Email"
+    },
+    "error": {
+        "login": "An ERROR occurred during login"
     }
 }
