@@ -1,5 +1,6 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, IconButton } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -42,7 +43,7 @@ export default function Login() {
                     <Center bgColor={"#FFA98A"} margin={"1vh 0vw"} padding={"1vh 0vw"} 
                         color={"#FF0500"} border={"0.1875em solid #FF0500"}
                         borderRadius={"0.75em"} maxW={"100%"} minW={"30%"}>
-                            <Text>Error</Text>
+                            <Text>{t("error.login")}</Text>
                     </Center> 
                 }
                 <Box minW={{md: "400px"}}>
@@ -57,14 +58,12 @@ export default function Login() {
                             <InputGroup>
                                 <InputLeftElement children={<ChakraFaLock color="gray.300" />}/>
                                 <Input type={showPassword ? "text" : "password"}  placeholder={t("session.password")}/>
-                                <InputRightElement width="4.5rem">
-                                    <Button h="1.75rem" size="sm" onClick={changeShowP}>{
-                                        showPassword ? "Hide" : "Show"
-                                    }</Button>
+                                <InputRightElement>
+                                    <IconButton h="1.75rem" size="sm" onClick={changeShowP} aria-label='Shows or hides the password' icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf text="Login" onClick={sendLogin}/>
+                        <ButtonEf variant={"solid"} colorScheme={"blue"} text="Login" onClick={sendLogin}/>
                     </Stack>
                 </Box>
             </Stack>

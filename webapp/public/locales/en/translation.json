@@ -16,5 +16,8 @@
         "username": "Username",
         "password": "Password",
         "email": "Email"
+    },
+    "error": {
+        "login": "An ERROR occurred during login"
     }
 }

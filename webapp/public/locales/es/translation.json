@@ -15,5 +15,8 @@
         "username": "Nombre de usuario",
         "password": "Contraseña",
         "email": "Correo electrónico"
+    },
+    "error": {
+        "login": "Ocurrió un ERROR en el login"
     }
 }
