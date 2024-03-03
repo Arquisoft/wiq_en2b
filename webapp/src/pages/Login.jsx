@@ -1,23 +1,35 @@
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
-import {logIn, useLoggedState} from "../components/auth/AuthUtils";
-import {HttpStatusCode} from "axios";
+import {isUserLogged, login, saveToken} from "../components/auth/AuthUtils";
 
 export default function Login() {
 
     const navigate = useNavigate();
-    if (useLoggedState()) {
+    if (isUserLogged()) {
         navigate("/dashboard");
     }
 
     const [hasError, setHasError] = useState(false);
     const { t } = useTranslation();
+
+    const sendLogin = async () => {
+        const loginData = {
+            "email": document.getElementById("user").value,
+            "password": document.getElementById("password").value
+        };
+        login(loginData).then(requestAnswer => {
+            saveToken(requestAnswer);
+            navigate("/dashboard");
+        }).catch(err => {
+            setHasError(true);
+        });
+    }
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -25,22 +37,6 @@ export default function Login() {
 
     const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaLock = chakra(FaLock);
-
-    const sendLogin = () => {
-        let data = {
-            "email": document.getElementById("user").value,
-            "password": document.getElementById("password").value
-        };
-        logIn(data).then(result => {
-            if (result.status === HttpStatusCode.Ok) {
-                localStorage.setItem('token', result.token);
-                localStorage.setItem('refreshToken', result.refreshToken);
-                navigate("/dashboard");
-            } else {
-                setHasError(true);
-            }
-        })
-    }
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
@@ -76,7 +72,7 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf text="Login" onClick={sendLogin}/>
+                        <ButtonEf type={"submit"} text="Login" onClick={sendLogin}/>
                     </Stack>
                 </Box>
             </Stack>

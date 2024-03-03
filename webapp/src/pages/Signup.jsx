@@ -4,6 +4,7 @@ import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import {saveToken} from "../components/auth/AuthUtils";
 
 export default function Signup() {
 
@@ -11,14 +12,19 @@ export default function Signup() {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-    const sendLogin = async () => {
-        let data = {};
-        let response = await axios.post(process.env.API_URL, data);
-        if (response.status === HttpStatusCode.Accepted) {
-            navigate("/home");
-        } else {
+    const sendRegister = async () => {
+        const petitionData = {
+            "user": document.getElementById("user").value,
+            "email": document.getElementById("email").value,
+            "password": document.getElementById("password").value
+        };
+
+        axios.post(process.env.REACT_APP_API_ENDPOINT
+            + process.env.REACT_APP_LOGIN_ENDPOINT, petitionData).then(() => {
+            navigate("/login");
+        }).catch(err => {
             setHasError(true);
-        }
+        });
     }
 
     return (
@@ -36,17 +42,17 @@ export default function Signup() {
             <Stack spacing={4} mt={4} width="100%" mx={"auto"} maxWidth={"400px"}>
                 <FormControl as="fieldset" padding={"1vh 0vw"} isRequired>
                     <FormLabel>{ t("session.username") }</FormLabel>
-                    <Input type="text" />
+                    <Input type="text" id={"username"}/>
                 </FormControl>
                 <FormControl as="fieldset" padding={"1vh 0vw"} isRequired>
                     <FormLabel>{ t("Correo electrónico") }</FormLabel> {/* To be changed */}  
-                    <Input type="text" />
+                    <Input type="text" id={"email"}/>
                 </FormControl>
                 <FormControl as="fieldset" padding={"1vh 0vw"} isRequired>
                     <FormLabel> {t("session.password")}</FormLabel>
-                    <Input type="password" />
+                    <Input type="password" id={"password"}/>
                 </FormControl>
-                <Button type="submit" onClick={sendLogin}>Enviar</Button>
+                <Button type="submit" onClick={sendRegister}>Enviar</Button>
             </Stack>
         </Center>
     );
