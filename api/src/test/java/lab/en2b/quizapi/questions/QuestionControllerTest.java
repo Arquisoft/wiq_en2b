@@ -1,13 +1,11 @@
 package lab.en2b.quizapi.questions;
 
-import lab.en2b.quizapi.auth.AuthService;
 import lab.en2b.quizapi.auth.config.SecurityConfig;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.questions.question.QuestionController;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
