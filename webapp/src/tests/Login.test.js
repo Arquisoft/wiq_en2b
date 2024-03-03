@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor, act, getByLabelText, getByTestId } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from '../pages/Login';
@@ -19,15 +19,15 @@ describe('Login component', () => {
 
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
-    expect(getByText('Login')).toBeInTheDocument();
+    expect(getByTestId(document.body, 'Login')).toBeInTheDocument();
   });
 
   it('toggles password visibility', () => {
     const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
     const passwordInput = getByPlaceholderText('session.password');
-    const showPasswordButton = getByText('Show');
-  
+    const showPasswordButton = getByTestId(document.body, 'togglePasswordButton');
+
     fireEvent.click(showPasswordButton);
   
     expect(passwordInput.getAttribute('type')).toBe('text');
@@ -43,7 +43,7 @@ describe('Login component', () => {
     // Get form elements and submit button by their text and placeholder values
     const emailInput = getByPlaceholderText('session.email');
     const passwordInput = getByPlaceholderText('session.password');
-    const signUpButton = getByText('Login');
+    const signUpButton = getByTestId(document.body, 'Login');
     
     // Fill out the form with valid data and submit it
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });

@@ -59,11 +59,11 @@ export default function Login() {
                                 <InputLeftElement children={<ChakraFaLock color="gray.300" />}/>
                                 <Input type={showPassword ? "text" : "password"}  placeholder={t("session.password")}/>
                                 <InputRightElement>
-                                    <IconButton h="1.75rem" size="sm" onClick={changeShowP} aria-label='Shows or hides the password' icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
+                                    <IconButton h="1.75rem" size="sm" onClick={changeShowP} aria-label='Shows or hides the password' icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>} data-testid="togglePasswordButton"/>
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf variant={"solid"} colorScheme={"blue"} text="Login" onClick={sendLogin}/>
+                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={sendLogin}/>
                     </Stack>
                 </Box>
             </Stack>
