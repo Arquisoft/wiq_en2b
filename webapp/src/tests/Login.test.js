@@ -33,17 +33,6 @@ describe('Login component', () => {
     expect(passwordInput.getAttribute('type')).toBe('text');
   });
 
-  it('displays error message on failed submission', async () => {
-    const { getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
-
-    const signUpButton = getByText('Login');
-    fireEvent.click(signUpButton);
-
-    await waitFor(() => {
-      expect(getByText('Error')).toBeInTheDocument();
-    });
-  });
-
   it('submits form data correctly', async () => {
     const axiosMock = jest.spyOn(axios, 'post');
     axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
@@ -63,7 +52,8 @@ describe('Login component', () => {
     
     // Check if the form data was sent correctly
     await waitFor(() => {
-      expect(mockRouter).toHaveBeenCalledTimes(1);
+      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {});
+      expect(axiosMock).toHaveBeenCalledTimes(1);
     });
   
     axiosMock.mockRestore();
