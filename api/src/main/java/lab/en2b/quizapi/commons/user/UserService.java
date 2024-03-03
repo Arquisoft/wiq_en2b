@@ -2,6 +2,7 @@ package lab.en2b.quizapi.commons.user;
 
 import lab.en2b.quizapi.auth.config.UserDetailsImpl;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.commons.exceptions.InvalidAuthenticationException;
 import lab.en2b.quizapi.commons.user.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +24,10 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     @Value("${REFRESH_TOKEN_DURATION_MS}")
-    private Long REFRESH_TOKEN_DURATION_MS;
+    private long REFRESH_TOKEN_DURATION_MS;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow());
+        return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow(() -> new InvalidAuthenticationException("Invalid email or password provided!")));
     }
     public void createUser(RegisterDto registerRequest, Set<String> roleNames){
         if (userRepository.existsByEmail(registerRequest.getEmail()) || userRepository.existsByUsername(registerRequest.getUsername())) {

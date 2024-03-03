@@ -1,5 +1,5 @@
 {
-    "nav":{
+    "common":{
         "home": "Inicio",
         "api_docs": "Documentación de la API",
         "statistics": {
@@ -10,5 +10,13 @@
         "play": "Jugar",
         "login": "Iniciar sesión",
         "register": "Registrarse"
+    },
+    "session": {
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "email": "Correo electrónico"
+    },
+    "error": {
+        "login": "Ocurrió un ERROR en el login"
     }
 }
