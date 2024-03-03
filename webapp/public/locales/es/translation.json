@@ -9,7 +9,9 @@
         },
         "play": "Jugar",
         "login": "Iniciar sesión",
-        "register": "Registrarse"
+        "register": "Registrarse",
+        "submit": "Enviar",
+        "rules": "Reglas"
     },
     "session": {
         "username": "Nombre de usuario",

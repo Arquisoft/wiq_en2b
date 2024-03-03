@@ -10,7 +10,8 @@
         "play": "Play",
         "login": "Log in",
         "register": "Register",
-        "submit": "Submit"
+        "submit": "Submit",
+        "rules": "Rules"
     },
     "session": {
         "username": "Username",
