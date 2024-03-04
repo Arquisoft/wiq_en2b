@@ -25,7 +25,6 @@ public class QuestionService {
      */
     @PostConstruct
     public void initDummy(){
-        //
         Question q1 = new Question();
         q1.setContent("What's the capital of Spain?");
         q1.setType(QuestionType.TEXT);
@@ -47,6 +46,18 @@ public class QuestionService {
         List<Answer> answers = new ArrayList<>();
         Answer a1 = new Answer();
         a1.setText("Madrid");
+        a1.setCategory(AnswerCategory.CITY);
+
+        Answer a2 = new Answer();
+        a1.setText("London");
+        a1.setCategory(AnswerCategory.CITY);
+
+        Answer a3 = new Answer();
+        a1.setText("Berlin");
+        a1.setCategory(AnswerCategory.CITY);
+
+        Answer a4 = new Answer();
+        a1.setText("Rome");
         a1.setCategory(AnswerCategory.CITY);
 
     }
