@@ -14,7 +14,13 @@ export default function Login() {
     const [hasError, setHasError] = useState(false);
     const navigate = useNavigate();
     const { t } = useTranslation();
-  
+
+    const [showPassword, setShowPassword] = useState(false);
+    const changeShowP = () => setShowPassword(!showPassword);
+
+    const ChakraFaCardAlt = chakra(FaAddressCard);
+    const ChakraFaLock = chakra(FaLock);
+
     const sendLogin = async () => {
         let data = {};
         let response = await axios.post(process.env.API_URL, data);
