@@ -41,14 +41,12 @@ describe('Signup Component', () => {
     const emailInput = getByPlaceholderText('session.email');
     const usernameInput = getByPlaceholderText('session.username');
     const passwordInput = getByPlaceholderText('session.password');
-    const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
     const signUpButton = getByText('Sign Up');
     
     // Fill out the form with valid data and submit it
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
-    fireEvent.change(confirmPasswordInput, { target: { value: 'password' } });
     fireEvent.click(signUpButton);
     
     // Check if the form data was sent correctly
