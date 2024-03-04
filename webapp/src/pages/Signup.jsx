@@ -1,10 +1,12 @@
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
+import ButtonEf from '../components/ButtonEf';
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -104,7 +106,7 @@ export default function Signup() {
                                 />
                                 <InputRightElement width="4.5rem">
                                     <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
-                                        {showPassword ? "Hide" : "Show"}
+                                        {showPassword ? <ViewOffIcon/> : <ViewIcon/>}
                                     </Button>
                                 </InputRightElement>
                             </InputGroup>
@@ -120,7 +122,7 @@ export default function Signup() {
                                 />
                                 <InputRightElement width="4.5rem">
                                     <Button h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                        {showConfirmPassword ? "Hide" : "Show"}
+                                        {showConfirmPassword ? <ViewOffIcon/> : <ViewIcon/>}
                                     </Button>
                                 </InputRightElement>
                             </InputGroup>
@@ -128,9 +130,7 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <Button type="submit" variant="solid" colorScheme="blue" onClick={sendLogin}>
-                            Sign Up
-                        </Button>
+                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendLogin}/>
                     </Stack>
                 </Box>
             </Stack>
