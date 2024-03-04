@@ -1,9 +1,8 @@
 import { Center } from "@chakra-ui/layout";
-import { Text, Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
+import { Text, Flex, Heading, Button, Box } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import ButtonEf from '../components/ButtonEf';
 
 export default function Rules() {
     const navigate = useNavigate();
