@@ -21,7 +21,7 @@ export default function Rules() {
                 <br/>
                 <Text>To start playing you have to click on the Play button.</Text>
                 <Flex direction="row" justifyContent="center" alignItems="center">
-                    <Button type="submit" variant="solid" colorScheme="blue" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/dashboard")} w="100%">
+                    <Button data-testid={"GoBack"} type="submit" variant="solid" colorScheme="blue" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/dashboard")} w="100%">
                         {t("common.goBack")}
                     </Button>
                 </Flex>

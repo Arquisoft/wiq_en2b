@@ -1,14 +1,7 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act, getByLabelText, getByTestId } from '@testing-library/react';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import Login from '../pages/Login';
-import { MemoryRouter, createMemoryRouter } from 'react-router';
-import router from '../components/Router';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import Dashboard from '../pages/Dashboard';
-
-const mockAxios = new MockAdapter(axios);
-const mockRouter = createMemoryRouter(router);
 
 describe('Dashboard component', () => {
   it('renders dashboard elements correctly', async () => {

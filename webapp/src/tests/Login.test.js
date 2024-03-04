@@ -1,13 +1,11 @@
 import React from 'react';
-import { render, fireEvent, screen, waitFor, act, getByLabelText, getByTestId } from '@testing-library/react';
+import { render, fireEvent, waitFor, getByTestId } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from '../pages/Login';
-import { MemoryRouter, createMemoryRouter } from 'react-router';
-import router from '../components/Router';
+import { MemoryRouter } from 'react-router';
 
 const mockAxios = new MockAdapter(axios);
-const mockRouter = createMemoryRouter(router);
 
 describe('Login component', () => {
   beforeEach(() => {
@@ -15,7 +13,7 @@ describe('Login component', () => {
   });
 
   it('renders form elements correctly', async () => {
-    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
 
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
@@ -23,7 +21,7 @@ describe('Login component', () => {
   });
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
     const passwordInput = getByPlaceholderText('session.password');
     const showPasswordButton = getByTestId(document.body, 'togglePasswordButton');
@@ -38,7 +36,7 @@ describe('Login component', () => {
     axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
   
     // Render the Signup component
-    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
   
     // Get form elements and submit button by their text and placeholder values
     const emailInput = getByPlaceholderText('session.email');
