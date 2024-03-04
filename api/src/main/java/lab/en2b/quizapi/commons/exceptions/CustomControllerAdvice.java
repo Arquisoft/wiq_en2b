@@ -18,6 +18,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Log4j2
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(InvalidAuthenticationException.class)
+    public ResponseEntity<String> handleInvalidAuthenticationException(InvalidAuthenticationException exception){
+        log.error(exception.getMessage(),exception);
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException exception){
         log.error(exception.getMessage(),exception);
@@ -50,7 +55,7 @@ public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<String> handleInternalAuthenticationServiceException(InternalAuthenticationServiceException exception) {
         log.error(exception.getMessage(),exception);
-        return new ResponseEntity<>(exception.getMessage(),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception exception){
