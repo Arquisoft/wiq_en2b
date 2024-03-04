@@ -51,7 +51,11 @@ describe('Signup Component', () => {
     
     // Check if the form data was sent correctly
     await waitFor(() => {
-      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {});
+      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {
+        email: 'test@example.com',
+        username: 'testuser',
+        password: 'password'
+      });
       expect(axiosMock).toHaveBeenCalledTimes(1);
     });
   
