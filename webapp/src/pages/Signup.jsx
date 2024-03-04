@@ -23,11 +23,6 @@ export default function Signup() {
     const ChakraFaLock = chakra(FaLock);
 
     const sendLogin = async () => {
-        if (password !== confirmPassword) {
-            setHasError(true);
-            return;
-        }
-
         try {
             const response = await axios.post(process.env.API_URL, { email, username, password });
             if (response.status === HttpStatusCode.Accepted) {
