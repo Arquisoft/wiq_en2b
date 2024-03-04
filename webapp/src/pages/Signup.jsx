@@ -105,7 +105,7 @@ export default function Signup() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <InputRightElement width="4.5rem">
-                                    <Button h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
+                                    <Button data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
                                         {showPassword ? <ViewOffIcon/> : <ViewIcon/>}
                                     </Button>
                                 </InputRightElement>
@@ -121,7 +121,7 @@ export default function Signup() {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                                 <InputRightElement width="4.5rem">
-                                    <Button h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                    <Button data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                         {showConfirmPassword ? <ViewOffIcon/> : <ViewIcon/>}
                                     </Button>
                                 </InputRightElement>

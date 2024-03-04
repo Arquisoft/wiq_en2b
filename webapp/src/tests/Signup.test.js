@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, getByTestId, getAllByTestId } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter, createMemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
@@ -13,7 +13,7 @@ describe('Signup Component', () => {
     expect(getByPlaceholderText('session.username')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
     expect(getByPlaceholderText('session.confirm_password')).toBeInTheDocument();
-    expect(getByText('Sign Up')).toBeInTheDocument();
+    expect(getByTestId(document.body, 'Sign up')).toBeInTheDocument();
   });
 
   it('toggles password visibility', () => {
@@ -21,8 +21,8 @@ describe('Signup Component', () => {
   
     const passwordInput = getByPlaceholderText('session.password');
     const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
-    const showPasswordButtons = getAllByRole('button', { name: /Show/i });
-  
+    const showPasswordButtons = getAllByTestId(document.body, 'show-confirm-password-button');
+
     fireEvent.click(showPasswordButtons[0]);
     fireEvent.click(showPasswordButtons[1]);
   
@@ -41,7 +41,7 @@ describe('Signup Component', () => {
     const emailInput = getByPlaceholderText('session.email');
     const usernameInput = getByPlaceholderText('session.username');
     const passwordInput = getByPlaceholderText('session.password');
-    const signUpButton = getByText('Sign Up');
+    const signUpButton = getByTestId(document.body, 'Sign up');
     
     // Fill out the form with valid data and submit it
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
