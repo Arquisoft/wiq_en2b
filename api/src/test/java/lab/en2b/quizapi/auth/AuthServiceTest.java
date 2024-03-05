@@ -7,8 +7,6 @@ import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserRepository;
 import lab.en2b.quizapi.commons.user.UserService;
-import lab.en2b.quizapi.commons.user.role.Role;
-import lab.en2b.quizapi.commons.user.role.RoleRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,11 +18,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.swing.text.html.Option;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,21 +36,19 @@ public class AuthServiceTest {
     @Mock
     UserRepository userRepository;
     @Mock
-    RoleRepository roleRepository;
-    @Mock
     AuthenticationManager authenticationManager;
     @Mock
     JwtUtils jwtUtils;
     User defaultUser;
     @BeforeEach
     void setUp() {
-        this.userService = new UserService(userRepository,roleRepository);
+        this.userService = new UserService(userRepository);
         this.authService = new AuthService(authenticationManager,userService,jwtUtils);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")
                 .username("test")
-                .roles(Set.of(new Role("user")))
+                .role("user")
                 .password("password")
                 .refreshToken("token")
                 .refreshExpiration(Instant.ofEpochSecond(TimeUtil.computeStartOfNextSecond(System.currentTimeMillis()+ 1000)))
@@ -89,7 +83,6 @@ public class AuthServiceTest {
         when(userRepository.existsByEmail(any())).thenReturn(false);
         when(userRepository.existsByUsername(any())).thenReturn(false);
         when(userRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
-        when(roleRepository.findByName(any())).thenReturn(Optional.of(new Role("user")));
 
         ResponseEntity<?> actual = authService.register(new RegisterDto("test","username","password"));
 

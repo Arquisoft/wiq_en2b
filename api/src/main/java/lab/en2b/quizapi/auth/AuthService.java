@@ -52,7 +52,7 @@ public class AuthService {
      * @return a response containing a message
      */
     public ResponseEntity<?> register(RegisterDto registerRequest) {
-        userService.createUser(registerRequest,Set.of("user"));
+        userService.createUser(registerRequest,"user");
         return ResponseEntity.ok("User registered successfully!");
     }
 
