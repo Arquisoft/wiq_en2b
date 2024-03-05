@@ -1,7 +1,11 @@
 package lab.en2b.quizapi.questions;
 
+import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
+import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
+import lab.en2b.quizapi.questions.answer.dtos.AnswerResponseDto;
 import lab.en2b.quizapi.questions.question.*;
+import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,10 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -33,23 +37,40 @@ public class QuestionServiceTest {
     Question defaultQuestion;
     QuestionResponseDto defaultResponseDto;
 
+    Answer defaultCorrectAnswer;
+
     @BeforeEach
     void setUp() {
         this.questionService = new QuestionService(questionRepository,new QuestionResponseDtoMapper());
+
+
         defaultQuestion = Question.builder()
                 .id(1L)
                 .content("What is the capital of France?")
                 .answers(new ArrayList<>())
-                .correctAnswer(null)
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .answerCategory(AnswerCategory.CITY)
                 .type(QuestionType.TEXT)
                 .build();
+        defaultCorrectAnswer = Answer.builder()
+                .id(1L)
+                .text("Paris")
+                .category(AnswerCategory.CITY)
+                .questions(List.of(defaultQuestion))
+                .questionsWithThisAnswer(List.of(defaultQuestion))
+                .build();
+        defaultQuestion.setCorrectAnswer(defaultCorrectAnswer);
+        defaultQuestion.getAnswers().add(defaultCorrectAnswer);
+
         defaultResponseDto = QuestionResponseDto.builder()
                 .id(1L)
                 .content("What is the capital of France?")
-                .answers(new ArrayList<>())
+                .answers(List.of(AnswerResponseDto.builder()
+                                .id(1L)
+                                .category(AnswerCategory.CITY)
+                                .text("Paris")
+                        .build()))
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .answerCategory(AnswerCategory.CITY)
@@ -77,6 +98,13 @@ public class QuestionServiceTest {
     void testGetQuestionByIdNotFound(){
         when(questionRepository.findById(any())).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class,() -> questionService.getQuestionById(1L));
+    }
+
+    @Test
+    void testAnswerQuestionCorrectAnswer(){
+        when(questionRepository.findById(1L)).thenReturn(Optional.of(defaultQuestion));
+        AnswerCheckResponseDto response = questionService.answerQuestion(1L, AnswerDto.builder().answerId(1L).build());
+        assertEquals(response, new AnswerCheckResponseDto(true));
     }
 
 }
