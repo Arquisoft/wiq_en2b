@@ -35,15 +35,17 @@ describe("Auth Utils tests", () => {
 
             //Check the user is now logged in
             expect(isUserLogged()).toBe(true);
-            expect(localStorage.getItem("jwtToken")).toBe("token");
-            expect(localStorage.getItem("jwtRefreshToken")).toBe("refreshToken");
+            expect(localStorage.getItem("authData").jwtToken).toBe("token");
+            expect(localStorage.getItem("authData").jwtRefreshToken).toBe("refreshToken");
         });
     });
 
     describe("when the user is authenticated", () => {
 
         beforeAll(() => {
-            localStorage.setItem("jwtToken", "token");
+            localStorage.setItem("authData", {
+                "token": "testToken"
+            });
         })
 
         it("has a stored token", () => {

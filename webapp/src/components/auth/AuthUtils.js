@@ -1,14 +1,16 @@
 import axios, { HttpStatusCode } from "axios";
 
 export function isUserLogged() {
-    console.log(localStorage.getItem("jwtToken"))
-    return localStorage.getItem("jwtToken") !== null;
+    return localStorage.getItem("authData") !== null;
 }
 
 export function saveToken(requestAnswer) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
-    localStorage.setItem("jwtToken", requestAnswer.data.token);
-    localStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_Token)
+    localStorage.setItem("authData", {
+        "jwtToken": requestAnswer.data.token,
+        "refreshToken": requestAnswer.data.refresh_Token,
+        "receivedOnUTC": Date.now()
+    });
 }
 
 export async function login(loginData, onSuccess, onError) {
