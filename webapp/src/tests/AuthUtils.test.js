@@ -1,6 +1,6 @@
 import MockAdapter from "axios-mock-adapter";
 import axios, { HttpStatusCode } from "axios";
-import { isUserLogged, login} from "components/auth/AuthUtils";
+import {isUserLogged, login, saveToken} from "components/auth/AuthUtils";
 
 const mockAxios = new MockAdapter(axios);
 
@@ -15,7 +15,7 @@ describe("Auth Utils tests", () => {
             expect(isUserLogged()).not.toBe(true);
         });
 
-        it("when logging in it is possible to do it", async () => {
+        it("can log in", async () => {
 
             // Mock axios and the onSuccess and onError functions
             mockAxios.onPost().replyOnce(HttpStatusCode.Ok, {
@@ -35,8 +35,6 @@ describe("Auth Utils tests", () => {
 
             //Check the user is now logged in
             expect(isUserLogged()).toBe(true);
-            expect(sessionStorage.getItem("jwtToken")).toBe("token");
-            expect(sessionStorage.getItem("jwtRefreshToken")).toBe("refreshToken");
         });
     });
 
@@ -50,6 +48,24 @@ describe("Auth Utils tests", () => {
 
         it("has a stored token", () => {
             expect(isUserLogged()).toBe(true);
+        });
+    });
+
+    describe("saving the token", () => {
+        beforeAll(() => {
+            sessionStorage.clear();
+        });
+
+        it ("is saved", () => {
+            let mockResponse = {
+                "data": {
+                    "token": "token",
+                    "refresh_Token": "refreshToken"
+                }
+            };
+            saveToken(mockResponse);
+            expect(sessionStorage.getItem("jwtToken")).toBe(mockResponse.data.token);
+            expect(sessionStorage.getItem("jwtRefreshToken")).toBe(mockResponse.data.refresh_Token);
         });
     });
 });
