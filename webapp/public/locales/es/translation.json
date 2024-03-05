@@ -9,12 +9,18 @@
         },
         "play": "Jugar",
         "login": "Iniciar sesión",
-        "register": "Registrarse"
+        "logout": "Salir",
+        "register": "Registrarse",
+        "submit": "Enviar",
+        "rules": "Reglas",
+        "dashboard": "Panel de Usuario",
+        "goBack": "Volver"
     },
     "session": {
         "username": "Nombre de usuario",
         "password": "Contraseña",
-        "email": "Correo electrónico"
+        "email": "Correo electrónico",
+        "confirm_password": "Confirmar contraseña"
     },
     "error": {
         "login": "Ocurrió un ERROR en el login"
