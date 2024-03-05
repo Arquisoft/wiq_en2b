@@ -1,6 +1,6 @@
 import MockAdapter from "axios-mock-adapter";
 import axios, { HttpStatusCode } from "axios";
-import { isUserLogged, login } from "components/auth/AuthUtils";
+import { isUserLogged, login} from "components/auth/AuthUtils";
 
 const mockAxios = new MockAdapter(axios);
 
@@ -35,15 +35,15 @@ describe("Auth Utils tests", () => {
 
             //Check the user is now logged in
             expect(isUserLogged()).toBe(true);
-            expect(localStorage.getItem("authData").jwtToken).toBe("token");
-            expect(localStorage.getItem("authData").jwtRefreshToken).toBe("refreshToken");
+            expect(sessionStorage.getItem("jwtToken")).toBe("token");
+            expect(sessionStorage.getItem("jwtRefreshToken")).toBe("refreshToken");
         });
     });
 
     describe("when the user is authenticated", () => {
 
         beforeAll(() => {
-            localStorage.setItem("authData", {
+            sessionStorage.setItem("authData", {
                 "token": "testToken"
             });
         })

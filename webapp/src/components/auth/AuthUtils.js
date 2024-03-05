@@ -1,16 +1,22 @@
 import axios, { HttpStatusCode } from "axios";
 
 export function isUserLogged() {
-    return localStorage.getItem("authData") !== null;
+    return getLoginData().jwtToken !== null;
 }
 
 export function saveToken(requestAnswer) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
-    localStorage.setItem("authData", {
-        "jwtToken": requestAnswer.data.token,
-        "refreshToken": requestAnswer.data.refresh_Token,
-        "receivedOnUTC": Date.now()
-    });
+    sessionStorage.setItem("jwtToken", requestAnswer.data.token);
+    sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_Token);
+    sessionStorage.setItem("jwtReceptionMillis", Date.now().toString());
+}
+
+export function getLoginData() {
+    return {
+        "jwtToken": sessionStorage.getItem("jwtToken"),
+        "jwtRefreshToken": sessionStorage.getItem("jwtRefreshToken"),
+        "jwtReceptionDate": new Date(sessionStorage.getItem("jwtReceptionMillis"))
+    };
 }
 
 export async function login(loginData, onSuccess, onError) {
