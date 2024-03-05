@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor, getByTestId, getAllByTestId } from '@testing-library/react';
 import axios from 'axios';
-import { MemoryRouter, createMemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
 
 describe('Signup Component', () => {
@@ -17,7 +17,7 @@ describe('Signup Component', () => {
   });
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText, getAllByRole } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
   
     const passwordInput = getByPlaceholderText('session.password');
     const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
@@ -35,7 +35,7 @@ describe('Signup Component', () => {
     axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
   
     // Render the Signup component
-    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
   
     // Get form elements and submit button by their text and placeholder values
     const emailInput = getByPlaceholderText('session.email');
