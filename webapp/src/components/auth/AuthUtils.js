@@ -1,7 +1,8 @@
 import axios, { HttpStatusCode } from "axios";
 
 export function isUserLogged() {
-    return localStorage.getItem("jwtToken") != undefined;
+    console.log(localStorage.getItem("jwtToken"))
+    return localStorage.getItem("jwtToken") !== null;
 }
 
 export function saveToken(requestAnswer) {
@@ -11,12 +12,16 @@ export function saveToken(requestAnswer) {
 }
 
 export async function login(loginData, onSuccess, onError) {
-    let requestAnswer =  await axios.post(process.env.REACT_APP_API_ENDPOINT
-        + process.env.REACT_APP_LOGIN_ENDPOINT, loginData);
-    if (HttpStatusCode.Ok === requestAnswer.status) {
-        saveToken(requestAnswer);
-        onSuccess();
-    } else {
+    try {
+        let requestAnswer =  await axios.post(process.env.REACT_APP_API_ENDPOINT
+            + process.env.REACT_APP_LOGIN_ENDPOINT, loginData);
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            saveToken(requestAnswer);
+            onSuccess();
+        } else {
+            onError();
+        }
+    } catch {
         onError();
     }
 }
