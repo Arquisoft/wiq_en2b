@@ -1,10 +1,20 @@
 import React from 'react';
 import { Button } from "@chakra-ui/react";
+import PropTypes from 'prop-types';
 import '../styles/AppView.css';
 
-const ButtonEf = ({ text, onClick }) => {
+const ButtonEf = ({ dataTestId, variant, colorScheme, text, onClick }) => {
     return (
-      <Button type="submit" variant="solid" colorScheme="blue" margin={"10px"} className={"custom-button effect1"} onClick={onClick}>{text}</Button>
+      <Button type="submit" data-testid={dataTestId} variant={variant} colorScheme={colorScheme} margin={"10px"} className={"custom-button effect1"} onClick={onClick}>{text}</Button>
     );
 };
+
+ButtonEf.propTypes = {
+  dataTestId: PropTypes.string.isRequired,
+  variant: PropTypes.string.isRequired,
+  colorScheme: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
 export default ButtonEf;

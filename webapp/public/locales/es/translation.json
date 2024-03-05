@@ -14,6 +14,10 @@
     "session": {
         "username": "Nombre de usuario",
         "password": "Contraseña",
-        "email": "Correo electrónico"
+        "email": "Correo electrónico",
+        "confirm_password": "Confirmar contraseña"
+    },
+    "error": {
+        "login": "Ocurrió un ERROR en el login"
     }
 }
