@@ -52,4 +52,13 @@ public class QuestionControllerTest {
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    void newQuestionShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions/new")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
 }
