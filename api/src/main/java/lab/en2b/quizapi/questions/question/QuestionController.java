@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.questions.question;
 
+import jakarta.validation.Valid;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -22,7 +23,7 @@ public class QuestionController {
     }
 
     @PostMapping("/{questionId}/answer")
-    private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@PathVariable Long questionId, @RequestBody AnswerDto answerDto){
+    private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@PathVariable Long questionId, @Valid @RequestBody AnswerDto answerDto){
         return ResponseEntity.ok(questionService.answerQuestion(questionId,answerDto));
     }
 
