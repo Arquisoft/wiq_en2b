@@ -19,7 +19,8 @@
     "session": {
         "username": "Username",
         "password": "Password",
-        "email": "Email"
+        "email": "Email",
+        "confirm_password": "Confirm password"
     },
     "error": {
         "login": "An ERROR occurred during login"

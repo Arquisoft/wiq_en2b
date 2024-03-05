@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgresql:
+  WIQ_DB:
     container_name: postgresql-${teamname:-defaultASW}
     environment:
       POSTGRES_USER: ${DATABASE_USER}
