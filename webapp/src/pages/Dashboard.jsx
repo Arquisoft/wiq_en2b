@@ -15,9 +15,9 @@ export default function Dashboard() {
     
           <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content">
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-              <ButtonEf dataTestId={"Rules"} variant={"outline"} colorScheme={"blue"} text={t("common.rules")} onClick={() => navigate("/rules")}/>
-              <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"blue"} text={t("common.play")} onClick={() => navigate("/game")}/>
-              <Button isDisabled data-testid={"Statistics"} type="submit" colorScheme={"blue"} margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/statistics")}>
+              <ButtonEf dataTestId={"Rules"} variant={"outline"} colorScheme={"blue"} text={t("common.rules")} onClick={() => navigate("/dashboard/rules")}/>
+              <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"blue"} text={t("common.play")} onClick={() => navigate("/dashboard/game")}/>
+              <Button isDisabled data-testid={"Statistics"} type="submit" colorScheme={"blue"} margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/dashboard/statistics")}>
                 {t("common.statistics.title")}
               </Button>
             </Grid>

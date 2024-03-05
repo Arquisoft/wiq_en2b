@@ -11,6 +11,6 @@ export default createRoutesFromElements(
       <Route index element={<Root />} />
       <Route path="/login" element={<Login />}/>
       <Route path="/dashboard" element={<Dashboard />}/>
-      <Route path="/rules" element={<Rules />}/>
+      <Route path="/dashboard/rules" element={<Rules />}/>
     </Route>
   )
