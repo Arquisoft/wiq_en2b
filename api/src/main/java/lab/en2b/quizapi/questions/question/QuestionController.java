@@ -30,7 +30,7 @@ public class QuestionController {
 
     @GetMapping("/new")
     private ResponseEntity<QuestionResponseDto> generateQuestion(){
-        return ResponseEntity.ok(questionService.getQuestion());
+        return ResponseEntity.ok(questionService.getRandomQuestion());
     }
 
     @GetMapping("/{id}")
