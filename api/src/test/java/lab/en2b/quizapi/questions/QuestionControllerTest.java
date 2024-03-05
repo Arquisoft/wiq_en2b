@@ -44,4 +44,12 @@ public class QuestionControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void newQuestionShouldReturn403() throws Exception{
+        mockMvc.perform(get("/questions/new")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
 }
