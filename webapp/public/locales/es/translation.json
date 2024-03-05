@@ -9,7 +9,12 @@
         },
         "play": "Jugar",
         "login": "Iniciar sesión",
-        "register": "Registrarse"
+        "logout": "Salir",
+        "register": "Registrarse",
+        "submit": "Enviar",
+        "rules": "Reglas",
+        "dashboard": "Panel de Usuario",
+        "goBack": "Volver"
     },
     "session": {
         "username": "Nombre de usuario",

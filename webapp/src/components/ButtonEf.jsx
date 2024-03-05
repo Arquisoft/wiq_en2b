@@ -5,7 +5,17 @@ import '../styles/AppView.css';
 
 const ButtonEf = ({ dataTestId, variant, colorScheme, text, onClick }) => {
     return (
-      <Button type="submit" data-testid={dataTestId} variant={variant} colorScheme={colorScheme} margin={"10px"} className={"custom-button effect1"} onClick={onClick}>{text}</Button>
+      <Button 
+        type="submit" 
+        data-testid={dataTestId} 
+        variant={variant} 
+        colorScheme={colorScheme} 
+        margin={"10px"} 
+        className={"custom-button effect1"} 
+        onClick={onClick}
+      >
+        {text}
+      </Button>
     );
 };
 
