@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -100,5 +101,18 @@ public class AuthServiceTest {
 
         assertEquals(ResponseEntity.of(Optional.of(new RefreshTokenResponseDto("jwtToken","token"))),actual);
 
+    }
+
+    @Test
+    void testLogout(){
+            Authentication authentication = mock(Authentication.class);
+            when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
+            when(userRepository.findById(any())).thenReturn(Optional.of(defaultUser));
+
+            ResponseEntity<?> actual = authService.logOut(authentication);
+
+            assertEquals(ResponseEntity.noContent().build(),actual);
+            assertNull(defaultUser.getRefreshToken());
+            assertNull(defaultUser.getRefreshExpiration());
     }
 }
