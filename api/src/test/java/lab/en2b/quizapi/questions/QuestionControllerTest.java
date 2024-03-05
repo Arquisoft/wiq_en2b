@@ -94,7 +94,7 @@ public class QuestionControllerTest {
     @Test
     void answerQuestionShouldReturn200() throws Exception{
         mockMvc.perform(post("/questions/1/answer")
-                        .content(asJsonString(new AnswerDto()))
+                        .content(asJsonString(new AnswerDto(1L)))
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
