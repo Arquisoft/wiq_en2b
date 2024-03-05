@@ -14,7 +14,8 @@
         "submit": "Enviar",
         "rules": "Reglas",
         "dashboard": "Panel de Usuario",
-        "goBack": "Volver"
+        "goBack": "Volver",
+        "finish": "Finalizar"
     },
     "session": {
         "username": "Nombre de usuario",

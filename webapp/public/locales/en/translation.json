@@ -14,7 +14,8 @@
         "submit": "Submit",
         "rules": "Rules",
         "dashboard": "User's Dashboard",
-        "goBack": "Go Back"
+        "goBack": "Go Back",
+        "finish": "Finish"
     },
     "session": {
         "username": "Username",
