@@ -65,4 +65,10 @@ public class AuthService {
                 "Refresh token is not in database!"));
         return ResponseEntity.ok(new RefreshTokenResponseDto(jwtUtils.generateTokenFromEmail(user.getEmail()), user.obtainRefreshIfValid()));
     }
+
+    public ResponseEntity<?> logOut(Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        userService.deleteRefreshToken(userDetails.getId());
+        return ResponseEntity.noContent().build();
+    }
 }
