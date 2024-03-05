@@ -17,11 +17,13 @@ describe("Auth Utils tests", () => {
 
         it("when logging in it is possible to do it", async () => {
 
-            // Mock response
+            // Mock axios and the onSuccess and onError functions
             mockAxios.onPost().replyOnce(HttpStatusCode.Ok, {
                 "token": "token",
                 "refresh_Token": "refreshToken"
             });
+            const mockOnSucess = jest.fn();
+            const mockOnError = jest.fn();
 
             // Test
             const loginData = {
@@ -29,7 +31,7 @@ describe("Auth Utils tests", () => {
                 "password": "test"
             };
 
-            await login(loginData);
+            await login(loginData, mockOnSucess, mockOnError);
 
             //Check the user is now logged in
             expect(isUserLogged()).toBe(true);
