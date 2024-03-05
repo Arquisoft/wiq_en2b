@@ -8,6 +8,7 @@ describe("Auth Utils tests", () => {
     describe("when the user is not authenticated", () => {
 
         beforeEach(() => {
+            sessionStorage.clear();
             mockAxios.reset();
         });
 
@@ -41,9 +42,11 @@ describe("Auth Utils tests", () => {
     describe("when the user is authenticated", () => {
 
         beforeAll(() => {
-            sessionStorage.setItem("authData", {
-                "token": "testToken"
-            });
+            sessionStorage.setItem("jwtToken", "token");
+        })
+
+        afterEach(() => {
+            sessionStorage.clear();
         })
 
         it("has a stored token", () => {
@@ -52,7 +55,7 @@ describe("Auth Utils tests", () => {
     });
 
     describe("saving the token", () => {
-        beforeAll(() => {
+        beforeEach(() => {
             sessionStorage.clear();
         });
 
