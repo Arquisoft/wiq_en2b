@@ -1,5 +1,5 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText } from "@chakra-ui/react";
+import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText, IconButton } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
@@ -104,10 +104,8 @@ export default function Signup() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                                <InputRightElement width="4.5rem">
-                                    <Button data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)}>
-                                        {showPassword ? <ViewOffIcon/> : <ViewIcon/>}
-                                    </Button>
+                                <InputRightElement>
+                                    <IconButton aria-label='Shows or hides the password' data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)} icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
@@ -120,10 +118,8 @@ export default function Signup() {
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
-                                <InputRightElement width="4.5rem">
-                                    <Button data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                        {showConfirmPassword ? <ViewOffIcon/> : <ViewIcon/>}
-                                    </Button>
+                                <InputRightElement>
+                                    <IconButton aria-label='Shows or hides the password' data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)} icon={showConfirmPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
                                 </InputRightElement>
                             </InputGroup>
                             {confirmPassword && password && confirmPassword !== password && (
