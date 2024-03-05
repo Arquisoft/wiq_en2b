@@ -26,6 +26,9 @@
         "clickHere": "Pulsa aquí"
     },
     "error": {
-        "login": "Ocurrió un ERROR en el login"
+        "login": "Nombre de usuario o contraseña incorrectos",
+        "register": "Debes introducir datos válidos para registrarte",
+        "login-desc":  "Por favor, introduce tus datos para iniciar sesión",
+        "register-desc": "Por favor, introduce tus datos para registrarte"
     }
 }

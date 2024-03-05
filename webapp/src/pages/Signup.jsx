@@ -1,5 +1,5 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText, IconButton } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
@@ -25,8 +25,12 @@ export default function Signup() {
     const ChakraFaLock = chakra(FaLock);
 
     const sendLogin = async () => {
+        if (!email || !password || !username || !confirmPassword) {
+            setHasError(true);
+            return;
+        }
         try {
-            const response = await axios.post(process.env.API_URL, { email, username, password });
+            const response = await axios.post(process.env.API_URL, { email, username, password, confirmPassword });
             if (response.status === HttpStatusCode.Accepted) {
                 navigate("/home");
             }
@@ -35,42 +39,42 @@ export default function Signup() {
         }
     };
 
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        setHasError(false); 
+    }
+
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
+        setHasError(false); 
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setHasError(false); 
+    }
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+        setHasError(false); 
+    }
+
     return (
         <Center
-            display={"flex"}
-            flexDirection={"column"}
-            w={"100wh"}
-            h={"100vh"}
-            bg={"blue.50"}
-            justifyContent={"center"}
-            alignItems={"center"}
-        >
-            {hasError && (
-                <div className="error-container">
-                    <Text>Error</Text>
-                </div>
-            )}
+            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">
                     {t("common.register")}
                 </Heading>
-                {!hasError ? (
-                    <></>
-                ) : (
-                    <Center
-                        bgColor={"#FFA98A"}
-                        margin={"1vh 0vw"}
-                        padding={"1vh 0vw"}
-                        color={"#FF0500"}
-                        border={"0.1875em solid #FF0500"}
-                        borderRadius={"0.75em"}
-                        maxW={"100%"}
-                        minW={"30%"}
-                    >
-                        <Text>Error</Text>
-                    </Center>
-                )}
+                {
+                    hasError && 
+                    <Alert status='error'rounded="1rem" margin={"1vh 0vw"}>
+                        <AlertIcon />
+                        <AlertTitle>{t("error.register")}</AlertTitle>
+                        <AlertDescription>{t("error.register-desc")}</AlertDescription>
+                    </Alert>
+                }
                 <Box minW={{ md: "400px" }} shadow="2xl">
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                         <FormControl>
@@ -82,7 +86,7 @@ export default function Signup() {
                                     type="text"
                                     placeholder={t("session.email")}
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={handleEmailChange}
                                 />
                             </InputGroup>
                         </FormControl>
@@ -95,7 +99,7 @@ export default function Signup() {
                                     type="text"
                                     placeholder={t("session.username")}
                                     value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    onChange={handleUsernameChange}
                                 />
                             </InputGroup>
                         </FormControl>
@@ -108,7 +112,7 @@ export default function Signup() {
                                     type={showPassword ? "text" : "password"}
                                     placeholder={t("session.password")}
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                 />
                                 <InputRightElement>
                                     <IconButton aria-label='Shows or hides the password' data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)} icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
@@ -124,7 +128,7 @@ export default function Signup() {
                                     type={showConfirmPassword ? "text" : "password"}
                                     placeholder={t("session.confirm_password")}
                                     value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    onChange={handleConfirmPasswordChange}
                                 />
                                 <InputRightElement>
                                     <IconButton aria-label='Shows or hides the password' data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)} icon={showConfirmPassword ? <ViewOffIcon/> : <ViewIcon/>}/>

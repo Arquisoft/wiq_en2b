@@ -41,12 +41,14 @@ describe('Signup Component', () => {
     const emailInput = getByPlaceholderText('session.email');
     const usernameInput = getByPlaceholderText('session.username');
     const passwordInput = getByPlaceholderText('session.password');
+    const confirmPassword = getByPlaceholderText('session.confirm_password');
     const signUpButton = getByTestId(document.body, 'Sign up');
     
     // Fill out the form with valid data and submit it
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.change(confirmPassword, { target: { value: 'password' } });
     fireEvent.click(signUpButton);
     
     // Check if the form data was sent correctly
@@ -54,7 +56,8 @@ describe('Signup Component', () => {
       expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {
         email: 'test@example.com',
         username: 'testuser',
-        password: 'password'
+        password: 'password',
+        confirmPassword: 'password'
       });
       expect(axiosMock).toHaveBeenCalledTimes(1);
     });
