@@ -82,6 +82,14 @@ public class QuestionControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk());
     }
+    @Test
+    void questionNegativeIdShouldReturn400() throws Exception{
+        mockMvc.perform(get("/questions/-1")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
     void answerQuestionShouldReturn403() throws Exception{
@@ -105,6 +113,31 @@ public class QuestionControllerTest {
     void answerQuestionEmptyDtoShouldReturn400() throws Exception{
         mockMvc.perform(post("/questions/1/answer")
                         .content(asJsonString(new AnswerDto()))
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void answerQuestionEmptyBodyShouldReturn400() throws Exception{
+        mockMvc.perform(post("/questions/1/answer")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void answerQuestionNegativeQuestionIdShouldReturn400() throws Exception{
+        mockMvc.perform(post("/questions/1/answer")
+                        .with(user("test").roles("user"))
+                        .content(asJsonString(new AnswerDto(-1L)))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void answerQuestionNegativeIdShouldReturn400() throws Exception{
+        mockMvc.perform(post("/questions/-1/answer")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
