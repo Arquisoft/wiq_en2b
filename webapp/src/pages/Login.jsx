@@ -40,23 +40,34 @@ export default function Login() {
                 { 
                     !hasError ? 
                     <></> : 
-                    <Center bgColor={"#FFA98A"} margin={"1vh 0vw"} padding={"1vh 0vw"} 
-                        color={"#FF0500"} border={"0.1875em solid #FF0500"}
-                        borderRadius={"0.75em"} maxW={"100%"} minW={"30%"}>
-                            <Text>{t("error.login")}</Text>
+                    <Center 
+                        bgColor={"#FFA98A"} 
+                        margin={"1vh 0vw"} 
+                        padding={"1vh 0vw"} 
+                        color={"#FF0500"} 
+                        border={"0.1875em solid #FF0500"}
+                        borderRadius={"0.75em"} 
+                        maxW={"100%"} 
+                        minW={"30%"}
+                    >
+                        <Text>{t("error.login")}</Text>
                     </Center> 
                 }
-                <Box minW={{md: "400px"}}>
-                    <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
+                <Box minW={{md: "400px"}} shadow="2xl">
+                    <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />}/>
+                                <InputLeftElement>
+                                    <ChakraFaCardAlt color="gray.300"/>
+                                </InputLeftElement>
                                 <Input type="text" placeholder={t("session.email")} />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaLock color="gray.300" />}/>
+                                <InputLeftElement>
+                                    <ChakraFaLock color="gray.300"/>
+                                </InputLeftElement>
                                 <Input type={showPassword ? "text" : "password"}  placeholder={t("session.password")}/>
                                 <InputRightElement>
                                     <IconButton h="1.75rem" size="sm" onClick={changeShowP} aria-label='Shows or hides the password' icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>} data-testid="togglePasswordButton"/>

@@ -22,7 +22,8 @@
         "email": "Email",
         "confirm_password": "Confirm password",
         "welcome": "Welcome to the WIQ-EN2B page",
-        "account": "Don't have an account?"
+        "account": "Don't have an account?",
+        "clickHere": "Click here"
     },
     "error": {
         "login": "An ERROR occurred during login"

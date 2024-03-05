@@ -12,7 +12,7 @@ export default function Rules() {
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center">
             <Heading as="h2" color="blue.400">{t("common.rules")}</Heading>
     
-            <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w={{ base: "90%", md: "70%", lg: "50%" }} textAlign={"justify"}>
+            <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w={{ base: "90%", md: "70%", lg: "50%" }} textAlign={"justify"} shadow="2xl" rounded="1rem">
                 <Text>The <strong>WIQ</strong> game consists of quick games of 9 rounds. In each round there is one question and two possible answers. The key to earning points lies in choosing the correct answer.</Text>
                 <br/>
                 <Text>There is only one correct answer.</Text>

@@ -1,5 +1,5 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText, IconButton } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText, IconButton } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
@@ -71,11 +71,13 @@ export default function Signup() {
                         <Text>Error</Text>
                     </Center>
                 )}
-                <Box minW={{ md: "400px" }}>
-                    <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
+                <Box minW={{ md: "400px" }} shadow="2xl">
+                    <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />} />
+                                <InputLeftElement>
+                                    <ChakraFaCardAlt color="gray.300"/>
+                                </InputLeftElement>
                                 <Input
                                     type="text"
                                     placeholder={t("session.email")}
@@ -86,7 +88,9 @@ export default function Signup() {
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaUserAlt color="gray.300" />} />
+                                <InputLeftElement>
+                                    <ChakraFaUserAlt color="gray.300"/>
+                                </InputLeftElement>
                                 <Input
                                     type="text"
                                     placeholder={t("session.username")}
@@ -97,7 +101,9 @@ export default function Signup() {
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
+                                <InputLeftElement>
+                                    <ChakraFaLock color="gray.300"/>
+                                </InputLeftElement>
                                 <Input
                                     type={showPassword ? "text" : "password"}
                                     placeholder={t("session.password")}
@@ -111,7 +117,9 @@ export default function Signup() {
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
+                                <InputLeftElement>
+                                    <ChakraFaLock color="gray.300"/>
+                                </InputLeftElement>
                                 <Input
                                     type={showConfirmPassword ? "text" : "password"}
                                     placeholder={t("session.confirm_password")}
