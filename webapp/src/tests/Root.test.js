@@ -25,12 +25,12 @@ describe('Root component', () => {
   it('navigates to /login when Log In button is clicked', () => {
     const { container } = render(<MemoryRouter><Root /></MemoryRouter>);
     fireEvent.click(getByTestId(document.body, 'Login'));
-    expect(container.innerHTML).toMatch('<div class=\"css-xmmg5m\"><h1 class=\"chakra-heading css-p03q1r\">WIQ-EN2B</h1><p>session.welcome</p><div class=\"chakra-stack css-gjlptk\"><button type=\"submit\" class=\"chakra-button custom-button effect1 css-1vdwnhw\" data-testid=\"Login\">common.login</button><p style=\"cursor: pointer;\">session.account</p></div></div>');
+    expect(container.innerHTML).toMatch('<div class=\"css-xmmg5m\"><h1 class=\"chakra-heading css-p03q1r\">WIQ-EN2B</h1><p>session.welcome</p><div class=\"chakra-stack css-gjlptk\"><button type=\"submit\" class=\"chakra-button custom-button effect1 css-1vdwnhw\" data-testid=\"Login\">common.login</button><p>session.account <span class=\"chakra-link css-p03q1r\">session.clickHere</span></p></div></div>');
   });
 
   it('navigates to /signup when "You don\'t have an account?" message is clicked', () => {
     const { container } = render(<MemoryRouter><Root /></MemoryRouter>);
     fireEvent.click(screen.getByText('session.account'));
-    expect(container.innerHTML).toMatch('<div class=\"css-xmmg5m\"><h1 class=\"chakra-heading css-p03q1r\">WIQ-EN2B</h1><p>session.welcome</p><div class=\"chakra-stack css-gjlptk\"><button type=\"submit\" class=\"chakra-button custom-button effect1 css-1vdwnhw\" data-testid=\"Login\">common.login</button><p style=\"cursor: pointer;\">session.account</p></div></div>');
+    expect(container.innerHTML).toMatch('<div class=\"css-xmmg5m\"><h1 class=\"chakra-heading css-p03q1r\">WIQ-EN2B</h1><p>session.welcome</p><div class=\"chakra-stack css-gjlptk\"><button type=\"submit\" class=\"chakra-button custom-button effect1 css-1vdwnhw\" data-testid=\"Login\">common.login</button><p>session.account <span class=\"chakra-link css-p03q1r\">session.clickHere</span></p></div></div>');
   });
 });
