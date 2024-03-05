@@ -2,7 +2,6 @@ package lab.en2b.quizapi.auth.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lab.en2b.quizapi.commons.user.User;
-import lab.en2b.quizapi.commons.user.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,9 +25,7 @@ public class UserDetailsImpl implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for(Role role : user.getRoles()){
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
         return new UserDetailsImpl(user.getId(),user.getUsername() , user.getEmail(), user.getPassword(), authorities);
     }
     @Override
