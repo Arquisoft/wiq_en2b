@@ -1,5 +1,8 @@
 package lab.en2b.quizapi.questions.question;
 
+import jakarta.annotation.PostConstruct;
+import lab.en2b.quizapi.questions.answer.Answer;
+import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -7,6 +10,7 @@ import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +19,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
+
     public List<QuestionResponseDto> getQuestions() {
         return questionRepository.findAll().stream().map(questionResponseDtoMapper).toList();
     }
