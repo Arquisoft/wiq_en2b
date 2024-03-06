@@ -1,9 +1,11 @@
 package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.config.SecurityConfig;
+import lab.en2b.quizapi.auth.dtos.JwtResponseDto;
 import lab.en2b.quizapi.auth.dtos.LoginDto;
 import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.auth.dtos.RefreshTokenResponseDto;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
 import org.junit.jupiter.api.Test;
@@ -35,9 +37,9 @@ public class AuthControllerTest {
     JwtUtils jwtUtils;
     @MockBean
     UserService userService;
+    RefreshTokenResponseDto defaultRefreshTokenResponseDto = RefreshTokenResponseDto.builder().build();
     @Test
-    void registerUserShouldReturn200() throws Exception {
-        when(authService.register(any())).thenReturn(ResponseEntity.ok().build());
+    void registerUserShouldReturn200() throws Exception {;
         testRegister(asJsonString( new RegisterDto("test@email.com","test","testing"))
                 ,status().isOk());
     }
@@ -71,7 +73,7 @@ public class AuthControllerTest {
 
     @Test
     void loginUserShouldReturn200() throws Exception {
-        when(authService.login(any())).thenReturn(ResponseEntity.ok().build());
+        when(authService.login(any())).thenReturn(JwtResponseDto.builder().build());
         testLogin(asJsonString( new LoginDto("test@email.com","password"))
                 ,status().isOk());
     }
@@ -94,21 +96,19 @@ public class AuthControllerTest {
 
     @Test
     void refreshTokenShouldReturn200() throws Exception {
-        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
+        when(authService.refreshToken(any())).thenReturn(defaultRefreshTokenResponseDto);
         testRefreshToken(asJsonString( new RefreshTokenDto("58ca95e9-c4ef-45fd-93cf-55c040aaff9c"))
                 ,status().isOk());
     }
 
     @Test
     void refreshTokenEmptyBodyShouldReturn400() throws Exception {
-        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
         testRefreshToken("{}",status().isBadRequest());
     }
 
     @Test
     void refreshTokenEmptyTokenShouldReturn400() throws Exception {
-        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
-        testRefreshToken(asJsonString( new RefreshTokenDto("")), status().isBadRequest());
+       testRefreshToken(asJsonString( new RefreshTokenDto("")), status().isBadRequest());
     }
 
     private void testRegister(String content, ResultMatcher code) throws Exception {
