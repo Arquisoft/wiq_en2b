@@ -1,19 +1,19 @@
 [
     {
       "link": "/",
-      "name": "nav.home"
+      "name": "common.home"
     },
     {
       "link": "/play",
-      "name": "nav.play"
+      "name": "common.play"
     },
     {
       "link": "/api",
-      "name": "nav.api_docs"
+      "name": "common.api_docs"
     },
     {
       "link": "/statistics",
-      "name": "nav.statistics.title",
+      "name": "common.statistics.title",
       "children": [
         {
             "link": "/statistics/personal",
