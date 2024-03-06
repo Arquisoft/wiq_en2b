@@ -134,8 +134,15 @@ public class QuestionServiceTest {
 
     @Test
     void testAnswerQuestionNotFound(){
+        when(questionRepository.findById(3L)).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class,() -> questionService.answerQuestion(3L, AnswerDto.builder().answerId(1L).build()));
+    }
+
+    @Test
+    void testAnswerQuestionInvalidAnswer(){
         when(questionRepository.findById(1L)).thenReturn(Optional.of(defaultQuestion));
         assertThrows(IllegalArgumentException.class,() -> questionService.answerQuestion(1L, AnswerDto.builder().answerId(3L).build()));
     }
+
 
 }
