@@ -132,4 +132,10 @@ public class QuestionServiceTest {
         assertEquals(response, new AnswerCheckResponseDto(false));
     }
 
+    @Test
+    void testAnswerQuestionNotFound(){
+        when(questionRepository.findById(1L)).thenReturn(Optional.of(defaultQuestion));
+        assertThrows(IllegalArgumentException.class,() -> questionService.answerQuestion(1L, AnswerDto.builder().answerId(3L).build()));
+    }
+
 }
