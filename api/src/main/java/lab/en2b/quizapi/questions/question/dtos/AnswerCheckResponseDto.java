@@ -1,12 +1,12 @@
 package lab.en2b.quizapi.questions.question.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
+@EqualsAndHashCode
 public class AnswerCheckResponseDto {
     private boolean wasCorrect;
 }

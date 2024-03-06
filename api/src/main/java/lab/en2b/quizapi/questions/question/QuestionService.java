@@ -32,7 +32,7 @@ public class QuestionService {
         }
     }
 
-    public QuestionResponseDto getQuestion() {
+    public QuestionResponseDto getRandomQuestion() {
         return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion());
     }
 
