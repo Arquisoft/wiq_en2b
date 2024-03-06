@@ -63,9 +63,8 @@ public class AuthService {
         return new RefreshTokenResponseDto(jwtUtils.generateTokenFromEmail(user.getEmail()), user.obtainRefreshIfValid());
     }
 
-    public ResponseEntity<?> logOut(Authentication authentication) {
+    public void logOut(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         userService.deleteRefreshToken(userDetails.getId());
-        return ResponseEntity.noContent().build();
     }
 }

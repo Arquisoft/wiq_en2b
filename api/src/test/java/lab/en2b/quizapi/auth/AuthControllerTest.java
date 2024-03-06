@@ -114,7 +114,6 @@ public class AuthControllerTest {
 
     @Test
     void logoutShouldReturn204() throws Exception {
-        when(authService.logOut(any())).thenReturn(ResponseEntity.noContent().build());
         testLogout(status().isNoContent());
     }
 

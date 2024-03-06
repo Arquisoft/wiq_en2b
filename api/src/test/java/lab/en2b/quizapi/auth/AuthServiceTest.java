@@ -105,9 +105,7 @@ public class AuthServiceTest {
             when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
             when(userRepository.findById(any())).thenReturn(Optional.of(defaultUser));
 
-            ResponseEntity<?> actual = authService.logOut(authentication);
-
-            assertEquals(ResponseEntity.noContent().build(),actual);
+            authService.logOut(authentication);
             assertNull(defaultUser.getRefreshToken());
             assertNull(defaultUser.getRefreshExpiration());
     }

@@ -25,8 +25,9 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logoutUser(Authentication authentication){
-        return authService.logOut(authentication);
+    public ResponseEntity<Void> logoutUser(Authentication authentication){
+        authService.logOut(authentication);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/refresh-token")
