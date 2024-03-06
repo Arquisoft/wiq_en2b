@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Question {
 
     @Id
@@ -31,6 +32,7 @@ public class Question {
     )
     private List<Answer> answers;
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
     private QuestionCategory questionCategory;

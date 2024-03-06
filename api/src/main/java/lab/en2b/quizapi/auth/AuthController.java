@@ -1,9 +1,7 @@
 package lab.en2b.quizapi.auth;
 
 import jakarta.validation.Valid;
-import lab.en2b.quizapi.auth.dtos.LoginDto;
-import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
-import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.auth.dtos.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,13 +14,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterDto registerRequest){
-        return authService.register(registerRequest);
+    public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterDto registerRequest){
+        authService.register(registerRequest);
+        return ResponseEntity.ok("User registered successfully!");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginDto loginRequest){
-        return authService.login(loginRequest);
+    public ResponseEntity<JwtResponseDto> loginUser(@Valid @RequestBody LoginDto loginRequest){
+        return ResponseEntity.ok(authService.login(loginRequest));
     }
 
     @GetMapping("/logout")
@@ -31,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenDto refreshTokenRequest){
-        return authService.refreshToken(refreshTokenRequest);
+    public ResponseEntity<RefreshTokenResponseDto> refreshToken(@Valid @RequestBody RefreshTokenDto refreshTokenRequest){
+        return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
 }
