@@ -46,7 +46,6 @@ public class AuthService {
     /**
      * Registers a user. Throws an 400 unauthorized exception otherwise
      * @param registerRequest the request containing the register info
-     * @return a response containing a message
      */
     public void register(RegisterDto registerRequest) {
         userService.createUser(registerRequest,"user");

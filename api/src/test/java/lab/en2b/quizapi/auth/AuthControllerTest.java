@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -37,9 +36,9 @@ public class AuthControllerTest {
     JwtUtils jwtUtils;
     @MockBean
     UserService userService;
-    RefreshTokenResponseDto defaultRefreshTokenResponseDto = RefreshTokenResponseDto.builder().build();
+    final RefreshTokenResponseDto defaultRefreshTokenResponseDto = RefreshTokenResponseDto.builder().build();
     @Test
-    void registerUserShouldReturn200() throws Exception {;
+    void registerUserShouldReturn200() throws Exception {
         testRegister(asJsonString( new RegisterDto("test@email.com","test","testing"))
                 ,status().isOk());
     }
