@@ -20,7 +20,7 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     @Value("${REFRESH_TOKEN_DURATION_MS}")
-    private long REFRESH_TOKEN_DURATION_MS;
+    private long refreshTokenDurationMs;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow(() -> new InvalidAuthenticationException("Invalid email or password provided!")));
@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
     public String assignNewRefreshToken(Long id) {
         User user = userRepository.findById(id).orElseThrow();
         user.setRefreshToken(UUID.randomUUID().toString());
-        user.setRefreshExpiration(Instant.now().plusMillis(REFRESH_TOKEN_DURATION_MS));
+        user.setRefreshExpiration(Instant.now().plusMillis(refreshTokenDurationMs));
         userRepository.save(user);
         return user.getRefreshToken();
     }
