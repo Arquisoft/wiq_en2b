@@ -10,6 +10,10 @@ import java.util.function.Function;
 public class AnswerResponseDtoMapper implements Function<Answer, AnswerResponseDto> {
     @Override
     public AnswerResponseDto apply(Answer answer) {
-        return null;
+        return AnswerResponseDto.builder()
+                .id(answer.getId())
+                .text(answer.getText())
+                .category(answer.getCategory())
+                .build();
     }
 }

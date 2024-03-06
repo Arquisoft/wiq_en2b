@@ -20,7 +20,9 @@
         "username": "Username",
         "password": "Password",
         "email": "Email",
-        "confirm_password": "Confirm password"
+        "confirm_password": "Confirm password",
+        "welcome": "Welcome to the WIQ-EN2B page",
+        "account": "Don't have an account?"
     },
     "error": {
         "login": "An ERROR occurred during login"
