@@ -38,6 +38,7 @@ public class QuestionServiceTest {
     QuestionResponseDto defaultResponseDto;
 
     Answer defaultCorrectAnswer;
+    Answer defaultIncorrectAnswer;
 
     @BeforeEach
     void setUp() {
@@ -60,17 +61,34 @@ public class QuestionServiceTest {
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
+
+        defaultIncorrectAnswer = Answer.builder()
+                .id(2L)
+                .text("Tokio")
+                .category(AnswerCategory.CITY)
+                .questions(List.of(defaultQuestion))
+                .questionsWithThisAnswer(List.of(defaultQuestion))
+                .build();
+
         defaultQuestion.setCorrectAnswer(defaultCorrectAnswer);
         defaultQuestion.getAnswers().add(defaultCorrectAnswer);
+        defaultQuestion.getAnswers().add(defaultIncorrectAnswer);
 
+        List<AnswerResponseDto> answersDto = new ArrayList<>();
+        answersDto.add(AnswerResponseDto.builder()
+                .id(1L)
+                .category(AnswerCategory.CITY)
+                .text("Paris")
+                .build());
+        answersDto.add(AnswerResponseDto.builder()
+                .id(2L)
+                .category(AnswerCategory.CITY)
+                .text("Tokio")
+                .build());
         defaultResponseDto = QuestionResponseDto.builder()
                 .id(1L)
                 .content("What is the capital of France?")
-                .answers(List.of(AnswerResponseDto.builder()
-                                .id(1L)
-                                .category(AnswerCategory.CITY)
-                                .text("Paris")
-                        .build()))
+                .answers(answersDto)
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .answerCategory(AnswerCategory.CITY)
@@ -105,6 +123,13 @@ public class QuestionServiceTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(defaultQuestion));
         AnswerCheckResponseDto response = questionService.answerQuestion(1L, AnswerDto.builder().answerId(1L).build());
         assertEquals(response, new AnswerCheckResponseDto(true));
+    }
+
+    @Test
+    void testAnswerQuestionIncorrectAnswer(){
+        when(questionRepository.findById(1L)).thenReturn(Optional.of(defaultQuestion));
+        AnswerCheckResponseDto response = questionService.answerQuestion(1L, AnswerDto.builder().answerId(2L).build());
+        assertEquals(response, new AnswerCheckResponseDto(false));
     }
 
 }
