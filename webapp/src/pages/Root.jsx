@@ -8,6 +8,9 @@ import ButtonEf from '../components/ButtonEf';
 export default function Root() {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const signup = () => {
+        navigate("/signup");
+    }
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
@@ -16,7 +19,7 @@ export default function Root() {
             <p>{t("session.welcome")}</p>
             <Stack spacing={4} p="3rem">
                 <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={() => navigate("/login")}/>
-                <p onClick={() => navigate("/signup")} style={{ cursor: 'pointer' }}>{t("session.account")}</p>
+                <p onClick={signup} onKeyDown={signup} style={{ cursor: 'pointer' }}>{t("session.account")}</p>
             </Stack>  
         </Center>
     );
