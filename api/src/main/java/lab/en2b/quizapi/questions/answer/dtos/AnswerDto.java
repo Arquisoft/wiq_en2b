@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Setter
 public class AnswerDto {
     @JsonProperty("answer_id")
     @NonNull
