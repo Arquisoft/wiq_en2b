@@ -5,11 +5,12 @@ import { MemoryRouter } from 'react-router';
 import Login from '../pages/Login';
 
 describe('Login Component', () => {
-  it('renders login component', () => {
-    const { getByText, getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
-    
+  it('renders form elements correctly', () => {
+    const { getByPlaceholderText, getByTestId } = render(<MemoryRouter><Login /></MemoryRouter>);
+
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
+    expect(getByTestId('Login')).toBeInTheDocument();
   });
 
   it('displays error message on failed login attempt', async () => {
