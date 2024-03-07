@@ -7,7 +7,7 @@ import Signup from '../pages/Signup';
 describe('Signup Component', () => {
 
   it('renders form elements correctly', () => {
-    const { getByPlaceholderText, getByText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
     
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
     expect(getByPlaceholderText('session.username')).toBeInTheDocument();

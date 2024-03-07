@@ -1,64 +1,59 @@
 import React from 'react';
-import { render, fireEvent, waitFor, getByTestId, getAllByTestId } from '@testing-library/react';
+import { render, fireEvent, waitFor, getByTestId } from '@testing-library/react';
 import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import Login from '../pages/Login';
 import { MemoryRouter } from 'react-router';
-import Signup from '../pages/Signup';
 
-describe('Signup Component', () => {
+const mockAxios = new MockAdapter(axios);
 
-  it('renders form elements correctly', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+describe('Login component', () => {
+  beforeEach(() => {
+    mockAxios.reset();
+  });
+
+  it('renders form elements correctly', async () => {
+    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
 
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
-    expect(getByPlaceholderText('session.username')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
-    expect(getByPlaceholderText('session.confirm_password')).toBeInTheDocument();
-    expect(getByTestId(document.body, 'Sign up')).toBeInTheDocument();
+    expect(getByTestId(document.body, 'Login')).toBeInTheDocument();
   });
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
-
+    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
+  
     const passwordInput = getByPlaceholderText('session.password');
-    const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
-    const showPasswordButtons = getAllByTestId(document.body, 'show-confirm-password-button');
+    const showPasswordButton = getByTestId(document.body, 'togglePasswordButton');
 
-    fireEvent.click(showPasswordButtons[0]);
-    fireEvent.click(showPasswordButtons[1]);
-
+    fireEvent.click(showPasswordButton);
+  
     expect(passwordInput.getAttribute('type')).toBe('text');
-    expect(confirmPasswordInput.getAttribute('type')).toBe('text');
   });
 
   it('submits form data correctly', async () => {
     const axiosMock = jest.spyOn(axios, 'post');
     axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
-
+  
     // Render the Signup component
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
-
+    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
+  
     // Get form elements and submit button by their text and placeholder values
     const emailInput = getByPlaceholderText('session.email');
-    const usernameInput = getByPlaceholderText('session.username');
     const passwordInput = getByPlaceholderText('session.password');
-    const signUpButton = getByTestId(document.body, 'Sign up');
-
+    const signUpButton = getByTestId(document.body, 'Login');
+    
     // Fill out the form with valid data and submit it
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
     fireEvent.click(signUpButton);
-
+    
     // Check if the form data was sent correctly
     await waitFor(() => {
-      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {
-        email: 'test@example.com',
-        username: 'testuser',
-        password: 'password'
-      });
+      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {"email": "test@example.com", "password": "password"});
       expect(axiosMock).toHaveBeenCalledTimes(1);
     });
-
+  
     axiosMock.mockRestore();
   });
 });

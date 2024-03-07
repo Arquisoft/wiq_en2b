@@ -19,7 +19,8 @@ export default function Root() {
             <Text>{t("session.welcome")}</Text>
             <Stack spacing={4} p="3rem">
                 <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={() => navigate("/login")}/>
-                <p onClick={signup} onKeyDown={signup} style={{ cursor: 'pointer' }}>{t("session.account")}</p>
+                {/* <p onClick={signup} onKeyDown={signup} style={{ cursor: 'pointer' }}>{t("session.account")}</p> */}
+                <Text>{t("session.account")} <Link as="span" color={"blue.400"} onClick={signup}>{t("session.clickHere")}</Link></Text>
             </Stack>  
         </Center>
     );
