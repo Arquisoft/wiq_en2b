@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -63,17 +63,16 @@ public class AuthServiceTest {
         when(jwtUtils.generateJwtTokenUserPassword(authentication)).thenReturn("jwtToken");
         when(userRepository.findById(any())).thenReturn(Optional.of(defaultUser));
 
-        ResponseEntity<JwtResponseDto> actual = authService.login(new LoginDto("test","password"));
+        JwtResponseDto actual = authService.login(new LoginDto("test","password"));
 
-        assertEquals(ResponseEntity.of(Optional.of(
-                JwtResponseDto.builder()
+        assertEquals(JwtResponseDto.builder()
                         .userId(1L)
                         .username(defaultUser.getUsername())
                         .email(defaultUser.getEmail())
                         .refreshToken(defaultUser.getRefreshToken())
                         .token("jwtToken")
                         .roles(List.of("user"))
-                        .build()))
+                        .build()
                 ,actual);
 
     }
@@ -84,9 +83,7 @@ public class AuthServiceTest {
         when(userRepository.existsByUsername(any())).thenReturn(false);
         when(userRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
 
-        ResponseEntity<?> actual = authService.register(new RegisterDto("test","username","password"));
-
-        assertEquals(ResponseEntity.of(Optional.of("User registered successfully!")),actual);
+        authService.register(new RegisterDto("test","username","password"));
 
     }
 
@@ -96,9 +93,20 @@ public class AuthServiceTest {
         when(userRepository.findByRefreshToken(any())).thenReturn(Optional.of(defaultUser));
         when(jwtUtils.generateTokenFromEmail(any())).thenReturn("jwtToken");
 
-        ResponseEntity<?> actual = authService.refreshToken(new RefreshTokenDto("token"));
+        RefreshTokenResponseDto actual = authService.refreshToken(new RefreshTokenDto("token"));
 
-        assertEquals(ResponseEntity.of(Optional.of(new RefreshTokenResponseDto("jwtToken","token"))),actual);
+        assertEquals(new RefreshTokenResponseDto("jwtToken","token"),actual);
 
+    }
+
+    @Test
+    void testLogout(){
+            Authentication authentication = mock(Authentication.class);
+            when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
+            when(userRepository.findById(any())).thenReturn(Optional.of(defaultUser));
+
+            authService.logOut(authentication);
+            assertNull(defaultUser.getRefreshToken());
+            assertNull(defaultUser.getRefreshExpiration());
     }
 }

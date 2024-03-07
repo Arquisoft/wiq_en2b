@@ -1,9 +1,11 @@
 package lab.en2b.quizapi.auth;
 
 import lab.en2b.quizapi.auth.config.SecurityConfig;
+import lab.en2b.quizapi.auth.dtos.JwtResponseDto;
 import lab.en2b.quizapi.auth.dtos.LoginDto;
 import lab.en2b.quizapi.auth.dtos.RefreshTokenDto;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
+import lab.en2b.quizapi.auth.dtos.RefreshTokenResponseDto;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -20,7 +21,9 @@ import static lab.en2b.quizapi.commons.utils.TestUtils.asJsonString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
@@ -35,9 +38,9 @@ public class AuthControllerTest {
     JwtUtils jwtUtils;
     @MockBean
     UserService userService;
+    final RefreshTokenResponseDto defaultRefreshTokenResponseDto = RefreshTokenResponseDto.builder().build();
     @Test
     void registerUserShouldReturn200() throws Exception {
-        when(authService.register(any())).thenReturn(ResponseEntity.ok().build());
         testRegister(asJsonString( new RegisterDto("test@email.com","test","testing"))
                 ,status().isOk());
     }
@@ -71,7 +74,7 @@ public class AuthControllerTest {
 
     @Test
     void loginUserShouldReturn200() throws Exception {
-        when(authService.login(any())).thenReturn(ResponseEntity.ok().build());
+        when(authService.login(any())).thenReturn(JwtResponseDto.builder().build());
         testLogin(asJsonString( new LoginDto("test@email.com","password"))
                 ,status().isOk());
     }
@@ -94,21 +97,32 @@ public class AuthControllerTest {
 
     @Test
     void refreshTokenShouldReturn200() throws Exception {
-        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
+        when(authService.refreshToken(any())).thenReturn(defaultRefreshTokenResponseDto);
         testRefreshToken(asJsonString( new RefreshTokenDto("58ca95e9-c4ef-45fd-93cf-55c040aaff9c"))
                 ,status().isOk());
     }
 
     @Test
     void refreshTokenEmptyBodyShouldReturn400() throws Exception {
-        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
         testRefreshToken("{}",status().isBadRequest());
     }
 
     @Test
     void refreshTokenEmptyTokenShouldReturn400() throws Exception {
-        when(authService.refreshToken(any())).thenReturn(ResponseEntity.ok().build());
-        testRefreshToken(asJsonString( new RefreshTokenDto("")), status().isBadRequest());
+       testRefreshToken(asJsonString( new RefreshTokenDto("")), status().isBadRequest());
+    }
+
+    @Test
+    void logoutShouldReturn204() throws Exception {
+        testLogout(status().isNoContent());
+    }
+
+    @Test
+    void logoutNoAuthShouldReturn403() throws Exception {
+        mockMvc.perform(get("/auth/logout")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
     }
 
     private void testRegister(String content, ResultMatcher code) throws Exception {
@@ -130,6 +144,14 @@ public class AuthControllerTest {
     private void testRefreshToken(String content, ResultMatcher code) throws Exception {
         mockMvc.perform(post("/auth/refresh-token")
                         .content(content)
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(code);
+    }
+
+    private void testLogout(ResultMatcher code) throws Exception {
+        mockMvc.perform(get("/auth/logout")
+                        .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(code);
