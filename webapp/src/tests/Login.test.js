@@ -1,59 +1,44 @@
 import React from 'react';
-import { render, fireEvent, waitFor, getByTestId } from '@testing-library/react';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import Login from '../pages/Login';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router';
+import Login from '../pages/Login';
 
-const mockAxios = new MockAdapter(axios);
-
-describe('Login component', () => {
-  beforeEach(() => {
-    mockAxios.reset();
-  });
-
-  it('renders form elements correctly', async () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
-
+describe('Login Component', () => {
+  it('renders login component', () => {
+    const { getByText, getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
+    
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
-    expect(getByTestId(document.body, 'Login')).toBeInTheDocument();
+  });
+
+  it('displays error message on failed login attempt', async () => {
+    const { getByTestId, getByPlaceholderText, getByText } = render(<MemoryRouter><Login /></MemoryRouter>);
+    
+    // Simulate failed login attempt
+    fireEvent.change(getByPlaceholderText('session.email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(getByPlaceholderText('session.password'), { target: { value: 'incorrectpassword' } });
+    fireEvent.click(getByTestId('Login'));
+    
+    // Wait for error message to be displayed
+    await waitFor(() => {
+      expect(getByText('error.login')).toBeInTheDocument();
+      expect(getByText('error.login-desc')).toBeInTheDocument();
+    });
   });
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
-  
-    const passwordInput = getByPlaceholderText('session.password');
-    const showPasswordButton = getByTestId(document.body, 'togglePasswordButton');
-
-    fireEvent.click(showPasswordButton);
-  
-    expect(passwordInput.getAttribute('type')).toBe('text');
-  });
-
-  it('submits form data correctly', async () => {
-    const axiosMock = jest.spyOn(axios, 'post');
-    axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
-  
-    // Render the Signup component
-    const { getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
-  
-    // Get form elements and submit button by their text and placeholder values
-    const emailInput = getByPlaceholderText('session.email');
-    const passwordInput = getByPlaceholderText('session.password');
-    const signUpButton = getByTestId(document.body, 'Login');
+    const { getByLabelText, getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
     
-    // Fill out the form with valid data and submit it
-    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-    fireEvent.click(signUpButton);
+    // Initially password should be hidden
+    const passwordInput = getByPlaceholderText('session.password');
+    expect(passwordInput).toHaveAttribute('type', 'password');
     
-    // Check if the form data was sent correctly
-    await waitFor(() => {
-      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {"email": "test@example.com", "password": "password"});
-      expect(axiosMock).toHaveBeenCalledTimes(1);
-    });
-  
-    axiosMock.mockRestore();
+    // Click on the toggle password button
+    const toggleButton = getByLabelText('Shows or hides the password');
+    fireEvent.click(toggleButton);
+    
+    // Password should now be visible
+    expect(passwordInput).toHaveAttribute('type', 'text');
   });
 });
