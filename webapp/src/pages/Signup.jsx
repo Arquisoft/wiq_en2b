@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import axios, { HttpStatusCode } from "axios";
+import { isUserLogged, register } from "../components/auth/AuthUtils";
 
 import ButtonEf from '../components/ButtonEf';
 
@@ -25,20 +25,22 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const sendLogin = async () => {
-        if (!email || !password || !username || !confirmPassword) {
-            setHasError(true);
-            return;
+    const navigateToDashboard = () => {
+        if (isUserLogged()) {
+            navigate("/dashboard");
         }
-        try {
-            const response = await axios.post(process.env.API_URL, { email, username, password, confirmPassword });
-            if (response.status === HttpStatusCode.Accepted) {
-                navigate("/home");
-            }
-        } catch (error) {
-            setHasError(true);
-        }
-    };
+    }
+
+    useEffect(navigateToDashboard);
+
+    const sendRegistration = async () => {
+        const registerData = {
+            "email": document.getElementById("user").value,
+            "username": document.getElementById("username").value,
+            "password": document.getElementById("password").value
+        };
+        await register(registerData, navigateToDashboard, () => setHasError(true));
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -85,6 +87,7 @@ export default function Signup() {
                                 </InputLeftElement>
                                 <Input
                                     type="text"
+                                    id="user"
                                     placeholder={t("session.email")}
                                     value={email}
                                     onChange={handleEmailChange}
@@ -98,6 +101,7 @@ export default function Signup() {
                                 </InputLeftElement>
                                 <Input
                                     type="text"
+                                    id="username"
                                     placeholder={t("session.username")}
                                     value={username}
                                     onChange={handleUsernameChange}
@@ -111,6 +115,7 @@ export default function Signup() {
                                 </InputLeftElement>
                                 <Input
                                     type={showPassword ? "text" : "password"}
+                                    id="password"
                                     placeholder={t("session.password")}
                                     value={password}
                                     onChange={handlePasswordChange}
@@ -139,7 +144,7 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendLogin}/>
+                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendRegistration}/>
                     </Stack>
                 </Box>
             </Stack>

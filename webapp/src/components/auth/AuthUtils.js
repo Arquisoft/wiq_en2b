@@ -21,8 +21,21 @@ export function getLoginData() {
 
 export async function login(loginData, onSuccess, onError) {
     try {
-        let requestAnswer =  await axios.post(process.env.REACT_APP_API_ENDPOINT
-            + process.env.REACT_APP_LOGIN_ENDPOINT, loginData);
+        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + process.env.REACT_APP_LOGIN_ENDPOINT, loginData);
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            saveToken(requestAnswer);
+            onSuccess();
+        } else {
+            onError();
+        }
+    } catch {
+        onError();
+    }
+}
+
+export async function register(registerData, onSuccess, onError) {
+    try {
+        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + process.env.REACT_APP_REGISTER_ENDPOINT, registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             saveToken(requestAnswer);
             onSuccess();
