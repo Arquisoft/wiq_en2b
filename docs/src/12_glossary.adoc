@@ -16,4 +16,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 |PostgreSQL
 |Object-relational database management system (ORDMBS), which means that it has relational capabilities and an object-oriented design
+
+|DTO
+|Data Transfer Object (DTO) is an object that carries data between processes. The data is transferred as simple data structures and is not an object with behavior.
 |===
