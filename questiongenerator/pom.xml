@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>ProyectinJPA</artifactId>
+    <artifactId>QuestionGenerator</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>ProyectinJPA</name>
+    <name>QuestionGenerator</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
