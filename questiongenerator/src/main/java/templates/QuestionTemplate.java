@@ -28,6 +28,7 @@ public abstract class QuestionTemplate {
      * Constructor for QuestionTemplates which is also the one in charge of the whole question retrieval process for a query
      * For future types of question, only need to override abstract methods and calling super() on constructor
      * When instancing a question, only constructor invocation is required.
+     * For reference in future implementations: look at CountryCapitalQuestion
      * @param langCode
      */
     public QuestionTemplate(String langCode) {
