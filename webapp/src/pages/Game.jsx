@@ -1,4 +1,4 @@
-import React, { useState, useEffect as confetti } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,26 @@ import {getQuestion} from '../components/game/Questions';
 
 export default function Game() {
 	const navigate = useNavigate();
-	
-	const question = async () => {
-		await getQuestion();
-	}
+
+	const [question, setQuestion] = useState({ id:1, content: "default question", answers: [], questionCategory: "", answerCategory: "", language: "en", type: ""});
+
+	// const generateQuestion = () => {
+	// 	const fetchQuestion = async () => {
+	// 		const result = await getQuestion();
+	// 		setQuestion(result);
+	// 	};
+	// }
+	// componentDidMount() {
+	// 	generateQuestion();
+	// }
+
+	useEffect(() => {
+		const fetchQuestion = async () => {
+		  const result = await getQuestion();
+		  setQuestion(result);
+		};
+		fetchQuestion();
+	  }, []);
 
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [nextDisabled, setNextDisabled] = useState(true);
@@ -44,7 +60,7 @@ export default function Game() {
 		}
 	};
 
-	confetti(() => { // stop the confeti after 3000 milliseconds
+	useEffect(() => { // stop the confeti after 3000 milliseconds
 		let timeout;
 		if (showConfetti)
 			timeout = setTimeout(() => { setShowConfetti(false); }, 3000);
@@ -59,7 +75,7 @@ export default function Game() {
 
 			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem">
 				<Box bg="white" color="blue.400" p={4} borderRadius="md" mb={4} fontSize="xl" border="2px solid" borderColor="blue.400">
-					{"question.content"}
+					{question.content}
 				</Box>
 
 				<Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
