@@ -7,7 +7,7 @@ WORKDIR /app
 RUN npm install
 
 ARG API_URI
-ENV REACT_APP_API_ENDPOINT=$API_URI
+ENV REACT_APP_API_ENDPOINT $API_URI
 
 #Create an optimized version of the webapp
 RUN npm run build
