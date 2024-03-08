@@ -29,9 +29,6 @@ Contained Building Blocks::
 
 ****
 
-Important Interfaces::
-This part will be more detailed later, since the structure of the different interfaces/classes has not been discussed by the team yet.
-
 
 === Level 2
 
@@ -60,5 +57,10 @@ Contained Building Blocks::
 ****
 
 Important Interfaces::
-This part will be more detailed later, since the structure of the different interfaces/classes has not been discussed by the team yet.
+This level is divided into packages that will be now discussed:
+* ** Pages: **This is the part of the application that will be responsible for the user interface. It is developed in React with Typescript.
+** ** Login: **This is the part of the application that will be responsible for the user authentication.
+** ** Signup: **This is the part of the application that will be responsible for the user registration.
+
+* ** Quizapi: **
 
