@@ -62,5 +62,6 @@ This level is divided into packages that will be now discussed:
 ** ** Login: **This is the part of the application that will be responsible for the user authentication.
 ** ** Signup: **This is the part of the application that will be responsible for the user registration.
 
-* ** Quizapi: **
+* ** Quizapi: ** This is the API that will be in charge of the game logic. It is developed in Springboot.
+
 
