@@ -1,64 +1,56 @@
 import React from 'react';
-import { render, fireEvent, waitFor, getByTestId, getAllByTestId } from '@testing-library/react';
-import axios from 'axios';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router';
-import Signup from '../pages/Signup';
+import Login from '../pages/Login';
+import { login as mockLogin } from '../components/auth/AuthUtils';
 
-describe('Signup Component', () => {
+jest.mock('../components/auth/AuthUtils', () => ({
+  isUserLogged: jest.fn(),
+  login: jest.fn(),
+}));
 
+describe('Login Component', () => {
   it('renders form elements correctly', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText, getByTestId } = render(<MemoryRouter><Login /></MemoryRouter>);
 
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
-    expect(getByPlaceholderText('session.username')).toBeInTheDocument();
     expect(getByPlaceholderText('session.password')).toBeInTheDocument();
-    expect(getByPlaceholderText('session.confirm_password')).toBeInTheDocument();
-    expect(getByTestId(document.body, 'Sign up')).toBeInTheDocument();
+    expect(getByTestId('Login')).toBeInTheDocument();
   });
+
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
-
+    const { getByLabelText, getByPlaceholderText } = render(<MemoryRouter><Login /></MemoryRouter>);
+    
+    // Initially password should be hidden
     const passwordInput = getByPlaceholderText('session.password');
-    const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
-    const showPasswordButtons = getAllByTestId(document.body, 'show-confirm-password-button');
-
-    fireEvent.click(showPasswordButtons[0]);
-    fireEvent.click(showPasswordButtons[1]);
-
-    expect(passwordInput.getAttribute('type')).toBe('text');
-    expect(confirmPasswordInput.getAttribute('type')).toBe('text');
+    expect(passwordInput).toHaveAttribute('type', 'password');
+    
+    // Click on the toggle password button
+    const toggleButton = getByLabelText('Shows or hides the password');
+    fireEvent.click(toggleButton);
+    
+    // Password should now be visible
+    expect(passwordInput).toHaveAttribute('type', 'text');
   });
 
-  it('submits form data correctly', async () => {
-    const axiosMock = jest.spyOn(axios, 'post');
-    axiosMock.mockResolvedValueOnce({ status: 202 }); // Accepted status code
-
-    // Render the Signup component
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
-
-    // Get form elements and submit button by their text and placeholder values
+  it('calls login function with correct credentials on submit', async () => {
+    const { getByPlaceholderText, getByTestId } = render(<Login />, { wrapper: MemoryRouter });
     const emailInput = getByPlaceholderText('session.email');
-    const usernameInput = getByPlaceholderText('session.username');
     const passwordInput = getByPlaceholderText('session.password');
-    const signUpButton = getByTestId(document.body, 'Sign up');
+    const loginButton = getByTestId('Login');
 
-    // Fill out the form with valid data and submit it
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
-    fireEvent.change(passwordInput, { target: { value: 'password' } });
-    fireEvent.click(signUpButton);
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(loginButton);
 
-    // Check if the form data was sent correctly
     await waitFor(() => {
-      expect(axiosMock).toHaveBeenCalledWith(process.env.API_URL, {
-        email: 'test@example.com',
-        username: 'testuser',
-        password: 'password'
-      });
-      expect(axiosMock).toHaveBeenCalledTimes(1);
+      expect(mockLogin).toHaveBeenCalledWith(
+        { email: 'test@example.com', password: 'password123' },
+        expect.any(Function),
+        expect.any(Function)
+      );
     });
-
-    axiosMock.mockRestore();
   });
 });
