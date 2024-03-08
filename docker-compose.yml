@@ -31,14 +31,12 @@ services:
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_en2b/webapp:latest
+    image: webapp:latest
     profiles: [ "dev", "prod" ]
     build:
       context: ./webapp
       args:
         API_URI: http://${API_URI}:8080
-    networks:
-      - mynetwork
     ports:
       - "3000:3000"
 
