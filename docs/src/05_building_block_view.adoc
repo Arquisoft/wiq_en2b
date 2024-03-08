@@ -63,6 +63,6 @@ This level is divided into packages that will be now discussed:
 ** ** Signup: **This is the part of the application that will be responsible for the user registration.
 
 * ** Quizapi: ** This is the API that will be in charge of the game logic. It is developed in Springboot.
-** ** Question: **This is the part of the application that is managing the different questions of the game (Including their controllers, service and repository).
-
+** ** Question: **This is the part of the application that is managing the different questions of the game (Including their controllers, service, repository and dtos).
+** **Answer: **This is the part of the application that is managing the different answers of the game (Including their repository and dtos).
 
