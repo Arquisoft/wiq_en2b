@@ -14,7 +14,8 @@
         "submit": "Submit",
         "rules": "Rules",
         "dashboard": "User's Dashboard",
-        "goBack": "Go Back"
+        "goBack": "Go Back",
+        "finish": "Finish"
     },
     "session": {
         "username": "Username",
@@ -22,9 +23,13 @@
         "email": "Email",
         "confirm_password": "Confirm password",
         "welcome": "Welcome to the WIQ-EN2B page",
-        "account": "Don't have an account?"
+        "account": "Don't have an account?",
+        "clickHere": "Click here"
     },
     "error": {
-        "login": "An ERROR occurred during login"
+        "login": "You should enter a valid username and password",
+        "register": "You should enter a valid username, email and password",
+        "login-desc": "Please, enter you username and password to log in",
+        "register-desc": "Please, enter you username and password to register"
     }
 }
