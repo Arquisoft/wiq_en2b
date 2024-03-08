@@ -1,7 +1,7 @@
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, InputGroup, Stack, InputLeftElement, 
             chakra, Box, Avatar, FormControl, InputRightElement, 
-            FormHelperText, IconButton } from "@chakra-ui/react";
+            FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
