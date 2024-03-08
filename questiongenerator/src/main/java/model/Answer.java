@@ -24,6 +24,5 @@ public class Answer {
     }
 
     public Answer() {
-
     }
 }

@@ -10,24 +10,16 @@ import java.util.Map;
 
 public class AnswerRepositoryImpl {
     public void save(Answer a){
+        EntityManagerFactory emf = Jpa.getEntityManagerFactory();
 
-        Map<String, String> properties = new HashMap<>();
-        properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
-        properties.put("javax.persistence.jdbc.url", System.getenv("DATABASE_URL"));
-        properties.put("javax.persistence.jdbc.user", System.getenv("DATABASE_USER"));
-        properties.put("javax.persistence.jdbc.password", System.getenv("DATABASE_PASSWORD"));
-
-        properties.put("hibernate.hbm2ddl.auto", "update");
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default", properties);
-
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
 
         entityManager.persist(a);
 
         entityManager.getTransaction().commit();
         entityManager.close();
-        entityManagerFactory.close();
+
+        Jpa.close();
     }
 }
