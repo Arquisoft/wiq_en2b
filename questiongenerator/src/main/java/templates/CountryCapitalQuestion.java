@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 public class CountryCapitalQuestion extends QuestionTemplate{
 
-
     public CountryCapitalQuestion(String langCode) {
         super(langCode);
     }

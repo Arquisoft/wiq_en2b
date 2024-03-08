@@ -1,12 +1,8 @@
 package repositories;
 
 import model.Answer;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AnswerRepositoryImpl {
     public void save(Answer a){

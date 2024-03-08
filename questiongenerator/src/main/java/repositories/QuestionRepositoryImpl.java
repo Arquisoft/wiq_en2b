@@ -1,7 +1,6 @@
 package repositories;
 
 import model.Question;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
