@@ -4,9 +4,14 @@ import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import ButtonEf from '../components/ButtonEf';
+import {getQuestion} from '../components/game/Questions';
 
 export default function Game() {
 	const navigate = useNavigate();
+	
+	const question = async () => {
+		await getQuestion();
+	}
 
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [nextDisabled, setNextDisabled] = useState(true);
@@ -54,7 +59,7 @@ export default function Game() {
 
 			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem">
 				<Box bg="white" color="blue.400" p={4} borderRadius="md" mb={4} fontSize="xl" border="2px solid" borderColor="blue.400">
-					{"Question"}
+					{"question.content"}
 				</Box>
 
 				<Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
