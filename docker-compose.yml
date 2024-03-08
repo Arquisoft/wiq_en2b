@@ -33,7 +33,10 @@ services:
     container_name: webapp-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en2b/webapp:latest
     profiles: [ "dev", "prod" ]
-    build: ./webapp
+    build:
+      context: ./webapp
+      args:
+        API_URI: ${http://${{ secrets.DEPLOY_HOST }}:8080}
     networks:
       - mynetwork
     ports:
