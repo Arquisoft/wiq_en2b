@@ -15,5 +15,8 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Java Spring Boot (Spring Boot) is a tool that makes developing web application and microservices with Spring Framework faster and easier through three core capabilities: Autoconfiguration, an opinionated approach to configuration, the ability to create standalone applications.
 
 |PostgreSQL
-|Object-relational database management system (ORDMBS), which means that it has relational capabilities and an object-oriented design
+|Object-relational database management system (ORDMBS), which means that it has relational capabilities and an object-oriented design.
+
+|Question Generator
+|A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB.
 |===
