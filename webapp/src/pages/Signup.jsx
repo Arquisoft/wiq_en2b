@@ -1,12 +1,13 @@
+import { Center } from "@chakra-ui/layout";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, 
+            chakra, Box, Avatar, FormControl, InputRightElement, 
+            FormHelperText, IconButton } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
-import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { isUserLogged, register } from "../components/auth/AuthUtils";
-
 import ButtonEf from '../components/ButtonEf';
 
 export default function Signup() {
