@@ -22,7 +22,7 @@ export function getLoginData() {
 export async function login(loginData, onSuccess, onError) {
     try {
         let requestAnswer =  await axios.post(process.env.REACT_APP_API_ENDPOINT
-            + process.env.REACT_APP_LOGIN_ENDPOINT, loginData);
+            + "/auth/login", loginData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             saveToken(requestAnswer);
             onSuccess();
