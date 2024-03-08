@@ -29,6 +29,16 @@ services:
     ports:
       - "8080:8080"
 
+  webapp:
+    container_name: webapp-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en2a/webapp:latest
+    profiles: [ "dev", "prod" ]
+    build: ./webapp
+    networks:
+      - mynetwork
+    ports:
+      - "3000:3000"
+
 
 volumes:
   postgres_data:
