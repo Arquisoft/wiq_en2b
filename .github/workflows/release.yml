@@ -77,7 +77,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
-          API_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+          API_URI: ${{ secrets.DEPLOY_HOST }}
           teamname: wiq_en2b
         with:
           name: arquisoft/wiq_en2b/webapp
@@ -94,6 +94,7 @@ jobs:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
       env:
+        API_URI: ${{ secrets.DEPLOY_HOST }}
         DATABASE_USER: ${{ secrets.DATABASE_USER }}
         DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
