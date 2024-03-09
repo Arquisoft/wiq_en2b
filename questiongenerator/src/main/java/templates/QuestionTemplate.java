@@ -1,7 +1,6 @@
 package templates;
 
-import repositories.AnswerRepositoryImpl;
-import repositories.QuestionRepositoryImpl;
+import repositories.GeneralRepositoryStorer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -21,20 +20,15 @@ public abstract class QuestionTemplate {
     // Language code representing in what language the query must be sent. Spanish as a default value.
     protected String langCode = "es";
 
-    protected AnswerRepositoryImpl answerRepository;
-    protected QuestionRepositoryImpl questionRepository;
+    protected GeneralRepositoryStorer repository = new GeneralRepositoryStorer();;
 
     /**
      * Constructor for QuestionTemplates which is also the one in charge of the whole question retrieval process for a query
      * For future types of question, only need to override abstract methods and calling super() on constructor
      * When instancing a question, only constructor invocation is required.
      * For reference in future implementations: look at CountryCapitalQuestion
-     * @param langCode
      */
     public QuestionTemplate(String langCode) {
-        this.answerRepository = new AnswerRepositoryImpl();
-        this.questionRepository = new QuestionRepositoryImpl();
-
         this.langCode = langCode;
         setQuery();
         call();
