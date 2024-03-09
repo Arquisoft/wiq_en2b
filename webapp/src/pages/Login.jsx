@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
 import { isUserLogged, login } from "../components/auth/AuthUtils";
+import { logoutUser } from "../components/game/Logout"; // Importa la función logoutUser
 
 export default function Login() {
 
@@ -19,7 +19,20 @@ export default function Login() {
         }
     }
 
-    useEffect(navigateToDashboard);
+    useEffect(() => {
+        const checkUserLoggedIn = async () => {
+            if (isUserLogged()) {
+                try {
+                    await logoutUser(); // Cierra sesión antes de redirigir al inicio de sesión
+                } catch (error) {
+                    console.error("Error al cerrar sesión:", error);
+                }
+            }
+        };
+
+        checkUserLoggedIn();
+    }, []); // Solo se ejecuta al montar el componente
+
     const [hasError, setHasError] = useState(false);
     const { t } = useTranslation();
 
