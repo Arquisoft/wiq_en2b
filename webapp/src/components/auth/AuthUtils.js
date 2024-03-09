@@ -21,7 +21,7 @@ export function getLoginData() {
 
 export async function login(loginData, onSuccess, onError) {
     try {
-        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + process.env.REACT_APP_LOGIN_ENDPOINT, loginData);
+        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/login", loginData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             saveToken(requestAnswer);
             onSuccess();
@@ -35,7 +35,7 @@ export async function login(loginData, onSuccess, onError) {
 
 export async function register(registerData, onSuccess, onError) {
     try {
-        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + process.env.REACT_APP_REGISTER_ENDPOINT, registerData);
+        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             saveToken(requestAnswer);
             onSuccess();
