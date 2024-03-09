@@ -30,6 +30,7 @@
         "login": "You should enter a valid username and password",
         "register": "You should enter a valid username, email and password",
         "login-desc": "Please, enter you username and password to log in",
-        "register-desc": "Please, enter you username and password to register"
+        "register-desc": "Please, enter you username and password to register",
+        "login-send": "Your email or password are not found in our database"
     }
 }
