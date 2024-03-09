@@ -33,10 +33,11 @@ services:
     container_name: webapp-${teamname:-defaultASW}
     image: webapp:latest
     profiles: [ "dev", "prod" ]
+    
     build:
       context: ./webapp
-      args:
-        API_URI: http://${API_URI}:8080
+    environment:
+      - REACT_APP_API_ENDPOINT=${API_URI}
     ports:
       - "3000:3000"
 
