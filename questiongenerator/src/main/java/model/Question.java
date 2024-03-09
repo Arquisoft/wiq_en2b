@@ -1,11 +1,13 @@
 package model;
 
+import repositories.Storable;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "questions")
-public class Question {
+public class Question implements Storable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

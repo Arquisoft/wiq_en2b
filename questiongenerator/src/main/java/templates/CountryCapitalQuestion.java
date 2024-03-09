@@ -49,7 +49,7 @@ public class CountryCapitalQuestion extends QuestionTemplate {
 
             //Saving the answer
             Answer a = new Answer(capitalLabel, AnswerCategory.CITY);
-            answerRepository.save(a);
+            repository.save(a);
 
             //Saving the question
             String content;
@@ -58,7 +58,7 @@ public class CountryCapitalQuestion extends QuestionTemplate {
             else
                 content = "¿Cuál es la capital de " + countryLabel + "?";
 
-            questionRepository.save(new Question(content, a, QuestionCategory.GEOGRAPHY, AnswerCategory.CITY, langCode, QuestionType.TEXT));
+            repository.save(new Question(content, a, QuestionCategory.GEOGRAPHY, AnswerCategory.CITY, langCode, QuestionType.TEXT));
         }
     }
 
