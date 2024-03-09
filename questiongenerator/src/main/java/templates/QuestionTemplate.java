@@ -20,7 +20,7 @@ public abstract class QuestionTemplate {
     // Language code representing in what language the query must be sent. Spanish as a default value.
     protected String langCode = "es";
 
-    protected GeneralRepositoryStorer repository = new GeneralRepositoryStorer();;
+    protected GeneralRepositoryStorer repository = new GeneralRepositoryStorer();
 
     /**
      * Constructor for QuestionTemplates which is also the one in charge of the whole question retrieval process for a query
