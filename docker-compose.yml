@@ -32,10 +32,13 @@ services:
   webapp:
     container_name: webapp-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en2b/webapp:latest
+    image: webapp:latest
     profiles: [ "dev", "prod" ]
-    build: ./webapp
-    networks:
-      - mynetwork
+    
+    build:
+      context: ./webapp
+    environment:
+      - REACT_APP_API_ENDPOINT=${API_URI}
     ports:
       - "3000:3000"
 
