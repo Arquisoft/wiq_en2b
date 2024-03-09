@@ -30,7 +30,7 @@ export default function Game() {
 	const [showConfetti, setShowConfetti] = useState(false);
 
 	const answerButtonClick = (option) => {
-		setAnswer(question.answers[option]);
+		setAnswer(question.answers[option-1]);
 		setSelectedOption((prevOption) => (prevOption === option ? null : option));
 		const anyOptionSelected = option === selectedOption ? null : option;
 		setNextDisabled(anyOptionSelected === null);
