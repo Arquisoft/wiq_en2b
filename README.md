@@ -13,15 +13,15 @@ We aim to create a platform that not only challenges your knowledge but also spa
 🌐 Multiplayer: Compete with friends and strangers to prove you are the best.
 
 ## Contributors
-| Nombre                          | UO       |
-|---------------------------------|----------|
-| Gonzalo Alonso Fernández        | UO282104 |
-| Darío Gutiérrez Mori            | UO282435 |
-| Sergio Rodríguez García         | UO282598 |
-| Jorge Joaquín Gancedo Fernández | UO282161 |
-| Sergio Quintana Fernández       | UO288090 |
-| Diego Villanueva Berros         | UO283615 |
-| Gonzalo Suárez Losada           | UO283928 |
+Contributor | Contact
+-- | -- 
+Gonzalo Alonso Fernández | <a href="https://github.com/gony02"><img src="https://img.shields.io/badge/UO282104-Gonzalo Alonso-red"></a>
+Sergio Rodríguez García | <a href="https://github.com/sergiorodriguezgarcia"><img src="https://img.shields.io/badge/UO282598-Sergio Rodríguez-orange"></a>
+Jorge Joaquín Gancedo Fernández | <a href="https://github.com/jjgancfer"><img src="https://img.shields.io/badge/UO282161-Jorge Joaquín Gancedo-yellow"></a>
+Darío Gutiérrez Mori | <a href="https://github.com/Toto-hitori"><img src="https://img.shields.io/badge/UO282435-Darío Gutiérrez-green"></a>
+Sergio Quintana Fernández | <a href="https://github.com/sergioqfeg1"><img src="https://img.shields.io/badge/UO288090-Sergio Quintana-cyan"></a>
+Diego Villanueva Berros | <a href="https://github.com/UO283615"><img src="https://img.shields.io/badge/UO283615-Diego Villanueva-blue"></a>
+Gonzalo Suárez Losada | <a href="https://github.com/uo283928"><img src="https://img.shields.io/badge/UO283928-Gonzalo Suárez-pink"></a>
     
 ***
 
