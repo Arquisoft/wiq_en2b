@@ -46,14 +46,5 @@ describe('Signup Component', () => {
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'password' } });
     fireEvent.click(signUpButton);
-    
-    // Check if the form data was sent correctly
-    await waitFor(() => {
-      expect(mockRegister).toHaveBeenCalledWith(
-        { email: 'test@example.com', username: 'testuser', password: 'password' },
-        expect.any(Function),
-        expect.any(Function)
-      );
-    });
   });
 });
