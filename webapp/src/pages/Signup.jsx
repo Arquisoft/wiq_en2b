@@ -3,11 +3,11 @@ import { Heading, Input, InputGroup, Stack, InputLeftElement,
             chakra, Box, Avatar, FormControl, InputRightElement, 
             FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
-import { isUserLogged, register } from "../components/auth/AuthUtils";
+import { register } from "../components/auth/AuthUtils";
 import ButtonEf from '../components/ButtonEf';
 
 export default function Signup() {
@@ -26,22 +26,23 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToDashboard = () => {
-        if (isUserLogged()) {
-            navigate("/dashboard");
-        }
-    }
-
-    useEffect(navigateToDashboard);
+    const navigateToLogin = () => {
+        navigate("/login");
+    };
 
     const sendRegistration = async () => {
         const registerData = {
-            "email": document.getElementById("user").value,
-            "username": document.getElementById("username").value,
-            "password": document.getElementById("password").value
+            "email": email,
+            "username": username,
+            "password": password
         };
-        await register(registerData, navigateToDashboard, () => setHasError(true));
-    }
+
+        try {
+            await register(registerData, navigateToLogin, ()=> setHasError(true));
+        } catch {
+            setHasError(true);
+        }
+    };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
