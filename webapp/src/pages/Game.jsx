@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import ButtonEf from '../components/ButtonEf';
 import {getQuestion, answerQuestion} from '../components/game/Questions';
+import axios from "axios";
 
 export default function Game() {
 	const navigate = useNavigate();
 
 	const [question, setQuestion] = useState({ id:1, content: "default question", answers: [{id:1, text:"answer1", category:"category1" }, {id:2, text:"answer2", category:"category2" }], questionCategory: "", answerCategory: "", language: "en", type: ""});
 	useEffect(() => {
+		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
 		  await generateQuestion();
 		};
