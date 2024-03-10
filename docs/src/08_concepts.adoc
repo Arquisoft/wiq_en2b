@@ -10,29 +10,44 @@ This is the first version of the diagram, it will be updated if needed.
 ----
 @startuml
 
-enum Category {
+enum QuestionCategory {
     HISTORY
     GEOGRAPHY
     SCIENCE
+    MATH
+    LITERATURE
+    ART
+    SPORTS
 }
 
-enum Type {
+enum AnsswerCategory {
+    CITY
+    COUNTRY
+    PERSON
+    DATE
+    OTHER
+}
+
+enum QuestionType{
     TEXT
     IMAGE
     AUDIO
 }
 
 class Question{
-    id: long
     content: String
     answers: List<Answer>
-    correct: Answer
-    category: Category
+    correctAnswer: Answer
+    questionCategory: QuestionCategory
+    answerCategory: AnswerCategory
     language: String
-    Type: Type
+    QuestionType: Type
 }
 
 class User{
+    username: String
+    email: String
+    password: String
     answeredQuestions: int
 }
 
@@ -41,8 +56,9 @@ class UserStat{
 
 class Answer {
     text: String
-    category: Category
-    Type: Type
+    category: AnswerCategory
+    questionsWithThisAnswer: List<Question>
+
 }
 
 class Game {
@@ -52,7 +68,7 @@ class Game {
 
 
 class Ranking << Singleton >> {
-    
+
 }
 
 User  o--> Question
