@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Dashboard from '../pages/Dashboard';
 import ButtonEf from '../components/ButtonEf';
+import * as LogoutModule from '../components/game/Logout';
 
 describe('Dashboard component', () => {
   it('renders dashboard elements correctly', async () => {
@@ -57,5 +58,29 @@ describe('Dashboard component', () => {
     const { getByTestId } = render(<ButtonEf dataTestId="TestId" variant="outline" colorScheme="blue" text="Test Text" onClick={() => {}} />);
   
     expect(getByTestId('TestId')).toBeInTheDocument();
+  });
+
+  it('handles logout successfully', async () => {
+    render(<MemoryRouter><Dashboard/></MemoryRouter>);
+
+    const logoutButton = screen.getByText(/logout/i);
+
+    const logoutUserMock = jest.spyOn(LogoutModule, 'logoutUser').mockResolvedValueOnce();
+
+    await act(async () => {
+      fireEvent.click(logoutButton);
+    });
+
+    expect(logoutUserMock).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("common.dashboard")).toBeInTheDocument();
+  });
+
+  it('does not navigate to the statistics route on disabled button click', () => {
+    render(<MemoryRouter><Dashboard /></MemoryRouter>);
+  
+    const statisticsButton = screen.getByTestId('Statistics');
+    fireEvent.click(statisticsButton);
+  
+    expect(screen.getByText("common.dashboard")).toBeInTheDocument();
   });
 });
