@@ -37,8 +37,11 @@ public class QuestionService {
         }
     }
 
-    public QuestionResponseDto getRandomQuestion() {
-        return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion());
+    public QuestionResponseDto getRandomQuestion(String lang) {
+        if (lang==null || lang.isBlank()) {
+            lang = "en";
+        }
+        return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion(lang));
     }
 
     public QuestionResponseDto getQuestionById(Long id) {
