@@ -38,7 +38,7 @@ export default function Signup() {
         };
 
         try {
-            await register(registerData, navigateToLogin(), setHasError(true));
+            await register(registerData, navigateToLogin, ()=> setHasError(true));
         } catch {
             setHasError(true);
         }
