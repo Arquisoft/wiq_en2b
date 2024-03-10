@@ -17,12 +17,6 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
 
-    // TODO: REMOVE WHEN NOT USED FOR TESTING
-    @GetMapping
-    private ResponseEntity<List<QuestionResponseDto>> getQuestions() {
-        return ResponseEntity.ok(questionService.getQuestions());
-    }
-
     @PostMapping("/{questionId}/answer")
     private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@PathVariable @PositiveOrZero Long questionId, @Valid @RequestBody AnswerDto answerDto){
         return ResponseEntity.ok(questionService.answerQuestion(questionId,answerDto));
