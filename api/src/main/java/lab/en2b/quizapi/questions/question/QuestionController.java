@@ -22,8 +22,8 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.answerQuestion(questionId,answerDto));
     }
 
-    @GetMapping("/new?lang={lang}")
-    private ResponseEntity<QuestionResponseDto> generateQuestion(@PathVariable String lang){
+    @GetMapping("/new")
+    private ResponseEntity<QuestionResponseDto> generateQuestion(@RequestParam String lang){
         return ResponseEntity.ok(questionService.getRandomQuestion(lang));
     }
 
