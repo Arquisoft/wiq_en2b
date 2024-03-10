@@ -31,7 +31,6 @@ services:
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_en2b/webapp:latest
     image: webapp:latest
     profiles: [ "dev", "prod" ]
     
