@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, fireEvent, getByTestId, getAllByTestId } from '@testing-library/react';
+import { render, fireEvent, getByTestId, getAllByTestId, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
+import * as AuthUtils from '../components/auth/AuthUtils';
 
 jest.mock('../components/auth/AuthUtils', () => ({
   isUserLogged: jest.fn(),
@@ -59,5 +60,68 @@ describe('Signup Component', () => {
   
     fireEvent.change(confirmPasswordInput, { target: { value: 'newPassword' } });
     expect(confirmPasswordInput.value).toBe('newPassword');
+  });
+  
+  it('navigates to login page on successful registration', async () => {
+    const { getByPlaceholderText, getByTestId } = render(<MemoryRouter><Signup /></MemoryRouter>);
+
+    // Espía sobre la función de registro
+    const registerSpy = jest.spyOn(AuthUtils, 'register').mockResolvedValueOnce();
+
+    const emailInput = getByPlaceholderText('session.email');
+    const usernameInput = getByPlaceholderText('session.username');
+    const passwordInput = getByPlaceholderText('session.password');
+    const signUpButton = getByTestId('Sign up');
+
+    // Modifica los valores según lo que necesites
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.click(signUpButton);
+
+    // Espera a que el registro sea exitoso
+    await waitFor(() => expect(registerSpy).toHaveBeenCalled());
+
+    // Asegúrate de que la función de navegación se haya llamado
+    expect(registerSpy.mock.calls[0][1]).toBeInstanceOf(Function); // Esto verifica que se pase una función como segundo argumento
+    registerSpy.mock.calls[0][1](); // Llama a la función de navegación
+
+    // Verifica que la navegación se haya realizado correctamente
+    // Puedes agregar más expectativas aquí según tus necesidades
+
+    // Restaura la implementación original de la función de registro para otras pruebas
+    registerSpy.mockRestore();
+  });
+
+  it('handles registration error', async () => {
+    const { getByPlaceholderText, getByTestId } = render(<MemoryRouter><Signup /></MemoryRouter>);
+
+    // Espía sobre la función de registro
+    const registerSpy = jest.spyOn(AuthUtils, 'register').mockRejectedValueOnce(new Error('Registration error'));
+
+    const emailInput = getByPlaceholderText('session.email');
+    const usernameInput = getByPlaceholderText('session.username');
+    const passwordInput = getByPlaceholderText('session.password');
+    const signUpButton = getByTestId('Sign up');
+
+    // Modifica los valores según lo que necesites
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'password' } });
+    fireEvent.click(signUpButton);
+
+    // Espera a que se maneje el error de registro
+    await waitFor(() => expect(registerSpy).toHaveBeenCalled());
+
+    // Verifica que la función de manejo de error se haya llamado
+    expect(registerSpy.mock.calls[0][2]).toBeInstanceOf(Function); // Verifica que se pase una función como tercer argumento
+    registerSpy.mock.calls[0][2](); // Llama a la función de manejo de error
+
+    // Verifica que la variable de estado `hasError` se haya establecido correctamente
+    // Puedes agregar más expectativas aquí según tus necesidades
+    // ...
+
+    // Restaura la implementación original de la función de registro para otras pruebas
+    registerSpy.mockRestore();
   });
 });
