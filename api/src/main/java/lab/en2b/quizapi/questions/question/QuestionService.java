@@ -20,10 +20,6 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
 
-    public List<QuestionResponseDto> getQuestions() {
-        return questionRepository.findAll().stream().map(questionResponseDtoMapper).toList();
-    }
-
     public AnswerCheckResponseDto answerQuestion(Long id, AnswerDto answerDto) {
         Question question = questionRepository.findById(id).orElseThrow();
         if(question.getCorrectAnswer().getId().equals(answerDto.getAnswerId())){
