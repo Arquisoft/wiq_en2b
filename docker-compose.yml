@@ -16,7 +16,7 @@ services:
  
   api:
     container_name: api-${teamname:-defaultASW}
-    image: arquisoft/wiq_en2b/api:latest
+    image:  ghcr.io/arquisoft/wiq_en2b/api:latest
     profiles: [ "dev", "prod" ]
     build:
       context: ./api
@@ -31,7 +31,7 @@ services:
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
-    image: arquisoft/wiq_en2b/webapp:latest
+    image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
     profiles: [ "dev", "prod" ]
     
     build:
