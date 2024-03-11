@@ -17,7 +17,7 @@ describe("Question Service tests", () => {
                 text: "What is the meaning of life?",
             };
 
-            mockAxios.onGet("http://98.66.168.12:8080/auth/logout" + "/questions/new").replyOnce(
+            mockAxios.onGet(process.env.REACT_APP_API_ENDPOINT + "/questions/new").replyOnce(
                 HttpStatusCode.Ok,
                 mockQuestion
             );

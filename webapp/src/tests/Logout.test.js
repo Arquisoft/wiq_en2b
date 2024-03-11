@@ -11,7 +11,7 @@ describe("Logout User tests", () => {
     });
 
     it("successfully logs out the user", async () => {
-        mockAxios.onGet("http://98.66.168.12:8080/auth/logout" + "/auth/logout").replyOnce(200);
+        mockAxios.onGet(process.env.REACT_APP_API_ENDPOINT + "/auth/logout").replyOnce(200);
 
         sessionStorage.setItem("jwtToken", "token");
         sessionStorage.setItem("jwtRefreshToken", "refreshToken");
