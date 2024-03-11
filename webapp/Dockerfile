@@ -9,6 +9,8 @@ RUN npm install
 #Create an optimized version of the webapp
 RUN npm run build
 RUN npm install serve
+ARG REACT_APP_API_ENDPOINT
+RUN echo "REACT_APP_API_ENDPOINT=$REACT_APP_API_ENDPOINT" > .env
 
 #Execute npm run prod to run the server
 CMD [ "npm", "run", "prod" ]
