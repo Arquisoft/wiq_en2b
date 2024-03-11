@@ -3,6 +3,7 @@ package model;
 import repositories.Storable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,9 @@ public class Question implements Storable {
     @ManyToOne
     @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
+    @Column(name = "question_category")
     private QuestionCategory questionCategory;
+    @Column(name = "answer_category")
     private AnswerCategory answerCategory;
     private String language;
     private QuestionType type;
@@ -38,5 +41,11 @@ public class Question implements Storable {
         this.answerCategory = answerCategory;
         this.language = language;
         this.type = type;
+        this.answers = new ArrayList<>();
+        this.answers.add(correctAnswer);
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
     }
 }

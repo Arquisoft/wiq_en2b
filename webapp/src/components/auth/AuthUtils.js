@@ -7,7 +7,7 @@ export function isUserLogged() {
 export function saveToken(requestAnswer) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
     sessionStorage.setItem("jwtToken", requestAnswer.data.token);
-    sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_Token);
+    sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
     sessionStorage.setItem("jwtReceptionMillis", Date.now().toString());
 }
 

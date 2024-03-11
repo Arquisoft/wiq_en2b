@@ -33,4 +33,22 @@ describe('Game component', () => {
     
     expect(nextButton).toBeEnabled();
   });
+
+  test('renders ButtonEf component correctly', () => {
+    const { getByTestId } = render(
+      <MemoryRouter>
+        <Game/>
+      </MemoryRouter>
+    );
+    const option2Button = getByTestId('Option2');
+  
+    // Assuming 'outline' variant is the default state
+    expect(option2Button).toHaveClass('chakra-button css-1vdwnhw');
+    
+    // Simulate selecting the option
+    fireEvent.click(option2Button);
+  
+    // Ensure the 'solid' variant is applied when the option is selected
+    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-1vdwnhw');
+  });
 });

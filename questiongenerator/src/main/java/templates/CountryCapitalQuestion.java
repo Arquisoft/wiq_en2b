@@ -6,6 +6,10 @@ import model.Answer;
 import model.AnswerCategory;
 import model.Question;
 import org.json.JSONObject;
+import repositories.Storable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation for a question where the capital of a country is asked and all the capitals are returned.
@@ -38,6 +42,8 @@ public class CountryCapitalQuestion extends QuestionTemplate {
      */
     @Override
     protected void processResults() {
+        List<Question> questions = new ArrayList<>();
+        List<Answer> answers = new ArrayList<>();
         for (int i = 0; i < results.length(); i++) {
             JSONObject result = results.getJSONObject(i);
             String countryLabel = result.getJSONObject("countryLabel").getString("value");
@@ -49,7 +55,7 @@ public class CountryCapitalQuestion extends QuestionTemplate {
 
             //Saving the answer
             Answer a = new Answer(capitalLabel, AnswerCategory.CITY);
-            repository.save(a);
+            answers.add(a);
 
             //Saving the question
             String content;
@@ -57,8 +63,16 @@ public class CountryCapitalQuestion extends QuestionTemplate {
                 content = "What is the capital of " + countryLabel + "?";
             else
                 content = "¿Cuál es la capital de " + countryLabel + "?";
+            questions.add(new Question(content, a, QuestionCategory.GEOGRAPHY, AnswerCategory.CITY, langCode, QuestionType.TEXT));
+        }
+        addRandomAnswers(answers, questions);
+        repository.saveAll(new ArrayList<>(answers));
+        repository.saveAll(new ArrayList<>(questions));
+    }
 
-            repository.save(new Question(content, a, QuestionCategory.GEOGRAPHY, AnswerCategory.CITY, langCode, QuestionType.TEXT));
+    private void addRandomAnswers(List<Answer> answers, List<Question> questions) {
+        for(Question q : questions) {
+            q.getAnswers().add(answers.get((int) (Math.random() * (answers.size()-1))));
         }
     }
 
