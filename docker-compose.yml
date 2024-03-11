@@ -34,6 +34,22 @@ services:
     ports:
       - "8080:8080"
 
+  question-generator:
+    container_name: question-generator-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en2b/question-generator:latest
+    profiles: [ "dev", "prod" ]
+    build:
+      context: ./questiongenerator
+      args:
+        DATABASE_USER: ${DATABASE_USER}
+        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    environment:
+      - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - mynetwork
+
   webapp:
     container_name: webapp-${teamname:-defaultASW}
     image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
