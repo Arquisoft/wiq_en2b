@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -97,16 +96,5 @@ public class AuthServiceTest {
 
         assertEquals(new RefreshTokenResponseDto("jwtToken","token"),actual);
 
-    }
-
-    @Test
-    void testLogout(){
-            Authentication authentication = mock(Authentication.class);
-            when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
-            when(userRepository.findById(any())).thenReturn(Optional.of(defaultUser));
-
-            authService.logOut(authentication);
-            assertNull(defaultUser.getRefreshToken());
-            assertNull(defaultUser.getRefreshExpiration());
     }
 }

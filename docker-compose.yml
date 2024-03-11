@@ -29,18 +29,6 @@ services:
     ports:
       - "8080:8080"
 
-  webapp:
-    container_name: webapp-${teamname:-defaultASW}
-    image: webapp:latest
-    profiles: [ "dev", "prod" ]
-    
-    build:
-      context: ./webapp
-    environment:
-      - REACT_APP_API_ENDPOINT=${API_URI}
-    ports:
-      - "3000:3000"
-
 
 volumes:
   postgres_data:

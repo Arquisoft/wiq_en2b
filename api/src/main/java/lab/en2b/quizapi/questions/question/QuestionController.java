@@ -9,11 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/questions")
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
+
+    // TODO: REMOVE WHEN NOT USED FOR TESTING
+    @GetMapping
+    private ResponseEntity<List<QuestionResponseDto>> getQuestions() {
+        return ResponseEntity.ok(questionService.getQuestions());
+    }
 
     @PostMapping("/{questionId}/answer")
     private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@PathVariable @PositiveOrZero Long questionId, @Valid @RequestBody AnswerDto answerDto){
@@ -21,8 +29,8 @@ public class QuestionController {
     }
 
     @GetMapping("/new")
-    private ResponseEntity<QuestionResponseDto> generateQuestion(@RequestParam(required = false) String lang){
-        return ResponseEntity.ok(questionService.getRandomQuestion(lang));
+    private ResponseEntity<QuestionResponseDto> generateQuestion(){
+        return ResponseEntity.ok(questionService.getRandomQuestion());
     }
 
     @GetMapping("/{id}")

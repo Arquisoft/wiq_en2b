@@ -33,18 +33,16 @@ public class QuestionControllerTest {
     QuestionService questionService;
     @MockBean
     UserService userService;
-
     @Test
-    void newQuestionShouldReturn403() throws Exception{
-        mockMvc.perform(get("/questions/new?lang=en")
+    void getQuestionNoAuthShouldReturn403() throws Exception {
+        mockMvc.perform(get("/questions")
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
-
     @Test
-    void newQuestionShouldReturn200() throws Exception{
-        mockMvc.perform(get("/questions/new?lang=en")
+    void getQuestionShouldReturn200() throws Exception {
+        mockMvc.perform(get("/questions")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
@@ -52,7 +50,15 @@ public class QuestionControllerTest {
     }
 
     @Test
-    void newQuestionNoLangShouldReturn200() throws Exception{
+    void newQuestionShouldReturn403() throws Exception{
+        mockMvc.perform(get("/questions/new")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void newQuestionShouldReturn200() throws Exception{
         mockMvc.perform(get("/questions/new")
                         .with(user("test").roles("user"))
                         .contentType("application/json")

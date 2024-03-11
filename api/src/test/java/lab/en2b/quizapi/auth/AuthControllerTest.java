@@ -21,9 +21,7 @@ import static lab.en2b.quizapi.commons.utils.TestUtils.asJsonString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
@@ -112,19 +110,6 @@ public class AuthControllerTest {
        testRefreshToken(asJsonString( new RefreshTokenDto("")), status().isBadRequest());
     }
 
-    @Test
-    void logoutShouldReturn204() throws Exception {
-        testLogout(status().isNoContent());
-    }
-
-    @Test
-    void logoutNoAuthShouldReturn403() throws Exception {
-        mockMvc.perform(get("/auth/logout")
-                        .contentType("application/json")
-                        .with(csrf()))
-                .andExpect(status().isForbidden());
-    }
-
     private void testRegister(String content, ResultMatcher code) throws Exception {
         mockMvc.perform(post("/auth/register")
                         .content(content)
@@ -144,14 +129,6 @@ public class AuthControllerTest {
     private void testRefreshToken(String content, ResultMatcher code) throws Exception {
         mockMvc.perform(post("/auth/refresh-token")
                         .content(content)
-                        .contentType("application/json")
-                        .with(csrf()))
-                .andExpect(code);
-    }
-
-    private void testLogout(ResultMatcher code) throws Exception {
-        mockMvc.perform(get("/auth/logout")
-                        .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(code);

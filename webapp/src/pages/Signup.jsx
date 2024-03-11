@@ -1,13 +1,11 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, 
-            chakra, Box, Avatar, FormControl, InputRightElement, 
-            FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
+import { Heading, Input, Button, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, Text, FormHelperText, IconButton } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import axios, { HttpStatusCode } from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
-import { register } from "../components/auth/AuthUtils";
 import ButtonEf from '../components/ButtonEf';
 
 export default function Signup() {
@@ -26,101 +24,85 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToLogin = () => {
-        navigate("/login");
-    };
-
-    const sendRegistration = async () => {
-        const registerData = {
-            "email": email,
-            "username": username,
-            "password": password
-        };
-
+    const sendLogin = async () => {
         try {
-            await register(registerData, navigateToLogin, ()=> setHasError(true));
-        } catch {
+            const response = await axios.post(process.env.API_URL, { email, username, password });
+            if (response.status === HttpStatusCode.Accepted) {
+                navigate("/home");
+            }
+        } catch (error) {
             setHasError(true);
         }
     };
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        setHasError(false); 
-    }
-
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value);
-        setHasError(false); 
-    }
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        setHasError(false); 
-    }
-
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-        setHasError(false); 
-    }
-
     return (
         <Center
-            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+            display={"flex"}
+            flexDirection={"column"}
+            w={"100wh"}
+            h={"100vh"}
+            bg={"blue.50"}
+            justifyContent={"center"}
+            alignItems={"center"}
+        >
+            {hasError && (
+                <div className="error-container">
+                    <Text>Error</Text>
+                </div>
+            )}
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">
                     {t("common.register")}
                 </Heading>
-                {
-                    hasError && 
-                    <Alert status='error'rounded="1rem" margin={"1vh 0vw"}>
-                        <AlertIcon />
-                        <AlertTitle>{t("error.register")}</AlertTitle>
-                        <AlertDescription>{t("error.register-desc")}</AlertDescription>
-                    </Alert>
-                }
-                <Box minW={{ md: "400px" }} shadow="2xl">
-                    <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
+                {!hasError ? (
+                    <></>
+                ) : (
+                    <Center
+                        bgColor={"#FFA98A"}
+                        margin={"1vh 0vw"}
+                        padding={"1vh 0vw"}
+                        color={"#FF0500"}
+                        border={"0.1875em solid #FF0500"}
+                        borderRadius={"0.75em"}
+                        maxW={"100%"}
+                        minW={"30%"}
+                    >
+                        <Text>Error</Text>
+                    </Center>
+                )}
+                <Box minW={{ md: "400px" }}>
+                    <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md">
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement>
-                                    <ChakraFaCardAlt color="gray.300"/>
-                                </InputLeftElement>
+                                <InputLeftElement children={<ChakraFaCardAlt color="gray.300" />} />
                                 <Input
                                     type="text"
-                                    id="user"
                                     placeholder={t("session.email")}
                                     value={email}
-                                    onChange={handleEmailChange}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement>
-                                    <ChakraFaUserAlt color="gray.300"/>
-                                </InputLeftElement>
+                                <InputLeftElement children={<ChakraFaUserAlt color="gray.300" />} />
                                 <Input
                                     type="text"
-                                    id="username"
                                     placeholder={t("session.username")}
                                     value={username}
-                                    onChange={handleUsernameChange}
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement>
-                                    <ChakraFaLock color="gray.300"/>
-                                </InputLeftElement>
+                                <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
                                 <Input
                                     type={showPassword ? "text" : "password"}
-                                    id="password"
                                     placeholder={t("session.password")}
                                     value={password}
-                                    onChange={handlePasswordChange}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <InputRightElement>
                                     <IconButton aria-label='Shows or hides the password' data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowPassword(!showPassword)} icon={showPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
@@ -129,14 +111,12 @@ export default function Signup() {
                         </FormControl>
                         <FormControl>
                             <InputGroup>
-                                <InputLeftElement>
-                                    <ChakraFaLock color="gray.300"/>
-                                </InputLeftElement>
+                                <InputLeftElement children={<ChakraFaLock color="gray.300" />} />
                                 <Input
                                     type={showConfirmPassword ? "text" : "password"}
                                     placeholder={t("session.confirm_password")}
                                     value={confirmPassword}
-                                    onChange={handleConfirmPasswordChange}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                                 <InputRightElement>
                                     <IconButton aria-label='Shows or hides the password' data-testid="show-confirm-password-button" h="1.75rem" size="sm" onClick={() => setShowConfirmPassword(!showConfirmPassword)} icon={showConfirmPassword ? <ViewOffIcon/> : <ViewIcon/>}/>
@@ -146,7 +126,7 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendRegistration}/>
+                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendLogin}/>
                     </Stack>
                 </Box>
             </Stack>

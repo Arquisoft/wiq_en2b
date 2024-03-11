@@ -49,11 +49,4 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return user.getRefreshToken();
     }
-
-    public void deleteRefreshToken(Long id) {
-        User user = userRepository.findById(id).orElseThrow();
-        user.setRefreshToken(null);
-        user.setRefreshExpiration(null);
-        userRepository.save(user);
-    }
 }

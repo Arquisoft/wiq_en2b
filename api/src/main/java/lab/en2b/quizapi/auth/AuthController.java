@@ -4,9 +4,10 @@ import jakarta.validation.Valid;
 import lab.en2b.quizapi.auth.dtos.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -22,12 +23,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> loginUser(@Valid @RequestBody LoginDto loginRequest){
         return ResponseEntity.ok(authService.login(loginRequest));
-    }
-
-    @GetMapping("/logout")
-    public ResponseEntity<Void> logoutUser(Authentication authentication){
-        authService.logOut(authentication);
-        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/refresh-token")

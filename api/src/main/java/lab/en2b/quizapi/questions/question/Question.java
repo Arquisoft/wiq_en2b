@@ -35,9 +35,7 @@ public class Question {
     @NotNull
     @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
-    @Column(name = "question_category")
     private QuestionCategory questionCategory;
-    @Column(name = "answer_category")
     private AnswerCategory answerCategory;
     private String language;
     private QuestionType type;
