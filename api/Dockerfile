@@ -1,6 +1,5 @@
 FROM maven:3.8.1-openjdk-17 AS build
 # Compile api
-WORKDIR /api
 COPY . /api
 WORKDIR /api
 RUN mvn install
