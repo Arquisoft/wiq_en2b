@@ -8,11 +8,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Whitebox Overall System
 
-[role="arc42help"]
-****
-This is the overall view of the application. The diagram is composed of 3 elements that will interact between each other.
-****
-
 _**Overview Diagram**_
 
 image::BusinessContext.png[align="center", title="Overall view of the business context"]
@@ -34,20 +29,6 @@ This part will be more detailed later, since the structure of the different inte
 
 
 === Level 2
-
-[role="arc42help"]
-****
-Here is an specification of the inner structure of the WIQ Application.
-****
-
-==== White Box _WIQ Application_
-
-image::ContainerDiagram.png[align="center", title="Container for the WIQ System"]
-
-[role="arc42help"]
-****
-This diagram describes the internal organization of the WIQ Application.
-****
 
 Motivation::
 An inner view on the WIQ Application and its components inside. How the WIQ application will be structured inside and its main components.

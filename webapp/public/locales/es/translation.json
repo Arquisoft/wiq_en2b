@@ -14,7 +14,8 @@
         "submit": "Enviar",
         "rules": "Reglas",
         "dashboard": "Panel de Usuario",
-        "goBack": "Volver"
+        "goBack": "Volver",
+        "finish": "Finalizar"
     },
     "session": {
         "username": "Nombre de usuario",
@@ -22,9 +23,14 @@
         "email": "Correo electrónico",
         "confirm_password": "Confirmar contraseña",
         "welcome": "Bienvenido a la página principal de WIQ-EN2B",
-        "account": "¿No tienes una cuenta?"
+        "account": "¿No tienes una cuenta?",
+        "clickHere": "Pulsa aquí"
     },
     "error": {
-        "login": "Ocurrió un ERROR en el login"
+        "login": "Nombre de usuario o contraseña incorrectos",
+        "register": "Debes introducir datos válidos para registrarte",
+        "login-desc":  "Por favor, introduce tus datos para iniciar sesión",
+        "register-desc": "Por favor, introduce tus datos para registrarte",
+        "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos"
     }
 }
