@@ -15,5 +15,5 @@ ARG DATABASE_PASSWORD
 ENV DATABASE_URL jdbc:postgresql://WIQ_DB:5432/wiq
 ENV DATABASE_USER $DATABASE_USER
 ENV DATABASE_PASSWORD $DATABASE_PASSWORD
-COPY --from=build /questiongenerator/target/QuestionGenerator-1.0-SNAPSHOT.jar app.jar
+COPY --from=build /questiongenerator/target/QuestionGenerator-1.0-SNAPSHOT-jar-with-dependencies.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
