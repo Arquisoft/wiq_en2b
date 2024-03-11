@@ -104,5 +104,5 @@ jobs:
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "API_URI=http://${{ secrets.DEPLOY_HOST }}:8080" >> .env
-          docker compose down
+          docker compose --profile prod down
           docker compose --profile prod up -d

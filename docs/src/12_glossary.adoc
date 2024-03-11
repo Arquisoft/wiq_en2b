@@ -7,13 +7,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [cols="e,2e" options="header"]
 |===
 |Term |Definition
-
-|React
-|An open-source JavaScript library for developing user interfaces. It can be used to develop web applications, and it has to be complemented with other libraries to develop full-fledged products.
-
-|SpringBoot
-|Java Spring Boot (Spring Boot) is a tool that makes developing web application and microservices with Spring Framework faster and easier through three core capabilities: Autoconfiguration, an opinionated approach to configuration, the ability to create standalone applications.
-
-|PostgreSQL
-|Object-relational database management system (ORDMBS), which means that it has relational capabilities and an object-oriented design
+|Question Generator
+|A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB.
 |===

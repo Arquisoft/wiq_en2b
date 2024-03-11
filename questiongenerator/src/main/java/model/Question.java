@@ -1,28 +1,18 @@
-package lab.en2b.quizapi.questions.question;
+package model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lab.en2b.quizapi.questions.answer.Answer;
-import lab.en2b.quizapi.questions.answer.AnswerCategory;
-import lombok.*;
+import repositories.Storable;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "questions")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@Builder
-public class Question {
-
+public class Question implements Storable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
     private Long id;
     private String content;
-    @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="questions_answers",
             joinColumns=
@@ -32,7 +22,6 @@ public class Question {
     )
     private List<Answer> answers;
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
     @Column(name = "question_category")
@@ -42,5 +31,21 @@ public class Question {
     private String language;
     private QuestionType type;
 
+    public Question() {
+    }
 
+    public Question(String content, Answer correctAnswer, QuestionCategory questionCategory, AnswerCategory answerCategory, String language, QuestionType type) {
+        this.content = content;
+        this.correctAnswer = correctAnswer;
+        this.questionCategory = questionCategory;
+        this.answerCategory = answerCategory;
+        this.language = language;
+        this.type = type;
+        this.answers = new ArrayList<>();
+        this.answers.add(correctAnswer);
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
 }

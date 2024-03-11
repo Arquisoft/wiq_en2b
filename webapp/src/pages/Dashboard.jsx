@@ -3,11 +3,21 @@ import { Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { logoutUser } from "../components/game/Logout"; // Importa la función logoutUser
 import ButtonEf from '../components/ButtonEf';
 
 export default function Dashboard() {
     const navigate = useNavigate();
     const { t } = useTranslation();
+
+    const handleLogout = async () => {
+        try {
+            await logoutUser();
+            navigate("/");
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    };
 
     return (
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center">
@@ -23,7 +33,7 @@ export default function Dashboard() {
             </Grid>
 
             <Flex direction="row" justifyContent="center" alignItems="center">
-              <Button type="submit" colorScheme="red" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/")} w="100%">
+              <Button type="submit" colorScheme="red" margin={"10px"} className={"custom-button effect1"} onClick={handleLogout} w="100%">
                 {t("common.logout")}
               </Button>
             </Flex>

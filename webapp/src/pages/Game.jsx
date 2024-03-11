@@ -4,31 +4,27 @@ import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import ButtonEf from '../components/ButtonEf';
-import {getQuestion} from '../components/game/Questions';
+import {getQuestion, answerQuestion} from '../components/game/Questions';
+import axios from "axios";
 
 export default function Game() {
 	const navigate = useNavigate();
 
-	const [question, setQuestion] = useState({ id:1, content: "default question", answers: [], questionCategory: "", answerCategory: "", language: "en", type: ""});
-
-	// const generateQuestion = () => {
-	// 	const fetchQuestion = async () => {
-	// 		const result = await getQuestion();
-	// 		setQuestion(result);
-	// 	};
-	// }
-	// componentDidMount() {
-	// 	generateQuestion();
-	// }
-
+	const [question, setQuestion] = useState({ id:1, content: "default question", answers: [{id:1, text:"answer1", category:"category1" }, {id:2, text:"answer2", category:"category2" }], questionCategory: "", answerCategory: "", language: "en", type: ""});
 	useEffect(() => {
+		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
-		  const result = await getQuestion();
-		  setQuestion(result);
+		  await generateQuestion();
 		};
 		fetchQuestion();
-	  }, []);
+	}, []);
 
+	const generateQuestion = async () => {
+		const result = await getQuestion();
+		setQuestion(result);
+	};
+
+	const [answer, setAnswer] = useState({id:1, text:"answer1", category:"category1" });
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [nextDisabled, setNextDisabled] = useState(true);
 	const [roundNumber, setRoundNumber] = useState(1);
@@ -36,13 +32,14 @@ export default function Game() {
 	const [showConfetti, setShowConfetti] = useState(false);
 
 	const answerButtonClick = (option) => {
+		setAnswer(question.answers[option-1]);
 		setSelectedOption((prevOption) => (prevOption === option ? null : option));
 		const anyOptionSelected = option === selectedOption ? null : option;
 		setNextDisabled(anyOptionSelected === null);
 	};
 
-	const nextButtonClick = () => {
-		const isCorrect = selectedOption === 1; // Right now the correct option is the first one.
+	const nextButtonClick = async () => {
+		const isCorrect = (await answerQuestion(question.id, answer.id)).wasCorrect;
 
 		if (isCorrect) {
 			setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
@@ -57,6 +54,7 @@ export default function Game() {
 		else {
 			setRoundNumber(nextRoundNumber);
 			setNextDisabled(true);
+			await generateQuestion();
 		}
 	};
 
@@ -79,8 +77,8 @@ export default function Game() {
 				</Box>
 
 				<Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
-					<ButtonEf dataTestId={"Option1"} variant={selectedOption === 1 ? "solid" : "outline"} colorScheme={"blue"} text={"option1"} onClick={() => answerButtonClick(1)} />
-					<ButtonEf dataTestId={"Option2"} variant={selectedOption === 2 ? "solid" : "outline"} colorScheme={"blue"} text={"option2"} onClick={() => answerButtonClick(2)} />
+					<ButtonEf dataTestId={"Option1"} variant={selectedOption === 1 ? "solid" : "outline"} colorScheme={"blue"} text={question.answers[0].text} onClick={() => answerButtonClick(1)} />
+					<ButtonEf dataTestId={"Option2"} variant={selectedOption === 2 ? "solid" : "outline"} colorScheme={"blue"} text={question.answers[1].text} onClick={() => answerButtonClick(2)} />
 				</Grid>
 
 				<Flex direction="row" justifyContent="center" alignItems="center">

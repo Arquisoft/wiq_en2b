@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Service
+//@Service
 public class InsertDataUtils {
 
     private final QuestionRepository questionRepository;
