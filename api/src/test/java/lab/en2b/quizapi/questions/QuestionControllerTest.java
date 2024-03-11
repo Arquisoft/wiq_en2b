@@ -52,6 +52,15 @@ public class QuestionControllerTest {
     }
 
     @Test
+    void newQuestionNoLangShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions/new")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void questionByIdShouldReturn403() throws Exception{
         mockMvc.perform(get("/questions/1")
                         .contentType("application/json")
