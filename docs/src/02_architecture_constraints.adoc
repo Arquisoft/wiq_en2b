@@ -28,3 +28,18 @@ The application must be developed according to some constraints that were define
 | Documentation in Arc42 | The documentation must follow the Arc42 template
 |===
 
+*Wireframes*
+
+image::wireframe-Welcome.png[align="center", title="Welcome Wireframe"]
+
+image::wireframe-SignIn.png[align="center", title="Sign In Wireframe"]
+
+image::wireframe-SignUp.png[align="center", title="Sign Up Wireframe"]
+
+image::wireframe-Dashboard.png[align="center", title="Dashboard Wireframe"]
+
+image::wireframe-Rules.png[align="center", title="Rules Wireframe"]
+
+image::wireframe-Game.png[align="center", title="Game Wireframe"]
+
+image::wireframe-Results.png[align="center", title="Results Wireframe"]

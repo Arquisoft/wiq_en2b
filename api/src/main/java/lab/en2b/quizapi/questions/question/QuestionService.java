@@ -20,10 +20,6 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
 
-    public List<QuestionResponseDto> getQuestions() {
-        return questionRepository.findAll().stream().map(questionResponseDtoMapper).toList();
-    }
-
     public AnswerCheckResponseDto answerQuestion(Long id, AnswerDto answerDto) {
         Question question = questionRepository.findById(id).orElseThrow();
         if(question.getCorrectAnswer().getId().equals(answerDto.getAnswerId())){
@@ -37,8 +33,11 @@ public class QuestionService {
         }
     }
 
-    public QuestionResponseDto getRandomQuestion() {
-        return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion());
+    public QuestionResponseDto getRandomQuestion(String lang) {
+        if (lang==null || lang.isBlank()) {
+            lang = "en";
+        }
+        return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion(lang));
     }
 
     public QuestionResponseDto getQuestionById(Long id) {

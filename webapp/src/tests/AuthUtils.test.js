@@ -63,12 +63,12 @@ describe("Auth Utils tests", () => {
             let mockResponse = {
                 "data": {
                     "token": "token",
-                    "refresh_Token": "refreshToken"
+                    "refresh_token": "refreshToken"
                 }
             };
             saveToken(mockResponse);
             expect(sessionStorage.getItem("jwtToken")).toBe(mockResponse.data.token);
-            expect(sessionStorage.getItem("jwtRefreshToken")).toBe(mockResponse.data.refresh_Token);
+            expect(sessionStorage.getItem("jwtRefreshToken")).toBe(mockResponse.data.refresh_token);
         });
     });
 });
