@@ -21,7 +21,7 @@ export function getLoginData() {
 
 export async function login(loginData, onSuccess, onError) {
     try {
-        let requestAnswer = await axios.post("http://98.66.168.12:8080" + "/auth/login", loginData);
+        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/login", loginData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             saveToken(requestAnswer);
             onSuccess();
@@ -35,7 +35,7 @@ export async function login(loginData, onSuccess, onError) {
 
 export async function register(registerData, onSuccess, onError) {
     try {
-        let requestAnswer = await axios.post("http://98.66.168.12:8080" + "/auth/register", registerData);
+        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             saveToken(requestAnswer);
             onSuccess();
