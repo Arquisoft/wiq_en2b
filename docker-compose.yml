@@ -33,8 +33,9 @@ services:
     container_name: webapp-${teamname:-defaultASW}
     image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
     profiles: [ "dev", "prod" ]
-    
     build:
+      args:
+        REACT_APP_API_ENDPOINT: ${API_URI}
       context: ./webapp
     environment:
       - REACT_APP_API_ENDPOINT=${API_URI}
