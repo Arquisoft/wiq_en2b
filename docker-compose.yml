@@ -24,6 +24,11 @@ services:
         DATABASE_USER: ${DATABASE_USER}
         DATABASE_PASSWORD: ${DATABASE_PASSWORD}
         JWT_SECRET: ${JWT_SECRET}
+    environment:
+      - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
     networks:
       - mynetwork
     ports:
