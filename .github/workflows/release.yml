@@ -59,7 +59,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: api
-          buildargs: API_URI
+          buildargs: |
+            DATABASE_USER
+            DATABASE_PASSWORD
+            JWT_SECRET
   docker-push-webapp:
     runs-on: ubuntu-latest
     permissions:
@@ -71,7 +74,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
-          API_URI: http://${{ secrets.DEPLOY_HOST }}:8080
+          REACT_APP_API_ENDPOINT: http://${{ secrets.DEPLOY_HOST }}:8080
           teamname: wiq_en2b
         with:
           name: arquisoft/wiq_en2b/webapp
@@ -79,7 +82,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: webapp
-          buildargs: API_URI
+          buildargs: |
+            REACT_APP_API_ENDPOINT
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
