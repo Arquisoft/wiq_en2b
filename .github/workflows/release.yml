@@ -70,7 +70,12 @@ jobs:
       packages: write
     needs: [ e2e-tests ]
     steps:
+
       - uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: echo "REACT_APP_API_ENDPOINT=${{ secrets.DEPLOY_HOST }}:8080" > webapp/.env
+
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
