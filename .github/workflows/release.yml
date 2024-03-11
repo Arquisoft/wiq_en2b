@@ -3,7 +3,9 @@ name: Deploy on release
 on:
   release:
     types: [published]
-
+  push:
+    branches:
+      - fix/actions
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
