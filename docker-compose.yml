@@ -16,7 +16,7 @@ services:
  
   api:
     container_name: api-${teamname:-defaultASW}
-    image: api:latest
+    image:  ghcr.io/arquisoft/wiq_en2b/api:latest
     profiles: [ "dev", "prod" ]
     build:
       context: ./api
@@ -24,17 +24,39 @@ services:
         DATABASE_USER: ${DATABASE_USER}
         DATABASE_PASSWORD: ${DATABASE_PASSWORD}
         JWT_SECRET: ${JWT_SECRET}
+    environment:
+      - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
     networks:
       - mynetwork
     ports:
       - "8080:8080"
 
+  question-generator:
+    container_name: question-generator-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en2b/question-generator:latest
+    profiles: [ "dev", "prod" ]
+    build:
+      context: ./questiongenerator
+      args:
+        DATABASE_USER: ${DATABASE_USER}
+        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    environment:
+      - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    networks:
+      - mynetwork
+
   webapp:
     container_name: webapp-${teamname:-defaultASW}
-    image: webapp:latest
+    image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
     profiles: [ "dev", "prod" ]
-    
     build:
+      args:
+        REACT_APP_API_ENDPOINT: ${API_URI}
       context: ./webapp
     environment:
       - REACT_APP_API_ENDPOINT=${API_URI}
