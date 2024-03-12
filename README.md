@@ -6,7 +6,8 @@ We aim to create a platform that not only challenges your knowledge but also spa
 
 ## What Sets WIQ Apart
 🤔 Thoughtful Questions: Dive into a world of intriguing and diverse questions, all generated procedurally using WikiData.  
-🌐 Encourage to improve: WIQ lets you keep track of your score to see in which areas you need to improve.
+🌐 Encourage to improve: WIQ lets you keep track of your score to see in which areas you need to improve. 
+
 😭 It works! after the final version final re-final (FINAL) true (final) (hotfix)
 
 ## Features
