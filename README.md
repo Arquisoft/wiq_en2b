@@ -1,4 +1,6 @@
 # 🧠🤔 [wiq_en2b](http://98.66.168.12:3000) ❓📚
+The aplication is deployed [here](http://98.66.168.12:3000).
+
 WIQ is a quiz game project inspired by the engaging and thought-provoking show "Saber y Ganar." 
 We aim to create a platform that not only challenges your knowledge but also sparks curiosity and the thrill of discovery.
 
