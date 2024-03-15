@@ -8,6 +8,12 @@ import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
+import lab.en2b.quizapi.questions.answer.AnswerCategory;
+import lab.en2b.quizapi.questions.question.Question;
+import lab.en2b.quizapi.questions.question.QuestionCategory;
+import lab.en2b.quizapi.questions.question.QuestionRepository;
+import lab.en2b.quizapi.questions.question.QuestionType;
+import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +24,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,12 +44,18 @@ public class GameServiceTest {
     @Mock
     private GameRepository gameRepository;
 
+    @Mock
+    private QuestionRepository questionRepository;
+
     private User defaultUser;
+    private Question defaultQuestion;
+    private QuestionResponseDto defaultQuestionResponseDto;
+    private GameResponseDto defaultGameResponseDto;
 
     private UserResponseDto defaultUserResponseDto;
     @BeforeEach
     void setUp() {
-        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService);
+        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")
@@ -56,6 +70,29 @@ public class GameServiceTest {
                 .email("test@email.com")
                 .username("test")
                 .build();
+        this.defaultQuestion = Question.builder()
+                .id(1L)
+                .content("What is the capital of France?")
+                .answers(new ArrayList<>())
+                .language("en")
+                .questionCategory(QuestionCategory.GEOGRAPHY)
+                .answerCategory(AnswerCategory.CITY)
+                .type(QuestionType.TEXT)
+                .build();
+        this.defaultQuestionResponseDto = QuestionResponseDto.builder()
+                .id(1L)
+                .content("What is the capital of France?")
+                .answers(new ArrayList<>())
+                .language("en")
+                .questionCategory(QuestionCategory.GEOGRAPHY)
+                .answerCategory(AnswerCategory.CITY)
+                .type(QuestionType.TEXT)
+                .build();
+        this.defaultGameResponseDto = GameResponseDto.builder()
+                .user(defaultUserResponseDto)
+                .rounds(9)
+                .correctlyAnsweredQuestions(0)
+                .build();
     }
 
     @Test
@@ -63,10 +100,15 @@ public class GameServiceTest {
         Authentication authentication = mock(Authentication.class);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
         GameResponseDto gameDto = gameService.newGame(authentication);
 
-        assertEquals(GameResponseDto.builder().user(defaultUserResponseDto).rounds(9).correctlyAnsweredQuestions(0).
-                build(), gameDto);
+        assertEquals(defaultGameResponseDto, gameDto);
+    }
+
+    @Test
+    public void newGameShouldAssignNewQuestion(){
+        assertTrue(false);
     }
 
 }
