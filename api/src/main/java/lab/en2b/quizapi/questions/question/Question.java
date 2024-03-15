@@ -2,6 +2,7 @@ package lab.en2b.quizapi.questions.question;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lab.en2b.quizapi.game.Game;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lombok.*;
@@ -41,6 +42,9 @@ public class Question {
     private AnswerCategory answerCategory;
     private String language;
     private QuestionType type;
+
+    @ManyToMany(mappedBy = "questions")
+    private List<Game> games;
 
 
 }

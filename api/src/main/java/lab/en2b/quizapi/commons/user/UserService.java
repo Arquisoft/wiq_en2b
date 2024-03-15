@@ -5,6 +5,7 @@ import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lab.en2b.quizapi.commons.exceptions.InvalidAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -55,5 +56,10 @@ public class UserService implements UserDetailsService {
         user.setRefreshToken(null);
         user.setRefreshExpiration(null);
         userRepository.save(user);
+    }
+
+    public User getUserByAuthentication(Authentication authentication) {
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            return userRepository.findByEmail(userDetails.getEmail()).orElseThrow();
     }
 }

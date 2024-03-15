@@ -32,6 +32,9 @@ public class GameControllerTest {
     @MockBean
     UserService userService;
 
+    @MockBean
+    GameService gameService;
+
     @Test
     void newQuestionShouldReturn403() throws Exception{
         mockMvc.perform(post("/games/new")
