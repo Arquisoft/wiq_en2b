@@ -19,6 +19,8 @@ public class GameService {
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))
                 .questions(new ArrayList<>())
+                .rounds(9)
+                .correctlyAnsweredQuestions(0)
                 .build()));
     }
 }

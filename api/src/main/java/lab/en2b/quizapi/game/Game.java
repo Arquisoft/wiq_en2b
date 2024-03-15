@@ -16,10 +16,15 @@ import java.util.List;
 @Setter
 @Builder
 public class Game {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
+    private int rounds = 9;
+
+    private int correctlyAnsweredQuestions = 0;
 
     @ManyToOne
     @NotNull

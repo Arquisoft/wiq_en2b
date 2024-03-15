@@ -65,7 +65,8 @@ public class GameServiceTest {
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         GameResponseDto gameDto = gameService.newGame(authentication);
 
-        assertEquals(GameResponseDto.builder().user(defaultUserResponseDto).build(), gameDto);
+        assertEquals(GameResponseDto.builder().user(defaultUserResponseDto).rounds(9).correctlyAnsweredQuestions(0).
+                build(), gameDto);
     }
 
 }
