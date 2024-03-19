@@ -40,9 +40,21 @@ export async function register(registerData, onSuccess, onError) {
             saveToken(requestAnswer);
             onSuccess();
         } else {
-            onError();
+            throw requestAnswer
         }
-    } catch {
-        onError();
+    } catch (error) {
+        let errorType;
+        switch (error.response ? error.response.status : null) {
+            case 400:
+                errorType = { type: "Validation", message: "Datos incorrectos."};
+                break;
+            case 409:
+                errorType = { type: "Conflict", message: "Usuario ya existe."};
+                break;
+            default:
+                errorType = { type: "Unknown", message: "Error desconocido."};
+                break;
+        }
+        onError(errorType);
     }
 }

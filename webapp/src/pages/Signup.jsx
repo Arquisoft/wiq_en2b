@@ -17,7 +17,7 @@ export default function Signup() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -38,30 +38,30 @@ export default function Signup() {
         };
 
         try {
-            await register(registerData, navigateToLogin, ()=> setHasError(true));
+            await register(registerData, navigateToLogin, setErrorMessage);
         } catch {
-            setHasError(true);
+            setErrorMessage("Error desconocido");
         }
     };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handleConfirmPasswordChange = (e) => {
         setConfirmPassword(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     return (
@@ -73,11 +73,11 @@ export default function Signup() {
                     {t("common.register")}
                 </Heading>
                 {
-                    hasError && 
+                    errorMessage && 
                     <Alert status='error'rounded="1rem" margin={"1vh 0vw"}>
                         <AlertIcon />
-                        <AlertTitle>{t("error.register")}</AlertTitle>
-                        <AlertDescription>{t("error.register-desc")}</AlertDescription>
+                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.register") : errorMessage.type) + " error: "}</AlertTitle>
+                        <AlertDescription>{errorMessage.message}</AlertDescription>
                     </Alert>
                 }
                 <Box minW={{ md: "400px" }} shadow="2xl">

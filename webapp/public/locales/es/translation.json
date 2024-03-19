@@ -28,7 +28,7 @@
     },
     "error": {
         "login": "Nombre de usuario o contraseña incorrectos",
-        "register": "Debes introducir datos válidos para registrarte",
+        "register": "Error en el registro: ",
         "login-desc":  "Por favor, introduce tus datos para iniciar sesión",
         "register-desc": "Por favor, introduce tus datos para registrarte",
         "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos"
