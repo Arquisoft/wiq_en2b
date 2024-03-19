@@ -13,19 +13,7 @@ include::../diagrams/SequenceDiagramSignUp.puml[]
 === Login
 [plantuml,"Login diagram",png]
 ----
-@startuml login
-
-actor Client
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
-
-Client --> API : enters credentials
-API --> BD     : check credentials correct
-BD --> API     : return user token
-API --> BD     : save SWT
-API --> Client : return user token
-
-@enduml
+include::../diagrams/SequenceDiagramLogIn.puml[]
 ----
 
 === General Game's life cycle
