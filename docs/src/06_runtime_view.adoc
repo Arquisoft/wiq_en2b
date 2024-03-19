@@ -7,13 +7,13 @@ Here we can see what the main workflow of main parts of the project.
 === Sign Up
 [plantuml,"Sign up diagram",png]
 ----
-include::../diagrams/SequenceDiagramSignUp.puml[]
+include::../diagrams/sequence/SequenceDiagramSignUp.puml[]
 ----
 
 === Login
 [plantuml,"Login diagram",png]
 ----
-include::../diagrams/SequenceDiagramLogIn.puml[]
+include::../diagrams/sequence/SequenceDiagramLogIn.puml[]
 ----
 
 === General Game's life cycle
@@ -21,26 +21,12 @@ include::../diagrams/SequenceDiagramLogIn.puml[]
 
 [plantuml,"Game's sequence diagram",png]
 ----
-include::../diagrams/SequenceDiagramGame.puml[]
+include::../diagrams/sequence/SequenceDiagramGame.puml[]
 ----
 
 === Question Generation
 [plantuml,"Question generation diagram",png]
 ----
-@startuml question generator
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
-
-QuestionGenerator --> WikiDataQS  : querying correct answer
-QuestionGenerator <-- WikiDataQS  : return correct answer
-
-QuestionGenerator --> WikiDataQS  : querying wrong answers
-QuestionGenerator <-- WikiDataQS  : return wrong answers
-
-QuestionGenerator --> QuestionDB  : store question
-QuestionGenerator --> QuestionDB  : store correct answer
-QuestionGenerator --> QuestionDB  : store wrong answers
-
-@enduml
+include::../diagrams/sequence/SequenceDiagramQuestionGeneration.puml[]
 ----
 
