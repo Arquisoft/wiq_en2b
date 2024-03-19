@@ -1,15 +1,24 @@
-@startuml login
-
-actor Client
-
+@startuml question generator
+title Question Generator Sequence Diagram
+participant QuestionGenerator #darksalmon
+participant WikiDataQS #darksalmon
+database DB #salmon
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
-Client --> API : enters credentials
-API --> BD     : check credentials correct
-BD --> API     : return user token
-API --> BD     : save SWT
-API --> Client : return user token
+loop #PeachPuff Generate question templates
+activate QuestionGenerator #darksalmon
+QuestionGenerator -> WikiDataQS  : request query template
+activate WikiDataQS #darksalmon
+QuestionGenerator <-- WikiDataQS  : returns query answer
+deactivate WikiDataQS
+QuestionGenerator -> QuestionGenerator  : process query answer
+QuestionGenerator -> DB  : store answers
+activate DB #salmon
+QuestionGenerator -> DB  : store questions
+DB --> QuestionGenerator  :  info saved
+deactivate DB
+end loop
 
-
+deactivate QuestionGenerator
 @enduml
