@@ -1,0 +1,32 @@
+@startuml sign up
+
+actor Client #darksalmon
+participant API #darksalmon
+database DB #salmon
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+Client -> API : account details
+activate API #darksalmon
+API -> API : validate details
+API -> DB  : check email is unused
+alt email is unused
+    activate DB #salmon
+    DB --> API  : email is unused
+    deactivate DB
+
+    API -> DB  : register user
+    activate DB #salmon
+    DB --> API  : user registered
+    deactivate DB
+    API --> Client  : return confirmation
+    deactivate API
+else email is used
+    activate DB #salmon
+    DB --> API  : email is used
+    deactivate DB
+    activate API #darksalmon
+    API --> Client  : 400 error
+    deactivate API
+end
+@enduml
