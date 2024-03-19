@@ -10,7 +10,6 @@ import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,42 +27,40 @@ public class InsertDataUtils {
     public void initDummy(){
         //Creation of the questions
         Question q1 = Question.builder()
-                .content("What's the capital of Spain?")
                 .type(QuestionType.TEXT)
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .language("en")
                 .build();
 
         Question q2 = Question.builder()
-                .content("What's the capital of Germany?")
                 .type(QuestionType.TEXT)
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .language("en")
                 .build();
 
         Question q3 = Question.builder()
-                .content("What's the capital of Italy?")
                 .type(QuestionType.TEXT)
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .language("en")
                 .build();
 
         // Creation of the answers
         Answer a1 = new Answer();
         a1.setText("Madrid");
-        a1.setCategory(AnswerCategory.CITY);
+        a1.setCategory(AnswerCategory.CAPITAL_CITY);
+        a1.setLanguage("en");
 
         Answer a2 = new Answer();
         a2.setText("London");
-        a2.setCategory(AnswerCategory.CITY);
+        a2.setCategory(AnswerCategory.CAPITAL_CITY);
+        a1.setLanguage("en");
 
         Answer a3 = new Answer();
         a3.setText("Berlin");
-        a3.setCategory(AnswerCategory.CITY);
+        a3.setCategory(AnswerCategory.CAPITAL_CITY);
+        a1.setLanguage("en");
 
         Answer a4 = new Answer();
         a4.setText("Rome");
-        a4.setCategory(AnswerCategory.CITY);
+        a4.setCategory(AnswerCategory.CAPITAL_CITY);
+        a1.setLanguage("en");
 
         answerRepository.save(a1);
         answerRepository.save(a2);

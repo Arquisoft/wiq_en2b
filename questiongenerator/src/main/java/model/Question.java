@@ -12,7 +12,6 @@ public class Question implements Storable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="questions_answers",
             joinColumns=
@@ -26,17 +25,14 @@ public class Question implements Storable {
     private Answer correctAnswer;
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
-    private String language;
     private QuestionType type;
 
     public Question() {
     }
 
-    public Question(String content, Answer correctAnswer, QuestionCategory questionCategory, String language, QuestionType type) {
-        this.content = content;
+    public Question(Answer correctAnswer, QuestionCategory questionCategory, QuestionType type) {
         this.correctAnswer = correctAnswer;
         this.questionCategory = questionCategory;
-        this.language = language;
         this.type = type;
         this.answers = new ArrayList<>();
         this.answers.add(correctAnswer);

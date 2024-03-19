@@ -3,6 +3,7 @@ package lab.en2b.quizapi.questions.question;
 import jakarta.annotation.PostConstruct;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
+import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionService {
 
+    private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
 
@@ -42,5 +44,9 @@ public class QuestionService {
 
     public QuestionResponseDto getQuestionById(Long id) {
         return questionResponseDtoMapper.apply(questionRepository.findById(id).orElseThrow());
+    }
+
+    public void loadDistractors(Question question) {
+        question.setAnswers( QuestionHelper.getDistractors(answerRepository, question) );
     }
 }

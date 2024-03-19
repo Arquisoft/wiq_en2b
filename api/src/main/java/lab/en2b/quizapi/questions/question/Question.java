@@ -21,8 +21,6 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
-    @Transient
-    private String content;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="questions_answers",
@@ -38,12 +36,17 @@ public class Question {
     private Answer correctAnswer;
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
-    private String language;
     private QuestionType type;
 
     public AnswerCategory getAnswerCategory() {
         return correctAnswer.getCategory();
     }
 
+    public String getContent(){
+        return QuestionHelper.loadQuestionContent(correctAnswer);
+    }
 
+    public String getLanguage(){
+        return correctAnswer.getLanguage();
+    }
 }

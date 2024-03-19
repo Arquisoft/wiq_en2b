@@ -20,6 +20,8 @@ public class Answer {
     private Long id;
     private String text;
     private AnswerCategory category;
+    private String language;
+
     @OneToMany(mappedBy = "correctAnswer", fetch = FetchType.EAGER)
     private List<Question> questions;
 
