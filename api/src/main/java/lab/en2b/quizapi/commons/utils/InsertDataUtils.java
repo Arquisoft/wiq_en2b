@@ -32,7 +32,6 @@ public class InsertDataUtils {
                 .type(QuestionType.TEXT)
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .language("en")
-                .answerCategory(AnswerCategory.CITY)
                 .build();
 
         Question q2 = Question.builder()
@@ -40,7 +39,6 @@ public class InsertDataUtils {
                 .type(QuestionType.TEXT)
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .language("en")
-                .answerCategory(AnswerCategory.CITY)
                 .build();
 
         Question q3 = Question.builder()
@@ -48,7 +46,6 @@ public class InsertDataUtils {
                 .type(QuestionType.TEXT)
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .language("en")
-                .answerCategory(AnswerCategory.CITY)
                 .build();
 
         // Creation of the answers

@@ -63,7 +63,7 @@ public class CountryCapitalQuestion extends QuestionTemplate {
                 content = "What is the capital of " + countryLabel + "?";
             else
                 content = "¿Cuál es la capital de " + countryLabel + "?";
-            questions.add(new Question(content, a, QuestionCategory.GEOGRAPHY, AnswerCategory.CITY, langCode, QuestionType.TEXT));
+            questions.add(new Question(content, a, QuestionCategory.GEOGRAPHY, langCode, QuestionType.TEXT));
         }
         addRandomAnswers(answers, questions);
         repository.saveAll(new ArrayList<>(answers));

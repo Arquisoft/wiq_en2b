@@ -21,6 +21,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+    @Transient
     private String content;
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
@@ -37,10 +38,12 @@ public class Question {
     private Answer correctAnswer;
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
-    @Column(name = "answer_category")
-    private AnswerCategory answerCategory;
     private String language;
     private QuestionType type;
+
+    public AnswerCategory getAnswerCategory() {
+        return correctAnswer.getCategory();
+    }
 
 
 }

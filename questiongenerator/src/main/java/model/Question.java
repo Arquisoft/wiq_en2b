@@ -26,19 +26,16 @@ public class Question implements Storable {
     private Answer correctAnswer;
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
-    @Column(name = "answer_category")
-    private AnswerCategory answerCategory;
     private String language;
     private QuestionType type;
 
     public Question() {
     }
 
-    public Question(String content, Answer correctAnswer, QuestionCategory questionCategory, AnswerCategory answerCategory, String language, QuestionType type) {
+    public Question(String content, Answer correctAnswer, QuestionCategory questionCategory, String language, QuestionType type) {
         this.content = content;
         this.correctAnswer = correctAnswer;
         this.questionCategory = questionCategory;
-        this.answerCategory = answerCategory;
         this.language = language;
         this.type = type;
         this.answers = new ArrayList<>();
@@ -47,5 +44,9 @@ public class Question implements Storable {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public AnswerCategory getAnswerCategory() {
+        return correctAnswer.getCategory();
     }
 }

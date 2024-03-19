@@ -26,4 +26,8 @@ public class Answer implements Storable {
 
     public Answer() {
     }
+
+    public AnswerCategory getCategory() {
+        return category;
+    }
 }
