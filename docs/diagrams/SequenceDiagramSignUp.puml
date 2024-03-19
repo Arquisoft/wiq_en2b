@@ -10,7 +10,7 @@ Client -> API : account details
 activate API #darksalmon
 API -> API : validate details
 API -> DB  : check email is unused
-alt email is unused
+alt #PeachPuff email is unused
     activate DB #salmon
     DB --> API  : email is unused
     deactivate DB

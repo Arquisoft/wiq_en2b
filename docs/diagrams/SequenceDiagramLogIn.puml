@@ -9,7 +9,7 @@ skinparam SequenceMessageAlignment center
 Client -> API : enters credentials
 activate API #darksalmon
 API -> DB    : check credentials correct
-alt credentials correct
+alt #PeachPuff credentials correct
     activate DB #salmon
     DB --> API     : returns result
     deactivate DB
