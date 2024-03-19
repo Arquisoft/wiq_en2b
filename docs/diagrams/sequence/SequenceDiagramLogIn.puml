@@ -1,5 +1,5 @@
 @startuml login
-
+title Login Sequence Diagram
 actor Client #darksalmon
 participant API #darksalmon
 database DB #salmon
