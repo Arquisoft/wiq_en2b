@@ -26,10 +26,22 @@ export async function login(loginData, onSuccess, onError) {
             saveToken(requestAnswer);
             onSuccess();
         } else {
-            onError();
+            throw requestAnswer;
         }
-    } catch {
-        onError();
+    } catch (error) {
+        let errorType;
+        switch (error.response ? error.response.status : null) {
+            case 400:
+                errorType = { type: "Validation", message: "Datos incorrectos."};
+                break;
+            case 401:
+                errorType = { type: "Unauthorized", message:"El usuario no está autorizado para acceder al formulario de login. Por favor, inicie sesión."};
+                break;
+            default:
+                errorType = { type: "Unknown", message: "Error desconocido."};
+                break;
+        }
+        onError(errorType);
     }
 }
 
@@ -40,7 +52,7 @@ export async function register(registerData, onSuccess, onError) {
             saveToken(requestAnswer);
             onSuccess();
         } else {
-            throw requestAnswer
+            throw requestAnswer;
         }
     } catch (error) {
         let errorType;

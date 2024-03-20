@@ -33,7 +33,7 @@ export default function Login() {
         checkUserLoggedIn();
     }, []); // Solo se ejecuta al montar el componente
 
-    const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
     const { t } = useTranslation();
 
     const [showPassword, setShowPassword] = useState(false);
@@ -42,18 +42,17 @@ export default function Login() {
     const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaLock = chakra(FaLock);
 
-    const sendLogin = async (errorMessage) => {
+    const sendLogin = async () => {
         const loginData = {
             "email": document.getElementById("user").value,
             "password": document.getElementById("password").value
         };
-        await login(loginData, navigateToDashboard, () => setHasError(true));
-        if (errorMessage) {
-            setErrorMessage(errorMessage);
+        try {
+            await login(loginData, navigateToDashboard, setErrorMessage);
+        } catch {
+            setErrorMessage("Error desconocido");
         }
     }
-
-    const [errorMessage, setErrorMessage] = useState("");
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
@@ -62,11 +61,11 @@ export default function Login() {
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">{t("common.login")}</Heading>
                 {
-                    hasError &&
+                    errorMessage &&
                     <Alert status='error' rounded="1rem" margin={"1vh 0vw"}>
                         <AlertIcon />
-                        <AlertTitle>{t("error.login")}</AlertTitle>
-                        <AlertDescription>{errorMessage ? errorMessage : t("error.login-desc")}</AlertDescription>
+                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.login") : errorMessage.type) + " error: "}</AlertTitle>
+                        <AlertDescription>{errorMessage.message}</AlertDescription>
                     </Alert>
                 }
                 <Box minW={{ md: "400px" }} shadow="2xl">
@@ -90,7 +89,7 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={() => sendLogin(t("error.login-send"))} />
+                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={sendLogin} />
                     </Stack>
                 </Box>
             </Stack>

@@ -27,7 +27,7 @@
         "clickHere": "Click here"
     },
     "error": {
-        "login": "You should enter a valid username and password",
+        "login": "Login error: ",
         "register": "Registry error: ",
         "login-desc": "Please, enter you username and password to log in",
         "register-desc": "Please, enter you username and password to register",
