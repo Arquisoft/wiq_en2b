@@ -47,17 +47,14 @@ public class QuestionServiceTest {
 
         defaultQuestion = Question.builder()
                 .id(1L)
-                .content("What is the capital of France?")
                 .answers(new ArrayList<>())
-                .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CITY)
                 .type(QuestionType.TEXT)
                 .build();
         defaultCorrectAnswer = Answer.builder()
                 .id(1L)
                 .text("Paris")
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
@@ -65,7 +62,7 @@ public class QuestionServiceTest {
         defaultIncorrectAnswer = Answer.builder()
                 .id(2L)
                 .text("Tokio")
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
@@ -77,12 +74,12 @@ public class QuestionServiceTest {
         List<AnswerResponseDto> answersDto = new ArrayList<>();
         answersDto.add(AnswerResponseDto.builder()
                 .id(1L)
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .text("Paris")
                 .build());
         answersDto.add(AnswerResponseDto.builder()
                 .id(2L)
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .text("Tokio")
                 .build());
         defaultResponseDto = QuestionResponseDto.builder()
@@ -91,7 +88,7 @@ public class QuestionServiceTest {
                 .answers(answersDto)
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CITY)
+                .answerCategory(AnswerCategory.CAPITAL_CITY)
                 .type(QuestionType.TEXT)
                 .build();
     }
