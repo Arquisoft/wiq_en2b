@@ -19,7 +19,7 @@ export function getLoginData() {
     };
 }
 
-export async function login(loginData, onSuccess, onError) {
+export async function login(loginData, onSuccess, onError, t) {
     try {
         let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/login", loginData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
@@ -32,20 +32,20 @@ export async function login(loginData, onSuccess, onError) {
         let errorType;
         switch (error.response ? error.response.status : null) {
             case 400:
-                errorType = { type: "Validation", message: "Datos incorrectos."};
+                errorType = { type: t("error.validation.type"), message: t("error.validation.message")};
                 break;
             case 401:
-                errorType = { type: "Unauthorized", message:"El usuario no está autorizado para acceder al formulario de login. Por favor, inicie sesión."};
+                errorType = { type: t("error.authorized.type"), message: t("error.authorized.message")};
                 break;
             default:
-                errorType = { type: "Unknown", message: "Error desconocido."};
+                errorType = { type: t("error.unknown.type"), message: t("error.unknown.message")};
                 break;
         }
         onError(errorType);
     }
 }
 
-export async function register(registerData, onSuccess, onError) {
+export async function register(registerData, onSuccess, onError, t) {
     try {
         let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
@@ -58,13 +58,13 @@ export async function register(registerData, onSuccess, onError) {
         let errorType;
         switch (error.response ? error.response.status : null) {
             case 400:
-                errorType = { type: "Validation", message: "Datos incorrectos."};
+                errorType = { type: t("error.validation.type"), message: t("error.validation.message")};
                 break;
             case 409:
-                errorType = { type: "Conflict", message: "Usuario ya existe."};
+                errorType = { type: t("error.conflict.type"), message: t("error.conflict.message")};
                 break;
             default:
-                errorType = { type: "Unknown", message: "Error desconocido."};
+                errorType = { type: t("error.unknown.type"), message: t("error.unknown.message")};
                 break;
         }
         onError(errorType);

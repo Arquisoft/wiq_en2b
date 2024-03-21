@@ -42,13 +42,25 @@ export default function Login() {
     const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaLock = chakra(FaLock);
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        setErrorMessage(false); 
+    }
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setErrorMessage(false); 
+    }
+
     const sendLogin = async () => {
         const loginData = {
-            "email": document.getElementById("user").value,
-            "password": document.getElementById("password").value
+            "email": email,
+            "password": password
         };
         try {
-            await login(loginData, navigateToDashboard, setErrorMessage);
+            await login(loginData, navigateToDashboard, setErrorMessage, t);
         } catch {
             setErrorMessage("Error desconocido");
         }
@@ -64,7 +76,7 @@ export default function Login() {
                     errorMessage &&
                     <Alert status='error' rounded="1rem" margin={"1vh 0vw"}>
                         <AlertIcon />
-                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.login") : errorMessage.type) + " error: "}</AlertTitle>
+                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.login") : errorMessage.type)}</AlertTitle>
                         <AlertDescription>{errorMessage.message}</AlertDescription>
                     </Alert>
                 }
@@ -75,7 +87,13 @@ export default function Login() {
                                 <InputLeftElement>
                                     <ChakraFaCardAlt color="gray.300" />
                                 </InputLeftElement>
-                                <Input type="text" id={"user"} placeholder={t("session.email")} />
+                                <Input 
+                                    type="text" 
+                                    id={"user"} 
+                                    placeholder={t("session.email")} 
+                                    value={email} 
+                                    onChange={handleEmailChange}
+                                />
                             </InputGroup>
                         </FormControl>
                         <FormControl>
@@ -83,7 +101,13 @@ export default function Login() {
                                 <InputLeftElement>
                                     <ChakraFaLock color="gray.300" />
                                 </InputLeftElement>
-                                <Input type={showPassword ? "text" : "password"} id={"password"} placeholder={t("session.password")} />
+                                <Input 
+                                    type={showPassword ? "text" : "password"} 
+                                    id={"password"} 
+                                    placeholder={t("session.password")} 
+                                    value={password} 
+                                    onChange={handlePasswordChange}
+                                />
                                 <InputRightElement>
                                     <IconButton h="1.75rem" size="sm" onClick={changeShowP} aria-label='Shows or hides the password' icon={showPassword ? <ViewOffIcon /> : <ViewIcon />} data-testid="togglePasswordButton" />
                                 </InputRightElement>

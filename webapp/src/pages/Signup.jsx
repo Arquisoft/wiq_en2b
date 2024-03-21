@@ -36,9 +36,8 @@ export default function Signup() {
             "username": username,
             "password": password
         };
-
         try {
-            await register(registerData, navigateToLogin, setErrorMessage);
+            await register(registerData, navigateToLogin, setErrorMessage, t);
         } catch {
             setErrorMessage("Error desconocido");
         }
@@ -76,7 +75,7 @@ export default function Signup() {
                     errorMessage && 
                     <Alert status='error'rounded="1rem" margin={"1vh 0vw"}>
                         <AlertIcon />
-                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.register") : errorMessage.type) + " error: "}</AlertTitle>
+                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.register") : errorMessage.type)}</AlertTitle>
                         <AlertDescription>{errorMessage.message}</AlertDescription>
                     </Alert>
                 }
