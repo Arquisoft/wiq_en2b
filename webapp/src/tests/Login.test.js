@@ -21,6 +21,16 @@ jest.mock('../components/game/Logout', () => ({
   logoutUser: jest.fn(),
 }));
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (str) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    }
+  },
+}));
 
 describe('Login Component', () => {
   beforeEach(() => {
