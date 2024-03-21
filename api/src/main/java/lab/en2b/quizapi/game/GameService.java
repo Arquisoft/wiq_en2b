@@ -32,7 +32,12 @@ public class GameService {
                 .build()));
     }
 
-    public GameResponseDto startRound() {
-        return null;
+    public GameResponseDto startRound(Long id) {
+        Game game = gameRepository.findById(id).orElseThrow();
+        Question question = questionRepository.findRandomQuestion("en");
+        game.getQuestions().add(question);
+        game.setActualRound(game.getActualRound() + 1);
+        //Need to start the timer
+        return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
 }
