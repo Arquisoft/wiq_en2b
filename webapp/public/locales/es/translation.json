@@ -46,7 +46,7 @@
         },
         "authorized": {
             "type": "Error de Autorización: ",
-            "message": "El usuario no está autorizado para acceder al formulario de inicio de sesión. Por favor, inicie sesión."
+            "message": "Contraseña incorrecta"
         }
     }
 }

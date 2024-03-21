@@ -46,7 +46,7 @@
         },
         "authorized": {
             "type": "Authorization Error: ",
-            "message": "The user is not authorized to access the login form. Please login."
+            "message": "Incorrect password"
         }
     }
 }
