@@ -49,6 +49,7 @@ describe('Login Component', () => {
       expect(mockLogin).toHaveBeenCalledWith(
         { email: 'test@example.com', password: 'password123' },
         expect.any(Function),
+        expect.any(Function),
         expect.any(Function)
       );
     });
@@ -96,6 +97,7 @@ describe('Login Component', () => {
     await waitFor(() => {
       expect(mockLogin).toHaveBeenCalledWith(
         { email: 'test@example.com', password: 'password123' },
+        expect.any(Function),
         expect.any(Function),
         expect.any(Function)
       );

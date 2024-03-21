@@ -47,7 +47,7 @@ describe("Auth Utils tests", () => {
                 "password": "test"
             };
 
-            await login(loginData, mockOnSucess, mockOnError);
+            await login(loginData, mockOnSucess, mockOnError, jest.fn()); // Passing jest.fn() as a placeholder for `t`
 
             expect(mockOnSucess).not.toHaveBeenCalled();
             expect(mockOnError).toHaveBeenCalled();
