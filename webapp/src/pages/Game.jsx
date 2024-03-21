@@ -10,7 +10,7 @@ import axios from "axios";
 export default function Game() {
 	const navigate = useNavigate();
 
-	const [question, setQuestion] = useState({ id:1, content: "default question", answers: [{id:1, text:"answer1", category:"category1" }, {id:2, text:"answer2", category:"category2" }], questionCategory: "", answerCategory: "", language: "en", type: ""});
+	const [question, setQuestion] = useState({ id:1, content: "", answers: [{id:1, text:"", category:"" }, {id:2, text:"", category:"" }], questionCategory: "", answerCategory: "", language: "en", type: ""});
 	useEffect(() => {
 		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
@@ -21,7 +21,10 @@ export default function Game() {
 
 	const generateQuestion = async () => {
 		const result = await getQuestion();
-		setQuestion(result);
+		if (result !== undefined) {
+			setQuestion(result);
+		}
+		// error
 	};
 
 	const [answer, setAnswer] = useState({id:1, text:"answer1", category:"category1" });
