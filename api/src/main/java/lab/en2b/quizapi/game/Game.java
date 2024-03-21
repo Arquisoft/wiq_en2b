@@ -23,6 +23,7 @@ public class Game {
     private Long id;
 
     private int rounds = 9;
+    private int actualRound = 0;
 
     private int correctlyAnsweredQuestions = 0;
 

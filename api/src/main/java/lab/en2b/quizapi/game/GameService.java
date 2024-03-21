@@ -31,4 +31,8 @@ public class GameService {
                 .correctlyAnsweredQuestions(0)
                 .build()));
     }
+
+    public GameResponseDto startRound() {
+        return null;
+    }
 }

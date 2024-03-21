@@ -19,6 +19,7 @@ public class GameResponseDtoMapper implements Function<Game, GameResponseDto>{
                 .user(userResponseDtoMapper.apply(game.getUser()))
                 .rounds(game.getRounds())
                 .correctlyAnsweredQuestions(game.getCorrectlyAnsweredQuestions())
+                .actualRound(game.getActualRound())
                 .build();
     }
 }

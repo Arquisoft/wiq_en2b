@@ -18,6 +18,8 @@ public class GameResponseDto {
 
     private int rounds;
 
+    private int actualRound;
+
     @JsonProperty("correctly_answered_questions")
     private int correctlyAnsweredQuestions;
 }
