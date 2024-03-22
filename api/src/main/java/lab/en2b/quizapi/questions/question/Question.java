@@ -37,13 +37,10 @@ public class Question {
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
     private QuestionType type;
+    private String content;
 
     public AnswerCategory getAnswerCategory() {
         return correctAnswer.getCategory();
-    }
-
-    public String getContent(){
-        return QuestionHelper.loadQuestionContent(correctAnswer);
     }
 
     public String getLanguage(){

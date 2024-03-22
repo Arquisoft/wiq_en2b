@@ -1,5 +1,5 @@
 package model;
 
 public enum AnswerCategory {
-    CAPITAL_CITY, COUNTRY, PERSON, EVENT, DATE, OTHER
+    OTHER, CAPITAL_CITY, COUNTRY, PERSON, EVENT, DATE, SONG
 }

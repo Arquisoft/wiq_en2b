@@ -11,26 +11,6 @@ import java.util.List;
 
 @Component
 public class QuestionHelper {
-
-    public static String loadQuestionContent(Answer correctAnswer){
-        AnswerCategory cat = correctAnswer.getCategory();
-        String ans = correctAnswer.getText();
-        String language = correctAnswer.getLanguage();
-
-
-        switch (cat){
-            case CAPITAL_CITY:
-                if (language.equals("es")){
-                    return  "¿Cuál es la capital de " + ans + "?";
-                }
-                return "What's the capital of " + ans + "?";
-            case COUNTRY:
-                // Implement more cases
-        }
-
-        throw new UnsupportedOperationException("The answer category is not supported yet.");
-    }
-
     public static List<Answer> getDistractors(AnswerRepository answerRepository, Question question){
         List<Answer> distractors = new ArrayList<>();
 
