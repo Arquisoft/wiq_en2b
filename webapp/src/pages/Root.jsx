@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Center } from "@chakra-ui/layout";
-import { Text, Heading, Stack, Link } from "@chakra-ui/react";
+import { Text, Heading, Stack, Link, Image } from "@chakra-ui/react";
 
 import ButtonEf from '../components/ButtonEf';
 
@@ -14,12 +14,18 @@ export default function Root() {
     }
 
     return (
-        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
-            <Heading as="h1" color="blue.400">{"WIQ-EN2B"}</Heading>
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"green.50"} justifyContent={"center"} alignItems={"center"}>
+            <Image
+                borderRadius='full'
+                boxSize='150px'
+                src='/kiwiq-icon.ico'
+                alt='kiwiq icon'
+            />
+            <Heading as="h1" color="green.400">{"KIWIQ"}</Heading>
             <Text>{t("session.welcome")}</Text>
             <Stack spacing={4} p="3rem">
-                <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={() => navigate("/login")}/>
-                <Text>{t("session.account")} <Link as="span" color={"blue.400"} onClick={signup}>{t("session.clickHere")}</Link></Text>
+                <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"green"} text={t("common.login")} onClick={() => navigate("/login")}/>
+                <Text>{t("session.account")} <Link as="span" color={"green.400"} onClick={signup}>{t("session.clickHere")}</Link></Text>
             </Stack>  
         </Center>
     );
