@@ -5,7 +5,7 @@
         "statistics": {
             "title": "Statistics",
             "personal": "My statistics",
-            "general": "General statistics"
+            "general": "Leaderboard"
         },
         "play": "Play",
         "login": "Log in",
@@ -32,5 +32,13 @@
         "login-desc": "Please, enter you username and password to log in",
         "register-desc": "Please, enter you username and password to register",
         "login-send": "Your email or password are not found in our database"
+    },
+    "statistics": {
+        "position": "Position",
+        "username": "Username",
+        "rightAnswers": "Correct answers",
+        "wrongAnswers": "Wrong answers",
+        "totalAnswers": "Total answers",
+        "percentage": "Correct answer rate"
     }
 }

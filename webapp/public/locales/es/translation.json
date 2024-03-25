@@ -5,7 +5,7 @@
         "statistics": {
             "title": "Estadísticas",
             "personal": "Mis estadísticas",
-            "general": "Estadísticas generales"
+            "general": "Clasificación"
         },
         "play": "Jugar",
         "login": "Iniciar sesión",
@@ -15,7 +15,7 @@
         "rules": "Reglas",
         "dashboard": "Panel de Usuario",
         "goBack": "Volver",
-        "finish": "Finalizar"
+        "finish": "Finalizar",
     },
     "session": {
         "username": "Nombre de usuario",
@@ -32,5 +32,13 @@
         "login-desc":  "Por favor, introduce tus datos para iniciar sesión",
         "register-desc": "Por favor, introduce tus datos para registrarte",
         "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos"
+    },
+    "statistics": {
+        "position": "Posición",
+        "username": "Nombre de usuario",
+        "rightAnswers": "Respuestas correctas",
+        "wrongAnswers": "Respuestas erróneas",
+        "totalAnswers": "Respuestas totales",
+        "percentage": "Porcentaje de acierto"
     }
 }

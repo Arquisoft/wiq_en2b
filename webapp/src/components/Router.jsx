@@ -8,6 +8,7 @@ import Rules from "../pages/Rules";
 import Signup from "../pages/Signup";
 import Game from "../pages/Game";
 import Results from "../pages/Results";
+import Statistics from "pages/Statistics";
 
 export default createRoutesFromElements(
   <Route path="/">
@@ -18,5 +19,6 @@ export default createRoutesFromElements(
     <Route path="/dashboard/rules" element={<Rules />}/>
     <Route path="/dashboard/game" element={<Game />}/>
     <Route path="/dashboard/game/results" element={<Results />}/>
+    <Route path="/statistics" element={<Statistics />} />
   </Route>
 )
