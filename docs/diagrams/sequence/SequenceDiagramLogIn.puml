@@ -1,0 +1,33 @@
+@startuml login
+title Login Sequence Diagram
+actor Client #darksalmon
+participant API #darksalmon
+database DB #salmon
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+Client -> API : enters credentials
+activate API #darksalmon
+API -> DB    : check credentials correct
+alt #PeachPuff credentials correct
+    activate DB #salmon
+    DB --> API     : returns result
+    deactivate DB
+    API -> API : generate jwt and refresh tokens
+    API -> DB    : save tokens
+    activate DB #salmon
+    DB --> API     : saves tokens
+    deactivate DB
+    API --> Client : return jwt dto
+    deactivate API
+else credentials incorrect
+    activate DB #salmon
+    DB --> API     : returns error
+    deactivate DB
+    activate API #darksalmon
+    API --> Client : return 403 error
+    deactivate API
+end
+
+
+@enduml
