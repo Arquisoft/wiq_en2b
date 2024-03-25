@@ -112,5 +112,21 @@ describe('Login Component', () => {
         expect.any(Function)
       );
     });
-  }); 
+  });
+
+  it('displays error message on failed login attempt', async () => {
+    jest.spyOn(AuthUtils, 'login').mockRejectedValueOnce(); // Simulating a failed login attempt
+    const { getByPlaceholderText, getByTestId } = render(<Login />, { wrapper: MemoryRouter });
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
+    const loginButton = getByTestId('Login');
+  
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(loginButton);
+  
+    await waitFor(() => {
+      expect(getByTestId('error-message')).toBeInTheDocument();
+    });
+  });
 });
