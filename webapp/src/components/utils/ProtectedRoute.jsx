@@ -1,15 +1,15 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { useLocalStorage } from "react-use";
+import AuthManager from "./AuthManager";
+
+const authManager = new AuthManager();
 
 const ProtectedRoutes = () => {
-    const [user, setUser]  = useLocalStorage("user", null);
+  if (!authManager.isLoggedIn()) {
+    return <Navigate to="/" />;
+  }
 
-    if (!user) {
-        return <Navigate to="/" />;
-    }
-
-    return <Outlet />;
+  return <Outlet />;
 };
 
 export default ProtectedRoutes;
