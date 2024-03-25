@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router';
 import Login from '../pages/Login';
 import { login as mockLogin } from '../components/auth/AuthUtils';
 import * as AuthUtils from '../components/auth/AuthUtils';
-import {logoutUser} from "components/game/Logout";
+import { logoutUser } from "../components/game/Logout";
 
 jest.mock('../components/auth/AuthUtils', () => ({
   isUserLogged: jest.fn(),
@@ -112,5 +112,5 @@ describe('Login Component', () => {
         expect.any(Function)
       );
     });
-  });
+  }); 
 });

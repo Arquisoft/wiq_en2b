@@ -3,12 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
 import { isUserLogged, login } from "../components/auth/AuthUtils";
-import { logoutUser } from "../components/game/Logout"; // Importa la función logoutUser
+import { logoutUser } from "../components/game/Logout";
+import ErrorMessageAlert from "../components/ErrorMessageAlert";
 
 export default function Login() {
 
@@ -72,14 +73,7 @@ export default function Login() {
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">{t("common.login")}</Heading>
-                {
-                    errorMessage &&
-                    <Alert status='error' rounded="1rem" margin={"1vh 0vw"}>
-                        <AlertIcon />
-                        <AlertTitle>{(errorMessage && errorMessage.type === "unknown" ? t("error.login") : errorMessage.type)}</AlertTitle>
-                        <AlertDescription>{errorMessage.message}</AlertDescription>
-                    </Alert>
-                }
+                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.login"}/>
                 <Box minW={{ md: "400px" }} shadow="2xl">
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                         <FormControl>
