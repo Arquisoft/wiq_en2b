@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
@@ -11,21 +11,22 @@ export default function Game() {
 	const navigate = useNavigate();
 
 	const [question, setQuestion] = useState({ id:1, content: "", answers: [{id:1, text:"", category:"" }, {id:2, text:"", category:"" }], questionCategory: "", answerCategory: "", language: "en", type: ""});
+	
+	const generateQuestion = useCallback(async () => {
+		const result = await getQuestion();
+		if (result !== undefined) 
+			setQuestion(result);
+		else
+			navigate("/dashboard");
+	}, [navigate]);
+
 	useEffect(() => {
 		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
 		  await generateQuestion();
 		};
 		fetchQuestion();
-	}, []);
-
-	const generateQuestion = async () => {
-		const result = await getQuestion();
-		if (result !== undefined) {
-			setQuestion(result);
-		}
-		// error
-	};
+	}, [generateQuestion]);
 
 	const [answer, setAnswer] = useState({id:1, text:"answer1", category:"category1" });
 	const [selectedOption, setSelectedOption] = useState(null);
