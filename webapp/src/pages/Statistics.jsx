@@ -74,10 +74,10 @@ export default function Statistics() {
                                         "label": t("statistics.percentage"),
                                         "data": userData,
                                         "backgroundColor": [
-                                            "#5ae587", "#f28a9c"
+                                            "#3cacff", "#f28a9c"
                                         ],
                                         "borderColor":[
-                                            "green", "red"
+                                            "#2594ff", "red"
                                         ]
                                     }]
                                 }}
