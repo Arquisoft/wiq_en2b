@@ -36,10 +36,10 @@ describe("Auth Utils tests", () => {
             expect(isUserLogged()).toBe(true);
         });
 
-        it("handles login error", async () => {
+        it("handles login error with 400 status code", async () => {
             mockAxios.onPost().replyOnce(HttpStatusCode.BadRequest);
 
-            const mockOnSucess = jest.fn();
+            const mockOnSuccess = jest.fn();
             const mockOnError = jest.fn();
 
             const loginData = {
@@ -47,9 +47,27 @@ describe("Auth Utils tests", () => {
                 "password": "test"
             };
 
-            await login(loginData, mockOnSucess, mockOnError, jest.fn()); // Passing jest.fn() as a placeholder for `t`
+            await login(loginData, mockOnSuccess, mockOnError, jest.fn());
 
-            expect(mockOnSucess).not.toHaveBeenCalled();
+            expect(mockOnSuccess).not.toHaveBeenCalled();
+            expect(mockOnError).toHaveBeenCalled();
+            expect(isUserLogged()).toBe(false);
+        });
+
+        it("handles login error with 401 status code", async () => {
+            mockAxios.onPost().replyOnce(HttpStatusCode.Unauthorized);
+
+            const mockOnSuccess = jest.fn();
+            const mockOnError = jest.fn();
+
+            const loginData = {
+                "email": "test@email.com",
+                "password": "test"
+            };
+
+            await login(loginData, mockOnSuccess, mockOnError, jest.fn());
+
+            expect(mockOnSuccess).not.toHaveBeenCalled();
             expect(mockOnError).toHaveBeenCalled();
             expect(isUserLogged()).toBe(false);
         });
