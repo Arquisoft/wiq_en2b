@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, getByTestId } from '@testing-library/react';
-import { MemoryRouter, createMemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router';
 import Root from '../pages/Root';
 
 jest.mock('react-i18next', () => ({

@@ -14,18 +14,18 @@ export default function Root() {
     }
 
     return (
-        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"green.50"} justifyContent={"center"} alignItems={"center"}>
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"moonstone.900"} justifyContent={"center"} alignItems={"center"}>
             <Image
                 borderRadius='full'
                 boxSize='150px'
                 src='/kiwiq-icon.ico'
                 alt='kiwiq icon'
             />
-            <Heading as="h1" color="green.400">{"KIWIQ"}</Heading>
+            <Heading as="h1" color="forest_green.400">{"KIWIQ"}</Heading>
             <Text>{t("session.welcome")}</Text>
             <Stack spacing={4} p="3rem">
-                <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"green"} text={t("common.login")} onClick={() => navigate("/login")}/>
-                <Text>{t("session.account")} <Link as="span" color={"green.400"} onClick={signup}>{t("session.clickHere")}</Link></Text>
+                <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.login")} onClick={() => navigate("/login")}/>
+                <Text>{t("session.account")} <Link as="span" color={"forest_green.400"} onClick={signup}>{t("session.clickHere")}</Link></Text>
             </Stack>  
         </Center>
     );
