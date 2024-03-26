@@ -26,6 +26,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,9 +59,11 @@ public class GameServiceTest {
 
     private QuestionResponseDtoMapper questionResponseDtoMapper;
 
+
     private Game defaultGame;
     @BeforeEach
     void setUp() {
+        this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
         this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper);
         this.defaultUser = User.builder()
                 .id(1L)
@@ -99,11 +102,10 @@ public class GameServiceTest {
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
                 .build();
-
         this.defaultGame = Game.builder()
                 .id(1L)
                 .user(defaultUser)
-                .questions(new ArrayList<>())
+                .questions(new ArrayList<>(List.of(defaultQuestion)))
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
                 .build();
@@ -135,6 +137,13 @@ public class GameServiceTest {
         result.setActualRound(1);
         result.setId(1L);
         assertEquals(result, gameDto);
+    }
+
+    @Test
+    public void getCurrentQuestion() {
+        when(gameRepository.findById(any())).thenReturn(Optional.of(defaultGame));
+        QuestionResponseDto questionDto = gameService.getCurrentQuestion(1L);
+        assertEquals(defaultQuestionResponseDto, questionDto);
     }
 
 }
