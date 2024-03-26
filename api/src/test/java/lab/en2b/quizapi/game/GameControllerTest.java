@@ -52,4 +52,21 @@ public class GameControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void startRoundShouldReturn403() throws Exception{
+        mockMvc.perform(post("/games/-1/startRound")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void startRoundShouldReturn200() throws Exception{
+        mockMvc.perform(post("/games/1/startRound")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
 }
