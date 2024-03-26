@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router';
 import Login from '../pages/Login';
 import { login as mockLogin } from '../components/auth/AuthUtils';
 import * as AuthUtils from '../components/auth/AuthUtils';
-import {logoutUser} from "components/game/Logout";
+import { logoutUser } from "../components/game/Logout";
 
 jest.mock('../components/auth/AuthUtils', () => ({
   isUserLogged: jest.fn(),
@@ -59,6 +59,7 @@ describe('Login Component', () => {
       expect(mockLogin).toHaveBeenCalledWith(
         { email: 'test@example.com', password: 'password123' },
         expect.any(Function),
+        expect.any(Function),
         expect.any(Function)
       );
     });
@@ -107,8 +108,25 @@ describe('Login Component', () => {
       expect(mockLogin).toHaveBeenCalledWith(
         { email: 'test@example.com', password: 'password123' },
         expect.any(Function),
+        expect.any(Function),
         expect.any(Function)
       );
+    });
+  });
+
+  it('displays error message on failed login attempt', async () => {
+    jest.spyOn(AuthUtils, 'login').mockRejectedValueOnce(); // Simulating a failed login attempt
+    const { getByPlaceholderText, getByTestId } = render(<Login />, { wrapper: MemoryRouter });
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
+    const loginButton = getByTestId('Login');
+  
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(loginButton);
+  
+    await waitFor(() => {
+      expect(getByTestId('error-message')).toBeInTheDocument();
     });
   });
 });
