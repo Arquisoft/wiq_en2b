@@ -22,6 +22,7 @@ public class GameService {
     private final GameResponseDtoMapper gameResponseDtoMapper;
     private final UserService userService;
     private final QuestionRepository questionRepository;
+    private final QuestionResponseDtoMapper questionResponseDtoMapper;
     public GameResponseDto newGame(Authentication authentication) {
         Question question = questionRepository.findRandomQuestion("en");
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
@@ -39,5 +40,10 @@ public class GameService {
         game.setActualRound(game.getActualRound() + 1);
         //Need to start the timer
         return gameResponseDtoMapper.apply(gameRepository.save(game));
+    }
+
+    public QuestionResponseDto getCurrentQuestion(Long id){
+        Game game = gameRepository.findById(id).orElseThrow();
+        return questionResponseDtoMapper.apply(game.getQuestions().get(game.getQuestions().size()-1));
     }
 }
