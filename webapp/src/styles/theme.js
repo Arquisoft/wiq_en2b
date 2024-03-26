@@ -1,6 +1,13 @@
 import { extendTheme } from "@chakra-ui/react";
+import '@fontsource-variable/outfit'; // Supports weights 100-900
 
 const theme = extendTheme({
+    fonts: {
+        heading: "Outfit Variable, sans-serif",
+    },
+    fontWeights: {
+        bold: 900,
+    },
     colors: {
         moonstone: { // blue
             DEFAULT: '#64b1b9', 
