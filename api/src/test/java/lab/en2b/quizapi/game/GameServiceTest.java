@@ -14,6 +14,7 @@ import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionType;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
+import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,10 +56,12 @@ public class GameServiceTest {
 
     private UserResponseDto defaultUserResponseDto;
 
+    private QuestionResponseDtoMapper questionResponseDtoMapper;
+
     private Game defaultGame;
     @BeforeEach
     void setUp() {
-        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository);
+        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")

@@ -69,4 +69,21 @@ public class GameControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void getCurrentQuestionShouldReturn403() throws Exception{
+        mockMvc.perform(get("/games/-1/question")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getCurrentQuestionShouldReturn200() throws Exception{
+        mockMvc.perform(get("/games/1/question")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
 }
