@@ -66,7 +66,7 @@ export default function Statistics() {
                                     fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
                             </CardHeader>
                         </Card>
-                        <Box maxW="50vw">
+                        <Box minW="50">
                             <Doughnut
                                 data={{
                                     "labels": [t("statistics.rightAnswers"), t("statistics.wrongAnswers")],
@@ -83,7 +83,12 @@ export default function Statistics() {
                                 }}
                                 options={{
                                     cutout: 70,
-                                    radius: 70
+                                    radius: 70,
+                                    plugins: {
+                                        legend: {
+                                            onClick: () => {}
+                                        }
+                                    }
                                 }}></Doughnut>
                         </Box>
                     </Flex>
