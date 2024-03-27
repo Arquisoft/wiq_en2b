@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { DoughnutController, ArcElement} from "chart.js/auto"; // These imports are necessary
 import { useTranslation } from "react-i18next";
+import GoBack from "components/GoBack";
 
 const UserVisual = (props) => {
     const {t} = useTranslation();
@@ -139,6 +140,7 @@ export default function Statistics() {
                         <CircularProgress isIndeterminate/>
                         }
                 </Stack>
+                <GoBack />
             </Stack>
         </Center>
     );
