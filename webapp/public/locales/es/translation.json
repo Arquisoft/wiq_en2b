@@ -41,7 +41,9 @@
         "totalAnswers": "Respuestas totales",
         "percentage": "Porcentaje de acierto",
         "texts": {
-            "personalRight": "`Con un total de $`"
+            "personalRight": "{{right, number}} respuestas correctas",
+            "personalWrong": "{{wrong, number}} respuestas incorrectas",
+            "personalRate": "{{rate, number}} %"
         }
     }
 }

@@ -1,5 +1,4 @@
-import { Box, Card, CardBody, CardHeader, Center, Flex, 
-        Heading, Stack, StackDivider, Table, Tbody, Text,
+import { Box,  Center, Flex, Heading, Stack, StackDivider, Table, Tbody, Text,
         Td, Th, Thead, Tr, useMediaQuery, Grid, GridItem } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
@@ -13,8 +12,7 @@ export default function Statistics() {
         "rate": [50,50],
         "absolute": {
             "right": 6,
-            "wrong": 6,
-            "total": 12
+            "wrong": 6
         }
     });
     const getTopTenData = () => {
@@ -40,7 +38,7 @@ export default function Statistics() {
         <Center display={"flex"} onLoad={(getData)} flexDirection={"column"} 
             w={"100wh"} h={"100vh"} bg={"blue.50"}
             justifyContent={"center"} alignItems={"center"}>
-            <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
+            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
                 <Heading as="h1" color="blue.400">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} 
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
@@ -67,8 +65,9 @@ export default function Statistics() {
                             </Tbody>
                         </Table>
                     </Box>
-                    <Flex w={"100%"} flexDirection={tooSmall ? "column" : "row"}>
-                        <Stack w={!tooSmall && "60%"} divider={<StackDivider />}>
+                    <Flex w={"100%"}
+                        flexDirection={tooSmall ? "column" : "row"}>
+                        <Stack w={!tooSmall && "50%"} divider={<StackDivider />}>
                             <Heading as="h2" color="blue.400"
                                     fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
                                 <Box>
@@ -77,25 +76,21 @@ export default function Statistics() {
                                         {t("statistics.rightAnswers")}
                                     </Heading>
                                     <Text>
-                                        {userData.rate[0]} %
+                                        {t("statistics.texts.personalRight", {right: userData.absolute.right})}
+                                    </Text>
+                                </Box>
+                                <Box>
+                                    <Text>
+                                        {t("statistics.texts.personalWrong", {wrong: userData.absolute.wrong}) }
                                     </Text>
                                 </Box>
                                 <Box>
                                     <Heading as="h3" fontSize={"1.25em"}
                                         color="blue.400">
-                                        {t("statistics.wrongAnswers")}
+                                        {t("statistics.percentage")}
                                     </Heading>
                                     <Text>
-                                        {userData.rate[1]} %
-                                    </Text>
-                                </Box>
-                                <Box>
-                                    <Heading as="h3" fontSize={"1.25em"}
-                                        color="blue.400">
-                                        {t("statistics.")}
-                                    </Heading>
-                                    <Text>
-                                        {userData.rate[0]} %
+                                        {t("statistics.texts.personalRate", {rate: userData.rate[0]})} %
                                     </Text>
                                 </Box>
                         </Stack>

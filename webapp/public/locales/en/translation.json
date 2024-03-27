@@ -39,6 +39,11 @@
         "rightAnswers": "Correct answers",
         "wrongAnswers": "Wrong answers",
         "totalAnswers": "Total answers",
-        "percentage": "Correct answer rate"
+        "percentage": "Correct answer rate",
+        "texts": {
+            "personalRight": "{{right, number}} correct answers",
+            "personalWrong": "{{wrong, number}} wrong answers",
+            "personalRate": "{{rate, number}} %"
+        }
     }
 }
