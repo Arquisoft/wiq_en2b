@@ -21,8 +21,8 @@ public class QuestionController {
     @Operation(summary = "Sends an answer", description = "Sends the answer dto for a given question id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "403", description = "You are not logged in"),
-            @ApiResponse(responseCode = "404", description = "Not found - There is not a question with that id")
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "Not found - There is not a question with that id", content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @PostMapping("/{questionId}/answer")
     private ResponseEntity<AnswerCheckResponseDto> answerQuestion(@PathVariable @PositiveOrZero Long questionId, @Valid @RequestBody AnswerDto answerDto){
@@ -32,8 +32,8 @@ public class QuestionController {
     @Operation(summary = "Gets a random question", description = "Gets a random question in the language")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "403", description = "You are not logged in"),
-            @ApiResponse(responseCode = "404", description = "Language does not exist or it is misspelled")
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "Language does not exist or it is misspelled", content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @GetMapping("/new")
     private ResponseEntity<QuestionResponseDto> generateQuestion(@RequestParam(required = false) String lang){
@@ -43,8 +43,8 @@ public class QuestionController {
     @Operation(summary = "Gets a question", description = "Gets a question given a question id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "403", description = "You are not logged in"),
-            @ApiResponse(responseCode = "404", description = "Not found - There is not a question with that id")
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "Not found - There is not a question with that id", content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @GetMapping("/{id}")
     private ResponseEntity<QuestionResponseDto> getQuestionById(@PathVariable @PositiveOrZero Long id){
