@@ -28,8 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -114,7 +113,7 @@ public class GameServiceTest {
         this.defaultGame = Game.builder()
                 .id(1L)
                 .user(defaultUser)
-                .questions(new ArrayList<>(List.of(defaultQuestion)))
+                .questions(new ArrayList<>())
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
                 .language("en")
@@ -152,9 +151,42 @@ public class GameServiceTest {
 
     @Test
     public void getCurrentQuestion() {
-        when(gameRepository.findById(any())).thenReturn(Optional.of(defaultGame));
-        QuestionResponseDto questionDto = gameService.getCurrentQuestion(1L);
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        gameService.startRound(1L,authentication);
+        QuestionResponseDto questionDto = gameService.getCurrentQuestion(1L,authentication);
         assertEquals(defaultQuestionResponseDto, questionDto);
+    }
+
+    @Test
+    public void getCurrentQuestionRoundNotStarted() {
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
+    }
+
+    @Test
+    public void getCurrentQuestionRoundFinished() {
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        gameService.startRound(1L,authentication);
+        defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
+        assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
+    }
+
+    @Test
+    public void getCurrentQuestionGameFinished() {
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        gameService.startRound(1L,authentication);
+        defaultGame.setActualRound(10);
+        assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
 
 }
