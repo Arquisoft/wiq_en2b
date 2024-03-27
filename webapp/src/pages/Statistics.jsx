@@ -1,6 +1,6 @@
-import { Box, Card, CardHeader, Center, Flex, 
-        Heading, Stack, StackDivider, Table, Tbody, 
-        Td, Th, Thead, Tr, useMediaQuery } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardHeader, Center, Flex, 
+        Heading, Stack, StackDivider, Table, Tbody, Text,
+        Td, Th, Thead, Tr, useMediaQuery, Grid, GridItem } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { DoughnutController, ArcElement} from "chart.js/auto"; // These imports are necessary
@@ -9,7 +9,14 @@ import { useTranslation } from "react-i18next";
 export default function Statistics() {
     const {t} = useTranslation();
     const [topTen, setTopTen] = useState([]);
-    const [userData, setUserData] = useState([50,50]);
+    const [userData, setUserData] = useState({
+        "rate": [50,50],
+        "absolute": {
+            "right": 6,
+            "wrong": 6,
+            "total": 12
+        }
+    });
     const getTopTenData = () => {
         return topTen.map((element, counter) => {
             return <Tr>
@@ -23,7 +30,7 @@ export default function Statistics() {
         });
     }
 
-    const [tooSmall] = useMediaQuery("(min-width: 800px)");
+    const [tooSmall] = useMediaQuery("(max-width: 800px)");
 
     const getData = () => {
         // TODO: Connection with API
@@ -51,6 +58,7 @@ export default function Statistics() {
                                     <Th scope="col">{t("statistics.username")}</Th>
                                     <Th scope="col">{t("statistics.rightAnswers")}</Th>
                                     <Th scope="col">{t("statistics.wrongAnswers")}</Th>
+                                    <Th scope="col">{t("statistics.totalAnswers")}</Th>
                                     <Th scope="col">{t("statistics.percentage")}</Th>
                                 </Tr>
                             </Thead>
@@ -59,20 +67,45 @@ export default function Statistics() {
                             </Tbody>
                         </Table>
                     </Box>
-                    <Flex flexDirection={tooSmall ? "row" : "column"}>
-                        <Card>
-                            <CardHeader>
-                                <Heading as="h2" color="blue.400"
+                    <Flex w={"100%"} flexDirection={tooSmall ? "column" : "row"}>
+                        <Stack w={!tooSmall && "60%"} divider={<StackDivider />}>
+                            <Heading as="h2" color="blue.400"
                                     fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
-                            </CardHeader>
-                        </Card>
-                        <Box minW="50">
+                                <Box>
+                                    <Heading as="h3" fontSize={"1.25em"}
+                                        color="blue.400">
+                                        {t("statistics.rightAnswers")}
+                                    </Heading>
+                                    <Text>
+                                        {userData.rate[0]} %
+                                    </Text>
+                                </Box>
+                                <Box>
+                                    <Heading as="h3" fontSize={"1.25em"}
+                                        color="blue.400">
+                                        {t("statistics.wrongAnswers")}
+                                    </Heading>
+                                    <Text>
+                                        {userData.rate[1]} %
+                                    </Text>
+                                </Box>
+                                <Box>
+                                    <Heading as="h3" fontSize={"1.25em"}
+                                        color="blue.400">
+                                        {t("statistics.")}
+                                    </Heading>
+                                    <Text>
+                                        {userData.rate[0]} %
+                                    </Text>
+                                </Box>
+                        </Stack>
+                        <Box minW="50%">
                             <Doughnut
                                 data={{
                                     "labels": [t("statistics.rightAnswers"), t("statistics.wrongAnswers")],
                                     "datasets": [{
                                         "label": t("statistics.percentage"),
-                                        "data": userData,
+                                        "data": userData.rate,
                                         "backgroundColor": [
                                             "#3cacff", "#f28a9c"
                                         ],
@@ -82,7 +115,7 @@ export default function Statistics() {
                                     }]
                                 }}
                                 options={{
-                                    cutout: 70,
+                                    cutout: 50,
                                     radius: 70,
                                     plugins: {
                                         legend: {

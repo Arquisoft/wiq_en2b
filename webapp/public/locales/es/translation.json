@@ -15,7 +15,7 @@
         "rules": "Reglas",
         "dashboard": "Panel de Usuario",
         "goBack": "Volver",
-        "finish": "Finalizar",
+        "finish": "Finalizar"
     },
     "session": {
         "username": "Nombre de usuario",
@@ -39,6 +39,9 @@
         "rightAnswers": "Respuestas correctas",
         "wrongAnswers": "Respuestas erróneas",
         "totalAnswers": "Respuestas totales",
-        "percentage": "Porcentaje de acierto"
+        "percentage": "Porcentaje de acierto",
+        "texts": {
+            "personalRight": "`Con un total de $`"
+        }
     }
 }
