@@ -32,6 +32,7 @@ public class GameService {
                 .questions(new ArrayList<>())
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
+                .roundDuration(30)
                 .language("en")
                 .build()));
     }

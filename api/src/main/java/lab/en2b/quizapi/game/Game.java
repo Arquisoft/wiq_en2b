@@ -6,7 +6,6 @@ import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.questions.question.Question;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +29,9 @@ public class Game {
     private int correctlyAnsweredQuestions = 0;
     private String language;
     private LocalDateTime roundStartTime;
-    private int roundDuration;
+    @NonNull
+    private Integer roundDuration;
+    private boolean currentQuestionAnswered;
 
     @ManyToOne
     @NotNull
@@ -47,8 +48,14 @@ public class Game {
     private List<Question> questions;
 
     public void newRound(Question question){
-        if (isGameOver())
-            throw new IllegalStateException("You can't start a round for a finished game!");
+        if(getActualRound() != 0){
+            if (isGameOver())
+                throw new IllegalStateException("You can't start a round for a finished game!");
+            if(!currentRoundIsOver())
+                throw new IllegalStateException("You can't start a new round when the current round is not over yet!");
+        }
+
+        setCurrentQuestionAnswered(false);
         getQuestions().add(question);
         setActualRound(getActualRound() + 1);
         setRoundStartTime(LocalDateTime.now());
@@ -69,6 +76,10 @@ public class Game {
     }
 
     private boolean currentRoundIsOver(){
+        return currentQuestionAnswered || roundTimeHasExpired();
+    }
+
+    private boolean roundTimeHasExpired(){
         return LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
     }
 }

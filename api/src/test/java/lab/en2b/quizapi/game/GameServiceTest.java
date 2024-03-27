@@ -109,6 +109,7 @@ public class GameServiceTest {
                 .user(defaultUserResponseDto)
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
+                .roundDuration(30)
                 .build();
         this.defaultGame = Game.builder()
                 .id(1L)
@@ -117,6 +118,7 @@ public class GameServiceTest {
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
                 .language("en")
+                .roundDuration(30)
                 .build();
     }
 
@@ -131,11 +133,6 @@ public class GameServiceTest {
     }
 
     @Test
-    public void newGameShouldAssignNewQuestion(){
-        assertTrue(false);
-    }
-
-    @Test
     public void startRound(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
@@ -147,6 +144,25 @@ public class GameServiceTest {
         result.setId(1L);
         result.setRoundStartTime(defaultGame.getRoundStartTime());
         assertEquals(result, gameDto);
+    }
+
+    @Test
+    public void startRoundGameOver(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        defaultGame.setActualRound(10);
+        assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
+    }
+
+    @Test
+    public void startRoundWhenRoundNotFinished(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        gameService.startRound(1L,authentication);
+        assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
     }
 
     @Test
