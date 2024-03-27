@@ -12,12 +12,12 @@ import lombok.*;
 @EqualsAndHashCode
 public class AnswerResponseDto {
 
-    @Schema(example = "1")
+    @Schema(description = "Id for the answer",example = "1")
     private Long id;
 
-    @Schema(example = "Paris")
+    @Schema(description = "Text for the answer",example = "Paris")
     private String text;
 
-    @Schema(example = "CITY")
+    @Schema(description = "Category for the answer",example = "CITY")
     private AnswerCategory category;
 }

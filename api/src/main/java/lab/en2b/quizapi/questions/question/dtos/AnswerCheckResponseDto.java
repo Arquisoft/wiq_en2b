@@ -10,6 +10,6 @@ import lombok.*;
 @EqualsAndHashCode
 public class AnswerCheckResponseDto {
 
-    @Schema(example = "true")
+    @Schema(description = "Whether the answer was correct or not", example = "true")
     private boolean wasCorrect;
 }

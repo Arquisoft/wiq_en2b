@@ -17,25 +17,26 @@ import java.util.List;
 @EqualsAndHashCode
 public class QuestionResponseDto {
 
-    @Schema(example = "1")
+    @Schema(description = "Id for the question", example = "1")
     private Long id;
 
-    @Schema(example = "What is the capital of France?")
+    @Schema(description = "Content of the question", example = "What is the capital of France?")
     private String content;
 
-    @Schema(example = "[{\"id\":1,\"text\":\"Paris\",\"category\":\"CITY\"},{\"id\":2,\"text\":\"London\",\"category\":\"CITY\"}" +
+    @Schema(description = "Answers for the question",
+            example = "[{\"id\":1,\"text\":\"Paris\",\"category\":\"CITY\"},{\"id\":2,\"text\":\"London\",\"category\":\"CITY\"}" +
             ",{\"id\":3,\"text\":\"Berlin\",\"category\":\"CITY\"},{\"id\":4,\"text\":\"Madrid\",\"category\":\"CITY\"}]")
     private List<AnswerResponseDto> answers;
 
-    @Schema(example = "GEOGRAPHY")
+    @Schema(description = "Category for the question",example = "GEOGRAPHY")
     private QuestionCategory questionCategory;
 
-    @Schema(example = "CITY")
+    @Schema(description = "Answer category for the question",example = "CITY")
     private AnswerCategory answerCategory;
 
-    @Schema(example = "en")
+    @Schema(description = "Language for the question",example = "en")
     private String language;
 
-    @Schema(example = "MULTIPLE_CHOICE")
+    @Schema(description = "Type of the question",example = "MULTIPLE_CHOICE")
     private QuestionType type;
 }

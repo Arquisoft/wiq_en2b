@@ -16,6 +16,6 @@ public class AnswerDto {
     @NonNull
     @NotNull
     @PositiveOrZero
-    @Schema(example = "0")
+    @Schema(description = "Token returned when login in",example = "0")
     private Long answerId;
 }
