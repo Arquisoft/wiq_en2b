@@ -21,8 +21,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -85,6 +84,23 @@ public class AuthServiceTest {
 
         authService.register(new RegisterDto("test","username","password"));
 
+    }
+
+    @Test
+    void testRegisterAlreadyExistingUser(){
+
+        when(userRepository.existsByEmail(any())).thenReturn(false);
+        when(userRepository.existsByUsername(any())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () -> authService.register(new RegisterDto("test","username","password")));
+    }
+
+    @Test
+    void testRegisterAlreadyExistingEmail(){
+
+        when(userRepository.existsByEmail(any())).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () -> authService.register(new RegisterDto("test","username","password")));
     }
 
     @Test
