@@ -24,8 +24,8 @@ public class GameController {
     }
 
     @GetMapping("/{id}/question")
-    public ResponseEntity<QuestionResponseDto> getCurrentQuestion(@PathVariable Long id){
-        return ResponseEntity.ok(gameService.getCurrentQuestion(id));
+    public ResponseEntity<QuestionResponseDto> getCurrentQuestion(@PathVariable Long id, Authentication authentication){
+        return ResponseEntity.ok(gameService.getCurrentQuestion(id, authentication));
     }
 
     @PostMapping("/{id}/answer")

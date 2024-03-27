@@ -57,4 +57,18 @@ public class Game {
     public boolean isGameOver(){
         return getActualRound() > getRounds();
     }
+
+    public Question getCurrentQuestion() {
+        if(getQuestions().isEmpty())
+            throw new IllegalStateException("The game hasn't started yet!");
+        if(currentRoundIsOver())
+            throw new IllegalStateException("The current round is over!");
+        if(isGameOver())
+            throw new IllegalStateException("The game is over!");
+        return getQuestions().get(getQuestions().size()-1);
+    }
+
+    private boolean currentRoundIsOver(){
+        return LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
+    }
 }

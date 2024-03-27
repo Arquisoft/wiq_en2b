@@ -42,9 +42,9 @@ public class GameService {
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
 
-    public QuestionResponseDto getCurrentQuestion(Long id){
-        Game game = gameRepository.findById(id).orElseThrow();
-        return questionResponseDtoMapper.apply(game.getQuestions().get(game.getQuestions().size()-1));
+    public QuestionResponseDto getCurrentQuestion(Long id, Authentication authentication){
+        Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
+        return questionResponseDtoMapper.apply(game.getCurrentQuestion());
     }
 
     public GameResponseDto answerQuestion(Long id, Long answerId){
