@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, getByTestId, getAllByTestId, waitFor } from '@testing-library/react';
+import { render, fireEvent, getByTestId, getAllByTestId, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
 import * as AuthUtils from '../components/auth/AuthUtils';
@@ -7,6 +7,17 @@ import * as AuthUtils from '../components/auth/AuthUtils';
 jest.mock('../components/auth/AuthUtils', () => ({
   isUserLogged: jest.fn(),
   register: jest.fn(),
+}));
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (str) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    }
+  },
 }));
 
 describe('Signup Component', () => {
@@ -84,8 +95,9 @@ describe('Signup Component', () => {
 
     // Asegúrate de que la función de navegación se haya llamado
     expect(registerSpy.mock.calls[0][1]).toBeInstanceOf(Function); // Esto verifica que se pase una función como segundo argumento
-    registerSpy.mock.calls[0][1](); // Llama a la función de navegación
-
+    act(() => {
+      registerSpy.mock.calls[0][1](); // Llama a la función de navegación
+    })
     // Verifica que la navegación se haya realizado correctamente
     // Puedes agregar más expectativas aquí según tus necesidades
 
@@ -115,7 +127,9 @@ describe('Signup Component', () => {
 
     // Verifica que la función de manejo de error se haya llamado
     expect(registerSpy.mock.calls[0][2]).toBeInstanceOf(Function); // Verifica que se pase una función como tercer argumento
-    registerSpy.mock.calls[0][2](); // Llama a la función de manejo de error
+    act(() => {
+      registerSpy.mock.calls[0][2](); // Llama a la función de manejo de error
+    });
 
     // Verifica que la variable de estado `hasError` se haya establecido correctamente
     // Puedes agregar más expectativas aquí según tus necesidades

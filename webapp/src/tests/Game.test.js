@@ -3,6 +3,17 @@ import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Game from '../pages/Game';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (str) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    }
+  },
+}));
+
 describe('Game component', () => {
   test('renders without crashing', () => {
     render(<MemoryRouter><Game/></MemoryRouter>);

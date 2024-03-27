@@ -1,7 +1,5 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, 
-            chakra, Box, Avatar, FormControl, InputRightElement, 
-            FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
 import { register } from "../components/auth/AuthUtils";
 import ButtonEf from '../components/ButtonEf';
+import ErrorMessageAlert from "../components/ErrorMessageAlert";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -17,7 +16,7 @@ export default function Signup() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -36,32 +35,31 @@ export default function Signup() {
             "username": username,
             "password": password
         };
-
         try {
-            await register(registerData, navigateToLogin, ()=> setHasError(true));
+            await register(registerData, navigateToLogin, setErrorMessage, t);
         } catch {
-            setHasError(true);
+            setErrorMessage("Error desconocido");
         }
     };
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handleConfirmPasswordChange = (e) => {
         setConfirmPassword(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     return (
@@ -72,14 +70,7 @@ export default function Signup() {
                 <Heading as="h2" color="blue.400">
                     {t("common.register")}
                 </Heading>
-                {
-                    hasError && 
-                    <Alert status='error'rounded="1rem" margin={"1vh 0vw"}>
-                        <AlertIcon />
-                        <AlertTitle>{t("error.register")}</AlertTitle>
-                        <AlertDescription>{t("error.register-desc")}</AlertDescription>
-                    </Alert>
-                }
+                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.register"}/>
                 <Box minW={{ md: "400px" }} shadow="2xl">
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                         <FormControl>

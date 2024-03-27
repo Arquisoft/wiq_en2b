@@ -5,6 +5,17 @@ import Dashboard from '../pages/Dashboard';
 import ButtonEf from '../components/ButtonEf';
 import * as LogoutModule from '../components/game/Logout';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => {
+    return {
+      t: (str) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    }
+  },
+}));
+
 describe('Dashboard component', () => {
   it('renders dashboard elements correctly', async () => {
     const { getByText } = render(<MemoryRouter><Dashboard/></MemoryRouter>);

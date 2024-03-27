@@ -27,10 +27,26 @@
         "clickHere": "Pulsa aquí"
     },
     "error": {
-        "login": "Nombre de usuario o contraseña incorrectos",
-        "register": "Debes introducir datos válidos para registrarte",
+        "login": "Error en el inicio de sesión: ",
+        "register": "Error en el registro: ",
         "login-desc":  "Por favor, introduce tus datos para iniciar sesión",
         "register-desc": "Por favor, introduce tus datos para registrarte",
-        "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos"
+        "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos",
+        "validation": {
+            "type": "Error de Validación: ",
+            "message": "Datos incorrectos"
+        },
+        "conflict": {
+            "type": "Error de Conflicto: ",
+            "message": "El usuario ya existe"
+        },
+        "unknown": {
+            "type": "Error Desconocido",
+            "message": ""
+        },
+        "authorized": {
+            "type": "Error de Autorización: ",
+            "message": "Contraseña incorrecta"
+        }
     }
 }
