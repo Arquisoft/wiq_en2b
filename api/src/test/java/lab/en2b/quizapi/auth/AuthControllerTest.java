@@ -9,6 +9,7 @@ import lab.en2b.quizapi.auth.dtos.RefreshTokenResponseDto;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,6 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static lab.en2b.quizapi.commons.utils.TestUtils.asJsonString;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,7 +45,14 @@ public class AuthControllerTest {
     final RefreshTokenResponseDto defaultRefreshTokenResponseDto = RefreshTokenResponseDto.builder().build();
     @Test
     void registerUserShouldReturn200() throws Exception {
-        testRegister(asJsonString( new RegisterDto("test@email.com","test","testing"))
+        Mockito.when(authService.login(new LoginDto("test@email.com", "testing")))
+               .thenReturn(new JwtResponseDto("token",
+                                              "refreshToken",
+                                              0L,
+                                              "test",
+                                              "test@email.com",
+                                              List.of("user")));
+        testRegister(asJsonString(new RegisterDto("test@email.com","test","testing"))
                 ,status().isOk());
     }
     @Test
