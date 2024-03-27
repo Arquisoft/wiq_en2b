@@ -4,93 +4,29 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Runtime View
 Here we can see what the main workflow of main parts of the project.
 
-=== General Game's life cycle
-* This diagram shows how should the application behave for an expected normal case scenario.
-
-[plantuml,"Game's life cycle diagram",png]
-----
-@startuml Game's life cycle
-
-actor Client
-
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
-
-Client --> API : start game
-loop One question
-  API --> QuestionRetriever         : ask for question
-  QuestionRetriever --> QuestionDB  : querying question
-
-  QuestionDB --> QuestionRetriever  : return first question and all answers
-  QuestionRetriever --> API         : return first question and all answers
-
-  API --> Client : return first question and all answers
-  Client -> API  : send chosen answer
-  API --> API    : check answer is correct
-  API --> Client : inform user guessed right
-end loop One question
-
-
-API --> Client : inform user guessed right last question
-API --> API    : update ranking
-API --> Client : show ranking
-
-@enduml
-----
-
 === Sign Up
 [plantuml,"Sign up diagram",png]
 ----
-@startuml sign up
-
-actor Client
-
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
-
-Client --> API : enters credentials
-API --> BD     : check credentials unused
-API --> BD     : register user
-BD --> Client  : return user token
-
-@enduml
+include::../diagrams/sequence/SequenceDiagramSignUp.puml[]
 ----
 
 === Login
 [plantuml,"Login diagram",png]
 ----
-@startuml login
+include::../diagrams/sequence/SequenceDiagramLogIn.puml[]
+----
 
-actor Client
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
+=== General Game's life cycle
+* This diagram shows how should the application behave for an expected normal case scenario.
 
-Client --> API : enters credentials
-API --> BD     : check credentials correct
-BD --> API     : return user token
-API --> BD     : save SWT
-API --> Client : return user token
-
-@enduml
+[plantuml,"Game's sequence diagram",png]
+----
+include::../diagrams/sequence/SequenceDiagramGame.puml[]
 ----
 
 === Question Generation
 [plantuml,"Question generation diagram",png]
 ----
-@startuml question generator
-skinparam Style strictuml
-skinparam SequenceMessageAlignment center
-
-QuestionGenerator --> WikiDataQS  : querying correct answer
-QuestionGenerator <-- WikiDataQS  : return correct answer
-
-QuestionGenerator --> WikiDataQS  : querying wrong answers
-QuestionGenerator <-- WikiDataQS  : return wrong answers
-
-QuestionGenerator --> QuestionDB  : store question
-QuestionGenerator --> QuestionDB  : store correct answer
-QuestionGenerator --> QuestionDB  : store wrong answers
-
-@enduml
+include::../diagrams/sequence/SequenceDiagramQuestionGeneration.puml[]
 ----
 

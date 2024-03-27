@@ -3,8 +3,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-deployment-view]]
 
 == Deployment View
-
-image::DeploymentDiagram.png[align="center",title="Deployment Diagram",link="DeploymentDiagram.png]
+[plantuml,"Deployment diagram",png]
+----
+include::../diagrams/deployment/DeploymentDiagram.puml[]
+----
 
 === Infrastructure Level 1
 
@@ -22,6 +24,7 @@ Mapping of Building Blocks to Infrastructure::
  * The API/backend is contained within the `api` subfolder.
  ** The database will be generated on deployment.
  ** Wikidata is an external component, so although it is an important part of the deployment architecture, it is something we do not have access to changing.
+ * The question generator is a separate component that will be deployed on the server only at the beginning of the system. It is contained within the `questiongenerator` subfolder.
 
 === Infrastructure Level 2
 
@@ -38,3 +41,6 @@ Our main idea is that the server will be a self-contained .jar file with all the
 ===== Database
 
 The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers. The databases to store the questions (and therefore the answers) and the user data might be different, though.
+
+===== Question Generator
+The question generator will be run only at the beginning of the application. It will connect with Wikidata using SPARQL to generate questions and answers and store them in the database. This question generation will generate all the questions used by the application at once.

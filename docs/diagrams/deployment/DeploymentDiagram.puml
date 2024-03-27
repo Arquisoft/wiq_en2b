@@ -18,6 +18,9 @@ node "Server Hosting WIQ" #PeachPuff {
   node "PostgreSQL Docker" {
     database "WIQ Database"
   }
+  node "Question generator" {
+    component "Question_Generator.jar"
+  }
 }
 node "User Computer" #DarkSalmon{
   frame "Web Client"
@@ -29,4 +32,5 @@ node "WikiData Server" #DarkSalmon {
 "WIQ React Application" ..> "WIQ_API.jar" : "HTTPS"
 "WIQ_API.jar" ..> "WIQ Database" : "JPA"
 "WIQ API" ..> "WikiData REST API" : "HTTPS, SPARQL"
+"Question_Generator.jar" ..> "WIQ Database" : "JPA
 @enduml
