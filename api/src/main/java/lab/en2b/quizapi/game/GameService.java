@@ -3,6 +3,10 @@ package lab.en2b.quizapi.game;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
+import lab.en2b.quizapi.questions.answer.Answer;
+import lab.en2b.quizapi.questions.answer.AnswerRepository;
+import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
+import lab.en2b.quizapi.questions.answer.mappers.AnswerResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.Question;
 import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionService;
@@ -23,6 +27,8 @@ public class GameService {
     private final UserService userService;
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
+    private final QuestionService questionService;
+    private final AnswerRepository answerRepository;
     public GameResponseDto newGame(Authentication authentication) {
         Question question = questionRepository.findRandomQuestion("en");
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
@@ -45,5 +51,13 @@ public class GameService {
     public QuestionResponseDto getCurrentQuestion(Long id){
         Game game = gameRepository.findById(id).orElseThrow();
         return questionResponseDtoMapper.apply(game.getQuestions().get(game.getQuestions().size()-1));
+    }
+
+    public GameResponseDto answerQuestion(Long id, Long answerId){
+        Game game = gameRepository.findById(id).orElseThrow();
+        Long questionId = game.getQuestions().get(game.getQuestions().size()-1).getId();
+        AnswerDto answer = AnswerDto.builder().answerId(answerId).build();
+        questionService.answerQuestion(questionId, answer);
+        return gameResponseDtoMapper.apply(game);
     }
 }
