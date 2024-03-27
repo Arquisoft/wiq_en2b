@@ -15,6 +15,6 @@ public class RefreshTokenDto {
     @JsonProperty("refresh_token")
     @NonNull
     @NotEmpty
-    @Schema(example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNzQwNjQwMH0.7")
+    @Schema(description = "Refresh token to use for refreshing JWT", example = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNzQwNjQwMH0.7")
     private String refreshToken;
 }

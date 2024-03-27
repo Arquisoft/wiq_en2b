@@ -15,14 +15,14 @@ public class RegisterDto {
     @NotBlank
     @NonNull
     @Email
-    @Schema(example = "example@email.com" )
+    @Schema(description = "Email used for registering", example = "example@email.com" )
     private String email;
     @NonNull
     @NotBlank
-    @Schema(example = "example user" )
+    @Schema(description = "Username used for registering", example = "example user" )
     private String username;
     @NonNull
     @NotBlank
-    @Schema(example = "password" )
+    @Schema(description = "Password used for registering", example = "password" )
     private String password;
 }

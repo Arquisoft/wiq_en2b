@@ -15,11 +15,11 @@ public class LoginDto {
     @NonNull
     @NotBlank
     @Email
-    @Schema(example = "example@email.com")
+    @Schema(description = "Email used for login" ,example = "example@email.com")
     private String email;
 
     @NonNull
     @NotBlank
-    @Schema(example = "password")
+    @Schema(description = "Password used for login" , example = "password")
     private String password;
 }
