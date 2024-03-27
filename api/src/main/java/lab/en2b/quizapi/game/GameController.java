@@ -19,8 +19,8 @@ public class GameController {
     }
 
     @PostMapping("/{id}/startRound")
-    public ResponseEntity<GameResponseDto> startRound(@PathVariable Long id){
-        return ResponseEntity.ok(gameService.startRound(id));
+    public ResponseEntity<GameResponseDto> startRound(@PathVariable Long id, Authentication authentication){
+        return ResponseEntity.ok(gameService.startRound(id, authentication));
     }
 
     @GetMapping("/{id}/question")

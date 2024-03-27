@@ -20,6 +20,9 @@ public class GameResponseDtoMapper implements Function<Game, GameResponseDto>{
                 .rounds(game.getRounds())
                 .correctlyAnsweredQuestions(game.getCorrectlyAnsweredQuestions())
                 .actualRound(game.getActualRound())
+                .roundDuration(game.getRoundDuration())
+                .roundStartTime(game.getRoundStartTime())
+                .isGameOver(game.isGameOver())
                 .build();
     }
 }

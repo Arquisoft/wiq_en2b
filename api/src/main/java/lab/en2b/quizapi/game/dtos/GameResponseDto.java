@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @Data
 @Builder
@@ -22,4 +24,12 @@ public class GameResponseDto {
 
     @JsonProperty("correctly_answered_questions")
     private int correctlyAnsweredQuestions;
+
+    @JsonProperty("round_start_time")
+    private LocalDateTime roundStartTime;
+
+    @JsonProperty("round_duration")
+    private int roundDuration;
+
+    private boolean isGameOver;
 }

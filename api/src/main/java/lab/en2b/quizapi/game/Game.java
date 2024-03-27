@@ -6,6 +6,8 @@ import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.questions.question.Question;
 import lombok.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,6 +28,9 @@ public class Game {
     private int actualRound = 0;
 
     private int correctlyAnsweredQuestions = 0;
+    private String language;
+    private LocalDateTime roundStartTime;
+    private int roundDuration;
 
     @ManyToOne
     @NotNull
@@ -40,4 +45,16 @@ public class Game {
             @JoinColumn(name="question_id", referencedColumnName="id")
     )
     private List<Question> questions;
+
+    public void newRound(Question question){
+        if (isGameOver())
+            throw new IllegalStateException("You can't start a round for a finished game!");
+        getQuestions().add(question);
+        setActualRound(getActualRound() + 1);
+        setRoundStartTime(LocalDateTime.now());
+    }
+
+    public boolean isGameOver(){
+        return getActualRound() > getRounds();
+    }
 }

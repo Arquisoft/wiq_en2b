@@ -1,13 +1,11 @@
 package lab.en2b.quizapi.game;
 
+import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
-import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
-import lab.en2b.quizapi.questions.answer.mappers.AnswerResponseDtoMapper;
-import lab.en2b.quizapi.questions.question.Question;
 import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -17,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,21 +27,19 @@ public class GameService {
     private final QuestionService questionService;
     private final AnswerRepository answerRepository;
     public GameResponseDto newGame(Authentication authentication) {
-        Question question = questionRepository.findRandomQuestion("en");
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))
-                .questions(List.of(question))
+                .questions(new ArrayList<>())
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
+                .language("en")
                 .build()));
     }
 
-    public GameResponseDto startRound(Long id) {
-        Game game = gameRepository.findById(id).orElseThrow();
-        Question question = questionRepository.findRandomQuestion("en");
-        game.getQuestions().add(question);
-        game.setActualRound(game.getActualRound() + 1);
-        //Need to start the timer
+    public GameResponseDto startRound(Long id, Authentication authentication) {
+        User user = userService.getUserByAuthentication(authentication);
+        Game game = gameRepository.findByIdForUser(id, user.getId()).orElseThrow();
+        game.newRound(questionRepository.findRandomQuestion(game.getLanguage()));
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
 

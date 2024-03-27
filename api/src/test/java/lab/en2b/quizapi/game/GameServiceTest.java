@@ -9,10 +9,8 @@ import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
-import lab.en2b.quizapi.questions.question.Question;
-import lab.en2b.quizapi.questions.question.QuestionCategory;
-import lab.en2b.quizapi.questions.question.QuestionRepository;
-import lab.en2b.quizapi.questions.question.QuestionType;
+import lab.en2b.quizapi.questions.answer.AnswerRepository;
+import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,12 +58,21 @@ public class GameServiceTest {
 
     private QuestionResponseDtoMapper questionResponseDtoMapper;
 
+    @Mock
+    private AnswerRepository answerRepository;
+
+    @Mock
+    private QuestionService questionService;
+
+    @Mock
+    private Authentication authentication;
+
 
     private Game defaultGame;
     @BeforeEach
     void setUp() {
         this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
-        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper);
+        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper, questionService, answerRepository);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")
@@ -97,6 +105,7 @@ public class GameServiceTest {
                 .answerCategory(AnswerCategory.CITY)
                 .type(QuestionType.TEXT)
                 .build();
+        LocalDateTime now = LocalDateTime.now();
         this.defaultGameResponseDto = GameResponseDto.builder()
                 .user(defaultUserResponseDto)
                 .rounds(9)
@@ -108,6 +117,7 @@ public class GameServiceTest {
                 .questions(new ArrayList<>(List.of(defaultQuestion)))
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
+                .language("en")
                 .build();
     }
 
@@ -116,7 +126,6 @@ public class GameServiceTest {
         Authentication authentication = mock(Authentication.class);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
         GameResponseDto gameDto = gameService.newGame(authentication);
 
         assertEquals(defaultGameResponseDto, gameDto);
@@ -124,18 +133,20 @@ public class GameServiceTest {
 
     @Test
     public void newGameShouldAssignNewQuestion(){
-        //assertTrue(false);
+        assertTrue(false);
     }
 
     @Test
     public void startRound(){
-        when(gameRepository.findById(any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
-        GameResponseDto gameDto = gameService.startRound(1L);
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        GameResponseDto gameDto = gameService.startRound(1L, authentication);
         GameResponseDto result = defaultGameResponseDto;
         result.setActualRound(1);
         result.setId(1L);
+        result.setRoundStartTime(defaultGame.getRoundStartTime());
         assertEquals(result, gameDto);
     }
 
