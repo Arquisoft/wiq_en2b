@@ -37,8 +37,7 @@ public class GameService {
     }
 
     public GameResponseDto startRound(Long id, Authentication authentication) {
-        User user = userService.getUserByAuthentication(authentication);
-        Game game = gameRepository.findByIdForUser(id, user.getId()).orElseThrow();
+        Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.newRound(questionRepository.findRandomQuestion(game.getLanguage()));
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
