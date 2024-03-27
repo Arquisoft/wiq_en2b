@@ -27,8 +27,10 @@ public class UserService implements UserDetailsService {
         return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow(() -> new InvalidAuthenticationException("Invalid email or password provided!")));
     }
     public void createUser(RegisterDto registerRequest, String roleName){
-        if (userRepository.existsByEmail(registerRequest.getEmail()) || userRepository.existsByUsername(registerRequest.getUsername())) {
+        if (userRepository.existsByEmail(registerRequest.getEmail()) ) {
             throw new IllegalArgumentException("Error: email is already in use!");
+        }else if( userRepository.existsByUsername(registerRequest.getUsername())){
+            throw new IllegalArgumentException("Error: username is already in use!");
         }
 
         userRepository.save(User.builder()

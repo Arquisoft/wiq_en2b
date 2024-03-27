@@ -9,8 +9,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 === Whitebox Overall System
 
 _**Overview Diagram**_
-
-image::BusinessContext.png[align="center", title="Overall view of the business context"]
+[plantuml,"Business context diagram",png, align="center", title="Overall view of the business context"]
+----
+include::../diagrams/BusinessContextDiagram.puml[]
+----
 
 Motivation::
 This will be the general sketch of the elements interacting inside the application, including the external elements that will include the application.

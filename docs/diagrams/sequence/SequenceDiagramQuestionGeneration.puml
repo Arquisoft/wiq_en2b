@@ -1,0 +1,24 @@
+@startuml question generator
+title Question Generator Sequence Diagram
+participant QuestionGenerator #darksalmon
+participant WikiDataQS #darksalmon
+database DB #salmon
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+loop #PeachPuff Generate question templates
+activate QuestionGenerator #darksalmon
+QuestionGenerator -> WikiDataQS  : request query template
+activate WikiDataQS #darksalmon
+QuestionGenerator <-- WikiDataQS  : returns query answer
+deactivate WikiDataQS
+QuestionGenerator -> QuestionGenerator  : process query answer
+QuestionGenerator -> DB  : store answers
+activate DB #salmon
+QuestionGenerator -> DB  : store questions
+DB --> QuestionGenerator  :  info saved
+deactivate DB
+end loop
+
+deactivate QuestionGenerator
+@enduml

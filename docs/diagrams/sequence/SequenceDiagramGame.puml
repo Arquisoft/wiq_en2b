@@ -1,0 +1,46 @@
+@startuml Game's life cycle
+title Game Sequence Diagram
+actor Client #darksalmon
+participant API #darksalmon
+database DB #salmon
+
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+
+Client -> API : start game
+activate API #darksalmon
+API -> DB : store game info
+activate DB #salmon
+DB --> API : game info stored
+deactivate DB
+API --> Client : return game info
+deactivate API
+loop #PeachPuff Round
+  Client -> API : start round
+  activate API #darksalmon
+  API -> DB : ask for question
+  activate DB  #salmon
+  DB --> API : return question
+  deactivate DB
+  API --> Client : return question with all answers
+  deactivate API
+  Client -> API  : send chosen answer
+  activate API #darksalmon
+  API -> API    : check answer is correct
+  API -> DB     : update game info
+  activate DB #salmon
+  DB --> API    : game info updated
+ deactivate DB
+  API --> Client : inform user if guessed right
+
+
+end loop One question
+
+API -> DB : [if last round] update ranking
+activate DB #salmon
+DB --> API : ranking updated
+deactivate DB
+API --> Client : inform user if guessed right
+deactivate API
+
+@enduml
