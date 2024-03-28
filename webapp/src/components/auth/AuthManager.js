@@ -1,23 +1,28 @@
 import axios, { HttpStatusCode } from "axios";
 
-class AuthManager {
+export default class AuthManager {
+  
   static #instance = null;
   #isLoggedIn = false;
   #axiosInstance = null;
 
   constructor() {
     if (!AuthManager.#instance) {
-      this.#axiosInstance = axios.create();
       AuthManager.#instance = this;
+      AuthManager.#instance.#axiosInstance = axios.create();
     }
   }
 
+  getAxiosInstance() {
+    return AuthManager.#instance.#axiosInstance;
+  }
+
   setLoggedIn(value) {
-    this.#isLoggedIn = value;
+    AuthManager.#instance.#isLoggedIn = value;
   }
 
   isLoggedIn() {
-    return this.#isLoggedIn;
+    return AuthManager.#instance.#isLoggedIn;
   }
 
   static getInstance() {
@@ -26,9 +31,10 @@ class AuthManager {
 
   async login(loginData, onSuccess, onError) {
     try {
-        let requestAnswer = await this.#axiosInstance.post(process.env.REACT_APP_API_ENDPOINT + "/auth/login", loginData);
+        let requestAnswer = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/login", loginData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             this.#saveToken(requestAnswer);
+            this.setLoggedIn(true);
             onSuccess();
         } else {
             throw requestAnswer;
@@ -50,25 +56,29 @@ class AuthManager {
     }
   }
 
+  reset() {
+    AuthManager.#instance = null;
+    AuthManager.#instance = new AuthManager();
+  }
+
   async logout() {
     try {
-      await axios.get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
-      sessionStorage.removeItem("jwtToken");
-      sessionStorage.removeItem("jwtRefreshToken");
+      await this.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
+      this.setLoggedIn(false);
   } catch (error) {
       console.error("Error logging out user: ", error);
   }
   }
 
   #saveToken(requestAnswer) {
-    axios.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
-    sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
-    sessionStorage.setItem("jwtReceptionMillis", Date.now().toString());
+    // this.#axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
+    // sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
+    // sessionStorage.setItem("jwtReceptionMillis", Date.now().toString());
   }
 
   async register(registerData, onSuccess, onError) {
     try {
-        let requestAnswer = await axios.post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
+        let requestAnswer = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             this.#saveToken(requestAnswer);
             onSuccess();
@@ -92,5 +102,3 @@ class AuthManager {
     }
 }
 }
-
-export default AuthManager;
