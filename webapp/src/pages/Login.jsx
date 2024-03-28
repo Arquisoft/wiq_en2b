@@ -20,19 +20,11 @@ export default function Login() {
         }
     }
 
-    useEffect(() => {
-        const checkUserLoggedIn = async () => {
-            if (isUserLogged()) {
-                try {
-                    await logoutUser(); // Cierra sesión antes de redirigir al inicio de sesión
-                } catch (error) {
-                    console.error("Error al cerrar sesión:", error);
-                }
-            }
-        };
-
-        checkUserLoggedIn();
-    }, []); // Solo se ejecuta al montar el componente
+    const checkLoggedIn = () => {
+        if (isUserLogged()) {
+            navigateToDashboard();
+        }
+    }
 
     const [errorMessage, setErrorMessage] = useState(null);
     const { t } = useTranslation();
@@ -68,7 +60,7 @@ export default function Login() {
     }
 
     return (
-        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
+        <Center onLoad={checkLoggedIn} display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
             bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
