@@ -57,8 +57,12 @@ public class Game {
 
         setCurrentQuestionAnswered(false);
         getQuestions().add(question);
-        setActualRound(getActualRound() + 1);
+        increaseRound();
         setRoundStartTime(LocalDateTime.now());
+    }
+
+    private void increaseRound(){
+        setActualRound(getActualRound() + 1);
     }
 
     public boolean isGameOver(){
