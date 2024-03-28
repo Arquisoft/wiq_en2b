@@ -86,4 +86,10 @@ public class Game {
     private boolean roundTimeHasExpired(){
         return LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
     }
+
+    public void answerQuestion(){
+        if(currentRoundIsOver())
+            throw new IllegalStateException("You can't answer a question when the current round is over!");
+        setCurrentQuestionAnswered(true);
+    }
 }
