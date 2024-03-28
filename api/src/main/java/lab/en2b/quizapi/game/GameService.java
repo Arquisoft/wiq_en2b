@@ -48,8 +48,8 @@ public class GameService {
         return questionResponseDtoMapper.apply(game.getCurrentQuestion());
     }
 
-    public GameResponseDto answerQuestion(Long id, Long answerId){
-        Game game = gameRepository.findById(id).orElseThrow();
+    public GameResponseDto answerQuestion(Long id, Long answerId, Authentication authentication){
+        Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         Long questionId = game.getQuestions().get(game.getQuestions().size()-1).getId();
         AnswerDto answer = AnswerDto.builder().answerId(answerId).build();
         questionService.answerQuestion(questionId, answer);

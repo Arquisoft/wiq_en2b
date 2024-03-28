@@ -29,8 +29,8 @@ public class GameController {
     }
 
     @PostMapping("/{id}/answer")
-    public ResponseEntity<GameResponseDto> answerQuestion(@PathVariable Long id, @RequestParam Long answerId){
-        return ResponseEntity.ok(gameService.answerQuestion(id, answerId));
+    public ResponseEntity<GameResponseDto> answerQuestion(@PathVariable Long id, @RequestParam Long answerId, Authentication authentication){
+        return ResponseEntity.ok(gameService.answerQuestion(id, answerId, authentication));
     }
 
 }
