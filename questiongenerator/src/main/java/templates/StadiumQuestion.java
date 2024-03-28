@@ -57,7 +57,7 @@ public class StadiumQuestion extends QuestionTemplate {
             if (langCode.equals("es"))
                 questions.add(new Question(a, "¿Cuál es este estadio? " + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which stadium is this?" + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, "Which stadium is this? " + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));
