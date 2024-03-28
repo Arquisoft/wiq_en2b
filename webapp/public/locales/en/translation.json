@@ -27,11 +27,27 @@
         "clickHere": "Click here"
     },
     "error": {
-        "login": "You should enter a valid username and password",
-        "register": "You should enter a valid username, email and password",
+        "login": "Login error: ",
+        "register": "Registry error: ",
         "login-desc": "Please, enter you username and password to log in",
         "register-desc": "Please, enter you username and password to register",
-        "login-send": "Your email or password are not found in our database"
+        "login-send": "Your email or password are not found in our database",
+        "validation": {
+            "type": "Validation Error: ",
+            "message": "Incorrect data"
+        },
+        "conflict": {
+            "type": "Conflict Error: ",
+            "message": "User already exists"
+        },
+        "unknown": {
+            "type": "Unknown Error",
+            "message": ""
+        },
+        "authorized": {
+            "type": "Authorization Error: ",
+            "message": "Incorrect password"
+        }
     },
     "statistics": {
         "position": "Position",
