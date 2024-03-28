@@ -4,6 +4,17 @@ import axios, { HttpStatusCode } from "axios";
 
 const mockAxios = new MockAdapter(axios);
 
+jest.mock('react-i18next', () => ({
+    useTranslation: () => {
+      return {
+        t: (str) => str,
+        i18n: {
+          changeLanguage: () => new Promise(() => {}),
+        },
+      }
+    },
+  }));
+
 describe("Question Service tests", () => {
     describe("getQuestion function", () => {
         beforeEach(() => {
