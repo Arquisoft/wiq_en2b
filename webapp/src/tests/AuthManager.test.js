@@ -1,4 +1,4 @@
-import AuthManager from "../components/utils/AuthManager";
+import AuthManager from "../components/auth/AuthManager";
 
 describe("AuthManager", () => {
   let authManager;

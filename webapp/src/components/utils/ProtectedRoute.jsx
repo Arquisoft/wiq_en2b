@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import AuthManager from "./AuthManager";
+import AuthManager from "../auth/AuthManager";
 
 const authManager = new AuthManager();
 

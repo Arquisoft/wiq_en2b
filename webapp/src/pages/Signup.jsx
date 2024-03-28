@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
-import { register } from "../components/auth/AuthUtils";
 import ButtonEf from '../components/ButtonEf';
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
+import AuthManager from "components/auth/AuthManager";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -36,11 +36,18 @@ export default function Signup() {
             "password": password
         };
         try {
-            await register(registerData, navigateToLogin, setErrorMessage, t);
+            await AuthManager.getInstance().register(registerData, navigateToLogin, setLocalizedErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
     };
+
+    const setLocalizedErrorMessage = (errorMessage) => {
+        setErrorMessage({
+            type: t(errorMessage.type),
+            message: t(errorMessage.message)
+        });
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
