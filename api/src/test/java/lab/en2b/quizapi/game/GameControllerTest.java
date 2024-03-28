@@ -103,4 +103,13 @@ public class GameControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void answerQuestionShouldReturn400() throws Exception{
+        mockMvc.perform(post("/games/1/answer")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
 }
