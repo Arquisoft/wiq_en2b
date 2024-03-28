@@ -50,6 +50,16 @@ class AuthManager {
     }
   }
 
+  async logout() {
+    try {
+      await axios.get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
+      sessionStorage.removeItem("jwtToken");
+      sessionStorage.removeItem("jwtRefreshToken");
+  } catch (error) {
+      console.error("Error logging out user: ", error);
+  }
+  }
+
   #saveToken(requestAnswer) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
     sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);

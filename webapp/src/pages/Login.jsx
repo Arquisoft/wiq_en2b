@@ -7,7 +7,6 @@ import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avata
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import ButtonEf from '../components/ButtonEf';
 import '../styles/AppView.css';
-import { logoutUser } from "../components/game/Logout";
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 
