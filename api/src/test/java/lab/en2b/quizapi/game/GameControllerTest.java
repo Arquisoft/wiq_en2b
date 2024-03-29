@@ -112,4 +112,12 @@ public class GameControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void changeLanguageShouldReturn403() throws Exception{
+        mockMvc.perform(post("/games/1/language?language=en")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
 }
