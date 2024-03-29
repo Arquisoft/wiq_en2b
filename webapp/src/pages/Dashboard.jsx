@@ -3,8 +3,8 @@ import { Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { logoutUser } from "../components/game/Logout"; // Importa la función logoutUser
 import ButtonEf from '../components/ButtonEf';
+import AuthManager from "components/auth/AuthManager";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function Dashboard() {
 
     const handleLogout = async () => {
         try {
-            await logoutUser();
+            await new AuthManager().logout();
             navigate("/");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);

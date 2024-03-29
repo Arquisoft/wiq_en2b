@@ -34,7 +34,7 @@ export default class AuthManager {
         let requestAnswer = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/login", loginData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             this.#saveToken(requestAnswer);
-            this.setLoggedIn(true);
+            AuthManager.#instance.setLoggedIn(true);
             onSuccess();
         } else {
             throw requestAnswer;
@@ -64,7 +64,7 @@ export default class AuthManager {
   async logout() {
     try {
       await this.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
-      this.setLoggedIn(false);
+      AuthManager.#instance.setLoggedIn(false);
   } catch (error) {
       console.error("Error logging out user: ", error);
   }

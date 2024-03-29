@@ -1,8 +1,9 @@
-import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import {logoutUser} from "components/game/Logout";
-
-const mockAxios = new MockAdapter(axios);
+import AuthManager from "components/auth/AuthManager";
+import Logout from "../pages/Logout";
+import { MemoryRouter } from "react-router";
+import { render, waitFor } from "@testing-library/react";
+import React from "react";
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => {
@@ -15,21 +16,24 @@ jest.mock('react-i18next', () => ({
     },
   }));
 
+const authManager = new AuthManager();
+let mockAxios;
 describe("Logout User tests", () => {
     beforeEach(() => {
-        sessionStorage.clear();
-        mockAxios.reset();
+        authManager.reset();
+        mockAxios = new MockAdapter(authManager.getAxiosInstance());
     });
 
     it("successfully logs out the user", async () => {
         mockAxios.onGet(process.env.REACT_APP_API_ENDPOINT + "/auth/logout").replyOnce(200);
 
-        sessionStorage.setItem("jwtToken", "token");
-        sessionStorage.setItem("jwtRefreshToken", "refreshToken");
+        authManager.setLoggedIn(true);
 
-        await logoutUser();
+        render(<Logout/>, {wrapper: MemoryRouter});
 
-        expect(sessionStorage.getItem("jwtToken")).toBeNull();
-        expect(sessionStorage.getItem("jwtRefreshToken")).toBeNull();
+        waitFor(() => {
+          expect(mockAxios.history.get.length).toBe(1);
+          expect(authManager.isLoggedIn()).toBe(false);
+        })
     });
 });
