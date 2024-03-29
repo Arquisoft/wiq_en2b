@@ -147,4 +147,13 @@ public class GameControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void getGameDetailsShouldReturn200() throws Exception{
+        mockMvc.perform(get("/games/1/details")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
 }
