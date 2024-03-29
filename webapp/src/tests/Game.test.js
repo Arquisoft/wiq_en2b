@@ -27,7 +27,7 @@ describe('Game component', () => {
     
     fireEvent.click(option1Button);
     
-    expect(option1Button).toHaveClass('chakra-button custom-button effect1 css-gb6fkz');
+    expect(option1Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
 
   test('disables next button when no option is selected', () => {
@@ -51,10 +51,10 @@ describe('Game component', () => {
     const { getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
     const option2Button = getByTestId('Option2');
   
-    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-quk8vy');
+    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-147pzm2');
 
     fireEvent.click(option2Button);
   
-    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-gb6fkz');
+    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
 });

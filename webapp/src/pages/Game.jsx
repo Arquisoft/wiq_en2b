@@ -71,7 +71,7 @@ export default function Game() {
 
 			<Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
-			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem">
+			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
 				
 				<Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
 
