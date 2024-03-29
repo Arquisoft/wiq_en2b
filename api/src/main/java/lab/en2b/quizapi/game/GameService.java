@@ -64,6 +64,6 @@ public class GameService {
     }
 
     public GameResponseDto getGameDetails(Long id, Authentication authentication) {
-        return null;
+        return gameResponseDtoMapper.apply(gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow());
     }
 }
