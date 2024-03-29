@@ -33,4 +33,9 @@ public class GameController {
         return ResponseEntity.ok(gameService.answerQuestion(id, answerId, authentication));
     }
 
+    @PutMapping("/{id}/language")
+    public ResponseEntity<GameResponseDto> changeLanguage(@PathVariable Long id, @RequestParam String language, Authentication authentication){
+        return ResponseEntity.ok(gameService.changeLanguage(id, language, authentication));
+    }
+
 }

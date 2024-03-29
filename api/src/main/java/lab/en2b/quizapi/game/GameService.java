@@ -56,4 +56,8 @@ public class GameService {
         game.answerQuestion();
         return gameResponseDtoMapper.apply(game);
     }
+
+    public GameResponseDto changeLanguage(Long id, String language, Authentication authentication) {
+        return null;
+    }
 }
