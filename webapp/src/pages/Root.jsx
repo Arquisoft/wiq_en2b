@@ -16,10 +16,10 @@ export default function Root() {
                 <Image borderRadius='full' boxSize='150px' src='/kiwiq-icon.ico' alt='kiwiq icon'/>
                 <Box minW={{md:"400px"}} textAlign="center">
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl" rounded="1rem">
-                        <Heading as="h1" bgGradient='linear(to-l, forest_green.400, pigment_green.600)' bgClip='text'>{"KIWIQ"}</Heading>
-                        <Text>{t("session.welcome")}</Text>
+                        <Heading as="h1">{"KIWIQ"}</Heading>
+                        <Text fontWeight='extrabold' color={"forest_green.400"}>{t("session.welcome")}</Text>
                         <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.login")} onClick={() => navigate("/login")}/>
-                        <Text>{t("session.account")} <Link as="span" color={"forest_green.400"} onClick={() => navigate("/signup")}>{t("session.clickHere")}</Link></Text>
+                        <Text>{t("session.account")} <Link as="span" onClick={() => navigate("/signup")}>{t("session.clickHere")}</Link></Text>
                     </Stack>
                 </Box>
             </Stack> 

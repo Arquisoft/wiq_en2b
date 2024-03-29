@@ -57,10 +57,10 @@ export default function Login() {
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
-            bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+            bg={"blue.50"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
-                <Avatar bg="blue.500" />
-                <Heading as="h2" color="blue.400">{t("common.login")}</Heading>
+                <Avatar bg="pigment_green.500" />
+                <Heading as="h2">{t("common.login")}</Heading>
                 {
                     hasError &&
                     <Alert status='error' rounded="1rem" margin={"1vh 0vw"}>
@@ -90,7 +90,7 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={() => sendLogin(t("error.login-send"))} />
+                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.login")} onClick={() => sendLogin(t("error.login-send"))} />
                     </Stack>
                 </Box>
             </Stack>

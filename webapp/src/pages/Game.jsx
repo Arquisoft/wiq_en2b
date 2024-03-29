@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
+import { Grid, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
@@ -66,23 +66,22 @@ export default function Game() {
 	}, [showConfetti]);
 
 	return (
-		<Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center" padding={"4"}>
-			<Heading as="h2" color="blue.400">{`Round ${roundNumber}`}</Heading>
+		<Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center" padding={"4"}  bgImage={'/background.svg'}>
+			<Heading as="h2">{`Round ${roundNumber}`}</Heading>
 
-			<Heading as="h3" color="green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
+			<Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
 			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem">
-				<Box bg="white" color="blue.400" p={4} borderRadius="md" mb={4} fontSize="xl" border="2px solid" borderColor="blue.400">
-					{question.content}
-				</Box>
+				
+				<Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
 
 				<Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
-					<ButtonEf dataTestId={"Option1"} variant={selectedOption === 1 ? "solid" : "outline"} colorScheme={"blue"} text={question.answers[0].text} onClick={() => answerButtonClick(1)} />
-					<ButtonEf dataTestId={"Option2"} variant={selectedOption === 2 ? "solid" : "outline"} colorScheme={"blue"} text={question.answers[1].text} onClick={() => answerButtonClick(2)} />
+					<ButtonEf dataTestId={"Option1"} variant={selectedOption === 1 ? "solid" : "outline"} colorScheme={"green"} text={question.answers[0].text} onClick={() => answerButtonClick(1)} />
+					<ButtonEf dataTestId={"Option2"} variant={selectedOption === 2 ? "solid" : "outline"} colorScheme={"green"} text={question.answers[1].text} onClick={() => answerButtonClick(2)} />
 				</Grid>
 
 				<Flex direction="row" justifyContent="center" alignItems="center">
-					<Button isDisabled={nextDisabled} colorScheme="blue" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+					<Button isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
 						{"Next"}
 					</Button>
 				</Flex>

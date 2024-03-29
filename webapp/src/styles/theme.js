@@ -4,6 +4,7 @@ import '@fontsource-variable/outfit'; // Supports weights 100-900
 const theme = extendTheme({
     fonts: {
         heading: "Outfit Variable, sans-serif",
+        body: "Tahoma"
     },
     fontWeights: {
         bold: 900,
@@ -55,7 +56,7 @@ const theme = extendTheme({
             600: '#40ce63', 
             700: '#6fda8a', 
             800: '#9fe6b1', 
-            900: '#cff3d8' 
+            900: '#cff3d8'
         }, 
         beige: {
             DEFAULT: '#eef5db', 
@@ -67,8 +68,26 @@ const theme = extendTheme({
             600: '#f2f7e2', 
             700: '#f5f9e9', 
             800: '#f8fbf1', 
-            900: '#fcfdf8' 
+            900: '#fcfdf8'
         },
     },
+    components: {
+        Heading: {
+            baseStyle: {
+                bgGradient: 'linear(to-l, forest_green.400, pigment_green.600)',
+                bgClip: 'text',
+            },
+            sizes: {
+                xl: {
+                    fontSize: "5xl",
+                },
+            },
+        },
+        Link: {
+            baseStyle: {
+              color: "forest_green.400",
+            },
+        },
+    }
 });
 export default theme;

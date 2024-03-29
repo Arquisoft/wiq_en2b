@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import '../styles/AppView.css';
 
 const ButtonEf = ({ dataTestId, variant, colorScheme, text, onClick }) => {
-  const theme = useTheme(); // Obtiene el tema actual
+  const theme = useTheme();
 
   const buttonStyle = {
-      fontFamily: theme.fonts.heading, // Utiliza la fuente del encabezado del tema
+      fontFamily: theme.fonts.heading,
       margin: "10px",
   };
   return (
