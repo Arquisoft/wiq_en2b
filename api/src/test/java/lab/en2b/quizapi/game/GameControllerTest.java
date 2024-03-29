@@ -16,6 +16,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GameController.class)
@@ -114,7 +115,7 @@ public class GameControllerTest {
 
     @Test
     void changeLanguageShouldReturn403() throws Exception{
-        mockMvc.perform(post("/games/1/language?language=en")
+        mockMvc.perform(put("/games/1/language?language=en")
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isForbidden());
@@ -122,7 +123,7 @@ public class GameControllerTest {
 
     @Test
     void changeLanguageShouldReturn200() throws Exception{
-        mockMvc.perform(post("/games/1/language?language=en")
+        mockMvc.perform(put("/games/1/language?language=en")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
@@ -131,7 +132,7 @@ public class GameControllerTest {
 
     @Test
     void changeLanguageShouldReturn400() throws Exception{
-        mockMvc.perform(post("/games/1/language")
+        mockMvc.perform(put("/games/1/language")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
