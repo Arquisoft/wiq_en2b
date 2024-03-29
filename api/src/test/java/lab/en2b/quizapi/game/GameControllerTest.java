@@ -120,4 +120,13 @@ public class GameControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void changeLanguageShouldReturn200() throws Exception{
+        mockMvc.perform(post("/games/1/language?language=en")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
 }
