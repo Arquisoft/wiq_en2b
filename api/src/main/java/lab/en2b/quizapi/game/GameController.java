@@ -38,4 +38,9 @@ public class GameController {
         return ResponseEntity.ok(gameService.changeLanguage(id, language, authentication));
     }
 
+    @GetMapping("/{id}/details")
+    public ResponseEntity<GameResponseDto> getGameDetails(@PathVariable Long id, Authentication authentication){
+        return ResponseEntity.ok(gameService.getGameDetails(id, authentication));
+    }
+
 }

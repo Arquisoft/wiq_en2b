@@ -62,4 +62,8 @@ public class GameService {
         game.setLanguage(language);
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
+
+    public GameResponseDto getGameDetails(Long id, Authentication authentication) {
+        return null;
+    }
 }
