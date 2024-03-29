@@ -14,7 +14,7 @@ export default function Login() {
 
     const navigate = useNavigate();
     const navigateToDashboard = () => {
-        if (AuthManager.getInstance().isUserLogged()) {
+        if (AuthManager.getInstance().isLoggedIn()) {
             navigate("/dashboard");
         }
     }
