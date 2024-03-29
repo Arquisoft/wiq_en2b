@@ -58,6 +58,8 @@ public class GameService {
     }
 
     public GameResponseDto changeLanguage(Long id, String language, Authentication authentication) {
-        return null;
+        Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
+        game.setLanguage(language);
+        return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
 }
