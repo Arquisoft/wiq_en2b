@@ -139,4 +139,12 @@ public class GameControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void getGameDetailsShouldReturn403() throws Exception{
+        mockMvc.perform(get("/games/1/details")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
 }
