@@ -5,6 +5,8 @@ import { Doughnut } from "react-chartjs-2";
 import { DoughnutController, ArcElement} from "chart.js/auto"; // These imports are necessary
 import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
+import AuthManager from "components/auth/AuthManager";
+import { HttpStatusCode } from "axios";
 
 const UserVisual = (props) => {
     const {t} = useTranslation();
@@ -113,17 +115,33 @@ export default function Statistics() {
     const {t} = useTranslation();
     const [retrievedData, setRetrievedData] = useState(false);
     const [topTen, setTopTen] = useState([]);
-    const [userData, setUserData] = useState({
-        "rate": [50,50],
-        "absolute": {
-            "right": 6,
-            "wrong": 6
-        }
-    });
+    const [userData, setUserData] = useState({});
+    const [errorMessage, setErrorMessage] = useState(null);
 
-    const getData = () => {
-        // TODO: Connection with API
-        setRetrievedData(true);
+    const getData = async () => {
+        try {
+            const request = await AuthManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/statistics");
+            if (request.status === HttpStatusCode.Ok) {
+                setTopTen(request.data.topTen);
+                setUserData(request.data.userData);
+                setRetrievedData(true);
+            } else {
+                throw request;
+            }
+        } catch (error) {
+            let errorType;
+            switch (error.response ? error.response.status : null) {
+                case 400:
+                    errorType = { type: "error.validation.type", message: "error.validation.message"};
+                    break;
+                case 401:
+                    errorType = { type: "error.authorized.type", message: "error.authorized.message"};
+                    break;
+                default:
+                    errorType = { type: "error.unknown.type", message: "error.unknown.message"};
+                    break;
+        }
+        }
     }
 
     return (
