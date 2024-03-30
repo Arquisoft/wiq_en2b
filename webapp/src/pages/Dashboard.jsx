@@ -27,9 +27,7 @@ export default function Dashboard() {
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
               <ButtonEf dataTestId={"Rules"} variant={"outline"} colorScheme={"blue"} text={t("common.rules")} onClick={() => navigate("/dashboard/rules")}/>
               <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"blue"} text={t("common.play")} onClick={() => navigate("/dashboard/game")}/>
-              <Button isDisabled data-testid={"Statistics"} type="submit" colorScheme={"blue"} margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/dashboard/statistics")}>
-                {t("common.statistics.title")}
-              </Button>
+              <ButtonEf dataTestId={"Statistics"} variant={"outline"} colorScheme={"blue"} text={t("common.statistics.title")} onClick={() => navigate("/dashboard/statistics")}/>
             </Grid>
 
             <Flex direction="row" justifyContent="center" alignItems="center">

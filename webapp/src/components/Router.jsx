@@ -23,7 +23,7 @@ export default createRoutesFromElements(
       <Route path="/dashboard/rules" element={<Rules />}/>
       <Route path="/dashboard/game" element={<Game />}/>
       <Route path="/dashboard/game/results" element={<Results />}/>
-      <Route path="/statistics" element={<Statistics />} />
+      <Route path="/dashboard/statistics" element={<Statistics />} />
       <Route path="/logout" element={<Logout />} />
     </Route>
   </Route>

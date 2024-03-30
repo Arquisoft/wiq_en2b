@@ -120,7 +120,8 @@ export default function Statistics() {
 
     const getData = async () => {
         try {
-            const request = await AuthManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/statistics");
+            const request = await new AuthManager().getAxiosInstance()
+                                                   .get(process.env.REACT_APP_API_ENDPOINT + "/statistics");
             if (request.status === HttpStatusCode.Ok) {
                 setTopTen(request.data.topTen);
                 setUserData(request.data.userData);

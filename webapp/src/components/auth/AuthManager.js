@@ -22,6 +22,13 @@ export default class AuthManager {
   }
 
   isLoggedIn() {
+    console.log(this.#isLoggedIn);
+    console.log(sessionStorage.getItem("jwtRefreshToken"))
+    if (!AuthManager.#instance.#isLoggedIn) {
+      if (sessionStorage.getItem("jwtRefreshToken")) {
+        this.#refresh();
+      }
+    }
     return AuthManager.#instance.#isLoggedIn;
   }
 
@@ -65,15 +72,25 @@ export default class AuthManager {
     try {
       await this.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
       AuthManager.#instance.setLoggedIn(false);
-  } catch (error) {
-      console.error("Error logging out user: ", error);
-  }
+    } catch (error) {
+        console.error("Error logging out user: ", error);
+    }
   }
 
   #saveToken(requestAnswer) {
-    // this.#axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + requestAnswer.data.token;
-    // sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
-    // sessionStorage.setItem("jwtReceptionMillis", Date.now().toString());
+    sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
+  }
+
+  async #refresh() {
+    try {
+        let response = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/refresh-token", {
+          "refreshToken": sessionStorage.getItem("jwtRefreshToken")
+        });
+        this.#saveToken(response);
+        AuthManager.#instance.setLoggedIn(true);
+    } catch (error) {
+        console.error("Error refreshing token: ", error);
+    }  
   }
 
   async register(registerData, onSuccess, onError) {
