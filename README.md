@@ -37,10 +37,18 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 
 This repo is a basic application composed of several components.
 
-- **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
+Component | Route | Description
+-- | -- | --
+Backend/API | `api/` | The main backend service, implemented in Java SpringBoot. It serves all requests from the frontend, and it doubles as main API. It also has a JWT-based authentication system.
+Question generator | `questiongenerator/` | A SpringBoot-based service, ran alongside the main backend service, that generates questions and inserts them into the database
+Webapp | `webapp/` | Our own frontend to the backend. It is implemented in React 18.
+    
+***
+
+- **Question generatior**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
 - **User service**. Express service that handles the insertion of new users in the system.
 - **Auth service**. Express service that handles the authentication of users.
-- **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
+- **Webapp**. 
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
