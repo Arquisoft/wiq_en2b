@@ -1,7 +1,6 @@
 package lab.en2b.quizapi.game;
 
 import ch.qos.logback.core.util.TimeUtil;
-import lab.en2b.quizapi.auth.config.UserDetailsImpl;
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserResponseDto;
 import lab.en2b.quizapi.commons.user.UserService;
@@ -10,6 +9,7 @@ import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
+import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
@@ -25,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,8 +65,8 @@ public class GameServiceTest {
     @Mock
     private Authentication authentication;
 
-
     private Game defaultGame;
+
     @BeforeEach
     void setUp() {
         this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
@@ -203,6 +202,28 @@ public class GameServiceTest {
         gameService.startRound(1L,authentication);
         defaultGame.setActualRound(10);
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
+    }
+
+    /*@Test
+    public void answerQuestion(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        gameService.startRound(1L, authentication);
+        GameResponseDto result = gameService.answerQuestion(1L, 1L, authentication);
+        assertEquals(defaultGameResponseDto, result);
+    }*/
+
+    @Test
+    public void changeLanguage(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        GameResponseDto gameDto = gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        gameService.changeLanguage(1L, "es", authentication);
+        assertEquals(defaultGameResponseDto, gameDto);
     }
 
 }
