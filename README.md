@@ -33,7 +33,7 @@ Gonzalo Suárez Losada | <a href="https://github.com/uo283928"><img src="https:/
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 
-This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
+This is a repository for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
 
 This repo is a basic application composed of several components.
 
@@ -45,10 +45,4 @@ Webapp | `webapp/` | Our own frontend to the backend. It is implemented in React
     
 ***
 
-- **Question generatior**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
-- **User service**. Express service that handles the insertion of new users in the system.
-- **Auth service**. Express service that handles the authentication of users.
-- **Webapp**. 
-
-Both the user and auth service share a Mongo database that is accessed with mongoose.
-
+Both the backend/API and the question generator use PostgreSQL.
