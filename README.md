@@ -14,6 +14,7 @@ We aim to create a platform that not only challenges your knowledge but also spa
 ## Features
 🏆 Adaptable  difficulty: You can adjust the difficulty to push your limits.  
 🌐 Multiplayer: Compete with friends and strangers to prove you are the best.
+🌐 Localized: Available in Spanish and English.
 
 ## Contributors
 Contributor | Contact
