@@ -227,4 +227,15 @@ public class GameServiceTest {
         assertEquals(defaultGameResponseDto, gameDto);
     }
 
+    @Test
+    public void getGameDetails(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        GameResponseDto gameDto = gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        gameService.getGameDetails(1L, authentication);
+        assertEquals(defaultGameResponseDto, gameDto);
+    }
+
 }
