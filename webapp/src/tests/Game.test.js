@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Game from '../pages/Game';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
+import { getQuestion } from '../components/game/Questions';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -16,45 +17,63 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
+jest.mock('../components/game/Questions', () => ({
+  getQuestion: jest.fn(),
+}));
+
 describe('Game component', () => {
+  beforeEach(() => {
+    getQuestion.mockResolvedValue({
+      content: 'Test question',
+      answers: [
+        { id: 1, text: 'Test answer 1', category: 'Test category 1' },
+        { id: 2, text: 'Test answer 2', category: 'Test category 2' },
+      ],
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   test('renders without crashing', () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
   });
 
-  test('selects an option when clicked', () => {
-    const { getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const option1Button = getByTestId('Option1');
-    
+  test('selects an option when clicked', async () => {
+    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    const option1Button = await screen.findByTestId('Option1');
+
     fireEvent.click(option1Button);
-    
+
     expect(option1Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
 
-  test('disables next button when no option is selected', () => {
-    const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const nextButton = getByText('Next');
-    
+  test('disables next button when no option is selected', async () => {
+    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    const nextButton = await screen.findByText('Next');
+
     expect(nextButton).toBeDisabled();
   });
 
-  test('enables next button when an option is selected', () => {
-    const { getByTestId, getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const option1Button = getByTestId('Option1');
-    const nextButton = getByText('Next');
-    
+  test('enables next button when an option is selected', async () => {
+    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    const option1Button = await screen.findByTestId('Option1');
+    const nextButton = await screen.findByText('Next');
+
     fireEvent.click(option1Button);
-    
+
     expect(nextButton).toBeEnabled();
   });
 
-  test('renders ButtonEf component correctly', () => {
-    const { getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const option2Button = getByTestId('Option2');
-  
+  test('renders ButtonEf component correctly', async () => {
+    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    const option2Button = await screen.findByTestId('Option2');
+
     expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-147pzm2');
 
     fireEvent.click(option2Button);
-  
+
     expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
 });

@@ -82,7 +82,7 @@ export default function Game() {
 						speed='0.65s'
 						emptyColor='gray.200'
 						color='green.500'
-						size='3xl'
+						size='xl'
 					/>
 				) : (
 					<> 
