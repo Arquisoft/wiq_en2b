@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Flex, Heading, Button, Box, Text } from "@chakra-ui/react";
+import { Grid, Flex, Heading, Button, Box, Text, Spinner } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
@@ -10,11 +10,15 @@ import axios from "axios";
 export default function Game() {
 	const navigate = useNavigate();
 
-	const [question, setQuestion] = useState({ id:1, content: "default question", answers: [{id:1, text:"answer1", category:"category1" }, {id:2, text:"answer2", category:"category2" }], questionCategory: "", answerCategory: "", language: "en", type: ""});
+	const [question, setQuestion] = useState(null);
+	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
-		  await generateQuestion();
+			setLoading(true);
+		  	const result = await getQuestion();
+		  	setQuestion(result);
+		  	setLoading(false);
 		};
 		fetchQuestion();
 	}, []);
@@ -48,7 +52,7 @@ export default function Game() {
 
 		setSelectedOption(null);
 
-		const nextRoundNumber = roundNumber + 1; // Round N
+		const nextRoundNumber = roundNumber + 1;
 		if (nextRoundNumber > 9)
 			navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers + (isCorrect ? 1 : 0) } });
 		else {
@@ -72,7 +76,16 @@ export default function Game() {
 			<Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
 			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
-				
+				{loading ? (
+					<Spinner
+						thickness='4px'
+						speed='0.65s'
+						emptyColor='gray.200'
+						color='green.500'
+						size='3xl'
+					/>
+				) : (
+					<> 
 				<Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
 
 				<Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
@@ -89,6 +102,8 @@ export default function Game() {
 				{showConfetti && (
 					<Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} />
 				)}
+				</>
+			)}
 			</Box>
 		</Center>
 	);
