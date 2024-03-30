@@ -204,16 +204,17 @@ public class GameServiceTest {
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
 
-    /*@Test
+    @Test
     public void answerQuestion(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        GameResponseDto result = gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        GameResponseDto result = gameService.answerQuestion(1L, 1L, authentication);
+        gameService.answerQuestion(1L, 1L, authentication);
         assertEquals(defaultGameResponseDto, result);
-    }*/
+    }
 
     @Test
     public void changeLanguage(){
