@@ -90,6 +90,8 @@ public class Game {
     public void answerQuestion(){
         if(currentRoundIsOver())
             throw new IllegalStateException("You can't answer a question when the current round is over!");
+        if (isGameOver())
+            throw new IllegalStateException("You can't answer a question when the game is over!");
         setCurrentQuestionAnswered(true);
     }
 }
