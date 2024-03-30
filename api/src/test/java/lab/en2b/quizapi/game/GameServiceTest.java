@@ -217,6 +217,18 @@ public class GameServiceTest {
     }
 
     @Test
+    public void answerQuestionWhenGameHasFinished(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        defaultGame.setActualRound(30);
+        assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, 1L, authentication));
+    }
+
+    @Test
     public void changeLanguage(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
