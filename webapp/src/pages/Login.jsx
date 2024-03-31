@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
@@ -13,8 +13,8 @@ import AuthManager from "components/auth/AuthManager";
 export default function Login() {
 
     const navigate = useNavigate();
-    const navigateToDashboard = () => {
-        if (AuthManager.getInstance().isLoggedIn()) {
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
             navigate("/dashboard");
         }
     }
@@ -59,8 +59,10 @@ export default function Login() {
         }
     }
 
+    navigateToDashboard();
+
     return (
-        <Center onLoad={navigateToDashboard} display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
             bg={"blue.50"} justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
