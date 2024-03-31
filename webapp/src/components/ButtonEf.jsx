@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import '../styles/AppView.css';
 
 const ButtonEf = ({ dataTestId, variant, colorScheme, text, onClick }) => {
+
     return (
       <Button 
         type="submit" 
@@ -12,7 +13,7 @@ const ButtonEf = ({ dataTestId, variant, colorScheme, text, onClick }) => {
         colorScheme={colorScheme} 
         margin={"10px"} 
         className={"custom-button effect1"} 
-        onClick={onClick}
+        onClick={onClick} 
       >
         {text}
       </Button>
@@ -24,7 +25,7 @@ ButtonEf.propTypes = {
   variant: PropTypes.string.isRequired,
   colorScheme: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonEf;

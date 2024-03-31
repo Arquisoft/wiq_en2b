@@ -52,9 +52,16 @@ export default function Login() {
         }
     }
 
+    const loginOnEnter = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendLogin();
+        }
+    }
+
     return (
         <Center onLoad={navigateToDashboard} display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
-            bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+            bg={"blue.50"} justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">{t("common.login")}</Heading>

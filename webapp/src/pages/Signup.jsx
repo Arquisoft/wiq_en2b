@@ -76,9 +76,17 @@ export default function Signup() {
         setErrorMessage(false); 
     }
 
+    const registerOnEnter = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendRegistration();
+        }
+    }
+
     return (
         <Center
-            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} 
+            justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">
