@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
@@ -6,33 +6,17 @@ import { Center } from "@chakra-ui/layout";
 import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import ButtonEf from '../components/ButtonEf';
-import '../styles/AppView.css';
-import { isUserLogged, login } from "../components/auth/AuthUtils";
-import { logoutUser } from "../components/game/Logout";
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
+import AuthManager from "components/auth/AuthManager";
 
 export default function Login() {
 
     const navigate = useNavigate();
-    const navigateToDashboard = () => {
-        if (isUserLogged()) {
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
             navigate("/dashboard");
         }
     }
-
-    useEffect(() => {
-        const checkUserLoggedIn = async () => {
-            if (isUserLogged()) {
-                try {
-                    await logoutUser(); // Cierra sesión antes de redirigir al inicio de sesión
-                } catch (error) {
-                    console.error("Error al cerrar sesión:", error);
-                }
-            }
-        };
-
-        checkUserLoggedIn();
-    }, []); // Solo se ejecuta al montar el componente
 
     const [errorMessage, setErrorMessage] = useState(null);
     const { t } = useTranslation();
@@ -61,18 +45,27 @@ export default function Login() {
             "password": password
         };
         try {
-            await login(loginData, navigateToDashboard, setErrorMessage, t);
+            await AuthManager.getInstance().login(loginData, navigateToDashboard, setErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
     }
 
+    const loginOnEnter = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendLogin();
+        }
+    }
+
+    navigateToDashboard();
+
     return (
-        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
-            bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+        <Center onLoad={navigateToDashboard} display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
+            justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
-                <Avatar bg="blue.500" />
-                <Heading as="h2" color="blue.400">{t("common.login")}</Heading>
+                <Avatar bg="pigment_green.500" />
+                <Heading as="h2">{t("common.login")}</Heading>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.login"}/>
                 <Box minW={{ md: "400px" }} shadow="2xl">
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
@@ -107,7 +100,7 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"blue"} text={t("common.login")} onClick={sendLogin} />
+                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.login")} onClick={sendLogin} />
                     </Stack>
                 </Box>
             </Stack>

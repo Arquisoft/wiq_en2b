@@ -5,9 +5,9 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
-import { register } from "../components/auth/AuthUtils";
 import ButtonEf from '../components/ButtonEf';
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
+import AuthManager from "components/auth/AuthManager";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -25,10 +25,11 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToLogin = () => {
-        navigate("/login");
-    };
-
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
+            navigate("/dashboard");
+        }
+    }
     const sendRegistration = async () => {
         const registerData = {
             "email": email,
@@ -36,11 +37,25 @@ export default function Signup() {
             "password": password
         };
         try {
-            await register(registerData, navigateToLogin, setErrorMessage, t);
+            await AuthManager.getInstance().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
     };
+
+    const setLocalizedErrorMessage = (error) => {
+        switch (error.response ? error.response.status : null) {
+            case 400:
+                setErrorMessage({ type: t("error.validation.type"), message: t("error.validation.message")});
+                break;
+            case 401:
+                setErrorMessage({ type: t("error.authorized.type"), message: t("error.authorized.message")});
+                break;
+            default:
+                setErrorMessage({ type: t("error.unknown.type"), message: t("error.unknown.message")});
+                break;
+        }
+    }
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -62,12 +77,20 @@ export default function Signup() {
         setErrorMessage(false); 
     }
 
+    const registerOnEnter = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendRegistration();
+        }
+    }
+
+    navigateToDashboard();
+
     return (
-        <Center
-            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
-                <Avatar bg="blue.500" />
-                <Heading as="h2" color="blue.400">
+                <Avatar bg="pigment_green.500" />
+                <Heading as="h2">
                     {t("common.register")}
                 </Heading>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.register"}/>
@@ -137,7 +160,7 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendRegistration}/>
+                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.register")} onClick={sendRegistration}/>
                     </Stack>
                 </Box>
             </Stack>
