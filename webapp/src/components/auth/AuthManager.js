@@ -98,6 +98,7 @@ export default class AuthManager {
         let requestAnswer = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             this.#saveToken(requestAnswer);
+            this.#isLoggedIn = true;
             onSuccess();
         } else {
             throw requestAnswer;

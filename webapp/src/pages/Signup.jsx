@@ -25,8 +25,8 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToLogin = () => {
-        navigate("/login");
+    const navigateToDashboard = () => {
+        navigate("/dashboard");
     };
 
     const sendRegistration = async () => {
@@ -36,7 +36,7 @@ export default function Signup() {
             "password": password
         };
         try {
-            await AuthManager.getInstance().register(registerData, navigateToLogin, setLocalizedErrorMessage);
+            await AuthManager.getInstance().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
