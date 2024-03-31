@@ -10,7 +10,7 @@ public class Main {
         //new SongQuestion("en");
         //new SongQuestion("es");
 
-        new StadiumQuestion("en");
+        //new StadiumQuestion("en");
         new StadiumQuestion("es");
     }
 }

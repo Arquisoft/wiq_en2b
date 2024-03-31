@@ -1,6 +1,6 @@
 package lab.en2b.quizapi.questions.answer;
 
 public enum AnswerCategory {
-    CAPITAL_CITY, COUNTRY, PERSON, EVENT, DATE, OTHER
+    OTHER, CAPITAL_CITY, COUNTRY, SONG, STADIUM, DATE, PERSON, EVENT
 }
 
