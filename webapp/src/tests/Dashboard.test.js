@@ -2,7 +2,9 @@ import React from 'react';
 import { render, fireEvent, screen, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Dashboard from '../pages/Dashboard';
-import * as LogoutModule from '../components/game/Logout';
+import AuthManager from 'components/auth/AuthManager';
+import MockAdapter from 'axios-mock-adapter';
+import { HttpStatusCode } from 'axios';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 
@@ -17,7 +19,16 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
+const authManager = new AuthManager();
+let mockAxios;
+
 describe('Dashboard component', () => {
+
+  beforeEach(() => {
+    authManager.reset();
+    mockAxios = new MockAdapter(authManager.getAxiosInstance());
+  })
+
   it('renders dashboard elements correctly', async () => {
     const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Dashboard/></MemoryRouter></ChakraProvider>);
 
@@ -68,16 +79,14 @@ describe('Dashboard component', () => {
 
   it('handles logout successfully', async () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Dashboard/></MemoryRouter></ChakraProvider>);
-
+    mockAxios.onGet().replyOnce(HttpStatusCode.Ok);
     const logoutButton = screen.getByText(/logout/i);
-
-    const logoutUserMock = jest.spyOn(LogoutModule, 'logoutUser').mockResolvedValueOnce();
 
     await act(async () => {
       fireEvent.click(logoutButton);
     });
 
-    expect(logoutUserMock).toHaveBeenCalledTimes(1);
+    expect(mockAxios.history.get.length).toBe(1);
     expect(screen.getByText("common.dashboard")).toBeInTheDocument();
   });
 

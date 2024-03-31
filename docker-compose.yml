@@ -31,6 +31,8 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     networks:
       - mynetwork
+    depends_on:
+        - WIQ_DB
     ports:
       - "8080:8080"
 
@@ -49,6 +51,8 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     networks:
       - mynetwork
+    depends_on:
+      - WIQ_DB
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
@@ -62,6 +66,39 @@ services:
       - REACT_APP_API_ENDPOINT=${API_URI}
     ports:
       - "3000:3000"
+  
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus-${teamname:-defaultASW}
+    profiles: ["dev"]
+    networks:
+      - mynetwork
+    volumes:
+      - ./quiz-api/monitoring/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api
+  
+  grafana:
+    image: grafana/grafana
+    container_name: grafana-${teamname:-defaultASW}
+    profiles: [ "dev" ]
+    networks:
+      - mynetwork
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SERVER_HTTP_PORT=9091
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    ports:
+      - "9091:9091"
+    depends_on:
+      - prometheus
 
 
 volumes:

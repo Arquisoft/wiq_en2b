@@ -5,7 +5,7 @@
         "statistics": {
             "title": "Statistics",
             "personal": "My statistics",
-            "general": "General statistics"
+            "general": "Leaderboard"
         },
         "play": "Play",
         "login": "Log in",
@@ -27,16 +27,46 @@
         "clickHere": "Click here"
     },
     "error": {
-        "login": "You should enter a valid username and password",
-        "register": "You should enter a valid username, email and password",
+        "login": "Login error: ",
+        "register": "Registry error: ",
         "login-desc": "Please, enter you username and password to log in",
         "register-desc": "Please, enter you username and password to register",
-        "login-send": "Your email or password are not found in our database"
+        "login-send": "Your email or password are not found in our database",
+        "validation": {
+            "type": "Validation Error: ",
+            "message": "Incorrect data"
+        },
+        "conflict": {
+            "type": "Conflict Error: ",
+            "message": "User already exists"
+        },
+        "unknown": {
+            "type": "Unknown Error",
+            "message": ""
+        },
+        "authorized": {
+            "type": "Authorization Error: ",
+            "message": "Incorrect password"
+        }
     },
     "rules": {
         "description1": "The WIQ game consists of quick games of 9 rounds. In each round there is one question and two possible answers. The key to earning points lies in choosing the correct answer.",
         "description2": "There is only one correct answer.",
         "description3": "You have to select a question before time runs out.",
         "description4": "To start playing you have to click on the Play button."
+        
+    },
+    "statistics": {
+        "position": "Position",
+        "username": "Username",
+        "rightAnswers": "Correct answers",
+        "wrongAnswers": "Wrong answers",
+        "totalAnswers": "Total answers",
+        "percentage": "Correct answer rate",
+        "texts": {
+            "personalRight": "{{right, number}} correct answers",
+            "personalWrong": "{{wrong, number}} wrong answers",
+            "personalRate": "{{rate, number}} %"
+        }
     }
 }

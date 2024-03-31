@@ -2,14 +2,10 @@ import React from 'react';
 import { render, fireEvent, getByTestId, getAllByTestId, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
-import * as AuthUtils from '../components/auth/AuthUtils';
+import AuthManager from '../components/auth/AuthManager';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
-
-jest.mock('../components/auth/AuthUtils', () => ({
-  isUserLogged: jest.fn(),
-  register: jest.fn(),
-}));
+import { when } from 'jest-when';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -57,6 +53,7 @@ describe('Signup Component', () => {
     fireEvent.change(passwordInput, { target: { value: 'password' } });
     fireEvent.click(signUpButton);
   });
+
   it('toggles confirm password visibility', () => {
     const { getAllByTestId, getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup/></MemoryRouter></ChakraProvider>);
     getByPlaceholderText('session.confirm_password');
@@ -67,6 +64,7 @@ describe('Signup Component', () => {
     const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
     expect(confirmPasswordInput.getAttribute('type')).toBe('text');
   });
+
   it('handles confirm password change', () => {
     const { getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup/></MemoryRouter></ChakraProvider>);
     const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
