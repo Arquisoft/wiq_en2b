@@ -155,7 +155,7 @@ export default function Statistics() {
                     boxShadow="md" rounded="1rem" justifyContent="center" alignItems={"center"}>
                     { retrievedData ?
                         <UserVisual topTen={topTen} userData={userData}/> :
-                        <CircularProgress data-testid={"spinning-wheel"} isIndeterminate/>
+                        <CircularProgress data-testid={"spinning-wheel"} isIndeterminate color="green"/>
                         }
                 </Stack>
                 <GoBack />

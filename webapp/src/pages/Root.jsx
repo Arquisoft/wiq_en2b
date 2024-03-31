@@ -10,9 +10,6 @@ import AuthManager from "components/auth/AuthManager";
 export default function Root() {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const signup = () => {
-        navigate("/signup");
-    }
     
     const navigateToDashboard = async () => {
         if (await AuthManager.getInstance().isLoggedIn()) {
