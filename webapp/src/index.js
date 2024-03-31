@@ -11,7 +11,7 @@ import theme from "./styles/theme";
 
 const root = ReactDOM.createRoot(document.querySelector("body"));
 const browserRouter = createBrowserRouter(router);
-axios.defaults.headers.post["Content-Type"] = "application/json";
+
 root.render(
   <ChakraProvider theme={theme}>
     <React.StrictMode>

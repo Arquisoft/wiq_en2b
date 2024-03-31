@@ -30,7 +30,7 @@ ButtonEf.propTypes = {
   variant: PropTypes.string.isRequired,
   colorScheme: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default ButtonEf;
