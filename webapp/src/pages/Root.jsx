@@ -5,6 +5,7 @@ import { Center } from "@chakra-ui/layout";
 import { Text, Heading, Stack, Link } from "@chakra-ui/react";
 
 import ButtonEf from '../components/ButtonEf';
+import AuthManager from "components/auth/AuthManager";
 
 export default function Root() {
     const navigate = useNavigate();
@@ -12,6 +13,13 @@ export default function Root() {
     const signup = () => {
         navigate("/signup");
     }
+    
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
+            navigate("/dashboard");
+        }
+    }
+    navigateToDashboard();
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
