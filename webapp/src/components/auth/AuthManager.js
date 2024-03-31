@@ -46,19 +46,7 @@ export default class AuthManager {
             throw requestAnswer;
         }
     } catch (error) {
-        let errorType;
-        switch (error.response ? error.response.status : null) {
-            case 400:
-                errorType = { type: "error.validation.type", message: "error.validation.message"};
-                break;
-            case 401:
-                errorType = { type: "error.authorized.type", message: "error.authorized.message"};
-                break;
-            default:
-                errorType = { type: "error.unknown.type", message: "error.unknown.message"};
-                break;
-        }
-        onError(errorType);
+        onError(error);
     }
   }
 

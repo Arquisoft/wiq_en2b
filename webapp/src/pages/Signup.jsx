@@ -42,11 +42,18 @@ export default function Signup() {
         }
     };
 
-    const setLocalizedErrorMessage = (errorMessage) => {
-        setErrorMessage({
-            type: t(errorMessage.type),
-            message: t(errorMessage.message)
-        });
+    const setLocalizedErrorMessage = (error) => {
+        switch (error.response ? error.response.status : null) {
+            case 400:
+                setErrorMessage({ type: t("error.validation.type"), message: t("error.validation.message")});
+                break;
+            case 401:
+                setErrorMessage({ type: t("error.authorized.type"), message: t("error.authorized.message")});
+                break;
+            default:
+                setErrorMessage({ type: t("error.unknown.type"), message: t("error.unknown.message")});
+                break;
+        }
     }
 
     const handleEmailChange = (e) => {
