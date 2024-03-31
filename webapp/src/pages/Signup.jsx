@@ -25,8 +25,8 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToLogin = () => {
-        navigate("/login");
+    const navigateToDashboard = () => {
+        navigate("/dashboard");
     };
 
     const sendRegistration = async () => {
@@ -36,17 +36,24 @@ export default function Signup() {
             "password": password
         };
         try {
-            await AuthManager.getInstance().register(registerData, navigateToLogin, setLocalizedErrorMessage);
+            await AuthManager.getInstance().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
     };
 
-    const setLocalizedErrorMessage = (errorMessage) => {
-        setErrorMessage({
-            type: t(errorMessage.type),
-            message: t(errorMessage.message)
-        });
+    const setLocalizedErrorMessage = (error) => {
+        switch (error.response ? error.response.status : null) {
+            case 400:
+                setErrorMessage({ type: t("error.validation.type"), message: t("error.validation.message")});
+                break;
+            case 401:
+                setErrorMessage({ type: t("error.authorized.type"), message: t("error.authorized.message")});
+                break;
+            default:
+                setErrorMessage({ type: t("error.unknown.type"), message: t("error.unknown.message")});
+                break;
+        }
     }
 
     const handleEmailChange = (e) => {
@@ -69,9 +76,17 @@ export default function Signup() {
         setErrorMessage(false); 
     }
 
+    const registerOnEnter = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendRegistration();
+        }
+    }
+
     return (
         <Center
-            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} 
+            justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="blue.500" />
                 <Heading as="h2" color="blue.400">

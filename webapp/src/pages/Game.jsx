@@ -14,14 +14,14 @@ export default function Game() {
 	
 	const generateQuestion = useCallback(async () => {
 		const result = await getQuestion();
-		if (result !== undefined) 
+		if (result !== undefined) {
 			setQuestion(result);
-		else
-			navigate("/dashboard");
+		} else {
+			navigate("/dashboard")
+		};
 	}, [navigate]);
 
 	useEffect(() => {
-		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
 		  await generateQuestion();
 		};
