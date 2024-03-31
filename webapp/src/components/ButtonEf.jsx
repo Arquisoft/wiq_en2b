@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, useTheme } from "@chakra-ui/react";
 import PropTypes from 'prop-types';
-import '../styles/AppView.css';
 
 const ButtonEf = ({ dataTestId, variant, colorScheme, text, onClick }) => {
   const theme = useTheme();

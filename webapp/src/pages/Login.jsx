@@ -6,7 +6,6 @@ import { Center } from "@chakra-ui/layout";
 import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import ButtonEf from '../components/ButtonEf';
-import '../styles/AppView.css';
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 

@@ -88,6 +88,21 @@ const theme = extendTheme({
               color: "forest_green.400",
             },
         },
-    }
+    },
+    styles: {
+        global: {
+            ".effect1": {
+                transition: "transform 0.3s, background-color 0.3s, color 0.3s",
+            },
+            ".effect1:hover": {
+                transform: "scale(1.1)",
+                backgroundColor: "#0f47ee",
+            },
+            ".statistics-table td, .statistics-table th": {
+                margin: "0vh 1vw",
+                padding: "0vh 1vw",
+            },
+        },
+    },
 });
 export default theme;
