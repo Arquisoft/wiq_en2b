@@ -84,8 +84,7 @@ export default function Signup() {
     }
 
     return (
-        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} 
-            justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />
                 <Heading as="h2">

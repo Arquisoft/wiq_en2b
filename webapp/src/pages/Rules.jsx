@@ -8,7 +8,7 @@ export default function Rules() {
     const { t } = useTranslation();
 
     return (
-        <Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
+        <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
             <Heading as="h2">{t("common.rules")}</Heading>
     
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} maxW="400px" w="90%" shadow="2xl" rounded="1rem" textAlign={"justify"}>

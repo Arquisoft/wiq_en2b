@@ -10,7 +10,7 @@ export default function Results() {
     const correctAnswers = location.state?.correctAnswers || 0;
 
     return (
-        <Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
+        <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
             <Heading as="h2">Results</Heading>
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem">
                 <Heading as="h3" color="green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>

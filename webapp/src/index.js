@@ -6,7 +6,6 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import router from 'components/Router';
 import { ChakraProvider } from '@chakra-ui/react';
 import "./i18n";
-import axios from "axios";
 import theme from "./styles/theme";
 
 const root = ReactDOM.createRoot(document.querySelector("body"));

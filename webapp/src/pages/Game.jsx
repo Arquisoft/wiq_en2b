@@ -74,7 +74,7 @@ export default function Game() {
 	}, [showConfetti]);
 
 	return (
-		<Center display="flex" flexDirection="column" w="100wh" h="100vh" bg="blue.50" justifyContent="center" alignItems="center" padding={"4"}  bgImage={'/background.svg'}>
+		<Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
 			<Heading as="h2">{`Round ${roundNumber}`}</Heading>
 
 			<Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>

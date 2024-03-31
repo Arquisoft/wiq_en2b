@@ -27,10 +27,8 @@ const UserVisual = (props) => {
         });
     }
     return <>
-        <Box display={"flex"} flexDirection={"column"} 
-            justifyContent={"center"} alignItems={"center"}>
-            <Heading as="h2" color="blue.400"
-                fontSize={"1.75em"}>
+        <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+            <Heading as="h2" fontSize={"1.75em"}>
                     {t("common.statistics.general")}
             </Heading>
             {
@@ -56,11 +54,9 @@ const UserVisual = (props) => {
         <Flex w={"100%"}
             flexDirection={tooSmall ? "column" : "row"}>
             <Stack w={!tooSmall && "50%"} divider={<StackDivider />}>
-                <Heading as="h2" color="blue.400"
-                        fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
+                <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
                     <Box>
-                        <Heading as="h3" fontSize={"1.25em"}
-                            color="blue.400">
+                        <Heading as="h3" fontSize={"1.25em"}>
                             {t("statistics.rightAnswers")}
                         </Heading>
                         <Text>
@@ -73,12 +69,11 @@ const UserVisual = (props) => {
                         </Text>
                     </Box>
                     <Box>
-                        <Heading as="h3" fontSize={"1.25em"}
-                            color="blue.400">
+                        <Heading as="h3" fontSize={"1.25em"}>
                             {t("statistics.percentage")}
                         </Heading>
                         <Text>
-                            {t("statistics.texts.personalRate", {rate: userData.rate[0]})} %
+                            {t("statistics.texts.personalRate", {rate: userData.rate[0]})}
                         </Text>
                     </Box>
             </Stack>
@@ -115,7 +110,13 @@ export default function Statistics() {
     const {t} = useTranslation();
     const [retrievedData, setRetrievedData] = useState(false);
     const [topTen, setTopTen] = useState([]);
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState({
+        // "rate": [50,50],
+        // "absolute": {
+        //     "right": 6,
+        //     "wrong": 6
+        // }
+    });
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
@@ -146,11 +147,9 @@ export default function Statistics() {
     }
 
     return (
-        <Center display={"flex"} onLoad={(getData)} flexDirection={"column"} 
-            w={"100wh"} h={"100vh"} bg={"blue.50"}
-            justifyContent={"center"} alignItems={"center"}>
+        <Center display={"flex"} onLoad={(getData)} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
-                <Heading as="h1" color="blue.400">{t("common.statistics.title")}</Heading>
+                <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minW="30vw" minH="50vh"
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
                     boxShadow="md" rounded="1rem" justifyContent="center" alignItems={"center"}>
