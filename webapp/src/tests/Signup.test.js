@@ -4,6 +4,8 @@ import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
 import AuthManager from '../components/auth/AuthManager';
 import { when } from 'jest-when';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from '../styles/theme';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -19,7 +21,7 @@ jest.mock('react-i18next', () => ({
 describe('Signup Component', () => {
 
   it('renders form elements correctly', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
     
     expect(getByPlaceholderText('session.email')).toBeInTheDocument();
     expect(getByPlaceholderText('session.username')).toBeInTheDocument();
@@ -28,7 +30,7 @@ describe('Signup Component', () => {
   });
 
   it('toggles password visibility', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
   
     const passwordInput = getByPlaceholderText('session.password');
     const showPasswordButtons = getAllByTestId(document.body, 'show-confirm-password-button');
@@ -39,7 +41,7 @@ describe('Signup Component', () => {
   });
 
   it('submits form data correctly', async () => {
-    const { getByPlaceholderText, getByTestId } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText, getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
   
     const emailInput = getByPlaceholderText('session.email');
     const usernameInput = getByPlaceholderText('session.username');
@@ -53,7 +55,7 @@ describe('Signup Component', () => {
   });
 
   it('toggles confirm password visibility', () => {
-    const { getAllByTestId, getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getAllByTestId, getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
     getByPlaceholderText('session.confirm_password');
     const toggleButton = getAllByTestId('show-confirm-password-button')[1];
   
@@ -64,7 +66,7 @@ describe('Signup Component', () => {
   });
 
   it('handles confirm password change', () => {
-    const { getByPlaceholderText } = render(<MemoryRouter><Signup /></MemoryRouter>);
+    const { getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
     const confirmPasswordInput = getByPlaceholderText('session.confirm_password');
   
     fireEvent.change(confirmPasswordInput, { target: { value: 'newPassword' } });

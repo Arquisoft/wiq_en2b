@@ -1,5 +1,5 @@
 {
-    "common":{
+    "common": {
         "home": "Inicio",
         "api_docs": "Documentación de la API",
         "statistics": {
@@ -9,7 +9,7 @@
         },
         "play": "Jugar",
         "login": "Iniciar sesión",
-        "logout": "Salir",
+        "logout": "Cerrar sesión",
         "register": "Registrarse",
         "submit": "Enviar",
         "rules": "Reglas",
@@ -22,9 +22,9 @@
         "password": "Contraseña",
         "email": "Correo electrónico",
         "confirm_password": "Confirmar contraseña",
-        "welcome": "Bienvenido a la página principal de WIQ-EN2B",
+        "welcome": "¿Estás listo para poner a prueba tu ingenio?",
         "account": "¿No tienes una cuenta?",
-        "clickHere": "Pulsa aquí"
+        "clickHere": "Haz clic aquí"
     },
     "error": {
         "login": "Error en el inicio de sesión: ",
@@ -48,6 +48,12 @@
             "type": "Error de Autorización: ",
             "message": "Contraseña incorrecta"
         }
+    },
+    "rules": {
+        "description1": "El juego de WIQ consiste en juegos rápidos de 9 rondas. En cada ronda hay una pregunta y dos posibles respuestas. La clave para ganar puntos está en elegir la respuesta correcta.",
+        "description2": "Solo hay una respuesta correcta.",
+        "description3": "Debes seleccionar una pregunta antes de que se acabe el tiempo.",
+        "description4": "Para comenzar a jugar, debes hacer clic en el botón Jugar."
     },
     "statistics": {
         "position": "Posición",

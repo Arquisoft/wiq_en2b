@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, Navigate, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import AuthManager from "../auth/AuthManager";
 import { CircularProgress } from "@chakra-ui/react";
-
-const authManager = new AuthManager();
 
 const ProtectedRoutes = () => {
 
@@ -20,7 +18,7 @@ const ProtectedRoutes = () => {
     }
 
     protectRoute();
-  }, [])
+  }, [navigate])
   return <>{hasLoaded ? <Outlet /> : <CircularProgress isIndeterminate />}</>
 }
 

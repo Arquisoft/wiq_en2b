@@ -87,12 +87,10 @@ export default function Signup() {
     navigateToDashboard();
 
     return (
-        <Center
-            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} 
-            justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter}>
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
-                <Avatar bg="blue.500" />
-                <Heading as="h2" color="blue.400">
+                <Avatar bg="pigment_green.500" />
+                <Heading as="h2">
                     {t("common.register")}
                 </Heading>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.register"}/>
@@ -162,7 +160,7 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendRegistration}/>
+                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.register")} onClick={sendRegistration}/>
                     </Stack>
                 </Box>
             </Stack>
