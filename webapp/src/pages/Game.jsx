@@ -12,25 +12,25 @@ export default function Game() {
 
 	const [question, setQuestion] = useState(null);
 	const [loading, setLoading] = useState(true);
-	
+
 	const generateQuestion = useCallback(async () => {
 		const result = await getQuestion();
-		if (result !== undefined) 
+		if (result !== undefined) {
 			setQuestion(result);
-		else
+		} else {
 			navigate("/dashboard");
+		}
 	}, [navigate]);
 
 	useEffect(() => {
 		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
 		const fetchQuestion = async () => {
 			setLoading(true);
-		  	const result = await getQuestion();
-		  	setQuestion(result);
-		  	setLoading(false);
+			await generateQuestion();
+			setLoading(false);
 		};
 		fetchQuestion();
-	}, [generateQuestion]);
+	}, [generateQuestion, navigate]);
 
 	const [answer, setAnswer] = useState({id:1, text:"answer1", category:"category1" });
 	const [selectedOption, setSelectedOption] = useState(null);

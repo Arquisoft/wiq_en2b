@@ -25,9 +25,9 @@ export default function Dashboard() {
     
           <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem">
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-              <ButtonEf dataTestId={"Rules"} variant={"outline"} colorScheme={"blue"} text={t("common.rules")} onClick={() => navigate("/dashboard/rules")}/>
-              <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"blue"} text={t("common.play")} onClick={() => navigate("/dashboard/game")}/>
-              <ButtonEf dataTestId={"Statistics"} variant={"outline"} colorScheme={"blue"} text={t("common.statistics.title")} onClick={() => navigate("/dashboard/statistics")}/>
+              <ButtonEf dataTestId={"Rules"} variant={"outline"} colorScheme={"green"} text={t("common.rules")} onClick={() => navigate("/dashboard/rules")}/>
+              <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"forest_green"} text={t("common.play")} onClick={() => navigate("/dashboard/game")}/>
+              <ButtonEf dataTestId={"Statistics"} variant={"outline"} colorScheme={"green"} text={t("common.statistics.title")} onClick={() => navigate("/dashboard/statistics")}/>
             </Grid>
 
             <Flex direction="row" justifyContent="center" alignItems="center">
