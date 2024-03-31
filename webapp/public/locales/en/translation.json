@@ -32,5 +32,11 @@
         "login-desc": "Please, enter you username and password to log in",
         "register-desc": "Please, enter you username and password to register",
         "login-send": "Your email or password are not found in our database"
+    },
+    "rules": {
+        "description1": "The WIQ game consists of quick games of 9 rounds. In each round there is one question and two possible answers. The key to earning points lies in choosing the correct answer.",
+        "description2": "There is only one correct answer.",
+        "description3": "You have to select a question before time runs out.",
+        "description4": "To start playing you have to click on the Play button."
     }
 }

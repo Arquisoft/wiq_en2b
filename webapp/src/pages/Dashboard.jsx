@@ -3,7 +3,7 @@ import { Grid, Flex, Heading, Button, Box } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { logoutUser } from "../components/game/Logout"; // Importa la función logoutUser
+import { logoutUser } from "../components/game/Logout";
 import ButtonEf from '../components/ButtonEf';
 
 export default function Dashboard() {
