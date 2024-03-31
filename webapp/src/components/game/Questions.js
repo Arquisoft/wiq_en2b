@@ -3,7 +3,6 @@ import AuthManager from "components/auth/AuthManager";
 
 const authManager = new AuthManager();
 export async function getQuestion() {
-    console.log(authManager.getAxiosInstance().defaults.headers.common)
     try {
         let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/questions/new");
         if (HttpStatusCode.Ok === requestAnswer.status) {
