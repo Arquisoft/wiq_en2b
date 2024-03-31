@@ -25,10 +25,11 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToDashboard = () => {
-        navigate("/dashboard");
-    };
-
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
+            navigate("/dashboard");
+        }
+    }
     const sendRegistration = async () => {
         const registerData = {
             "email": email,
@@ -82,6 +83,8 @@ export default function Signup() {
             sendRegistration();
         }
     }
+
+    navigateToDashboard();
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>

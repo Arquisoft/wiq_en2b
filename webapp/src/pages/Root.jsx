@@ -5,10 +5,21 @@ import { Center } from "@chakra-ui/layout";
 import { Text, Heading, Stack, Link, Image, Box } from "@chakra-ui/react";
 
 import ButtonEf from '../components/ButtonEf';
+import AuthManager from "components/auth/AuthManager";
 
 export default function Root() {
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const signup = () => {
+        navigate("/signup");
+    }
+    
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
+            navigate("/dashboard");
+        }
+    }
+    navigateToDashboard();
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bgImage={'/background.svg'}>

@@ -24,7 +24,7 @@ export default class AuthManager {
   async isLoggedIn() {
 
     if (!AuthManager.#instance.#isLoggedIn) {
-      if (sessionStorage.getItem("jwtRefreshToken")) {
+      if (localStorage.getItem("jwtRefreshToken")) {
         await this.#refresh();
       }
     }
@@ -60,7 +60,7 @@ export default class AuthManager {
       await this.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
       AuthManager.#instance.setLoggedIn(false);
       this.getAxiosInstance().defaults.headers.common["authorization"] = undefined;
-      sessionStorage.removeItem("jwtRefreshToken");
+      localStorage.removeItem("jwtRefreshToken");
     } catch (error) {
         console.error("Error logging out user: ", error);
     }
@@ -68,13 +68,13 @@ export default class AuthManager {
 
   #saveToken(requestAnswer) {
     this.getAxiosInstance().defaults.headers.common["authorization"] = "Bearer " + requestAnswer.data.token;;
-    sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
+    localStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
   }
 
   async #refresh() {
     try {
         let response = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/refresh-token", {
-          "refresh_token": sessionStorage.getItem("jwtRefreshToken")
+          "refresh_token": localStorage.getItem("jwtRefreshToken")
         });
         this.#saveToken(response);
         AuthManager.#instance.setLoggedIn(true);
