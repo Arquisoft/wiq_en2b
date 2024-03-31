@@ -1,49 +1,42 @@
-import AuthManager from "../components/utils/AuthManager";
+import MockAdapter from "axios-mock-adapter";
+import AuthManager from "../components/auth/AuthManager";
+import { HttpStatusCode } from "axios";
+
+const authManager = new AuthManager();
+let mockAxios;
 
 describe("AuthManager", () => {
-  let authManager;
 
   beforeEach(() => {
-    authManager = new AuthManager();
+    authManager.reset();
+    mockAxios = new MockAdapter(authManager.getAxiosInstance());
   });
 
-  afterEach(() => {
-    // Limpiar el localStorage después de cada prueba
-    localStorage.clear();
-  });
+  it("can log in successfully", async () => {
+    mockAxios.onPost().replyOnce(HttpStatusCode.Ok, {
+      "token": "token",
+      "refresh_Token": "refreshToken"
+    });
+    const mockOnSucess = jest.fn();
+    const mockOnError = jest.fn();
 
-  test("Instancia única", () => {
-    const authManager2 = new AuthManager();
-    expect(authManager).toBe(authManager2);
-  });
+    const loginData = {
+        "email": "test@email.com",
+        "password": "test"
+    };
 
-  test("Iniciar sesión correctamente", () => {
-    authManager.setLoggedIn(true);
+    await authManager.login(loginData, mockOnSucess, mockOnError);
+
+    expect(mockOnSucess).toHaveBeenCalled();
+    expect(mockOnError).not.toHaveBeenCalled();
     expect(authManager.isLoggedIn()).toBe(true);
+
   });
 
-  test("Cerrar sesión correctamente", () => {
+  it("can log out correctly", async () => {
+    mockAxios.onGet().replyOnce(HttpStatusCode.Ok);
     authManager.setLoggedIn(true);
-    authManager.setLoggedIn(false);
+    await authManager.logout();
     expect(authManager.isLoggedIn()).toBe(false);
-  });
-
-  test("Configuración de encabezados de autorización", () => {
-    localStorage.setItem("accessToken", "fakeAccessToken");
-    authManager.setLoggedIn(true);
-    const axiosInstance = authManager.getAxiosInstance();
-    expect(axiosInstance.defaults.headers.common["Authorization"]).toBe(
-      "Bearer fakeAccessToken"
-    );
-  });
-
-  test("Eliminar encabezados de autorización al cerrar sesión", () => {
-    localStorage.setItem("accessToken", "fakeAccessToken");
-    authManager.setLoggedIn(true);
-    authManager.setLoggedIn(false);
-    const axiosInstance = authManager.getAxiosInstance();
-    expect(axiosInstance.defaults.headers.common["Authorization"]).toBe(
-      undefined
-    );
   });
 });

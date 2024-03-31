@@ -5,7 +5,7 @@
         "statistics": {
             "title": "Statistics",
             "personal": "My statistics",
-            "general": "General statistics"
+            "general": "Leaderboard"
         },
         "play": "Play",
         "login": "Log in",
@@ -47,6 +47,19 @@
         "authorized": {
             "type": "Authorization Error: ",
             "message": "Incorrect password"
+        }
+    },
+    "statistics": {
+        "position": "Position",
+        "username": "Username",
+        "rightAnswers": "Correct answers",
+        "wrongAnswers": "Wrong answers",
+        "totalAnswers": "Total answers",
+        "percentage": "Correct answer rate",
+        "texts": {
+            "personalRight": "{{right, number}} correct answers",
+            "personalWrong": "{{wrong, number}} wrong answers",
+            "personalRate": "{{rate, number}} %"
         }
     }
 }

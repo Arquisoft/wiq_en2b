@@ -8,7 +8,9 @@ import Rules from "../pages/Rules";
 import Signup from "../pages/Signup";
 import Game from "../pages/Game";
 import Results from "../pages/Results";
+import Statistics from "pages/Statistics";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Logout from "pages/Logout";
 
 
 export default createRoutesFromElements(
@@ -21,6 +23,8 @@ export default createRoutesFromElements(
       <Route path="/dashboard/rules" element={<Rules />}/>
       <Route path="/dashboard/game" element={<Game />}/>
       <Route path="/dashboard/game/results" element={<Results />}/>
+      <Route path="/dashboard/statistics" element={<Statistics />} />
+      <Route path="/logout" element={<Logout />} />
     </Route>
   </Route>
 )
