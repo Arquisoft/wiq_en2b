@@ -59,6 +59,8 @@ export default class AuthManager {
     try {
       await this.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/auth/logout");
       AuthManager.#instance.setLoggedIn(false);
+      this.getAxiosInstance().defaults.headers.common["authorization"] = undefined;
+      sessionStorage.removeItem("jwtRefreshToken");
     } catch (error) {
         console.error("Error logging out user: ", error);
     }
