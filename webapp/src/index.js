@@ -10,7 +10,7 @@ import axios from "axios";
 
 const root = ReactDOM.createRoot(document.querySelector("body"));
 const browserRouter = createBrowserRouter(router);
-axios.defaults.headers.post["Content-Type"] = "application/json";
+
 root.render(
   <ChakraProvider>
     <React.StrictMode>

@@ -65,6 +65,7 @@ export default class AuthManager {
   }
 
   #saveToken(requestAnswer) {
+    this.getAxiosInstance().defaults.headers.common["authorization"] = "Bearer " + requestAnswer.data.token;;
     sessionStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
   }
 
