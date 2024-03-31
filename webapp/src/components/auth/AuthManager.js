@@ -21,12 +21,11 @@ export default class AuthManager {
     AuthManager.#instance.#isLoggedIn = value;
   }
 
-  isLoggedIn() {
-    console.log(this.#isLoggedIn);
-    console.log(sessionStorage.getItem("jwtRefreshToken"))
+  async isLoggedIn() {
+
     if (!AuthManager.#instance.#isLoggedIn) {
       if (sessionStorage.getItem("jwtRefreshToken")) {
-        this.#refresh();
+        await this.#refresh();
       }
     }
     return AuthManager.#instance.#isLoggedIn;
@@ -84,7 +83,7 @@ export default class AuthManager {
   async #refresh() {
     try {
         let response = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/refresh-token", {
-          "refreshToken": sessionStorage.getItem("jwtRefreshToken")
+          "refresh_token": sessionStorage.getItem("jwtRefreshToken")
         });
         this.#saveToken(response);
         AuthManager.#instance.setLoggedIn(true);
@@ -98,7 +97,7 @@ export default class AuthManager {
         let requestAnswer = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/register", registerData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             this.#saveToken(requestAnswer);
-            this.#isLoggedIn = true;
+            AuthManager.#instance.setLoggedIn(true);
             onSuccess();
         } else {
             throw requestAnswer;
