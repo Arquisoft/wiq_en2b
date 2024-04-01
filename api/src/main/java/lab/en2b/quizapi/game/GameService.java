@@ -25,8 +25,6 @@ public class GameService {
     private final UserService userService;
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
-    private final QuestionService questionService;
-    private final AnswerRepository answerRepository;
     public GameResponseDto newGame(Authentication authentication) {
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))

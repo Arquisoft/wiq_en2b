@@ -10,8 +10,6 @@ import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
-import lab.en2b.quizapi.questions.answer.AnswerRepository;
-import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.answer.mappers.AnswerResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -29,6 +27,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,12 +60,6 @@ public class GameServiceTest {
     private QuestionResponseDtoMapper questionResponseDtoMapper;
 
     @Mock
-    private AnswerRepository answerRepository;
-
-    @Mock
-    private QuestionService questionService;
-
-    @Mock
     private Authentication authentication;
 
     private Game defaultGame;
@@ -76,7 +69,7 @@ public class GameServiceTest {
     @BeforeEach
     void setUp() {
         this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
-        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper, questionService, answerRepository);
+        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")
@@ -327,6 +320,16 @@ public class GameServiceTest {
         gameService.startRound(1L, authentication);
         gameService.getGameDetails(1L, authentication);
         assertEquals(defaultGameResponseDto, gameDto);
+    }
+
+    @Test
+    public void getGameDetailsInvalidId(){
+        when(gameRepository.findByIdForUser(1L, 1L)).thenReturn(Optional.of(defaultGame));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        assertThrows(NoSuchElementException.class, () -> gameService.getGameDetails(2L, authentication));
     }
 
 }
