@@ -24,7 +24,9 @@ public class Question implements Storable {
     @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
     @Column(name = "question_category")
+    @Enumerated(EnumType.STRING)
     private QuestionCategory questionCategory;
+    @Enumerated(EnumType.STRING)
     private QuestionType type;
     private String content;
 

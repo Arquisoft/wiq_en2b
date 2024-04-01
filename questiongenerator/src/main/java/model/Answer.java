@@ -12,6 +12,7 @@ public class Answer implements Storable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
+    @Enumerated(EnumType.STRING)
     private AnswerCategory category;
     private String language;
     @OneToMany(mappedBy = "correctAnswer", fetch = FetchType.EAGER)

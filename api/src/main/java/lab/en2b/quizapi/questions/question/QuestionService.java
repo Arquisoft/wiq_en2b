@@ -39,7 +39,9 @@ public class QuestionService {
         if (lang==null || lang.isBlank()) {
             lang = "en";
         }
-        return questionResponseDtoMapper.apply(questionRepository.findRandomQuestion(lang));
+        Question q = questionRepository.findRandomQuestion(lang);
+        loadDistractors(q);
+        return questionResponseDtoMapper.apply(q);
     }
 
     public QuestionResponseDto getQuestionById(Long id) {
