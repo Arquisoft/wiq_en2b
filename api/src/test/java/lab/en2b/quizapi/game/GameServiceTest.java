@@ -5,6 +5,7 @@ import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserResponseDto;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
+import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.answer.Answer;
@@ -242,7 +243,7 @@ public class GameServiceTest {
         when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        gameService.answerQuestion(1L, 1L, authentication);
+        gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication);
         gameService.getGameDetails(1L, authentication);
         assertEquals(defaultGame.getCorrectlyAnsweredQuestions(), 1);
         assertTrue(defaultGame.isCurrentQuestionAnswered());
@@ -256,7 +257,7 @@ public class GameServiceTest {
         when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        gameService.answerQuestion(1L, 2L, authentication);
+        gameService.answerQuestion(1L, new GameAnswerDto(2L), authentication);
         gameService.getGameDetails(1L, authentication);
         assertEquals(defaultGame.getCorrectlyAnsweredQuestions(), 0);
         assertTrue(defaultGame.isCurrentQuestionAnswered());
@@ -271,7 +272,7 @@ public class GameServiceTest {
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         defaultGame.setActualRound(30);
-        assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, 1L, authentication));
+        assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
     }
 
     @Test
@@ -283,7 +284,7 @@ public class GameServiceTest {
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
-        assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, 1L, authentication));
+        assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
     }
 
     @Test
@@ -294,7 +295,7 @@ public class GameServiceTest {
         when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        assertThrows(IllegalArgumentException.class, () -> gameService.answerQuestion(1L, 3L, authentication));
+        assertThrows(IllegalArgumentException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(3L), authentication));
     }
 
     @Test

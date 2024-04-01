@@ -2,6 +2,7 @@ package lab.en2b.quizapi.game;
 
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserService;
+import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
@@ -48,9 +49,9 @@ public class GameService {
         return questionResponseDtoMapper.apply(game.getCurrentQuestion());
     }
 
-    public GameResponseDto answerQuestion(Long id, Long answerId, Authentication authentication){
+    public GameResponseDto answerQuestion(Long id, GameAnswerDto dto, Authentication authentication){
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
-        game.answerQuestion(answerId, questionRepository);
+        game.answerQuestion(dto.getAnswerId(), questionRepository);
         return gameResponseDtoMapper.apply(game);
     }
 

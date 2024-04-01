@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.game;
 
+import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,8 @@ public class GameController {
     }
 
     @PostMapping("/{id}/answer")
-    public ResponseEntity<GameResponseDto> answerQuestion(@PathVariable Long id, @RequestParam Long answerId, Authentication authentication){
-        return ResponseEntity.ok(gameService.answerQuestion(id, answerId, authentication));
+        public ResponseEntity<GameResponseDto> answerQuestion(@PathVariable Long id, @RequestBody GameAnswerDto dto, Authentication authentication){
+        return ResponseEntity.ok(gameService.answerQuestion(id, dto, authentication));
     }
 
     @PutMapping("/{id}/language")

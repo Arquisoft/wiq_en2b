@@ -3,6 +3,8 @@ package lab.en2b.quizapi.game;
 import lab.en2b.quizapi.auth.config.SecurityConfig;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
+import lab.en2b.quizapi.game.dtos.GameAnswerDto;
+import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.QuestionController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static lab.en2b.quizapi.commons.utils.TestUtils.asJsonString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -89,15 +92,17 @@ public class GameControllerTest {
 
     @Test
     void answerQuestionShouldReturn403() throws Exception{
-        mockMvc.perform(post("/games/1/answer?answerId=1")
+        mockMvc.perform(post("/games/1/answer")
                         .contentType("application/json")
+                        .content(asJsonString(new GameAnswerDto(1L)))
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void answerQuestionShouldReturn200() throws Exception{
-        mockMvc.perform(post("/games/1/answer?answerId=1")
+        mockMvc.perform(post("/games/1/answer")
+                        .content(asJsonString(new GameAnswerDto(1L)))
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
