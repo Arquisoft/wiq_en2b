@@ -40,7 +40,8 @@ public class QuestionService {
             lang = "en";
         }
         Question q = questionRepository.findRandomQuestion(lang);
-        loadDistractors(q);
+        loadAnswers(q);
+
         return questionResponseDtoMapper.apply(q);
     }
 
@@ -48,7 +49,18 @@ public class QuestionService {
         return questionResponseDtoMapper.apply(questionRepository.findById(id).orElseThrow());
     }
 
-    public void loadDistractors(Question question) {
-        question.setAnswers( QuestionHelper.getDistractors(answerRepository, question) );
+    /**
+     * Load the answers for a question (The distractors and the correct one)
+     * @param question The question to load the answers for
+     */
+    public void loadAnswers(Question question) {
+        // Create the new answers list with the distractors
+        List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
+
+        // Add the correct answer in a random position
+        int randomIndex = (int) (Math.random() * (answers.size() + 1));
+        answers.add(randomIndex, question.getCorrectAnswer());
+
+        question.setAnswers(answers);
     }
 }

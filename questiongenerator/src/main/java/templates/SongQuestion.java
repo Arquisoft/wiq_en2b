@@ -61,7 +61,7 @@ public class SongQuestion extends QuestionTemplate {
             if (langCode.equals("es"))
                 questions.add(new Question(a, "¿Cuál es esta canción? " + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
             else
-                questions.add(new Question(a, "Which song is this?" + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
+                questions.add(new Question(a, "Which song is this? " + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
         }
 
         repository.saveAll(new ArrayList<>(answers));
