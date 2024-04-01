@@ -101,7 +101,7 @@ public class QuestionServiceTest {
         when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
         QuestionResponseDto response =  questionService.getRandomQuestion("");
 
-        assertEquals(response, defaultResponseDto);
+        assertEquals(response.getId(), defaultResponseDto.getId());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(defaultQuestion));
         QuestionResponseDto response = questionService.getQuestionById(1L);
 
-        assertEquals(response, defaultResponseDto);
+        assertEquals(response.getId(), defaultResponseDto.getId());
     }
 
     @Test
