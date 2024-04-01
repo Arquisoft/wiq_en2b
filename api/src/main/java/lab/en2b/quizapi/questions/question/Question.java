@@ -46,5 +46,8 @@ public class Question {
     @ManyToMany(mappedBy = "questions")
     private List<Game> games;
 
+    public boolean isCorrectAnswer(Long answerId){
+        return correctAnswer.getId().equals(answerId);
+    }
 
 }

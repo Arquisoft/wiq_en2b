@@ -50,10 +50,7 @@ public class GameService {
 
     public GameResponseDto answerQuestion(Long id, Long answerId, Authentication authentication){
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
-        Long questionId = game.getCurrentQuestion().getId();
-        AnswerDto answer = AnswerDto.builder().answerId(answerId).build();
-        questionService.answerQuestion(questionId, answer);
-        game.answerQuestion();
+        game.answerQuestion(answerId, questionRepository);
         return gameResponseDtoMapper.apply(game);
     }
 

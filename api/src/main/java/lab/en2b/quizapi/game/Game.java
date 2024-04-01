@@ -3,7 +3,9 @@ package lab.en2b.quizapi.game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lab.en2b.quizapi.commons.user.User;
+import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.question.Question;
+import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -87,11 +89,17 @@ public class Game {
         return LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
     }
 
-    public void answerQuestion(){
+    public void answerQuestion(Long answerId, QuestionRepository questionRepository){
         if(currentRoundIsOver())
             throw new IllegalStateException("You can't answer a question when the current round is over!");
         if (isGameOver())
             throw new IllegalStateException("You can't answer a question when the game is over!");
+        Question q = getCurrentQuestion();
+        if (q.getAnswers().stream().map(Answer::getId).noneMatch(i -> i.equals(answerId)))
+            throw new IllegalArgumentException("The answer you provided is not one of the options");
+        if(q.isCorrectAnswer(answerId)){
+            setCorrectlyAnsweredQuestions(getCorrectlyAnsweredQuestions() + 1);
+        }
         setCurrentQuestionAnswered(true);
     }
 }

@@ -7,9 +7,11 @@ import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
+import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
+import lab.en2b.quizapi.questions.answer.mappers.AnswerResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
@@ -25,6 +27,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -67,6 +70,8 @@ public class GameServiceTest {
 
     private Game defaultGame;
 
+    private Answer defaultCorrectAnswer;
+
     @BeforeEach
     void setUp() {
         this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
@@ -80,11 +85,7 @@ public class GameServiceTest {
                 .refreshToken("token")
                 .refreshExpiration(Instant.ofEpochSecond(TimeUtil.computeStartOfNextSecond(System.currentTimeMillis()+ 1000)))
                 .build();
-        this.defaultUserResponseDto = UserResponseDto.builder()
-                .id(1L)
-                .email("test@email.com")
-                .username("test")
-                .build();
+
         this.defaultQuestion = Question.builder()
                 .id(1L)
                 .content("What is the capital of France?")
@@ -94,6 +95,33 @@ public class GameServiceTest {
                 .answerCategory(AnswerCategory.CITY)
                 .type(QuestionType.TEXT)
                 .build();
+
+        defaultCorrectAnswer = Answer.builder()
+                .id(1L)
+                .text("Paris")
+                .category(AnswerCategory.CITY)
+                .questions(List.of(defaultQuestion))
+                .questionsWithThisAnswer(List.of(defaultQuestion))
+                .build();
+
+        Answer defaultIncorrectAnswer = Answer.builder()
+                .id(2L)
+                .text("Tokio")
+                .category(AnswerCategory.CITY)
+                .questions(List.of(defaultQuestion))
+                .questionsWithThisAnswer(List.of(defaultQuestion))
+                .build();
+
+        defaultQuestion.setCorrectAnswer(defaultCorrectAnswer);
+        defaultQuestion.getAnswers().add(defaultCorrectAnswer);
+        defaultQuestion.getAnswers().add(defaultIncorrectAnswer);
+
+        this.defaultUserResponseDto = UserResponseDto.builder()
+                .id(1L)
+                .email("test@email.com")
+                .username("test")
+                .build();
+
         this.defaultQuestionResponseDto = QuestionResponseDto.builder()
                 .id(1L)
                 .content("What is the capital of France?")
@@ -103,6 +131,8 @@ public class GameServiceTest {
                 .answerCategory(AnswerCategory.CITY)
                 .type(QuestionType.TEXT)
                 .build();
+        defaultQuestionResponseDto.getAnswers().add(new AnswerResponseDtoMapper().apply(defaultCorrectAnswer));
+        defaultQuestionResponseDto.getAnswers().add(new AnswerResponseDtoMapper().apply(defaultIncorrectAnswer));
         LocalDateTime now = LocalDateTime.now();
         this.defaultGameResponseDto = GameResponseDto.builder()
                 .user(defaultUserResponseDto)
@@ -205,15 +235,31 @@ public class GameServiceTest {
     }
 
     @Test
-    public void answerQuestion(){
+    public void answerQuestionCorrectly(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
-        GameResponseDto result = gameService.newGame(authentication);
+        gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.answerQuestion(1L, 1L, authentication);
-        assertEquals(defaultGameResponseDto, result);
+        gameService.getGameDetails(1L, authentication);
+        assertEquals(defaultGame.getCorrectlyAnsweredQuestions(), 1);
+        assertTrue(defaultGame.isCurrentQuestionAnswered());
+    }
+
+    @Test
+    public void answerQuestionIncorrectly(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        gameService.answerQuestion(1L, 2L, authentication);
+        gameService.getGameDetails(1L, authentication);
+        assertEquals(defaultGame.getCorrectlyAnsweredQuestions(), 0);
+        assertTrue(defaultGame.isCurrentQuestionAnswered());
     }
 
     @Test
@@ -238,6 +284,17 @@ public class GameServiceTest {
         gameService.startRound(1L, authentication);
         defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
         assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, 1L, authentication));
+    }
+
+    @Test
+    public void answerQuestionInvalidId(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        assertThrows(IllegalArgumentException.class, () -> gameService.answerQuestion(1L, 3L, authentication));
     }
 
     @Test
