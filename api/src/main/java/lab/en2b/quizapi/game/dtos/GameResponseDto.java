@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.game.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lab.en2b.quizapi.commons.user.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,22 +15,30 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode
 public class GameResponseDto {
+    @Schema(description = "Identification for a game", example = "23483743")
     private Long id;
 
+    @Schema(description = "User for the game", example = "")
     private UserResponseDto user;
 
+    @Schema(description = "Total rounds for the game", example = "9")
     private int rounds;
 
+    @Schema(description = "Actual round for the game", example = "3")
     private int actualRound;
 
+    @Schema(description = "Number of correct answered questions", example = "2")
     @JsonProperty("correctly_answered_questions")
     private int correctlyAnsweredQuestions;
 
+    @Schema(description = "Moment when the timer has started", example = "LocalDateTime.now()")
     @JsonProperty("round_start_time")
     private LocalDateTime roundStartTime;
 
+    @Schema(description = "Number of seconds for the player to answer the question", example = "20")
     @JsonProperty("round_duration")
     private int roundDuration;
 
+    @Schema(description = "Whether the game has finished or not", example = "true")
     private boolean isGameOver;
 }
