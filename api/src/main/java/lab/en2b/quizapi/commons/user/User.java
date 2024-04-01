@@ -7,9 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lab.en2b.quizapi.commons.exceptions.TokenRefreshException;
+import lab.en2b.quizapi.game.Game;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(	name = "users",
@@ -55,6 +57,9 @@ public class User {
     @NotNull
     @JsonProperty("role")
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Game> games;
 
     public String obtainRefreshIfValid() {
         if(getRefreshExpiration() == null || getRefreshExpiration().compareTo(Instant.now()) < 0){
