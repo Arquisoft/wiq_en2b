@@ -102,4 +102,13 @@ public class Game {
         }
         setCurrentQuestionAnswered(true);
     }
+    public void setLanguage(String language){
+        if(!isLanguageSupported(language))
+            throw new IllegalArgumentException("The language you provided is not supported");
+        this.language = language;
+    }
+
+    private boolean isLanguageSupported(String language) {
+        return language.equals("en") || language.equals("es");
+    }
 }

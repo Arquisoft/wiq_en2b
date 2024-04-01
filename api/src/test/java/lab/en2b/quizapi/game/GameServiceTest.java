@@ -310,6 +310,15 @@ public class GameServiceTest {
     }
 
     @Test
+    public void changeLanguageInvalidLanguage(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        gameService.newGame(authentication);
+        assertThrows(IllegalArgumentException.class, () -> gameService.changeLanguage(1L, "patata", authentication));
+    }
+
+    @Test
     public void getGameDetails(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
