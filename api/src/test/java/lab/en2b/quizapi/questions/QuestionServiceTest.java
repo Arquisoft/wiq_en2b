@@ -2,6 +2,7 @@ package lab.en2b.quizapi.questions;
 
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
+import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerResponseDto;
 import lab.en2b.quizapi.questions.question.*;
@@ -33,6 +34,8 @@ public class QuestionServiceTest {
 
     @Mock
     QuestionRepository questionRepository;
+    @Mock
+    AnswerRepository answerRepository;
 
     Question defaultQuestion;
     QuestionResponseDto defaultResponseDto;
@@ -42,7 +45,7 @@ public class QuestionServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.questionService = new QuestionService(questionRepository,new QuestionResponseDtoMapper());
+        this.questionService = new QuestionService(answerRepository, questionRepository, new QuestionResponseDtoMapper());
 
 
         defaultQuestion = Question.builder()
