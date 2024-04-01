@@ -7,10 +7,10 @@ public class Main {
         new CountryCapitalQuestion("en");
         new CountryCapitalQuestion("es");
 
-        new SongQuestion("en");
-        new SongQuestion("es");
+        //new SongQuestion("en");
+        //new SongQuestion("es");
 
-        new StadiumQuestion("en");
-        new StadiumQuestion("es");
+        //new StadiumQuestion("en");
+        //new StadiumQuestion("es");
     }
 }
