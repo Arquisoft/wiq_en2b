@@ -22,12 +22,13 @@ public class GameController {
         return ResponseEntity.ok(gameService.newGame(authentication));
     }
 
-    @Operation(summary = "Starts a new round", description = "Starts the round (getting a question and its possible answers and start the timer) for a given authentication (a player)")
+    @Operation(summary = "Starts a new round", description = "Starts the round (asks a question and its possible answers to the API and start the timer) for a given authentication (a player)")
     @PostMapping("/{id}/startRound")
     public ResponseEntity<GameResponseDto> startRound(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.startRound(id, authentication));
     }
 
+    @Operation(summary = "Starts a new round", description = "Gets the question and its possible answers from the API for a given authentication (a player)")
     @GetMapping("/{id}/question")
     public ResponseEntity<QuestionResponseDto> getCurrentQuestion(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.getCurrentQuestion(id, authentication));
