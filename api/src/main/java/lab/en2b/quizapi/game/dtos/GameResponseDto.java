@@ -18,7 +18,7 @@ public class GameResponseDto {
     @Schema(description = "Identification for a game", example = "23483743")
     private Long id;
 
-    @Schema(description = "User for the game", example = "")
+    @Schema(description = "User for the game", example = "{\"id\":1,\"username\":\"Hordi Jurtado\",\"email\":\"chipiChipi@chapaChapa.es \"}")
     private UserResponseDto user;
 
     @Schema(description = "Total rounds for the game", example = "9")
