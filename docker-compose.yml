@@ -103,6 +103,9 @@ services:
 
 volumes:
   postgres_data:
+  prometheus_data:
+  grafana_data:
+
 
 networks:
   mynetwork:
