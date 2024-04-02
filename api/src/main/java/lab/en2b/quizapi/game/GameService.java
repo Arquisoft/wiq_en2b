@@ -26,6 +26,9 @@ public class GameService {
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
     public GameResponseDto newGame(Authentication authentication) {
+        if (gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).isPresent()){
+            return gameResponseDtoMapper.apply(gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).get());
+        }
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))
                 .questions(new ArrayList<>())
