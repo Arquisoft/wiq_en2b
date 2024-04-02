@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Center, Heading, Stack, Box, Avatar, Text } from '@chakra-ui/react';
+import { Center, Heading, Stack, Box, Text } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
 import LateralMenu from '../components/LateralMenu';

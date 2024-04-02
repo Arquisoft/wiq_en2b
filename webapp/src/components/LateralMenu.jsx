@@ -72,7 +72,8 @@ LateralMenu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     changeLanguage: PropTypes.func.isRequired,
-    currentLanguage: PropTypes.string.isRequired
+    currentLanguage: PropTypes.string.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired
 };
 
 export default LateralMenu;
