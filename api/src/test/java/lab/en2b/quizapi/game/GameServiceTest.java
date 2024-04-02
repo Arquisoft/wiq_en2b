@@ -25,10 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -331,6 +328,11 @@ public class GameServiceTest {
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         assertThrows(NoSuchElementException.class, () -> gameService.getGameDetails(2L, authentication));
+    }
+
+    @Test
+    public void testGetQuestionCategories(){
+        assertEquals(Arrays.asList(QuestionCategory.values()), gameService.getQuestionCategories());
     }
 
 }
