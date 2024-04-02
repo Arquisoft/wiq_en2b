@@ -86,22 +86,23 @@ public class GameServiceTest {
                 .answers(new ArrayList<>())
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CITY)
+                .answerCategory(AnswerCategory.CAPITAL_CITY)
                 .type(QuestionType.TEXT)
                 .build();
 
         defaultCorrectAnswer = Answer.builder()
                 .id(1L)
                 .text("Paris")
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
+                .language("en")
                 .build();
 
         Answer defaultIncorrectAnswer = Answer.builder()
                 .id(2L)
                 .text("Tokio")
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
@@ -122,7 +123,7 @@ public class GameServiceTest {
                 .answers(new ArrayList<>())
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CITY)
+                .answerCategory(AnswerCategory.CAPITAL_CITY)
                 .type(QuestionType.TEXT)
                 .build();
         defaultQuestionResponseDto.getAnswers().add(new AnswerResponseDtoMapper().apply(defaultCorrectAnswer));

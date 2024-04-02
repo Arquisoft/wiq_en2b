@@ -19,7 +19,10 @@ public class Answer {
     @Setter(AccessLevel.NONE)
     private Long id;
     private String text;
+    @Enumerated(EnumType.STRING)
     private AnswerCategory category;
+    private String language;
+
     @OneToMany(mappedBy = "correctAnswer", fetch = FetchType.EAGER)
     private List<Question> questions;
 
