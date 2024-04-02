@@ -36,8 +36,8 @@ export default function Dashboard() {
     
           <Box minW={{ md: "400px" }} shadow="2xl">
             <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
-              <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"forest_green"} text={t("common.play")} onClick={() => navigate("/dashboard/game")}/>
-              <Button type="submit" colorScheme="red" margin={"10px"} className={"custom-button effect1"} onClick={handleLogout}>{t("common.logout")}</Button>
+              <ButtonEf dataTestId={"Play"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.play")} onClick={() => navigate("/dashboard/game")}/>
+              <Button type="submit" colorScheme="raw_umber" margin={"10px"} className={"custom-button effect1"} onClick={handleLogout}>{t("common.logout")}</Button>
             </Stack>
           </Box>
         </Center>
