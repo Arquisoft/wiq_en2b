@@ -113,7 +113,7 @@ export default function Game() {
 				</Grid>
 
 				<Flex direction="row" justifyContent="center" alignItems="center">
-					<Button isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+					<Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
 						{t("game.next")}
 					</Button>
 				</Flex>
