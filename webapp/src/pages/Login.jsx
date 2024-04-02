@@ -13,10 +13,11 @@ import LateralMenu from '../components/LateralMenu';
 import MenuButton from '../components/MenuButton';
 
 export default function Login() {
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const navigateToDashboard = async () => {
         if (await new AuthManager().isLoggedIn()) {
+            setIsLoggedIn(true);
             navigate("/dashboard");
         }
     }
@@ -75,7 +76,7 @@ export default function Login() {
             justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter} bgImage={'/background.svg'}>
             
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={isLoggedIn}/>
 
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />

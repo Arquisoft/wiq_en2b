@@ -72,5 +72,8 @@
     "game": {
         "round": "Round",
         "next": "Next"
+    },
+    "about": {
+        "title": "About"
     }
 }

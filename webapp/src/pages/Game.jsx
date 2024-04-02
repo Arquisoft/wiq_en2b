@@ -16,7 +16,7 @@ export default function Game() {
 
 	const [question, setQuestion] = useState(null);
 	const [loading, setLoading] = useState(true);
-
+	
 	const generateQuestion = useCallback(async () => {
 		const result = await getQuestion();
 		if (result !== undefined) {
@@ -88,7 +88,7 @@ export default function Game() {
 	return (
 		<Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
 			<MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={true}/>
 
 			<Heading as="h2">{t("game.round") + `${roundNumber}`}</Heading>
 

@@ -159,7 +159,7 @@ export default function Statistics() {
     return (
         <Center display={"flex"} onLoad={(getData)} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={true}/>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minW="30vw" minH="50vh"

@@ -71,5 +71,8 @@
     "game": {
         "round": "Ronda",
         "next": "Siguiente"
+    },
+    "about": {
+        "title": "Sobre nosotros"
     }
 }
