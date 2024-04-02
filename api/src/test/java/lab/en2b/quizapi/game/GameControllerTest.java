@@ -161,4 +161,13 @@ public class GameControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void getQuestionCategoriesShouldReturn200() throws Exception{
+        mockMvc.perform(get("/games/questionCategories")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
 }
