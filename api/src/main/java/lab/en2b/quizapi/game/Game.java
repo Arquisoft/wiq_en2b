@@ -48,6 +48,7 @@ public class Game {
             @JoinColumn(name="question_id", referencedColumnName="id")
     )
     private List<Question> questions;
+    private boolean isGameOver;
 
     public void newRound(Question question){
         if(getActualRound() != 0){
