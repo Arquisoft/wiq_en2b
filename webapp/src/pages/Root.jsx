@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Center } from "@chakra-ui/layout";
-import { Text, Heading, Stack, Link, Image, Box, Button, Icon } from "@chakra-ui/react";
-import { HamburgerIcon } from '@chakra-ui/icons';
-import LateralMenu from '../components/LateralMenu';
+import { Text, Heading, Stack, Link, Image, Box } from "@chakra-ui/react";
 
+import MenuButton from '../components/MenuButton';
+import LateralMenu from '../components/LateralMenu';
 import ButtonEf from '../components/ButtonEf';
 import AuthManager from "components/auth/AuthManager";
 
@@ -13,6 +13,7 @@ export default function Root() {
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const currentLanguage = i18n.language;
     
     const navigateToDashboard = async () => {
         if (await new AuthManager().isLoggedIn()) {
@@ -21,31 +22,14 @@ export default function Root() {
     }
     navigateToDashboard();
 
-    const changeLanguage = (e) => {
-        const selectedLanguage = e.target.value;
+    const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
     };
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bgImage={'/background.svg'}>
-            <Button 
-                position="absolute" 
-                top="1rem" 
-                right="1rem" 
-                onClick={() => setIsMenuOpen(true)}
-                bg="pigment_green.600"
-                color="whiteAlpha.900"
-                size="xl"
-                borderRadius="md"
-                _hover={{ bg: 'pigment_green.600' }}
-                justifyContent="center"
-                alignItems="center" 
-                p={4}
-            >
-                <Icon as={HamburgerIcon} boxSize={6} />
-            </Button>
-
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} isRoot={true} changeLanguage={changeLanguage}/>
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
             
             <Center flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>

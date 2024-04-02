@@ -5,9 +5,12 @@ import { FaLock, FaAddressCard } from "react-icons/fa";
 import { Center } from "@chakra-ui/layout";
 import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+
 import ButtonEf from '../components/ButtonEf';
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
+import LateralMenu from '../components/LateralMenu';
+import MenuButton from '../components/MenuButton';
 
 export default function Login() {
 
@@ -19,7 +22,7 @@ export default function Login() {
     }
 
     const [errorMessage, setErrorMessage] = useState(null);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const [showPassword, setShowPassword] = useState(false);
     const changeShowP = () => setShowPassword(!showPassword);
@@ -60,9 +63,20 @@ export default function Login() {
 
     navigateToDashboard();
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const currentLanguage = i18n.language;
+    const changeLanguage = (selectedLanguage) => {
+        i18n.changeLanguage(selectedLanguage);
+    };
+
     return (
         <Center onLoad={navigateToDashboard} display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
             justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter} bgImage={'/background.svg'}>
+            
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
+
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />
                 <Heading as="h2">{t("common.login")}</Heading>
