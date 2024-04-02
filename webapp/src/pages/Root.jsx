@@ -11,7 +11,7 @@ import AuthManager from "components/auth/AuthManager";
 
 export default function Root() {
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     const navigateToDashboard = async () => {
@@ -20,6 +20,11 @@ export default function Root() {
         }
     }
     navigateToDashboard();
+
+    const changeLanguage = (e) => {
+        const selectedLanguage = e.target.value;
+        i18n.changeLanguage(selectedLanguage);
+    };
 
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bgImage={'/background.svg'}>
@@ -40,7 +45,7 @@ export default function Root() {
                 <Icon as={HamburgerIcon} boxSize={6} />
             </Button>
 
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} isRoot={true} changeLanguage={changeLanguage}/>
             
             <Center flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
