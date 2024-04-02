@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 import ButtonEf from '../components/ButtonEf';
 import {getQuestion, answerQuestion} from '../components/game/Questions';
+import {newGame} from '../components/game/Game';
 import axios from "axios";
 
 export default function Game() {
@@ -12,6 +13,16 @@ export default function Game() {
 
 	const [question, setQuestion] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [gameId, setGameId] = useState(null);
+
+	const generateGame = useCallback(async () => {
+		const result = await newGame();
+		if (result !== undefined) {
+			setGameId(result.id);
+		} else {
+			navigate("/dashboard");
+		}
+	}, [navigate]);
 
 	const generateQuestion = useCallback(async () => {
 		const result = await getQuestion();
