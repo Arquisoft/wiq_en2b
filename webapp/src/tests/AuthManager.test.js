@@ -1,6 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
 import AuthManager from "../components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
+import { waitFor } from "@testing-library/react";
 
 const authManager = new AuthManager();
 let mockAxios;
@@ -29,7 +30,7 @@ describe("AuthManager", () => {
 
     expect(mockOnSucess).toHaveBeenCalled();
     expect(mockOnError).not.toHaveBeenCalled();
-    expect(authManager.isLoggedIn()).toBe(true);
+    waitFor(() => expect(authManager.isLoggedIn()).toBe(true));
 
   });
 
@@ -37,6 +38,6 @@ describe("AuthManager", () => {
     mockAxios.onGet().replyOnce(HttpStatusCode.Ok);
     authManager.setLoggedIn(true);
     await authManager.logout();
-    expect(authManager.isLoggedIn()).toBe(false);
+    waitFor(() => expect(authManager.isLoggedIn()).toBe(false));
   });
 });
