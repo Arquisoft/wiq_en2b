@@ -43,8 +43,8 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage }) => {
 LateralMenu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    isRoot: PropTypes.bool.isRequired,
     changeLanguage: PropTypes.func.isRequired,
+    currentLanguage: PropTypes.string.isRequired
 };
 
 export default LateralMenu;

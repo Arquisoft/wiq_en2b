@@ -67,5 +67,9 @@
             "personalWrong": "{{wrong, number}} respuestas incorrectas",
             "personalRate": "{{rate, number}} %"
         }
+    },
+    "game": {
+        "round": "Ronda",
+        "next": "Siguiente"
     }
 }

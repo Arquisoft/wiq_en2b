@@ -7,9 +7,11 @@ import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
+import LateralMenu from '../components/LateralMenu';
+import MenuButton from '../components/MenuButton';
 
 const UserVisual = (props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const topTen = props.topTen;
     const userData = props.userData;
     const [tooSmall] = useMediaQuery("(max-width: 800px)");
@@ -107,7 +109,7 @@ const UserVisual = (props) => {
 }
 
 export default function Statistics() {
-    const {t} = useTranslation();
+    const { t, i18n } = useTranslation();
     const [retrievedData, setRetrievedData] = useState(false);
     const [topTen, setTopTen] = useState([]);
     const [userData, setUserData] = useState({
@@ -146,8 +148,18 @@ export default function Statistics() {
         }
     }
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const currentLanguage = i18n.language;
+    const changeLanguage = (selectedLanguage) => {
+        i18n.changeLanguage(selectedLanguage);
+    };
+
+
     return (
         <Center display={"flex"} onLoad={(getData)} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minW="30vw" minH="50vh"

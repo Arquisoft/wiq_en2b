@@ -5,9 +5,12 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
+
 import ButtonEf from '../components/ButtonEf';
 import ErrorMessageAlert from "../components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
+import LateralMenu from '../components/LateralMenu';
+import MenuButton from '../components/MenuButton';
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -19,7 +22,7 @@ export default function Signup() {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const navigate = useNavigate();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const ChakraFaCardAlt = chakra(FaAddressCard);
     const ChakraFaUserAlt = chakra(FaUserAlt);
@@ -86,8 +89,18 @@ export default function Signup() {
 
     navigateToDashboard();
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const currentLanguage = i18n.language;
+    const changeLanguage = (selectedLanguage) => {
+        i18n.changeLanguage(selectedLanguage);
+    };
+
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage}/>
+            
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />
                 <Heading as="h2">
