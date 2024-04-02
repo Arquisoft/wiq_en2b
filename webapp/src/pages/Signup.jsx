@@ -101,7 +101,7 @@ export default function Signup() {
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={isLoggedIn}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={isLoggedIn} isDashboard={false}/>
             
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />

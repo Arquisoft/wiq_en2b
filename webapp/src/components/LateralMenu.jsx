@@ -5,7 +5,7 @@ import { Box, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHea
 import { FaChartBar, FaBook, FaTachometerAlt } from 'react-icons/fa';
 import { InfoIcon } from '@chakra-ui/icons';
 
-const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLoggedIn }) => {
+const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLoggedIn, isDashboard }) => {
     const navigate = useNavigate();
     const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
 
@@ -36,12 +36,14 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLogge
                             <Box margin={"10px"} flexDirection="row">
                                 {isLoggedIn && (
                                     <>
-                                        <Box marginTop={"40px"}>
-                                            <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard")}}>
-                                                <FaTachometerAlt /> 
-                                                <span style={{ marginLeft: '6px' }}>Dashboard</span>
-                                            </Button>
-                                        </Box>
+                                        {!isDashboard && (
+                                            <Box marginTop={"40px"}>
+                                                <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard")}}>
+                                                    <FaTachometerAlt /> 
+                                                    <span style={{ marginLeft: '6px' }}>Dashboard</span>
+                                                </Button>
+                                            </Box>
+                                        )}
                                         <Box marginTop={"40px"}>
                                             <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard/statistics")}}>
                                                 <FaChartBar /> 
@@ -73,7 +75,8 @@ LateralMenu.propTypes = {
     onClose: PropTypes.func.isRequired,
     changeLanguage: PropTypes.func.isRequired,
     currentLanguage: PropTypes.string.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired
+    isLoggedIn: PropTypes.bool.isRequired,
+    isDashboard: PropTypes.bool.isRequired
 };
 
 export default LateralMenu;

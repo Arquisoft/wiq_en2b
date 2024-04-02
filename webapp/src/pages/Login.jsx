@@ -76,7 +76,7 @@ export default function Login() {
             justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter} bgImage={'/background.svg'}>
             
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={isLoggedIn}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={isLoggedIn} isDashboard={false}/>
 
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />
