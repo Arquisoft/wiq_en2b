@@ -12,7 +12,7 @@ export default function Root() {
     const { t } = useTranslation();
     
     const navigateToDashboard = async () => {
-        if (await AuthManager.getInstance().isLoggedIn()) {
+        if (await new AuthManager().isLoggedIn()) {
             navigate("/dashboard");
         }
     }

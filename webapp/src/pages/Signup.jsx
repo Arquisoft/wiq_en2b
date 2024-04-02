@@ -26,7 +26,7 @@ export default function Signup() {
     const ChakraFaLock = chakra(FaLock);
 
     const navigateToDashboard = async () => {
-        if (await AuthManager.getInstance().isLoggedIn()) {
+        if (await new AuthManager().isLoggedIn()) {
             navigate("/dashboard");
         }
     }
@@ -37,7 +37,7 @@ export default function Signup() {
             "password": password
         };
         try {
-            await AuthManager.getInstance().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
+            await new AuthManager().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
