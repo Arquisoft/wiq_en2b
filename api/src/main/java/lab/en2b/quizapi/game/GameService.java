@@ -7,6 +7,7 @@ import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
+import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -16,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +67,9 @@ public class GameService {
 
     public GameResponseDto getGameDetails(Long id, Authentication authentication) {
         return gameResponseDtoMapper.apply(gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow());
+    }
+
+    public List<QuestionCategory> getQuestionCategories() {
+        return Arrays.asList(QuestionCategory.values());
     }
 }
