@@ -29,10 +29,14 @@ public abstract class QuestionTemplate {
      * For reference in future implementations: look at CountryCapitalQuestion
      */
     public QuestionTemplate(String langCode) {
-        this.langCode = langCode;
-        setQuery();
-        call();
-        processResults();
+        try {
+            this.langCode = langCode;
+            setQuery();
+            call();
+            processResults();
+        } catch (Exception e) {
+            System.err.println("Error while processing the question: " + e.getMessage());
+        }
     }
 
     /**

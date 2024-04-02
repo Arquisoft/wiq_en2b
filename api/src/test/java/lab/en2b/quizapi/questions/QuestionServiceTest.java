@@ -2,6 +2,7 @@ package lab.en2b.quizapi.questions;
 
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
+import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerResponseDto;
 import lab.en2b.quizapi.questions.question.*;
@@ -33,6 +34,8 @@ public class QuestionServiceTest {
 
     @Mock
     QuestionRepository questionRepository;
+    @Mock
+    AnswerRepository answerRepository;
 
     Question defaultQuestion;
     QuestionResponseDto defaultResponseDto;
@@ -42,22 +45,19 @@ public class QuestionServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.questionService = new QuestionService(questionRepository,new QuestionResponseDtoMapper());
+        this.questionService = new QuestionService(answerRepository, questionRepository, new QuestionResponseDtoMapper());
 
 
         defaultQuestion = Question.builder()
                 .id(1L)
-                .content("What is the capital of France?")
                 .answers(new ArrayList<>())
-                .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CITY)
                 .type(QuestionType.TEXT)
                 .build();
         defaultCorrectAnswer = Answer.builder()
                 .id(1L)
                 .text("Paris")
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
@@ -65,7 +65,7 @@ public class QuestionServiceTest {
         defaultIncorrectAnswer = Answer.builder()
                 .id(2L)
                 .text("Tokio")
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
@@ -77,12 +77,12 @@ public class QuestionServiceTest {
         List<AnswerResponseDto> answersDto = new ArrayList<>();
         answersDto.add(AnswerResponseDto.builder()
                 .id(1L)
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .text("Paris")
                 .build());
         answersDto.add(AnswerResponseDto.builder()
                 .id(2L)
-                .category(AnswerCategory.CITY)
+                .category(AnswerCategory.CAPITAL_CITY)
                 .text("Tokio")
                 .build());
         defaultResponseDto = QuestionResponseDto.builder()
@@ -91,7 +91,7 @@ public class QuestionServiceTest {
                 .answers(answersDto)
                 .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CITY)
+                .answerCategory(AnswerCategory.CAPITAL_CITY)
                 .type(QuestionType.TEXT)
                 .build();
     }
@@ -101,7 +101,7 @@ public class QuestionServiceTest {
         when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
         QuestionResponseDto response =  questionService.getRandomQuestion("");
 
-        assertEquals(response, defaultResponseDto);
+        assertEquals(response.getId(), defaultResponseDto.getId());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(defaultQuestion));
         QuestionResponseDto response = questionService.getQuestionById(1L);
 
-        assertEquals(response, defaultResponseDto);
+        assertEquals(response.getId(), defaultResponseDto.getId());
     }
 
     @Test

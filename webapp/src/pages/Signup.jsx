@@ -1,14 +1,13 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, 
-            chakra, Box, Avatar, FormControl, InputRightElement, 
-            FormHelperText, IconButton, Alert, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
-import { register } from "../components/auth/AuthUtils";
 import ButtonEf from '../components/ButtonEf';
+import ErrorMessageAlert from "../components/ErrorMessageAlert";
+import AuthManager from "components/auth/AuthManager";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -17,7 +16,7 @@ export default function Signup() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -26,60 +25,75 @@ export default function Signup() {
     const ChakraFaUserAlt = chakra(FaUserAlt);
     const ChakraFaLock = chakra(FaLock);
 
-    const navigateToLogin = () => {
-        navigate("/login");
-    };
-
+    const navigateToDashboard = async () => {
+        if (await AuthManager.getInstance().isLoggedIn()) {
+            navigate("/dashboard");
+        }
+    }
     const sendRegistration = async () => {
         const registerData = {
             "email": email,
             "username": username,
             "password": password
         };
-
         try {
-            await register(registerData, navigateToLogin, ()=> setHasError(true));
+            await AuthManager.getInstance().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
-            setHasError(true);
+            setErrorMessage("Error desconocido");
         }
     };
 
+    const setLocalizedErrorMessage = (error) => {
+        switch (error.response ? error.response.status : null) {
+            case 400:
+                setErrorMessage({ type: t("error.validation.type"), message: t("error.validation.message")});
+                break;
+            case 401:
+                setErrorMessage({ type: t("error.authorized.type"), message: t("error.authorized.message")});
+                break;
+            default:
+                setErrorMessage({ type: t("error.unknown.type"), message: t("error.unknown.message")});
+                break;
+        }
+    }
+
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
     const handleConfirmPasswordChange = (e) => {
         setConfirmPassword(e.target.value);
-        setHasError(false); 
+        setErrorMessage(false); 
     }
 
+    const registerOnEnter = (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendRegistration();
+        }
+    }
+
+    navigateToDashboard();
+
     return (
-        <Center
-            display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bg={"blue.50"} justifyContent={"center"} alignItems={"center"}>
+        <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} onKeyDown={registerOnEnter} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
-                <Avatar bg="blue.500" />
-                <Heading as="h2" color="blue.400">
+                <Avatar bg="pigment_green.500" />
+                <Heading as="h2">
                     {t("common.register")}
                 </Heading>
-                {
-                    hasError && 
-                    <Alert status='error'rounded="1rem" margin={"1vh 0vw"}>
-                        <AlertIcon />
-                        <AlertTitle>{t("error.register")}</AlertTitle>
-                        <AlertDescription>{t("error.register-desc")}</AlertDescription>
-                    </Alert>
-                }
+                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.register"}/>
                 <Box minW={{ md: "400px" }} shadow="2xl">
                     <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                         <FormControl>
@@ -146,7 +160,7 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"blue"} text={t("common.register")} onClick={sendRegistration}/>
+                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.register")} onClick={sendRegistration}/>
                     </Stack>
                 </Box>
             </Stack>

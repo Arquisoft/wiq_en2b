@@ -54,26 +54,18 @@ public class CountryCapitalQuestion extends QuestionTemplate {
                 continue;
 
             //Saving the answer
-            Answer a = new Answer(capitalLabel, AnswerCategory.CITY);
+            Answer a = new Answer(capitalLabel, AnswerCategory.CAPITAL_CITY, langCode);
             answers.add(a);
 
             //Saving the question
-            String content;
-            if (langCode.equals("en"))
-                content = "What is the capital of " + countryLabel + "?";
+            if (langCode.equals("es"))
+                questions.add(new Question(a, "¿Cuál es la capital de " + countryLabel + "?", QuestionCategory.GEOGRAPHY, QuestionType.TEXT));
             else
-                content = "¿Cuál es la capital de " + countryLabel + "?";
-            questions.add(new Question(content, a, QuestionCategory.GEOGRAPHY, AnswerCategory.CITY, langCode, QuestionType.TEXT));
+                questions.add(new Question(a, "What is the capital of " + countryLabel + "?", QuestionCategory.GEOGRAPHY, QuestionType.TEXT));
         }
-        addRandomAnswers(answers, questions);
+
         repository.saveAll(new ArrayList<>(answers));
         repository.saveAll(new ArrayList<>(questions));
-    }
-
-    private void addRandomAnswers(List<Answer> answers, List<Question> questions) {
-        for(Question q : questions) {
-            q.getAnswers().add(answers.get((int) (Math.random() * (answers.size()-1))));
-        }
     }
 
     /**

@@ -1,15 +1,15 @@
 {
-    "common":{
+    "common": {
         "home": "Inicio",
         "api_docs": "Documentación de la API",
         "statistics": {
             "title": "Estadísticas",
             "personal": "Mis estadísticas",
-            "general": "Estadísticas generales"
+            "general": "Clasificación"
         },
         "play": "Jugar",
         "login": "Iniciar sesión",
-        "logout": "Salir",
+        "logout": "Cerrar sesión",
         "register": "Registrarse",
         "submit": "Enviar",
         "rules": "Reglas",
@@ -22,15 +22,50 @@
         "password": "Contraseña",
         "email": "Correo electrónico",
         "confirm_password": "Confirmar contraseña",
-        "welcome": "Bienvenido a la página principal de WIQ-EN2B",
+        "welcome": "¿Estás listo para poner a prueba tu ingenio?",
         "account": "¿No tienes una cuenta?",
-        "clickHere": "Pulsa aquí"
+        "clickHere": "Haz clic aquí"
     },
     "error": {
-        "login": "Nombre de usuario o contraseña incorrectos",
-        "register": "Debes introducir datos válidos para registrarte",
+        "login": "Error en el inicio de sesión: ",
+        "register": "Error en el registro: ",
         "login-desc":  "Por favor, introduce tus datos para iniciar sesión",
         "register-desc": "Por favor, introduce tus datos para registrarte",
-        "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos"
+        "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos",
+        "validation": {
+            "type": "Error de Validación: ",
+            "message": "Datos incorrectos"
+        },
+        "conflict": {
+            "type": "Error de Conflicto: ",
+            "message": "El usuario ya existe"
+        },
+        "unknown": {
+            "type": "Error Desconocido",
+            "message": ""
+        },
+        "authorized": {
+            "type": "Error de Autorización: ",
+            "message": "Contraseña incorrecta"
+        }
+    },
+    "rules": {
+        "description1": "El juego de WIQ consiste en juegos rápidos de 9 rondas. En cada ronda hay una pregunta y dos posibles respuestas. La clave para ganar puntos está en elegir la respuesta correcta.",
+        "description2": "Solo hay una respuesta correcta.",
+        "description3": "Debes seleccionar una pregunta antes de que se acabe el tiempo.",
+        "description4": "Para comenzar a jugar, debes hacer clic en el botón Jugar."
+    },
+    "statistics": {
+        "position": "Posición",
+        "username": "Nombre de usuario",
+        "rightAnswers": "Respuestas correctas",
+        "wrongAnswers": "Respuestas erróneas",
+        "totalAnswers": "Respuestas totales",
+        "percentage": "Porcentaje de acierto",
+        "texts": {
+            "personalRight": "{{right, number}} respuestas correctas",
+            "personalWrong": "{{wrong, number}} respuestas incorrectas",
+            "personalRate": "{{rate, number}} %"
+        }
     }
 }

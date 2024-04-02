@@ -3,7 +3,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 == System Scope and Context
 === Business Context
 
-image::BusinessContext.png[align="center",title="Business Context",link="BusinessContext.png]
+[plantuml,"Business context diagram",png, align="center", title="Overall view of the business context"]
+----
+include::../diagrams/BusinessContextDiagram.puml[]
+----
 
 The WIQ application will communicate with the WikiData API through REST HTTP calls using SPARQL for the queries. It will ask the API for information that will later be used for generating the questions that will be shown to the player. This information will come in the form of text, images or audio.
 

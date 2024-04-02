@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Results from '../pages/Results';
 
 jest.mock('react-router-dom', () => ({
@@ -10,6 +10,17 @@ jest.mock('react-router-dom', () => ({
     state: { correctAnswers: 3 },
   }),
 }));
+
+jest.mock('react-i18next', () => ({
+    useTranslation: () => {
+      return {
+        t: (str) => str,
+        i18n: {
+          changeLanguage: () => new Promise(() => {}),
+        },
+      }
+    },
+  }));
 
 describe('Results Component', () => {
     test('renders results with correct answers', () => {

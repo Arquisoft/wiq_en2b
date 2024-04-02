@@ -2,6 +2,7 @@ package lab.en2b.quizapi.questions.question;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lab.en2b.quizapi.game.Game;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lombok.*;
@@ -35,12 +36,25 @@ public class Question {
     @NotNull
     @JoinColumn(name = "correct_answer_id")
     private Answer correctAnswer;
+    @Enumerated(EnumType.STRING)
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
     @Column(name = "answer_category")
     private AnswerCategory answerCategory;
     private String language;
+    @Enumerated(EnumType.STRING)
     private QuestionType type;
 
+    @ManyToMany(mappedBy = "questions")
+    private List<Game> games;
 
+    public boolean isCorrectAnswer(Long answerId){
+        return correctAnswer.getId().equals(answerId);
+    }
+    public AnswerCategory getAnswerCategory() {
+        return correctAnswer.getCategory();
+    }
+    public String getLanguage(){
+        return correctAnswer.getLanguage();
+    }
 }

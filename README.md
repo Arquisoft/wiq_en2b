@@ -1,5 +1,5 @@
-# 🧠🤔 [wiq_en2b](http://98.66.168.12:3000) ❓📚
-The aplication is deployed [here](http://98.66.168.12:3000).
+# 🧠🤔 KiWiq 🥝❓📚
+
 
 WIQ is a quiz game project inspired by the engaging and thought-provoking show "Saber y Ganar." 
 We aim to create a platform that not only challenges your knowledge but also sparks curiosity and the thrill of discovery.
@@ -13,7 +13,10 @@ We aim to create a platform that not only challenges your knowledge but also spa
 
 ## Features
 🏆 Adaptable  difficulty: You can adjust the difficulty to push your limits.  
+
 🌐 Multiplayer: Compete with friends and strangers to prove you are the best.
+
+🌐 Localized: Available in Spanish and English.
 
 ## Contributors
 Contributor | Contact
@@ -33,14 +36,16 @@ Gonzalo Suárez Losada | <a href="https://github.com/uo283928"><img src="https:/
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 
-This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
+This is a repository for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
 
 This repo is a basic application composed of several components.
 
-- **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
-- **User service**. Express service that handles the insertion of new users in the system.
-- **Auth service**. Express service that handles the authentication of users.
-- **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
+Component | Route | Description
+-- | -- | --
+Backend/API | `api/` | The main backend service, implemented in Java SpringBoot. It serves all requests from the frontend, and it doubles as main API. It also has a JWT-based authentication system.
+Question generator | `questiongenerator/` | A SpringBoot-based service, ran alongside the main backend service, that generates questions and inserts them into the database
+Webapp | `webapp/` | Our own frontend to the backend. It is implemented in React 18.
+    
+***
 
-Both the user and auth service share a Mongo database that is accessed with mongoose.
-
+Both the backend/API and the question generator use PostgreSQL.
