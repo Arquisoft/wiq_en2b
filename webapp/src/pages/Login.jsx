@@ -13,7 +13,7 @@ export default function Login() {
 
     const navigate = useNavigate();
     const navigateToDashboard = async () => {
-        if (await AuthManager.getInstance().isLoggedIn()) {
+        if (await new AuthManager().isLoggedIn()) {
             navigate("/dashboard");
         }
     }
@@ -45,7 +45,7 @@ export default function Login() {
             "password": password
         };
         try {
-            await AuthManager.getInstance().login(loginData, navigateToDashboard, setErrorMessage);
+            await new AuthManager().login(loginData, navigateToDashboard, setErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }

@@ -10,7 +10,7 @@ const ProtectedRoutes = () => {
 
   useEffect(() => {
     async function protectRoute() {
-      let isLoggedIn = await AuthManager.getInstance().isLoggedIn();
+      let isLoggedIn = await new AuthManager().isLoggedIn();
       setHasLoaded(true);
       if (!(isLoggedIn)) {
         navigate("/login");

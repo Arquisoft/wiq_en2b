@@ -2,8 +2,6 @@ import React from 'react';
 import { render, fireEvent, getByTestId, getAllByTestId, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
-import AuthManager from '../components/auth/AuthManager';
-import { when } from 'jest-when';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 
