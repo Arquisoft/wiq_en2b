@@ -11,6 +11,7 @@ import Results from "../pages/Results";
 import Statistics from "pages/Statistics";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Logout from "pages/Logout";
+import About from "pages/About";
 
 
 export default createRoutesFromElements(
@@ -25,6 +26,7 @@ export default createRoutesFromElements(
       <Route path="/dashboard/game/results" element={<Results />}/>
       <Route path="/dashboard/statistics" element={<Statistics />} />
       <Route path="/logout" element={<Logout />} />
+      <Route path="/about" element={<About />} />
     </Route>
   </Route>
 )
