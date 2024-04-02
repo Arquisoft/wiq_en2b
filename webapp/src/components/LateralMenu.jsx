@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { Box, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Select, Button, Text, IconButton } from '@chakra-ui/react';
 import { FaChartBar, FaBook, FaTachometerAlt } from 'react-icons/fa';
-import { InfoIcon } from '@chakra-ui/icons';
+import { InfoIcon, SettingsIcon } from '@chakra-ui/icons';
 
 const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLoggedIn, isDashboard }) => {
     const navigate = useNavigate();
@@ -16,6 +16,10 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLogge
     const handleChangeLanguage = (e) => {
         const selectedLanguage = e.target.value;
         changeLanguage(selectedLanguage);
+    };
+
+    const handleApiClick = () => {
+        window.open("http://localhost:8080/swagger/swagger-ui/index.html#/auth-controller/registerUser", "_blank");
     };
 
     return (
@@ -54,6 +58,12 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLogge
                                             <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard/rules")}}>
                                                 <FaBook /> 
                                                 <span style={{ marginLeft: '6px' }}>Rules</span>
+                                            </Button>
+                                        </Box>
+                                        <Box marginTop={"40px"}>
+                                            <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={handleApiClick}>
+                                                <SettingsIcon /> 
+                                                <span style={{ marginLeft: '6px' }}>API</span>
                                             </Button>
                                         </Box>
                                     </>
