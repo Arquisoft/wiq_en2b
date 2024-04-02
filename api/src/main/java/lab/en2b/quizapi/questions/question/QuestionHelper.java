@@ -20,7 +20,7 @@ public class QuestionHelper {
                 // Implement more cases
                 break;
             default:
-                distractors = answerRepository.findDistractors(cat.toString(), question.getLanguage(), 1);
+                distractors = answerRepository.findDistractors(cat.toString(), question.getLanguage(), 3);
         }
 
         return distractors;
