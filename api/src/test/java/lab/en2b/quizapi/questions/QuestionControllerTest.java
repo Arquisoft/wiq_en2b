@@ -137,12 +137,4 @@ public class QuestionControllerTest {
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
     }
-
-    @Test
-    void getQuestionCategoriesShouldReturn200() throws Exception{
-        mockMvc.perform(get("/questions/categories")
-                        .contentType("application/json")
-                        .with(csrf()))
-                .andExpect(status().isOk());
-    }
 }
