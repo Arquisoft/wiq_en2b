@@ -39,7 +39,7 @@ public class GeneralRepositoryStorer {
         entityManager.close();
         Jpa.close();
 
-        return count > 0;
+        return count == 0;
 
 
     }
