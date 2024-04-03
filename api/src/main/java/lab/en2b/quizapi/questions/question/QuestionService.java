@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -58,9 +59,11 @@ public class QuestionService {
         // Create the new answers list with the distractors
         List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
 
-        // Add the correct answer in a random position
-        int randomIndex = (int) (Math.random() * (answers.size() + 1));
-        answers.add(randomIndex, question.getCorrectAnswer());
+        // Add the correct
+        answers.add(question.getCorrectAnswer());
+
+        // Shuffle the answers
+        Collections.shuffle(answers);
 
         question.setAnswers(answers);
     }
