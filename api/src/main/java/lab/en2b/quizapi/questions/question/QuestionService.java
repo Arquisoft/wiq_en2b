@@ -1,8 +1,6 @@
 package lab.en2b.quizapi.questions.question;
 
-import jakarta.annotation.PostConstruct;
 import lab.en2b.quizapi.questions.answer.Answer;
-import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
@@ -58,7 +56,6 @@ public class QuestionService {
     public void loadAnswers(Question question) {
         // Create the new answers list with the distractors
         List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
-
         // Add the correct
         answers.add(question.getCorrectAnswer());
 
