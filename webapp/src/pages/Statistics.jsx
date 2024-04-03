@@ -8,6 +8,7 @@ import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
+import UserStatistics from "components/statistics/UserStatistics";
 
 export default function Statistics() {
     const {t} = useTranslation();
