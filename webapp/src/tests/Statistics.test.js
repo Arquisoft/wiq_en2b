@@ -1,21 +1,23 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import { render, screen } from "@testing-library/react";
 import Statistics from "pages/Statistics";
 import React from "react";
+import { MemoryRouter } from "react-router";
+import theme from "styles/theme";
 
 describe("Statistics", () => {
 
-  it("renders the spinning wheel while no data is loaded", async () => {
-    // TODO: mock Axios here once connectivity is implemented
+  beforeAll(() => {
+    global.ResizeObserver = jest.fn().mockImplementation(() => ({
+        observe: jest.fn(),
+        unobserve: jest.fn(),
+        disconnect: jest.fn(),
+    }))
+  });
 
-        // render(<Statistics />);
-        // expect(screen.getByTestId("spinning-wheel")).toBeVisible();
-    });
-
-    it("renders the spinning wheel while no data is loaded", async () => {
-        // TODO: mock Axios here once connectivity is implemented
-
-        // render(<Statistics />);
-        // expect(screen.getByTestId("spinning-wheel")).toBeVisible();
-    });
-
+  test("the page is rendered correctly", () => {
+    const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+    expect(screen.getByTestId("leaderboard-component")).toBeEnabled();
+    expect(getByText("common.statistics.title"));
+  })
 });

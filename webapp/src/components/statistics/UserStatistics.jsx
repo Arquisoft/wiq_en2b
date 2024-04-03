@@ -3,19 +3,12 @@ import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 import React, { useState } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { DoughnutController, ArcElement} from "chart.js/auto"; // These imports are necessary
 import { useTranslation } from "react-i18next";
+import { PieChart, ResponsiveContainer } from "recharts";
 
 export default function UserStatistics() {
     const {t} = useTranslation();
-    const [userData, setUserData] = useState({
-         "rate": [0,0],
-         "absolute": {
-             "right": undefined,
-             "wrong": undefined
-         }
-    });
+    const [userData, setUserData] = useState(null);
     const [retrievedData, setRetrievedData] = useState(false);
     const [tooSmall] = useMediaQuery("(max-width: 800px)");
     const [errorMessage, setErrorMessage] = useState(null);
@@ -74,30 +67,5 @@ export default function UserStatistics() {
                         </Text>
                     </Box>
             </Stack>
-            <Box minW="50%">
-                <Doughnut
-                    data={{
-                        "labels": [t("statistics.rightAnswers"), t("statistics.wrongAnswers")],
-                        "datasets": [{
-                            "label": t("statistics.percentage"),
-                            "data": userData.rate,
-                            "backgroundColor": [
-                                "#3cacff", "#f28a9c"
-                            ],
-                            "borderColor":[
-                                "#2594ff", "red"
-                            ]
-                        }]
-                    }}
-                    options={{
-                        cutout: 50,
-                        radius: 70,
-                        plugins: {
-                            legend: {
-                                onClick: () => {}
-                            }
-                        }
-                    }}></Doughnut>
-            </Box>
         </Flex>
 }
