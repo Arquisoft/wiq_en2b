@@ -1,6 +1,5 @@
 import model.AnswerCategory;
 import repositories.GeneralRepositoryStorer;
-import templates.BallonDOrQuestion;
 import templates.CountryCapitalQuestion;
 import templates.SongQuestion;
 import templates.StadiumQuestion;
@@ -22,10 +21,6 @@ public class Main {
             new StadiumQuestion("en");
             new StadiumQuestion("es");
         }
-
-
-
-
 
 
     }
