@@ -1,6 +1,5 @@
 package lab.en2b.quizapi.questions.answer;
 
-import lab.en2b.quizapi.questions.question.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
