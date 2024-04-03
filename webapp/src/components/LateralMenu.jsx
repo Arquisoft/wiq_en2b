@@ -42,13 +42,13 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLogge
                     <DrawerCloseButton />
                     <Flex align="center">
                         <Image src="/kiwiq-icon.ico" alt="App icon" width="80px" height="80px"/>
-                        <DrawerHeader color={"forest_green.500"}>Menu</DrawerHeader>
+                        <DrawerHeader color={"forest_green.500"}>KIWIQ</DrawerHeader>
                     </Flex>
                     <DrawerBody>
                         <Box flexDirection="column">
                             <Box margin={"10px"}>
                                 <Text color={"forest_green.500"}>{t("common.language")}</Text>
-                                <Select onChange={handleChangeLanguage} value={selectedLanguage}>
+                                <Select data-testid="language-select" onChange={handleChangeLanguage} value={selectedLanguage}>
                                     <option value="es">{t("common.spanish")}</option>
                                     <option value="en">{t("common.english")}</option>
                                 </Select>

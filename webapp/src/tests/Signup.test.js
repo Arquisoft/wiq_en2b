@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, getByTestId, getAllByTestId, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, getByTestId, getAllByTestId } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
 import { ChakraProvider } from '@chakra-ui/react';
