@@ -1,8 +1,6 @@
-import { Box,  Center, Flex, Heading, Stack, StackDivider, Table, Tbody, Text,
-        Td, Th, Thead, Tr, useMediaQuery, CircularProgress} from "@chakra-ui/react";
+import { Box,  Center, Heading, Stack, StackDivider, Table, Tbody, Text,
+        Td, Th, Thead, Tr, CircularProgress} from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Doughnut } from "react-chartjs-2";
-import { DoughnutController, ArcElement} from "chart.js/auto"; // These imports are necessary
 import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
@@ -89,7 +87,7 @@ export default function Statistics() {
                                 </Table>
                             }
                             </Box>
-                        : <CircularProgress id="general-statistics-spinner" isIndeterminate color={"green"} />
+                        : <CircularProgress id="leaderboard-spinner" isIndeterminate color={"green"} />
                         }
                     <UserStatistics />
                 </Stack>

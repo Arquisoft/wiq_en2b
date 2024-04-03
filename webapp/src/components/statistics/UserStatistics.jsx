@@ -4,6 +4,7 @@ import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 import React, { useState } from "react";
 import { Doughnut } from "react-chartjs-2";
+import { DoughnutController, ArcElement} from "chart.js/auto"; // These imports are necessary
 import { useTranslation } from "react-i18next";
 
 export default function UserStatistics() {
