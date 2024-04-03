@@ -7,53 +7,52 @@ import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
+import ErrorMessageAlert from "components/ErrorMessageAlert";
 
-const UserVisual = (props) => {
+export function UserStatistics() {
     const {t} = useTranslation();
-    const topTen = props.topTen;
-    const userData = props.userData;
+    const [userData, setUserData] = useState({
+         "rate": [0,0],
+         "absolute": {
+             "right": undefined,
+             "wrong": undefined
+         }
+    });
+    const [retrievedData, setRetrievedData] = useState(false);
     const [tooSmall] = useMediaQuery("(max-width: 800px)");
+    const [errorMessage, setErrorMessage] = useState(null);
 
-    const getTopTenData = () => {
-        return topTen.map((element, counter) => {
-            return <Tr>
-                <Th isNumeric scope="row">{counter + 1}</Th>
-                <Td>{element.username}</Td>
-                <Td>{element.correct}</Td>
-                <Td>{element.wrong}</Td>
-                <Td>{element.total}</Td>
-                <Td>{element.rate}</Td>
-            </Tr>
-        });
-    }
-    return <>
-        <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
-            <Heading as="h2" fontSize={"1.75em"}>
-                    {t("common.statistics.general")}
-            </Heading>
-            {
-                topTen.length === 0 ?
-                <Text>Woah, so empty</Text> : 
-                <Table className="statistics-table">
-                    <Thead>
-                        <Tr>
-                            <Th scope="col">{t("statistics.position")}</Th>
-                            <Th scope="col">{t("statistics.username")}</Th>
-                            <Th scope="col">{t("statistics.rightAnswers")}</Th>
-                            <Th scope="col">{t("statistics.wrongAnswers")}</Th>
-                            <Th scope="col">{t("statistics.totalAnswers")}</Th>
-                            <Th scope="col">{t("statistics.percentage")}</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {getTopTenData()}
-                    </Tbody>
-                </Table>
+    const getData = async () => {
+        try {
+            const request = await new AuthManager().getAxiosInstance()
+                                                   .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/personal");
+            if (request.status === HttpStatusCode.Ok) {
+                setUserData(request.data);
+                setRetrievedData(true);
+            } else {
+                throw request;
             }
-        </Box>
-        <Flex w={"100%"}
+        } catch (error) {
+            let errorType;
+            switch (error.response ? error.response.status : null) {
+                case 400:
+                    errorType = { type: t("error.validation.type"), message: t("error.validation.message")};
+                    break;
+                case 403:
+                    errorType = { type: t("error.authorized.type"), message: t("error.authorized.message")};
+                    break;
+                default:
+                    errorType = { type: t("error.unknown.type"), message: t("error.unknown.message")};
+                    break;
+            }
+            setErrorMessage(errorType);
+        }
+    }
+
+    return <Flex w={"100%"} onLoad={getData}
             flexDirection={tooSmall ? "column" : "row"}>
             <Stack w={!tooSmall && "50%"} divider={<StackDivider />}>
+                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
                 <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
                     <Box>
                         <Heading as="h3" fontSize={"1.25em"}>
@@ -103,29 +102,20 @@ const UserVisual = (props) => {
                     }}></Doughnut>
             </Box>
         </Flex>
-    </>
 }
 
 export default function Statistics() {
     const {t} = useTranslation();
     const [retrievedData, setRetrievedData] = useState(false);
     const [topTen, setTopTen] = useState([]);
-    const [userData, setUserData] = useState({
-        // "rate": [50,50],
-        // "absolute": {
-        //     "right": 6,
-        //     "wrong": 6
-        // }
-    });
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
         try {
             const request = await new AuthManager().getAxiosInstance()
-                                                   .get(process.env.REACT_APP_API_ENDPOINT + "/statistics");
+                                                   .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/top");
             if (request.status === HttpStatusCode.Ok) {
-                setTopTen(request.data.topTen);
-                setUserData(request.data.userData);
+                setTopTen(request.data);
                 setRetrievedData(true);
             } else {
                 throw request;
@@ -134,29 +124,68 @@ export default function Statistics() {
             let errorType;
             switch (error.response ? error.response.status : null) {
                 case 400:
-                    errorType = { type: "error.validation.type", message: "error.validation.message"};
+                    errorType = { type: t("error.validation.type"), message: t("error.validation.message")};
                     break;
-                case 401:
-                    errorType = { type: "error.authorized.type", message: "error.authorized.message"};
+                case 403:
+                    errorType = { type: t("error.authorized.type"), message: t("error.authorized.message")};
                     break;
                 default:
-                    errorType = { type: "error.unknown.type", message: "error.unknown.message"};
+                    errorType = { type: t("error.unknown.type"), message: t("error.unknown.message")};
                     break;
-        }
+            }
+            setErrorMessage(errorType);
         }
     }
 
+    const formatTopTen = () => {
+        return topTen.map((element, counter) => {
+            return <Tr>
+                <Th isNumeric scope="row">{counter + 1}</Th>
+                <Td>{element.username}</Td>
+                <Td>{element.correct}</Td>
+                <Td>{element.wrong}</Td>
+                <Td>{element.total}</Td>
+                <Td>{element.rate}</Td>
+            </Tr>
+        });
+    }
+
     return (
-        <Center display={"flex"} onLoad={(getData)} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
+        <Center display={"flex"} onLoad={getData} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
+                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/>
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minW="30vw" minH="50vh"
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
                     boxShadow="md" rounded="1rem" justifyContent="center" alignItems={"center"}>
-                    { retrievedData ?
-                        <UserVisual topTen={topTen} userData={userData}/> :
-                        <CircularProgress data-testid={"spinning-wheel"} isIndeterminate color="green"/>
+                        {retrievedData ? 
+                            <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
+                            <Heading as="h2" fontSize={"1.75em"}>
+                                    {t("common.statistics.general")}
+                            </Heading>
+                            {
+                                topTen.length === 0 ?
+                                <Text>Woah, so empty</Text> : 
+                                <Table className="statistics-table">
+                                    <Thead>
+                                        <Tr>
+                                            <Th scope="col">{t("statistics.position")}</Th>
+                                            <Th scope="col">{t("statistics.username")}</Th>
+                                            <Th scope="col">{t("statistics.rightAnswers")}</Th>
+                                            <Th scope="col">{t("statistics.wrongAnswers")}</Th>
+                                            <Th scope="col">{t("statistics.totalAnswers")}</Th>
+                                            <Th scope="col">{t("statistics.percentage")}</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {formatTopTen()}
+                                    </Tbody>
+                                </Table>
+                            }
+                            </Box>
+                        : <CircularProgress id="general-statistics-spinner" isIndeterminate color={"green"} />
                         }
+                    <UserStatistics />
                 </Stack>
                 <GoBack />
             </Stack>
