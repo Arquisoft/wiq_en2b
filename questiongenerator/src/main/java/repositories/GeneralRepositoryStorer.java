@@ -1,6 +1,7 @@
 package repositories;
 
-import model.Answer;
+
+import model.AnswerCategory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,19 +13,7 @@ import java.util.List;
  * They implement the Storable interface.
  */
 public class GeneralRepositoryStorer {
-    public void save(Storable s){
-        EntityManagerFactory emf = Jpa.getEntityManagerFactory();
-        EntityManager entityManager = emf.createEntityManager();
 
-        entityManager.getTransaction().begin();
-
-        entityManager.persist(s);
-
-        entityManager.getTransaction().commit();
-
-        entityManager.close();
-        Jpa.close();
-    }
     public void saveAll(List<Storable> storableList) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
         EntityManager entityManager = emf.createEntityManager();
@@ -39,7 +28,7 @@ public class GeneralRepositoryStorer {
         Jpa.close();
     }
 
-    public static boolean existsCategory(String category) {
+    public static boolean existsCategory(AnswerCategory category) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
         EntityManager entityManager = emf.createEntityManager();
 
@@ -51,5 +40,7 @@ public class GeneralRepositoryStorer {
         Jpa.close();
 
         return count > 0;
+
+
     }
 }
