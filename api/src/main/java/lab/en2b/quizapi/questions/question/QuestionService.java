@@ -63,5 +63,6 @@ public class QuestionService {
         answers.add(randomIndex, question.getCorrectAnswer());
 
         question.setAnswers(answers);
+        questionRepository.save(question);
     }
 }
