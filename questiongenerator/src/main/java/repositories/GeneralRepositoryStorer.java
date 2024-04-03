@@ -28,7 +28,7 @@ public class GeneralRepositoryStorer {
         Jpa.close();
     }
 
-    public static boolean existsCategory(AnswerCategory category) {
+    public static boolean doesntExist(AnswerCategory category) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
         EntityManager entityManager = emf.createEntityManager();
 
