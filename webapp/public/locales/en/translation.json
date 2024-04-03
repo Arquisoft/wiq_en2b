@@ -15,7 +15,10 @@
         "rules": "Rules",
         "dashboard": "User's Dashboard",
         "goBack": "Go Back",
-        "finish": "Finish"
+        "finish": "Finish",
+        "english": "English",
+        "spanish": "Spanish",
+        "language": "Language:"
     },
     "session": {
         "username": "Username",

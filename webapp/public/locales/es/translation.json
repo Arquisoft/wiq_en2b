@@ -15,7 +15,10 @@
         "rules": "Reglas",
         "dashboard": "Panel de Usuario",
         "goBack": "Volver",
-        "finish": "Finalizar"
+        "finish": "Finalizar",
+        "english": "Inglés",
+        "spanish": "Español",
+        "language": "Idioma:"
     },
     "session": {
         "username": "Nombre de usuario",
