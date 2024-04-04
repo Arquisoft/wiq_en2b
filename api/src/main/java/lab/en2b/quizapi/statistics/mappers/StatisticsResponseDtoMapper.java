@@ -1,0 +1,28 @@
+package lab.en2b.quizapi.statistics.mappers;
+
+import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
+import lab.en2b.quizapi.statistics.Statistics;
+import lab.en2b.quizapi.statistics.dtos.StatisticsResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.function.Function;
+
+@Service
+@RequiredArgsConstructor
+public class StatisticsResponseDtoMapper implements Function<Statistics, StatisticsResponseDto> {
+
+    private final UserResponseDtoMapper userResponseDtoMapper;
+
+    @Override
+    public StatisticsResponseDto apply(Statistics statistics) {
+        return StatisticsResponseDto.builder()
+                .id(statistics.getId())
+                .right(statistics.getRight())
+                .wrong(statistics.getWrong())
+                .total(statistics.getTotal())
+                .user(userResponseDtoMapper.apply(statistics.getUser()))
+                .correctRate(statistics.getCorrectRate())
+                .build();
+    }
+}
