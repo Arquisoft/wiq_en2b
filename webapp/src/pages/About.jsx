@@ -18,7 +18,7 @@ export default function About() {
 
   return (
     <Center bgImage="/background.svg">
-        <MenuButton onClick={() => setIsMenuOpen(true)} />
+        <MenuButton data-testid="menu-button" onClick={() => setIsMenuOpen(true)} />
         <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
         <Container maxW="lg">
             <Box textAlign="center">
