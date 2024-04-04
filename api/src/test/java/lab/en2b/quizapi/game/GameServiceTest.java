@@ -14,6 +14,7 @@ import lab.en2b.quizapi.questions.answer.mappers.AnswerResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
+import lab.en2b.quizapi.statistics.StatisticsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,6 +48,9 @@ public class GameServiceTest {
     @Mock
     private QuestionRepository questionRepository;
 
+    @Mock
+    private StatisticsRepository statisticsRepository;
+
     private User defaultUser;
     private Question defaultQuestion;
     private QuestionResponseDto defaultQuestionResponseDto;
@@ -66,7 +70,7 @@ public class GameServiceTest {
     @BeforeEach
     void setUp() {
         this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
-        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper);
+        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper, statisticsRepository);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")

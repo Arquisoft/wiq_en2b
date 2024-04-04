@@ -32,4 +32,10 @@ public class Statistics {
         return (right * 100) / total;
     }
 
+    public void updateStatistics(Statistics statistics){
+        this.right += statistics.getRight();
+        this.wrong += statistics.getWrong();
+        this.total += statistics.getTotal();
+    }
+
 }

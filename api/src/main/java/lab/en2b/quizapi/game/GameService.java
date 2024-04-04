@@ -12,6 +12,8 @@ import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
+import lab.en2b.quizapi.statistics.Statistics;
+import lab.en2b.quizapi.statistics.StatisticsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class GameService {
     private final UserService userService;
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
+    private final StatisticsRepository statisticsRepository;
     public GameResponseDto newGame(Authentication authentication) {
         if (gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).isPresent()){
             return gameResponseDtoMapper.apply(gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).get());
@@ -45,6 +48,18 @@ public class GameService {
     public GameResponseDto startRound(Long id, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.newRound(questionRepository.findRandomQuestion(game.getLanguage()));
+        if (game.isGameOver()){
+            Statistics statistics = Statistics.builder()
+                    .user(game.getUser())
+                    .right(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
+                    .wrong(Long.valueOf(game.getRounds() - game.getCorrectlyAnsweredQuestions()))
+                    .total(Long.valueOf(game.getRounds()))
+                    .build();
+            Statistics oldStatistics = statisticsRepository.findByUserId(game.getUser().getId()).orElseThrow();
+            statisticsRepository.delete(oldStatistics);
+            oldStatistics.updateStatistics(statistics);
+            statisticsRepository.save(oldStatistics);
+        }
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
 
