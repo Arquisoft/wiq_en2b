@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Game from '../pages/Game';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -36,22 +36,18 @@ describe('Game component', () => {
     jest.restoreAllMocks();
   });
 
-  test('renders without crashing', () => {
-    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-  });
-
   test('selects an option when clicked', async () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
     const option1Button = await screen.findByTestId('Option1');
 
-    fireEvent.click(option1Button);
+    act(() => fireEvent.click(option1Button));
 
     expect(option1Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
 
   test('disables next button when no option is selected', async () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const nextButton = await screen.findByText('Next');
+    const nextButton = await screen.findByTestId('Next');
 
     expect(nextButton).toBeDisabled();
   });
@@ -59,9 +55,9 @@ describe('Game component', () => {
   test('enables next button when an option is selected', async () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
     const option1Button = await screen.findByTestId('Option1');
-    const nextButton = await screen.findByText('Next');
+    const nextButton = await screen.findByTestId('Next');
 
-    fireEvent.click(option1Button);
+    act(() => fireEvent.click(option1Button));
 
     expect(nextButton).toBeEnabled();
   });
@@ -72,7 +68,7 @@ describe('Game component', () => {
 
     expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-147pzm2');
 
-    fireEvent.click(option2Button);
+    act(() => fireEvent.click(option2Button));
 
     expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });

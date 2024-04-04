@@ -8,7 +8,7 @@ export default function Logout() {
         navigate("/login");
     }
     
-    AuthManager.getInstance().logout().then(() => {
+    new AuthManager().logout().then(() => {
         navigateToLogin();
     });
     return <></>
