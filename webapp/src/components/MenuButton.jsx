@@ -5,7 +5,7 @@ import { chakra, Box, IconButton } from "@chakra-ui/react";
 
 const MenuButton = ({ onClick }) => {
     return (
-        <Box position="absolute" top="1rem" right="1rem">
+        <Box position="absolute" top="1rem" left="1rem">
             <IconButton 
                 bg="pigment_green.600"
                 color="whiteAlpha.900"
