@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Center } from "@chakra-ui/layout";
 import { Text, Heading, Box } from "@chakra-ui/react";
+import { FaBook } from 'react-icons/fa';
 
 import GoBack from "components/GoBack";
 import LateralMenu from '../components/LateralMenu';
@@ -21,7 +22,7 @@ export default function Rules() {
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
-
+            <FaBook style={{ fontSize: '2.5rem', color: 'green' }} /> 
             <Heading as="h2">{t("common.rules")}</Heading>
     
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} maxW="400px" w="90%" shadow="2xl" rounded="1rem" textAlign={"justify"}>

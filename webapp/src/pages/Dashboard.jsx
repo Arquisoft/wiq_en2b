@@ -3,6 +3,8 @@ import { Heading, Button, Box, Stack } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { FaTachometerAlt } from 'react-icons/fa';
+
 import ButtonEf from '../components/ButtonEf';
 import AuthManager from "components/auth/AuthManager";
 import LateralMenu from '../components/LateralMenu';
@@ -31,7 +33,7 @@ export default function Dashboard() {
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
           <MenuButton onClick={() => setIsMenuOpen(true)} />
           <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={true}/>
-
+          <FaTachometerAlt style={{ fontSize: '2.5rem', color: 'green' }} /> 
           <Heading as="h2">{t("common.dashboard")}</Heading>
     
           <Box minW={{ md: "400px" }} shadow="2xl">

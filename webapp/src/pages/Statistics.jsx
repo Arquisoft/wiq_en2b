@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
+import { FaChartBar } from 'react-icons/fa';
+
 import LateralMenu from '../components/LateralMenu';
 import MenuButton from '../components/MenuButton';
 
@@ -161,6 +163,7 @@ export default function Statistics() {
             <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
+                <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minW="30vw" minH="50vh"
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
