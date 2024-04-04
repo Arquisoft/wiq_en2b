@@ -1,9 +1,11 @@
 package repositories;
 
-import model.Answer;
+
+import model.AnswerCategory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -11,22 +13,9 @@ import java.util.List;
  * They implement the Storable interface.
  */
 public class GeneralRepositoryStorer {
-    public void save(Storable s){
-        EntityManagerFactory emf = Jpa.getEntityManagerFactory();
 
-        EntityManager entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
-
-        entityManager.persist(s);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
-        Jpa.close();
-    }
     public void saveAll(List<Storable> storableList) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
-
         EntityManager entityManager = emf.createEntityManager();
 
         for (Storable s : storableList) {
@@ -36,7 +25,22 @@ public class GeneralRepositoryStorer {
         }
 
         entityManager.close();
-
         Jpa.close();
+    }
+
+    public static boolean doesntExist(AnswerCategory category) {
+        EntityManagerFactory emf = Jpa.getEntityManagerFactory();
+        EntityManager entityManager = emf.createEntityManager();
+
+        Query query = entityManager.createQuery("SELECT COUNT(a) FROM Answer a WHERE a.category = :category");
+        query.setParameter("category", category);
+        Long count = (Long) query.getSingleResult();
+
+        entityManager.close();
+        Jpa.close();
+
+        return count == 0;
+
+
     }
 }

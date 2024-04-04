@@ -11,16 +11,19 @@ import java.util.List;
 
 @Component
 public class QuestionHelper {
+
+    private static int MAX_DISTRACTORS = 3;
+
     public static List<Answer> getDistractors(AnswerRepository answerRepository, Question question){
         List<Answer> distractors = new ArrayList<>();
-
         AnswerCategory cat = question.getAnswerCategory();
+
         switch (cat){ // Write the case only for the exceptions
             case COUNTRY:
                 // Implement more cases
                 break;
             default:
-                distractors = answerRepository.findDistractors(cat.toString(), question.getLanguage(), 3);
+                distractors = answerRepository.findDistractors(question.getAnswerCategory().toString(), question.getLanguage(), question.getCorrectAnswer().getText(), MAX_DISTRACTORS);
         }
 
         return distractors;
