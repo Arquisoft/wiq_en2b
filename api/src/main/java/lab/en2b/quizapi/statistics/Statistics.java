@@ -1,0 +1,32 @@
+package lab.en2b.quizapi.statistics;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lab.en2b.quizapi.commons.user.User;
+import lombok.*;
+
+@Entity
+@Table(name = "statistics")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+public class Statistics {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    private Long id;
+
+    private Long right;
+    private Long wrong;
+    private Long total;
+    private Long correctRate;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "user_id")
+    private User user;
+
+}
