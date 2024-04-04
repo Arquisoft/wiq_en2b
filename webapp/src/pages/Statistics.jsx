@@ -56,7 +56,8 @@ export default function Statistics() {
 
     return (
         <Center display={"flex"} onLoad={getData} data-testid={"leaderboard-component"}
-            flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
+            flexDirection={"column"} w={"100wh"} h={"100vh"} 
+            justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/>
                 <Heading as="h1">{t("common.statistics.title")}</Heading>

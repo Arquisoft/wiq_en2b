@@ -4,18 +4,18 @@ import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 export default function UserStatistics() {
     const {t} = useTranslation();
     const [userData, setUserData] = useState({
         "raw": [
             {
-                "name": "aciertos",
-                "value": 3
+                "name": t("statistics.rightAnswers"),
+                "value": 15
             },
             {
-                "name": "fallos",
+                "name": t("statistics.wrongAnswers"),
                 "value": 3
             }
         ],
@@ -64,43 +64,53 @@ export default function UserStatistics() {
         }
     }
 
+    const renderLabel = (value) => {
+        return value.name;
+    }
+
     return <Flex w={"100%"} //onLoad={getData}
             flexDirection={tooSmall ? "column" : "row"}>
-            <Stack w={!tooSmall && "50%"} divider={<StackDivider />}> 
+             
             {
-                retrievedData ? 
-                <>
+                retrievedData ? <>
+                <Stack w={!tooSmall && "50%"} divider={<StackDivider />}>
                     <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
                     <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
-                        <Box>
-                            <Heading as="h3" fontSize={"1.25em"}>
-                                {t("statistics.rightAnswers")}
-                            </Heading>
-                            <Text>
-                                {t("statistics.texts.personalRight", {right: userData.raw[0].value})}
-                            </Text>
-                        </Box>
-                        <Box>
-                            <Text>
-                                {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
-                            </Text>
-                        </Box>
-                        <Box>
-                            <Heading as="h3" fontSize={"1.25em"}>
-                                {t("statistics.percentage")}
-                            </Heading>
-                            <Text>
-                                {t("statistics.texts.personalRate", {rate: userData.rate[0]})}
-                            </Text>
-                        </Box>
-                        <ResponsiveContainer width="50%" height={"auto"}>
-                            <PieChart>
-                                <Pie data={userData.raw} dataKey={"userData"}></Pie>
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </>
-                    : <CircularProgress isIndeterminate color="green"/>
+                    <Box>
+                        <Heading as="h3" fontSize={"1.25em"}>
+                            {t("statistics.rightAnswers")}
+                        </Heading>
+                        <Text>
+                            {t("statistics.texts.personalRight", {right: userData.raw[0].value})}
+                        </Text>
+                    </Box>
+                    <Box>
+                        <Text>
+                            {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
+                        </Text>
+                    </Box>
+                    <Box>
+                        <Heading as="h3" fontSize={"1.25em"}>
+                            {t("statistics.percentage")}
+                        </Heading>
+                        <Text>
+                            {t("statistics.texts.personalRate", {rate: userData.rate})}
+                        </Text>
+                    </Box>
+                </Stack>
+                <Box minW={"50%"} minH={"25vh"}>
+                    <ResponsiveContainer width={"100%"} minHeight={"100%"}>
+                        <PieChart width={500} height={500}>
+                            <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65}
+                             fill="#82ca9d" label={renderLabel} paddingAngle={5}>
+                                <Cell key={"cell-right"} fill={"green"} />
+                                <Cell key={"cell-right"} fill={"red"} />
+                            </Pie>
+                        </PieChart>
+                    </ResponsiveContainer>
+                </Box>
+                </>
+                : <CircularProgress isIndeterminate color="green"/>
             }
-            </Stack>
         </Flex>
 }
