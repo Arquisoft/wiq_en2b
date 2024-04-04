@@ -30,7 +30,19 @@ export default function UserStatistics() {
             const request = await new AuthManager().getAxiosInstance()
                                                    .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/personal");
             if (request.status === HttpStatusCode.Ok) {
-                setUserData(request.data);
+                setUserData({
+                    "raw": [
+                        {
+                            "name": t("statistics.texts.personalRight"),
+                            "value": request.data.correct
+                        },
+                        {
+                            "name": t("statistics.texts.personalWrong"),
+                            "value": request.data.wrong
+                        }
+                    ],
+                    "rate": request.data.correctRate
+                });
                 setRetrievedData(true);
             } else {
                 throw request;
