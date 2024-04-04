@@ -30,7 +30,7 @@ export default function Dashboard() {
     return (
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
           <MenuButton onClick={() => setIsMenuOpen(true)} />
-          <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={true} isDashboard={true}/>
+          <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={true}/>
 
           <Heading as="h2">{t("common.dashboard")}</Heading>
     

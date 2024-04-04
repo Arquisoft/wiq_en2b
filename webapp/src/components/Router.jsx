@@ -19,6 +19,7 @@ export default createRoutesFromElements(
     <Route index element={<Root />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/login" element={<Login />}/>
+    <Route path="/about" element={<About />} />
     <Route path="/" element={<ProtectedRoute />}>
       <Route path="/dashboard" element={<Dashboard />}/>
       <Route path="/dashboard/rules" element={<Rules />}/>
@@ -26,7 +27,6 @@ export default createRoutesFromElements(
       <Route path="/dashboard/game/results" element={<Results />}/>
       <Route path="/dashboard/statistics" element={<Statistics />} />
       <Route path="/logout" element={<Logout />} />
-      <Route path="/about" element={<About />} />
     </Route>
   </Route>
 )

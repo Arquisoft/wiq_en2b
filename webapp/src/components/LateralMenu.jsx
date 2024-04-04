@@ -8,13 +8,15 @@ import { InfoIcon, SettingsIcon } from '@chakra-ui/icons';
 
 import AuthManager from "components/auth/AuthManager";
 
-const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLoggedIn, isDashboard }) => {
+const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isDashboard }) => {
     const navigate = useNavigate();
     const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { t } = useTranslation();
 
     useEffect(() => {
         setSelectedLanguage(currentLanguage);
+        checkIsLoggedIn();
     }, [currentLanguage]);
 
     const handleChangeLanguage = (e) => {
@@ -32,6 +34,15 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isLogge
             navigate("/");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
+        }
+    };
+
+    const checkIsLoggedIn = async () => {
+        try {
+            const loggedIn = await new AuthManager().isLoggedIn();
+            setIsLoggedIn(loggedIn);
+        } catch (error) {
+            console.error("Error al verificar el estado de inicio de sesión:", error);
         }
     };
 
@@ -106,7 +117,6 @@ LateralMenu.propTypes = {
     onClose: PropTypes.func.isRequired,
     changeLanguage: PropTypes.func.isRequired,
     currentLanguage: PropTypes.string.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
     isDashboard: PropTypes.bool.isRequired
 };
 

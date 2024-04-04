@@ -13,12 +13,10 @@ export default function Root() {
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const currentLanguage = i18n.language;
     
     const navigateToDashboard = async () => {
         if (await new AuthManager().isLoggedIn()) {
-            setIsLoggedIn(true);
             navigate("/dashboard");
         }
     }
@@ -31,7 +29,7 @@ export default function Root() {
     return (
         <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isLoggedIn={isLoggedIn} isDashboard={false}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
             
             <Center flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
