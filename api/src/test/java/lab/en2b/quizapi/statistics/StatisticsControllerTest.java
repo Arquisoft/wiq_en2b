@@ -45,4 +45,12 @@ public class StatisticsControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void getTopTenStatisticsShouldReturn200() throws Exception{
+        mockMvc.perform(get("/statistics/top")
+                        .with(user("test").roles("user")))
+                .andExpect(status().isOk());
+    }
+
+
 }
