@@ -22,7 +22,6 @@ public class Statistics {
     private Long right;
     private Long wrong;
     private Long total;
-    private Long correctRate;
 
     @ManyToOne
     @NotNull
