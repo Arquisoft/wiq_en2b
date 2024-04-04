@@ -1,5 +1,6 @@
 import { Box,  Center, Heading, Stack, StackDivider, Table, Tbody, Text,
-        Td, Th, Thead, Tr, CircularProgress} from "@chakra-ui/react";
+        Td, Th, Thead, Tr, CircularProgress,
+        useMediaQuery} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
@@ -10,9 +11,10 @@ import UserStatistics from "components/statistics/UserStatistics";
 
 export default function Statistics() {
     const {t} = useTranslation();
-    const [retrievedData, setRetrievedData] = useState(false);
+    const [retrievedData, setRetrievedData] = useState(true);
     const [topTen, setTopTen] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [tooSmall] = useMediaQuery("(max-width: 800px)");
 
     const getData = async () => {
         try {
@@ -56,14 +58,14 @@ export default function Statistics() {
 
     return (
         <Center display={"flex"} onLoad={getData} data-testid={"leaderboard-component"}
-            flexDirection={"column"} w={"100wh"} h={"100vh"} 
+            flexDirection={"column"} w={"100vw"} h={"100vh"} 
             justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/>
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
-                <Stack spacing={4} divider={<StackDivider />} minW="30vw" minH="50vh"
+                <Stack spacing={4} divider={<StackDivider />} minW={tooSmall ? "75%" : "30vw"} minH="70vh"
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
-                    boxShadow="md" rounded="1rem" justifyContent="center" alignItems={"center"}>
+                    boxShadow="md" rounded="1rem" alignItems={"center"}>
                         {retrievedData ? 
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                             <Heading as="h2" fontSize={"1.75em"}>

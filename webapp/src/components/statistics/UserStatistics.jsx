@@ -22,7 +22,6 @@ export default function UserStatistics() {
         "rate": 50
     });
     const [retrievedData, setRetrievedData] = useState(true);
-    const [tooSmall] = useMediaQuery("(max-width: 800px)");
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
@@ -68,12 +67,11 @@ export default function UserStatistics() {
         return value.name;
     }
 
-    return <Flex w={"100%"} //onLoad={getData}
-            flexDirection={tooSmall ? "column" : "row"}>
-             
+    return <Flex w={"100%"} minH={"15%"} //onLoad={getData}
+            flexDirection={"column"}>
             {
                 retrievedData ? <>
-                <Stack w={!tooSmall && "50%"} divider={<StackDivider />}>
+                <Stack divider={<StackDivider />}>
                     <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
                     <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
                     <Box>
@@ -98,11 +96,11 @@ export default function UserStatistics() {
                         </Text>
                     </Box>
                 </Stack>
-                <Box minW={"50%"} minH={"25vh"}>
+                <Box minW={"50%"} minH={"50%"}>
                     <ResponsiveContainer width={"100%"} minHeight={"100%"}>
-                        <PieChart width={500} height={500}>
+                        <PieChart>
                             <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65}
-                             fill="#82ca9d" label={renderLabel} paddingAngle={5}>
+                             fill="#82ca9d" paddingAngle={5}>
                                 <Cell key={"cell-right"} fill={"green"} />
                                 <Cell key={"cell-right"} fill={"red"} />
                             </Pie>
