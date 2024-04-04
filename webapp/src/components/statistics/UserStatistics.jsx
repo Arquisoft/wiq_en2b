@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Stack, StackDivider, useMediaQuery, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, StackDivider, useMediaQuery, Text, CircularProgress } from "@chakra-ui/react";
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
@@ -42,30 +42,36 @@ export default function UserStatistics() {
 
     return <Flex w={"100%"} onLoad={getData}
             flexDirection={tooSmall ? "column" : "row"}>
-            <Stack w={!tooSmall && "50%"} divider={<StackDivider />}>
-                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
-                <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
-                    <Box>
-                        <Heading as="h3" fontSize={"1.25em"}>
-                            {t("statistics.rightAnswers")}
-                        </Heading>
-                        <Text>
-                            {t("statistics.texts.personalRight", {right: userData.absolute.right})}
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Text>
-                            {t("statistics.texts.personalWrong", {wrong: userData.absolute.wrong}) }
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Heading as="h3" fontSize={"1.25em"}>
-                            {t("statistics.percentage")}
-                        </Heading>
-                        <Text>
-                            {t("statistics.texts.personalRate", {rate: userData.rate[0]})}
-                        </Text>
-                    </Box>
+            <Stack w={!tooSmall && "50%"} divider={<StackDivider />}> 
+            {
+                retrievedData ? 
+                <>
+                    <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
+                    <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
+                        <Box>
+                            <Heading as="h3" fontSize={"1.25em"}>
+                                {t("statistics.rightAnswers")}
+                            </Heading>
+                            <Text>
+                                {t("statistics.texts.personalRight", {right: userData.absolute.right})}
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Text>
+                                {t("statistics.texts.personalWrong", {wrong: userData.absolute.wrong}) }
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Heading as="h3" fontSize={"1.25em"}>
+                                {t("statistics.percentage")}
+                            </Heading>
+                            <Text>
+                                {t("statistics.texts.personalRate", {rate: userData.rate[0]})}
+                            </Text>
+                        </Box>
+                    </>
+                    : <CircularProgress isIndeterminate color="green"/>
+            }
             </Stack>
         </Flex>
 }
