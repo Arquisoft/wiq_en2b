@@ -28,4 +28,8 @@ public class Statistics {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Long getCorrectRate() {
+        return (right * 100) / total;
+    }
+
 }
