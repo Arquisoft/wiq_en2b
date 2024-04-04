@@ -3,14 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton} from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton, Flex, Button} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
-import ButtonEf from '../components/ButtonEf';
-import ErrorMessageAlert from "../components/ErrorMessageAlert";
+import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import LateralMenu from 'components/LateralMenu';
+import MenuButton from 'components/MenuButton';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -113,7 +112,10 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.login")} onClick={sendLogin} />
+                        <Flex>
+                            <Button data-testid={"GoBack"} variant={"solid"} type="submit" colorScheme="raw_umber" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/")} flex="1">{t("common.goBack")}</Button>
+                            <Button data-testid={"Login"} variant={"solid"} type="submit" colorScheme="pigment_green" margin={"10px"} className={"custom-button effect1"} onClick={sendLogin} flex="1">{t("common.login")}</Button>
+                        </Flex>  
                     </Stack>
                 </Box>
             </Stack>

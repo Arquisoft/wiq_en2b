@@ -1,16 +1,15 @@
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton} from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, FormHelperText, IconButton, Flex, Button} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
 
-import ButtonEf from '../components/ButtonEf';
-import ErrorMessageAlert from "../components/ErrorMessageAlert";
+import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import LateralMenu from 'components/LateralMenu';
+import MenuButton from 'components/MenuButton';
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -173,7 +172,10 @@ export default function Signup() {
                                 <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
                             )}
                         </FormControl>
-                        <ButtonEf dataTestId={"Sign up"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.register")} onClick={sendRegistration}/>
+                        <Flex>
+                            <Button data-testid={"GoBack"} type="submit" variant={"solid"} colorScheme="raw_umber" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/")} flex="1">{t("common.goBack")}</Button>
+                            <Button type="submit" data-testid={"Sign up"} variant={"solid"} colorScheme={"pigment_green"} margin={"10px"} className={"custom-button effect1"} onClick={sendRegistration} flex="1">{t("common.register")}</Button>
+                        </Flex>
                     </Stack>
                 </Box>
             </Stack>
