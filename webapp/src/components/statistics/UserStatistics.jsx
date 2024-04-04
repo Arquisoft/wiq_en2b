@@ -4,12 +4,24 @@ import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PieChart, ResponsiveContainer } from "recharts";
+import { Pie, PieChart, ResponsiveContainer } from "recharts";
 
 export default function UserStatistics() {
     const {t} = useTranslation();
-    const [userData, setUserData] = useState(null);
-    const [retrievedData, setRetrievedData] = useState(false);
+    const [userData, setUserData] = useState({
+        "raw": [
+            {
+                "name": "aciertos",
+                "value": 3
+            },
+            {
+                "name": "fallos",
+                "value": 3
+            }
+        ],
+        "rate": 50
+    });
+    const [retrievedData, setRetrievedData] = useState(true);
     const [tooSmall] = useMediaQuery("(max-width: 800px)");
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -40,7 +52,7 @@ export default function UserStatistics() {
         }
     }
 
-    return <Flex w={"100%"} onLoad={getData}
+    return <Flex w={"100%"} //onLoad={getData}
             flexDirection={tooSmall ? "column" : "row"}>
             <Stack w={!tooSmall && "50%"} divider={<StackDivider />}> 
             {
@@ -53,12 +65,12 @@ export default function UserStatistics() {
                                 {t("statistics.rightAnswers")}
                             </Heading>
                             <Text>
-                                {t("statistics.texts.personalRight", {right: userData.absolute.right})}
+                                {t("statistics.texts.personalRight", {right: userData.raw[0].value})}
                             </Text>
                         </Box>
                         <Box>
                             <Text>
-                                {t("statistics.texts.personalWrong", {wrong: userData.absolute.wrong}) }
+                                {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
                             </Text>
                         </Box>
                         <Box>
@@ -69,6 +81,11 @@ export default function UserStatistics() {
                                 {t("statistics.texts.personalRate", {rate: userData.rate[0]})}
                             </Text>
                         </Box>
+                        <ResponsiveContainer width="50%" height={"auto"}>
+                            <PieChart>
+                                <Pie data={userData.raw} dataKey={"userData"}></Pie>
+                            </PieChart>
+                        </ResponsiveContainer>
                     </>
                     : <CircularProgress isIndeterminate color="green"/>
             }
