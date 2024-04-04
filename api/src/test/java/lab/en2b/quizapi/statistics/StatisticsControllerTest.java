@@ -39,4 +39,10 @@ public class StatisticsControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void getPersonalStatisticsShouldReturn403() throws Exception{
+        mockMvc.perform(get("/statistics/personal"))
+                .andExpect(status().isForbidden());
+    }
+
 }
