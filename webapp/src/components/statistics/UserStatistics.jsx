@@ -21,7 +21,7 @@ export default function UserStatistics() {
         ],
         "rate": 50
     });
-    const [retrievedData, setRetrievedData] = useState(true);
+    const [retrievedData, setRetrievedData] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
@@ -63,11 +63,7 @@ export default function UserStatistics() {
         }
     }
 
-    const renderLabel = (value) => {
-        return value.name;
-    }
-
-    return <Flex w={"100%"} minH={"15%"} //onLoad={getData}
+    return <Flex w={"100%"} minH={"15%"} onLoad={getData}
             flexDirection={"column"}>
             {
                 retrievedData ? <>
