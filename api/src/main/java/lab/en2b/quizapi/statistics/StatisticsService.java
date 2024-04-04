@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,9 +26,9 @@ public class StatisticsService {
 
     public List<StatisticsResponseDto> getTopTenStatistics(){
         List<Statistics> all = statisticsRepository.findAll();
-        all.sort((o1, o2) -> Math.toIntExact(o2.getCorrectRate() - o1.getCorrectRate()));
-        List<Statistics> topTen = all.subList(0, Math.min(10, all.size()));
-        return topTen.stream().map(statisticsResponseDtoMapper::apply).collect(Collectors.toList());
+        all.sort(Comparator.comparing(Statistics::getCorrectRate).reversed());
+        List<Statistics> topTen = all.stream().limit(10).collect(Collectors.toList());
+        return topTen.stream().map(statisticsResponseDtoMapper).collect(Collectors.toList());
     }
 
 }
