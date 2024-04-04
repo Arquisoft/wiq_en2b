@@ -69,26 +69,26 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isDashb
                                     <>
                                         {!isDashboard && (
                                             <Box marginTop={"40px"}>
-                                                <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard")}}>
+                                                <Button data-testid="dashboard" type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard")}}>
                                                     <FaTachometerAlt /> 
                                                     <span style={{ marginLeft: '6px' }}>{t("common.dashboard")}</span>
                                                 </Button>
                                             </Box>
                                         )}
                                         <Box marginTop={"40px"}>
-                                            <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard/statistics")}}>
+                                            <Button data-testid="statistics" type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard/statistics")}}>
                                                 <FaChartBar /> 
                                                 <span style={{ marginLeft: '6px' }}>{t("common.statistics.title")}</span>
                                             </Button>
                                         </Box>
                                         <Box marginTop={"40px"}>
-                                            <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard/rules")}}>
+                                            <Button data-testid="rules" type="submit" variant="link" colorScheme={"forest_green"} onClick={() => {navigate("/dashboard/rules")}}>
                                                 <FaBook /> 
                                                 <span style={{ marginLeft: '6px' }}>{t("common.rules")}</span>
                                             </Button>
                                         </Box>
                                         <Box marginTop={"40px"}>
-                                            <Button type="submit" variant="link" colorScheme={"forest_green"} onClick={handleApiClick}>
+                                            <Button data-testid="API" type="submit" variant="link" colorScheme={"forest_green"} onClick={handleApiClick}>
                                                 <SettingsIcon /> 
                                                 <span style={{ marginLeft: '6px' }}>API</span>
                                             </Button>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, getByTestId } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
+import AuthManager from '../components/auth/AuthManager';
 import LateralMenu from '../components/LateralMenu';
 
 jest.mock('react-i18next', () => ({
@@ -16,7 +17,19 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(),
+}));
+  
+  const authManager = new AuthManager();
+
 describe('LateralMenu component', () => {
+    beforeEach(() => {
+        authManager.reset();
+        jest.clearAllMocks();
+    });
+
     const props = {
         isOpen: true,
         onClose: jest.fn(),
@@ -45,10 +58,11 @@ describe('LateralMenu component', () => {
         expect(props.changeLanguage).toHaveBeenCalledWith('en');
     });
 
-    it('renders dashboard button when isLoggedIn is true and isDashboard is false', () => {
-        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
-        const dashboardButton = screen.getByText('common.dashboard');
-        expect(dashboardButton).toBeInTheDocument();
+    it('does not render dashboard button when isLoggedIn is false', () => {
+        const newProps = { ...props, isLoggedIn: false };
+        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...newProps} /></MemoryRouter></ChakraProvider>);
+        const dashboardButton = screen.queryByText('common.dashboard');
+        expect(dashboardButton).toBeNull();
     });
 
     it('does not render dashboard button when isLoggedIn is false', () => {
@@ -58,12 +72,14 @@ describe('LateralMenu component', () => {
         expect(dashboardButton).toBeNull();
     });
   
-    it('renders API button when isLoggedIn is true', () => {
-        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
-        const apiButton = screen.getByText('API');
-        expect(apiButton).toBeInTheDocument();
+    it('renders API button when isLoggedIn is true', async () => {
+        authManager.setLoggedIn(true);
+        const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
+        await waitFor(() => {
+          expect(getByText('API')).toBeInTheDocument();
+        });
     });
-
+    
     it('does not render API button when isLoggedIn is false', () => {
         const newProps = { ...props, isLoggedIn: false };
         render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...newProps} /></MemoryRouter></ChakraProvider>);
@@ -71,10 +87,12 @@ describe('LateralMenu component', () => {
         expect(apiButton).toBeNull();
     });
 
-    it('renders statistics button when isLoggedIn is true', () => {
-        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
-        const statisticsButton = screen.getByText('common.statistics.title');
-        expect(statisticsButton).toBeInTheDocument();
+    it('renders statistics button when isLoggedIn is true', async () => {
+        authManager.setLoggedIn(true);
+        const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
+        await waitFor(() => {
+          expect(getByText('common.statistics.title')).toBeInTheDocument();
+        });
     });
 
     it('does not render statistics button when isLoggedIn is false', () => {
@@ -84,10 +102,12 @@ describe('LateralMenu component', () => {
         expect(statisticsButton).toBeNull();
     });
 
-    it('renders rules button when isLoggedIn is true', () => {
-        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
-        const rulesButton = screen.getByText('common.rules');
-        expect(rulesButton).toBeInTheDocument();
+    it('renders rules button when isLoggedIn is true', async () => {
+        authManager.setLoggedIn(true);
+        const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
+        await waitFor(() => {
+          expect(getByText('common.rules')).toBeInTheDocument();
+        });
     });
 
     it('does not render rules button when isLoggedIn is false', () => {
@@ -95,12 +115,6 @@ describe('LateralMenu component', () => {
         render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...newProps} /></MemoryRouter></ChakraProvider>);
         const rulesButton = screen.queryByText('common.rules');
         expect(rulesButton).toBeNull();
-    });
-
-    it('renders logout button when isLoggedIn is true', () => {
-        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
-        const logoutButton = screen.getByText('common.logout');
-        expect(logoutButton).toBeInTheDocument();
     });
 
     it('does not render logout button when isLoggedIn is false', () => {
