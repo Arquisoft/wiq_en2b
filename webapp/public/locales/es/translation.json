@@ -76,6 +76,9 @@
         "next": "Siguiente"
     },
     "about": {
-        "title": "Sobre nosotros"
+        "title": "Sobre nosotros",
+        "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Disfruta!!!",
+        "table1": "Desarrolladores🍌🍌",
+        "table2": "Contacto"
     }
 }
