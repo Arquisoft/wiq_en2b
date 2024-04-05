@@ -11,6 +11,7 @@ import Results from "../pages/Results";
 import Statistics from "pages/Statistics";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Logout from "pages/Logout";
+import About from "pages/About";
 
 
 export default createRoutesFromElements(
@@ -18,6 +19,7 @@ export default createRoutesFromElements(
     <Route index element={<Root />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/login" element={<Login />}/>
+    <Route path="/about" element={<About />} />
     <Route path="/" element={<ProtectedRoute />}>
       <Route path="/dashboard" element={<Dashboard />}/>
       <Route path="/dashboard/rules" element={<Rules />}/>

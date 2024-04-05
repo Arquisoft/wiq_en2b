@@ -2,17 +2,21 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Grid, Flex, Heading, Button, Box, Text, Spinner } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
+import axios from "axios";
+
 import ButtonEf from '../components/ButtonEf';
 import {getQuestion, answerQuestion} from '../components/game/Questions';
-import axios from "axios";
+import LateralMenu from '../components/LateralMenu';
+import MenuButton from '../components/MenuButton';
 
 export default function Game() {
 	const navigate = useNavigate();
 
 	const [question, setQuestion] = useState(null);
 	const [loading, setLoading] = useState(true);
-
+	
 	const generateQuestion = useCallback(async () => {
 		const result = await getQuestion();
 		if (result !== undefined) {
@@ -73,9 +77,20 @@ export default function Game() {
 		return () => clearTimeout(timeout);
 	}, [showConfetti]);
 
+	const { t, i18n } = useTranslation();
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const currentLanguage = i18n.language;
+    const changeLanguage = (selectedLanguage) => {
+        i18n.changeLanguage(selectedLanguage);
+    };
+
 	return (
 		<Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
-			<Heading as="h2">{`Round ${roundNumber}`}</Heading>
+			<MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
+
+			<Heading as="h2">{t("game.round") + `${roundNumber}`}</Heading>
 
 			<Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
@@ -98,8 +113,8 @@ export default function Game() {
 				</Grid>
 
 				<Flex direction="row" justifyContent="center" alignItems="center">
-					<Button isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
-						{"Next"}
+					<Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+						{t("game.next")}
 					</Button>
 				</Flex>
 

@@ -8,10 +8,13 @@ import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import UserStatistics from "components/statistics/UserStatistics";
+import { FaChartBar } from 'react-icons/fa';
 
+import MenuButton from '../components/MenuButton';
+import LateralMenu from '../components/LateralMenu';
 export default function Statistics() {
-    const {t} = useTranslation();
-    const [retrievedData, setRetrievedData] = useState(true);
+    const { t, i18n } = useTranslation();
+    const [retrievedData, setRetrievedData] = useState(false);
     const [topTen, setTopTen] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
     const [tooSmall] = useMediaQuery("(max-width: 800px)");
@@ -43,25 +46,22 @@ export default function Statistics() {
         }
     }
 
-    const formatTopTen = () => {
-        return topTen.map((element, counter) => {
-            return <Tr>
-                <Th isNumeric scope="row">{counter + 1}</Th>
-                <Td>{element.username}</Td>
-                <Td>{element.correct}</Td>
-                <Td>{element.wrong}</Td>
-                <Td>{element.total}</Td>
-                <Td>{element.rate}</Td>
-            </Tr>
-        });
-    }
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const currentLanguage = i18n.language;
+    const changeLanguage = (selectedLanguage) => {
+        i18n.changeLanguage(selectedLanguage);
+    };
+
 
     return (
         <Center display={"flex"} onLoad={getData} data-testid={"leaderboard-component"}
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
             justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
-                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/>
+                <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minW={tooSmall ? "75%" : "30vw"} minH="70vh"
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"

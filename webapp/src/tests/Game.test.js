@@ -47,7 +47,7 @@ describe('Game component', () => {
 
   test('disables next button when no option is selected', async () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const nextButton = await screen.findByText('Next');
+    const nextButton = await screen.findByTestId('Next');
 
     expect(nextButton).toBeDisabled();
   });
@@ -55,7 +55,7 @@ describe('Game component', () => {
   test('enables next button when an option is selected', async () => {
     render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
     const option1Button = await screen.findByTestId('Option1');
-    const nextButton = await screen.findByText('Next');
+    const nextButton = await screen.findByTestId('Next');
 
     act(() => fireEvent.click(option1Button));
 

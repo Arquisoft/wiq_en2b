@@ -1,8 +1,6 @@
 package lab.en2b.quizapi.questions.question;
 
-import jakarta.annotation.PostConstruct;
 import lab.en2b.quizapi.questions.answer.Answer;
-import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
@@ -12,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -57,11 +56,13 @@ public class QuestionService {
     public void loadAnswers(Question question) {
         // Create the new answers list with the distractors
         List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
+        // Add the correct
+        answers.add(question.getCorrectAnswer());
 
-        // Add the correct answer in a random position
-        int randomIndex = (int) (Math.random() * (answers.size() + 1));
-        answers.add(randomIndex, question.getCorrectAnswer());
+        // Shuffle the answers
+        Collections.shuffle(answers);
 
         question.setAnswers(answers);
+        questionRepository.save(question);
     }
 }
