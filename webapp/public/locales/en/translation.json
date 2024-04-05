@@ -66,6 +66,7 @@
         "wrongAnswers": "Wrong",
         "totalAnswers": "Total",
         "percentage": "Rate",
+        "empty": "Currently, there are no statistics saved",
         "texts": {
             "personalRight": "{{right, number}} correct answers",
             "personalWrong": "{{wrong, number}} wrong answers",

@@ -65,6 +65,7 @@
         "wrongAnswers": "Respuestas falladas",
         "totalAnswers": "En total",
         "percentage": "Acierto",
+        "empty": "Actualmente, no hay estadísticas guardadas",
         "texts": {
             "personalRight": "{{right, number}} respuestas correctas",
             "personalWrong": "{{wrong, number}} respuestas incorrectas",

@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { getByTestId, render, screen, waitFor } from "@testing-library/react";
+import { getByTestId, getByText, render, screen, waitFor } from "@testing-library/react";
 import Statistics from "pages/Statistics";
 import React from "react";
 import { MemoryRouter } from "react-router";
@@ -48,7 +48,7 @@ describe("Statistics", () => {
     afterAll(() => {
       mockAxios = null;
       authManager.reset();
-    })
+    });
 
     test("the data is returned correctly", () => {
       const data = [
@@ -90,6 +90,17 @@ describe("Statistics", () => {
         })
       })
     });
+
+    test("no data is returned", () => {
+      const data = [];
+      mockAxios.onGet().replyOnce(HttpStatusCode.Ok, data);
+      const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+
+      waitFor(() => {
+        expect(screen.getByTestId("top-ten")).not.toBeEnabled();
+        expect(getByText("statistics.empty")).toBeEnabled();
+      });
+    })
 
     describe("the petition fails", () => {
       each([HttpStatusCode.BadRequest, HttpStatusCode.NotFound, 

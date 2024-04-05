@@ -86,7 +86,7 @@ export default function Statistics() {
                             </Heading>
                             {
                                 topTen.length === 0 ?
-                                <Text>Woah, so empty</Text> : 
+                                <Text>{t("statistics.empty")}</Text> : 
                                 <Table className="statistics-table" data-testid={"top-ten"}>
                                     <Thead>
                                         <Tr>
