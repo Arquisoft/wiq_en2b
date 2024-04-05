@@ -60,11 +60,11 @@
     },
     "statistics": {
         "position": "Posición",
-        "username": "Nombre de usuario",
+        "username": "Nombre",
         "rightAnswers": "Respuestas correctas",
-        "wrongAnswers": "Respuestas erróneas",
-        "totalAnswers": "Respuestas totales",
-        "percentage": "Porcentaje de acierto",
+        "wrongAnswers": "Respuestas falladas",
+        "totalAnswers": "En total",
+        "percentage": "Acierto",
         "texts": {
             "personalRight": "{{right, number}} respuestas correctas",
             "personalWrong": "{{wrong, number}} respuestas incorrectas",

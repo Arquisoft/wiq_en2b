@@ -14,7 +14,7 @@ import lombok.NonNull;
 public class LoginDto {
     @NonNull
     @NotBlank
-    @Email
+    @Email  
     @Schema(description = "Email used for login" ,example = "example@email.com")
     private String email;
 

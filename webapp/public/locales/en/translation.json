@@ -62,10 +62,10 @@
     "statistics": {
         "position": "Position",
         "username": "Username",
-        "rightAnswers": "Correct answers",
-        "wrongAnswers": "Wrong answers",
-        "totalAnswers": "Total answers",
-        "percentage": "Correct answer rate",
+        "rightAnswers": "Correct",
+        "wrongAnswers": "Wrong",
+        "totalAnswers": "Total",
+        "percentage": "Rate",
         "texts": {
             "personalRight": "{{right, number}} correct answers",
             "personalWrong": "{{wrong, number}} wrong answers",

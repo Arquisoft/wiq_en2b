@@ -21,7 +21,7 @@ export default function UserStatistics() {
         ],
         "rate": 50
     });
-    const [retrievedData, setRetrievedData] = useState(false);
+    const [retrievedData, setRetrievedData] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
@@ -52,8 +52,8 @@ export default function UserStatistics() {
                 case 400:
                     errorType = { type: t("error.validation.type"), message: t("error.validation.message")};
                     break;
-                case 403:
-                    errorType = { type: t("error.authorized.type"), message: t("error.authorized.message")};
+                case 404:
+                    errorType = { type: t("error.notFound.type"), message: t("error.notFound.message")};
                     break;
                 default:
                     errorType = { type: t("error.unknown.type"), message: t("error.unknown.message")};
@@ -63,49 +63,50 @@ export default function UserStatistics() {
         }
     }
 
-    return <Flex w={"100%"} minH={"15%"} onLoad={getData}
+    return <Flex w={"100%"} minH={"10%"} onLoad={getData}
             flexDirection={"column"}>
             {
-                retrievedData ? <>
-                <Stack divider={<StackDivider />}>
-                    <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
-                    <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
-                    <Box>
-                        <Heading as="h3" fontSize={"1.25em"}>
-                            {t("statistics.rightAnswers")}
-                        </Heading>
-                        <Text>
-                            {t("statistics.texts.personalRight", {right: userData.raw[0].value})}
-                        </Text>
+                retrievedData ? 
+                <>
+                    <Stack align={"center"}>
+                        <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
+                        <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
+                        <Box>
+                            <Heading as="h3" fontSize={"1.25em"}>
+                                {t("statistics.rightAnswers")}
+                            </Heading>
+                            <Text>
+                                {t("statistics.texts.personalRight", {right: userData.raw[0].value})}
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Heading as="h3" fontSize={"1.25em"}>
+                                    {t("statistics.wrongAnswers")}
+                            </Heading>
+                            <Text>
+                                {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
+                            </Text>
+                        </Box>
+                        <Box>
+                            <Heading as="h3" fontSize={"1.25em"}>
+                                {t("statistics.percentage")}
+                            </Heading>
+                            <Text>
+                                {t("statistics.texts.personalRate", {rate: userData.rate})}
+                            </Text>
+                        </Box>
+                    </Stack>
+                    <Box minW={"50%"} minH={"50%"}>
+                        <ResponsiveContainer width={"100%"} minHeight={"100%"}>
+                            <PieChart>
+                                <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65}
+                                fill="#82ca9d" paddingAngle={5}>
+                                    <Cell key={"cell-right"} fill={"green"} />
+                                    <Cell key={"cell-right"} fill={"red"} />
+                                </Pie>
+                            </PieChart>
+                        </ResponsiveContainer>
                     </Box>
-                    <Box>
-                        <Heading as="h3" fontSize={"1.25em"}>
-                                {t("statistics.wrongAnswers")}
-                        </Heading>
-                        <Text>
-                            {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
-                        </Text>
-                    </Box>
-                    <Box>
-                        <Heading as="h3" fontSize={"1.25em"}>
-                            {t("statistics.percentage")}
-                        </Heading>
-                        <Text>
-                            {t("statistics.texts.personalRate", {rate: userData.rate})}
-                        </Text>
-                    </Box>
-                </Stack>
-                <Box minW={"50%"} minH={"50%"}>
-                    <ResponsiveContainer width={"100%"} minHeight={"100%"}>
-                        <PieChart>
-                            <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65}
-                             fill="#82ca9d" paddingAngle={5}>
-                                <Cell key={"cell-right"} fill={"green"} />
-                                <Cell key={"cell-right"} fill={"red"} />
-                            </Pie>
-                        </PieChart>
-                    </ResponsiveContainer>
-                </Box>
                 </>
                 : <CircularProgress isIndeterminate color="green"/>
             }

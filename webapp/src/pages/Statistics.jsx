@@ -9,13 +9,70 @@ import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import UserStatistics from "components/statistics/UserStatistics";
 import { FaChartBar } from 'react-icons/fa';
-
 import MenuButton from '../components/MenuButton';
 import LateralMenu from '../components/LateralMenu';
+
 export default function Statistics() {
     const { t, i18n } = useTranslation();
-    const [retrievedData, setRetrievedData] = useState(false);
-    const [topTen, setTopTen] = useState([]);
+    const [retrievedData, setRetrievedData] = useState(true);
+    const [topTen, setTopTen] = useState([
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        },
+        {
+            "username": "pepe",
+            "correct": 2,
+            "wrong": 5,
+            "total": 7,
+            "rate": 28.57
+        }
+    ]);
     const [errorMessage, setErrorMessage] = useState(null);
     const [tooSmall] = useMediaQuery("(max-width: 800px)");
 
@@ -46,6 +103,20 @@ export default function Statistics() {
         }
     }
 
+    const formatTopTen = () => { 
+        return topTen.map((element, counter) => { 
+            return <Tr key={`row-${counter}`}> 
+                <Th isNumeric scope="row">{counter + 1}</Th> 
+                <Td>{element.username}</Td> 
+                <Td isNumeric>{element.correct}</Td> 
+                <Td isNumeric>{element.wrong}</Td> 
+                <Td isNumeric>{element.total}</Td> 
+                <Td>{element.rate}%</Td> 
+            </Tr> 
+        }); 
+    } 
+
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const currentLanguage = i18n.language;
@@ -61,9 +132,10 @@ export default function Statistics() {
             <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
+                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
-                <Stack spacing={4} divider={<StackDivider />} minW={tooSmall ? "75%" : "30vw"} minH="70vh"
+                <Stack spacing={4} divider={<StackDivider />} minW={tooSmall ? "75%" : "100%"} minH="50vh"
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
                     boxShadow="md" rounded="1rem" alignItems={"center"}>
                         {retrievedData ? 
