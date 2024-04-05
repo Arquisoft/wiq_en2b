@@ -8,20 +8,20 @@ import { InfoIcon, SettingsIcon } from '@chakra-ui/icons';
 
 import AuthManager from "components/auth/AuthManager";
 
-const LateralMenu = ({ isOpen, onClose, changeLanguage, currentLanguage, isDashboard }) => {
+const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
     const navigate = useNavigate();
-    const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
+    const [selectedLanguage, setSelectedLanguage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { t } = useTranslation();
 
     useEffect(() => {
-        setSelectedLanguage(currentLanguage);
         checkIsLoggedIn();
-    }, [currentLanguage]);
+    }, []);
 
     const handleChangeLanguage = (e) => {
-        const selectedLanguage = e.target.value;
-        changeLanguage(selectedLanguage);
+        const selectedValue = e.target.value;
+        setSelectedLanguage(selectedValue);
+        changeLanguage(selectedValue);
     };
 
     const handleApiClick = () => {
@@ -116,7 +116,6 @@ LateralMenu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     changeLanguage: PropTypes.func.isRequired,
-    currentLanguage: PropTypes.string.isRequired,
     isDashboard: PropTypes.bool.isRequired
 };
 
