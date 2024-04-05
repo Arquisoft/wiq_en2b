@@ -121,7 +121,6 @@ export default function Statistics() {
         i18n.changeLanguage(selectedLanguage);
     };
 
-
     return (
         <Center display={"flex"} onLoad={getData}
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
@@ -134,7 +133,7 @@ export default function Statistics() {
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minH="50vh" 
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
-                    boxShadow="md" rounded="1rem" alignItems={"center"}>
+                    boxShadow="md" rounded="1rem" alignItems={"center"} data-testid={"leaderboard-component"}>
                         {retrievedData ? 
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                             <Heading as="h2" fontSize={"1.75em"}>

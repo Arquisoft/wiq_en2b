@@ -79,9 +79,9 @@ describe("Statistics", () => {
           authManager.reset();
           mockAxios = new MockAdapter(authManager.getAxiosInstance());
           mockAxios.onGet().replyOnce(statusCode);
-          const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+          render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
 
-          expect(mockAxios.history.get.length).toBe(1);
+          waitFor(() => expect(mockAxios.history.get.length).toBe(1));
         });
     })
   })
