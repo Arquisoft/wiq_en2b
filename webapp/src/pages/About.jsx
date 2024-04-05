@@ -17,7 +17,8 @@ export default function About() {
   };
 
   return (
-    <Center bgImage="/background.svg">
+    <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
+    justifyContent={"center"} alignItems={"center"} bgImage="/background.svg">
         <MenuButton data-testid="menu-button" onClick={() => setIsMenuOpen(true)} />
         <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
         <Container maxW="lg">
