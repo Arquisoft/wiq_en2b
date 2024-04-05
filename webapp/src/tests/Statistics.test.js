@@ -7,6 +7,7 @@ import theme from "../styles/theme";
 import MockAdapter from "axios-mock-adapter";
 import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
+import each from "jest-each";
 
 
 describe("Statistics", () => {
@@ -22,8 +23,7 @@ describe("Statistics", () => {
     expect(screen.getByTestId("leaderboard-spinner")).toBeEnabled();
   });
 
-  describe("the data is to be loaded", () => {
-
+  describe("a petition is made requesting the top ten", () => {
     const authManager = new AuthManager();
     jest.doMock("../components/statistics/UserStatistics", () => {
       return () => <div></div>
@@ -70,6 +70,19 @@ describe("Statistics", () => {
         expect(screen.getByTestId("top-ten")).toBeEnabled();
         expect(Array.from(container.querySelectorAll("tbody tr")).length).toBe(data.length)
       })
+    });
+
+    describe("the petition fails", () => {
+
+      each([HttpStatusCode.BadRequest, HttpStatusCode.NotFound, 
+        HttpStatusCode.InternalServerError]).test("with status code %d", statusCode => {
+          authManager.reset();
+          mockAxios = new MockAdapter(authManager.getAxiosInstance());
+          mockAxios.onGet().replyOnce(statusCode);
+          const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+
+          expect(mockAxios.history.get.length).toBe(1);
+        });
     })
   })
 });
