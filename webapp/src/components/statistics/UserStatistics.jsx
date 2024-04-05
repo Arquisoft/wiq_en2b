@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Stack, StackDivider, useMediaQuery, Text, CircularProgress } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, StackDivider, Text, CircularProgress } from "@chakra-ui/react";
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
@@ -79,6 +79,9 @@ export default function UserStatistics() {
                         </Text>
                     </Box>
                     <Box>
+                        <Heading as="h3" fontSize={"1.25em"}>
+                                {t("statistics.wrongAnswers")}
+                        </Heading>
                         <Text>
                             {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
                         </Text>
