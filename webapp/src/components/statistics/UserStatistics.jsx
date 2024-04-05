@@ -8,19 +8,7 @@ import { Cell, Pie, PieChart } from "recharts";
 
 export default function UserStatistics() {
     const {t} = useTranslation();
-    const [userData, setUserData] = useState({
-        "raw": [
-            {
-                "name": t("statistics.rightAnswers"),
-                "value": 15
-            },
-            {
-                "name": t("statistics.wrongAnswers"),
-                "value": 3
-            }
-        ],
-        "rate": 50
-    });
+    const [userData, setUserData] = useState(null);
     const [retrievedData, setRetrievedData] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 

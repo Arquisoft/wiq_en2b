@@ -14,64 +14,7 @@ import LateralMenu from '../components/LateralMenu';
 export default function Statistics() {
     const { t, i18n } = useTranslation();
     const [retrievedData, setRetrievedData] = useState(false);
-    const [topTen, setTopTen] = useState([
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        },
-        {
-            "username": "pepe",
-            "correct": 2,
-            "wrong": 5,
-            "total": 7,
-            "rate": 28.57
-        }
-    ]);
+    const [topTen, setTopTen] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
