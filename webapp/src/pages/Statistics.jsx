@@ -1,6 +1,5 @@
 import { Box,  Center, Heading, Stack, StackDivider, Table, Tbody, Text,
-        Td, Th, Thead, Tr, CircularProgress,
-        useMediaQuery} from "@chakra-ui/react";
+        Td, Th, Thead, Tr, CircularProgress} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
