@@ -118,7 +118,6 @@ export default function Statistics() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const currentLanguage = i18n.language;
     const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
     };
@@ -129,8 +128,8 @@ export default function Statistics() {
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
             justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
-            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"} data-testid={"leaderboard-component"}>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
+            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>

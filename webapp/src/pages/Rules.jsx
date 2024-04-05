@@ -13,7 +13,6 @@ export default function Rules() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const currentLanguage = i18n.language;
     const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
     };
@@ -21,7 +20,7 @@ export default function Rules() {
     return (
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
             <FaBook style={{ fontSize: '2.5rem', color: 'green' }} /> 
             <Heading as="h2">{t("common.rules")}</Heading>
     
