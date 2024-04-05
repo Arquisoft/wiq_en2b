@@ -1,10 +1,10 @@
-import { Box, Flex, Heading, Stack, StackDivider, Text, CircularProgress } from "@chakra-ui/react";
+import { Box, Flex, Heading, Stack, Text, CircularProgress } from "@chakra-ui/react";
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Cell, Pie, PieChart } from "recharts";
 
 export default function UserStatistics() {
     const {t} = useTranslation();
@@ -97,15 +97,13 @@ export default function UserStatistics() {
                         </Box>
                     </Stack>
                     <Box minW={"50%"} minH={"50%"}>
-                        <ResponsiveContainer width={"100%"} minHeight={"100%"}>
-                            <PieChart>
+                        <PieChart>
                                 <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65}
                                 fill="#82ca9d" paddingAngle={5}>
                                     <Cell key={"cell-right"} fill={"green"} />
                                     <Cell key={"cell-right"} fill={"red"} />
                                 </Pie>
-                            </PieChart>
-                        </ResponsiveContainer>
+                        </PieChart>
                     </Box>
                 </>
                 : <CircularProgress isIndeterminate color="green"/>

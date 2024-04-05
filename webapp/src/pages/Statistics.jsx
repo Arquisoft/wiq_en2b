@@ -14,7 +14,7 @@ import LateralMenu from '../components/LateralMenu';
 
 export default function Statistics() {
     const { t, i18n } = useTranslation();
-    const [retrievedData, setRetrievedData] = useState(true);
+    const [retrievedData, setRetrievedData] = useState(false);
     const [topTen, setTopTen] = useState([
         {
             "username": "pepe",
@@ -74,7 +74,6 @@ export default function Statistics() {
         }
     ]);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [tooSmall] = useMediaQuery("(max-width: 800px)");
 
     const getData = async () => {
         try {
@@ -126,16 +125,16 @@ export default function Statistics() {
 
 
     return (
-        <Center display={"flex"} onLoad={getData} data-testid={"leaderboard-component"}
+        <Center display={"flex"} onLoad={getData}
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
             justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
-            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
+            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"} data-testid={"leaderboard-component"}>
                 <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
-                <Stack spacing={4} divider={<StackDivider />} minW={tooSmall ? "75%" : "100%"} minH="50vh"
+                <Stack spacing={4} divider={<StackDivider />} minH="50vh" 
                     p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
                     boxShadow="md" rounded="1rem" alignItems={"center"}>
                         {retrievedData ? 
@@ -146,7 +145,7 @@ export default function Statistics() {
                             {
                                 topTen.length === 0 ?
                                 <Text>Woah, so empty</Text> : 
-                                <Table className="statistics-table">
+                                <Table className="statistics-table" data-testid={"top-ten"}>
                                     <Thead>
                                         <Tr>
                                             <Th scope="col">{t("statistics.position")}</Th>
@@ -163,7 +162,7 @@ export default function Statistics() {
                                 </Table>
                             }
                             </Box>
-                        : <CircularProgress id="leaderboard-spinner" isIndeterminate color={"green"} />
+                        : <CircularProgress data-testid="leaderboard-spinner" isIndeterminate color={"green"} />
                         }
                     <UserStatistics />
                 </Stack>
