@@ -7,6 +7,7 @@ import UserStatistics from "components/statistics/UserStatistics";
 import AuthManager from "components/auth/AuthManager";
 import MockAdapter from "axios-mock-adapter";
 import { HttpStatusCode } from "axios";
+import each from "jest-each";
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -53,11 +54,27 @@ describe("UserStatistics", () => {
             };
 
             mockAxios.onGet().reply(HttpStatusCode.Ok, data);
-            const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><UserStatistics /></MemoryRouter></ChakraProvider>);
+            render(<ChakraProvider theme={theme}><MemoryRouter><UserStatistics /></MemoryRouter></ChakraProvider>);
 
             waitFor(() => {
                 expect(mockAxios.history.get.length).toBe(1);
+                expect(screen.getByTestId("chart")).toBeEnabled();
             });
+        })
+
+        describe("the request fails", () => {
+            each([HttpStatusCode.BadGateway, HttpStatusCode.NotFound, 
+                HttpStatusCode.ImATeapot]).test("with status code %d", (statusCode) => {
+                    authManager.reset();
+                    mockAxios = new MockAdapter(authManager.getAxiosInstance());
+                
+                    mockAxios.onGet().reply(statusCode);
+
+                    waitFor(() => {
+                        expect(mockAxios.history.get.length).toBe(1);
+                        expect(screen.getByTestId("error-message")).toBeVisible();
+                    });
+                });
         })
     });
     

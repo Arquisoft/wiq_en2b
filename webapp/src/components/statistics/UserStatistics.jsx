@@ -85,7 +85,7 @@ export default function UserStatistics() {
                         </Box>
                     </Stack>
                     <Box minW={"50%"} minH={"50%"}>
-                        <PieChart>
+                        <PieChart data-testid={"chart"}>
                                 <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65}
                                 fill="#82ca9d" paddingAngle={5}>
                                     <Cell key={"cell-right"} fill={"green"} />
