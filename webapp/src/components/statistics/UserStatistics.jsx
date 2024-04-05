@@ -51,7 +51,7 @@ export default function UserStatistics() {
         }
     }
 
-    return <Flex w={"100%"} minH={"10%"} onLoad={getData}
+    return <Flex w={"100%"} minH={"10%"} onLoad={getData} data-testid={"user-statistics"}
             flexDirection={"column"}>
             {
                 retrievedData ? 
@@ -94,7 +94,7 @@ export default function UserStatistics() {
                         </PieChart>
                     </Box>
                 </>
-                : <CircularProgress isIndeterminate color="green"/>
+                : <CircularProgress isIndeterminate color="green" data-testid={"user-statistics-spinner"}/>
             }
         </Flex>
 }

@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { getByTestId, getByText, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import Statistics from "pages/Statistics";
 import React from "react";
 import { MemoryRouter } from "react-router";
@@ -34,14 +34,17 @@ describe("Statistics", () => {
     expect(screen.getByTestId("leaderboard-spinner")).toBeEnabled();
   });
 
+  test("the user statistics component is rendered", () => {
+    render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+    expect(screen.getByTestId("user-statistics")).toBeEnabled();
+  })
+
   describe("a petition is made requesting the top ten", () => {
     const authManager = new AuthManager();
-    jest.doMock("../components/statistics/UserStatistics", () => {
-      return () => <div></div>
-    });
     let mockAxios;
 
     beforeEach(() => {
+      authManager.reset();
       mockAxios = new MockAdapter(authManager.getAxiosInstance());
     });
 
@@ -74,7 +77,7 @@ describe("Statistics", () => {
           "rate": 80
         }
       ];
-      mockAxios.onGet().replyOnce(HttpStatusCode.Ok, data);
+      mockAxios.onGet().reply(HttpStatusCode.Ok, data);
       const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
 
       waitFor(() => {
@@ -87,27 +90,28 @@ describe("Statistics", () => {
           expect(container.querySelector(`tbody tr:nth-child(${counter}) td:nth-child(2)`).innerHTML).toBe(element.wrong);
           expect(container.querySelector(`tbody tr:nth-child(${counter}) td:nth-child(3)`).innerHTML).toBe(element.total);
           expect(container.querySelector(`tbody tr:nth-child(${counter}) td:nth-child(4)`).innerHTML).toBe(element.rate);
-        })
-      })
+        });
+      });
     });
 
     test("no data is returned", () => {
       const data = [];
-      mockAxios.onGet().replyOnce(HttpStatusCode.Ok, data);
+      mockAxios.onGet().reply(HttpStatusCode.Ok, data);
       const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
 
       waitFor(() => {
         expect(screen.getByTestId("top-ten")).not.toBeEnabled();
         expect(getByText("statistics.empty")).toBeEnabled();
       });
-    })
+    });
+
 
     describe("the petition fails", () => {
       each([HttpStatusCode.BadRequest, HttpStatusCode.NotFound, 
         HttpStatusCode.InternalServerError]).test("with status code %d", statusCode => {
           authManager.reset();
           mockAxios = new MockAdapter(authManager.getAxiosInstance());
-          mockAxios.onGet().replyOnce(statusCode);
+          mockAxios.onGet().reply(statusCode);
           render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
 
           waitFor(() => {
@@ -116,5 +120,6 @@ describe("Statistics", () => {
           });
         });
     })
-  })
+  });
+
 });
