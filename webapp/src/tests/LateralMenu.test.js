@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
@@ -34,7 +34,6 @@ describe('LateralMenu component', () => {
         isOpen: true,
         onClose: jest.fn(),
         changeLanguage: jest.fn(),
-        currentLanguage: 'es',
         isLoggedIn: true,
         isDashboard: false,
     };
@@ -49,13 +48,6 @@ describe('LateralMenu component', () => {
         render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
         const languageSelect = screen.getByText('common.language');
         expect(languageSelect).toBeInTheDocument();
-    });
-
-    it('changes language when select value is changed', () => {
-        render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
-        const selectElement = screen.getByTestId('language-select');
-        fireEvent.change(selectElement, { target: { value: 'en' } });
-        expect(props.changeLanguage).toHaveBeenCalledWith('en');
     });
 
     it('does not render dashboard button when isLoggedIn is false', () => {

@@ -80,7 +80,6 @@ export default function Game() {
 	const { t, i18n } = useTranslation();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const currentLanguage = i18n.language;
     const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
     };
@@ -88,7 +87,7 @@ export default function Game() {
 	return (
 		<Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
 			<MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
 
 			<Heading as="h2">{t("game.round") + `${roundNumber}`}</Heading>
 
