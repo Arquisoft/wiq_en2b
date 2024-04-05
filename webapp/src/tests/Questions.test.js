@@ -1,8 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
 import { getQuestion, answerQuestion } from "components/game/Questions";
 import axios, { HttpStatusCode } from "axios";
-
-const mockAxios = new MockAdapter(axios);
+import AuthManager from "components/auth/AuthManager";
 
 jest.mock('react-i18next', () => ({
     useTranslation: () => {
@@ -13,12 +12,17 @@ jest.mock('react-i18next', () => ({
         },
       }
     },
-  }));
+  })
+);
+
+const authManager = new AuthManager();
+let mockAxios;
 
 describe("Question Service tests", () => {
     describe("getQuestion function", () => {
         beforeEach(() => {
-            mockAxios.reset();
+            authManager.reset();
+            mockAxios = new MockAdapter(authManager.getAxiosInstance());
         });
 
         it("successfully retrieves a question", async () => {
@@ -41,7 +45,8 @@ describe("Question Service tests", () => {
 
     describe("answerQuestion function", () => {
         beforeEach(() => {
-            mockAxios.reset();
+            authManager.reset();
+            mockAxios = new MockAdapter(authManager.getAxiosInstance());
         });
 
         it("successfully answers a question", async () => {

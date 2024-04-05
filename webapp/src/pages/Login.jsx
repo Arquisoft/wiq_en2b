@@ -3,23 +3,24 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaAddressCard } from "react-icons/fa";
 import { Center } from "@chakra-ui/layout";
-import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton} from "@chakra-ui/react";
+import { Heading, Input, InputGroup, Stack, InputLeftElement, chakra, Box, Avatar, FormControl, InputRightElement, IconButton, Flex, Button} from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import ButtonEf from '../components/ButtonEf';
-import ErrorMessageAlert from "../components/ErrorMessageAlert";
+
+import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
+import LateralMenu from 'components/LateralMenu';
+import MenuButton from 'components/MenuButton';
 
 export default function Login() {
-
     const navigate = useNavigate();
     const navigateToDashboard = async () => {
-        if (await AuthManager.getInstance().isLoggedIn()) {
+        if (await new AuthManager().isLoggedIn()) {
             navigate("/dashboard");
         }
     }
 
     const [errorMessage, setErrorMessage] = useState(null);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const [showPassword, setShowPassword] = useState(false);
     const changeShowP = () => setShowPassword(!showPassword);
@@ -45,7 +46,7 @@ export default function Login() {
             "password": password
         };
         try {
-            await AuthManager.getInstance().login(loginData, navigateToDashboard, setErrorMessage);
+            await new AuthManager().login(loginData, navigateToDashboard, setErrorMessage);
         } catch {
             setErrorMessage("Error desconocido");
         }
@@ -60,9 +61,20 @@ export default function Login() {
 
     navigateToDashboard();
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const currentLanguage = i18n.language;
+    const changeLanguage = (selectedLanguage) => {
+        i18n.changeLanguage(selectedLanguage);
+    };
+
     return (
         <Center onLoad={navigateToDashboard} display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
             justifyContent={"center"} alignItems={"center"} onKeyDown={loginOnEnter} bgImage={'/background.svg'}>
+            
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
+
             <Stack flexDir={"column"} mb="2" justifyContent="center" alignItems={"center"}>
                 <Avatar bg="pigment_green.500" />
                 <Heading as="h2">{t("common.login")}</Heading>
@@ -100,7 +112,10 @@ export default function Login() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <ButtonEf dataTestId={"Login"} variant={"solid"} colorScheme={"pigment_green"} text={t("common.login")} onClick={sendLogin} />
+                        <Flex>
+                            <Button data-testid={"GoBack"} variant={"solid"} type="submit" colorScheme="raw_umber" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/")} flex="1">{t("common.goBack")}</Button>
+                            <Button data-testid={"Login"} variant={"solid"} type="submit" colorScheme="pigment_green" margin={"10px"} className={"custom-button effect1"} onClick={sendLogin} flex="1">{t("common.login")}</Button>
+                        </Flex>  
                     </Stack>
                 </Box>
             </Stack>

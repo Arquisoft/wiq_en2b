@@ -15,7 +15,10 @@
         "rules": "Reglas",
         "dashboard": "Panel de Usuario",
         "goBack": "Volver",
-        "finish": "Finalizar"
+        "finish": "Finalizar",
+        "english": "Inglés",
+        "spanish": "Español",
+        "language": "Idioma:"
     },
     "session": {
         "username": "Nombre de usuario",
@@ -67,5 +70,15 @@
             "personalWrong": "{{wrong, number}} respuestas incorrectas",
             "personalRate": "{{rate, number}} %"
         }
+    },
+    "game": {
+        "round": "Ronda",
+        "next": "Siguiente"
+    },
+    "about": {
+        "title": "Sobre nosotros",
+        "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Disfruta!!!",
+        "table1": "Desarrolladores🍌🍌",
+        "table2": "Contacto"
     }
 }
