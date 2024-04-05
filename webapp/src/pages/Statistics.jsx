@@ -65,13 +65,15 @@ export default function Statistics() {
     };
 
     return (
-        <Center display={"flex"} onLoad={getData}
+        <Center display={"flex"} onLoad={getData} data-testid={"background"}
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
             justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
-            <MenuButton onClick={() => setIsMenuOpen(true)} />
-            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
+            <MenuButton onClick={() => setIsMenuOpen(true)}/>
+            <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} 
+                changeLanguage={changeLanguage} isDashboard={false}/>
             <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
-                <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.top"}/> 
+                <ErrorMessageAlert errorMessage={errorMessage} 
+                    t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minH="50vh" 
