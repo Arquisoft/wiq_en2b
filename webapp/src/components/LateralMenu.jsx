@@ -25,7 +25,7 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
     };
 
     const handleApiClick = () => {
-        window.open("http://localhost:8080/swagger/swagger-ui/index.html#/auth-controller/registerUser", "_blank", "noopener");
+        window.open(`http://${process.env.REACT_APP_API_ENDPOINT}/swagger/swagger-ui/index.html#/auth-controller/registerUser`, "_blank", "noopener");
     };    
 
     const handleLogout = async () => {
