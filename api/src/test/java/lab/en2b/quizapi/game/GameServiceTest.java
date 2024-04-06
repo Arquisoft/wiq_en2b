@@ -164,7 +164,7 @@ public class GameServiceTest {
     public void startRound(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         GameResponseDto gameDto = gameService.startRound(1L, authentication);
         GameResponseDto result = defaultGameResponseDto;
@@ -177,7 +177,7 @@ public class GameServiceTest {
     @Test
     public void startRoundGameOver(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         defaultGame.setActualRound(10);
         assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
@@ -187,7 +187,7 @@ public class GameServiceTest {
     public void startRoundWhenRoundNotFinished(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
@@ -197,7 +197,7 @@ public class GameServiceTest {
     public void getCurrentQuestion() {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         QuestionResponseDto questionDto = gameService.getCurrentQuestion(1L,authentication);
@@ -215,7 +215,7 @@ public class GameServiceTest {
     public void getCurrentQuestionRoundFinished() {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
@@ -227,7 +227,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.startRound(1L,authentication);
         defaultGame.setActualRound(10);
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
@@ -238,7 +238,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication);
@@ -252,7 +252,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.answerQuestion(1L, new GameAnswerDto(2L), authentication);
@@ -266,7 +266,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         defaultGame.setActualRound(30);
@@ -278,7 +278,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
@@ -290,7 +290,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         assertThrows(IllegalArgumentException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(3L), authentication));

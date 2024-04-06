@@ -45,7 +45,7 @@ public class GameService {
 
     public GameResponseDto startRound(Long id, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
-        game.newRound(questionRepository.findRandomQuestion(game.getLanguage()));
+        game.newRound(questionService.findRandomQuestion(game.getLanguage()));
         if (game.isGameOver()){
             Statistics statistics = Statistics.builder()
                     .user(game.getUser())
