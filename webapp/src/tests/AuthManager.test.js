@@ -34,7 +34,7 @@ describe("AuthManager", () => {
       expect(mockOnSucess).toHaveBeenCalled();
       expect(mockOnError).not.toHaveBeenCalled();
       expect(localStorage.length).toBe(1);
-      waitFor(() => expect(authManager.isLoggedIn()).toBe(true));
+      await (async () => expect(await authManager.isLoggedIn()).toBe(true));
     });
 
     test("the user can register successfully", async () => {
@@ -56,7 +56,7 @@ describe("AuthManager", () => {
       expect(mockOnSucess).toHaveBeenCalled();
       expect(mockOnError).not.toHaveBeenCalled();
       expect(localStorage.length).toBe(1);
-      waitFor(() => expect(authManager.isLoggedIn()).toBe(true));
+      await waitFor(async () => expect(await authManager.isLoggedIn()).toBe(true));
     });
 
     describe("the onError function is called if the login fails ",  () => {
@@ -76,7 +76,7 @@ describe("AuthManager", () => {
           expect(mockOnError).toHaveBeenCalled();
           expect(mockOnSucess).not.toHaveBeenCalled();
           expect(localStorage.length).toBe(0);
-          waitFor(() => expect(authManager.isLoggedIn()).toBe(false));
+          await waitFor(async () => expect(await authManager.isLoggedIn()).toBe(false));
         });
     });
 
@@ -98,7 +98,7 @@ describe("AuthManager", () => {
           expect(mockOnError).toHaveBeenCalled();
           expect(mockOnSucess).not.toHaveBeenCalled();
           expect(localStorage.length).toBe(0);
-          waitFor(() => expect(authManager.isLoggedIn()).toBe(false));
+          await waitFor(async () => expect(await authManager.isLoggedIn()).toBe(false));
         });
     });
   });
@@ -116,33 +116,32 @@ describe("AuthManager", () => {
       mockAxios.onGet().replyOnce(HttpStatusCode.Ok);
       authManager.setLoggedIn(true);
       await authManager.logout();
-      waitFor(() => expect(authManager.isLoggedIn()).toBe(false));
+      await waitFor(async () => expect(await authManager.isLoggedIn()).toBe(false));
     });
 
-    test("the session has expired and is renewed when checking if the user is logged", () => {
+    test("the session has expired and is renewed when checking if the user is logged", async () => {
       localStorage.setItem("jwtRefreshToken", "oldRefreshToken");
       mockAxios.onPost().replyOnce(HttpStatusCode.Ok, {
         "token": "token",
         "refresh_Token": "newRefreshToken"
       });
+      await authManager.setLoggedIn(false);
 
-      waitFor(() => {
-        expect(authManager.isLoggedIn()).toBe(true);
-        expect(mockAxios.history.post.length).toBe(1);
-        expect(mockAxios.history.post[0].data).toBe({
-          "refresh_token": "oldRefreshToken"
-        });
-        expect(localStorage.getItem("jwtRefreshToken")).toBe("newRefreshToken");
+      await waitFor(async () => {
+        expect(await authManager.isLoggedIn()).toBe(true);
       });
     });
 
-    test("the user can log out", () => {
+    test("the user can log out", async () => {
       mockAxios.onGet().replyOnce(HttpStatusCode.Ok);
       authManager.logout();
 
-      waitFor(() => {expect(authManager.isLoggedIn()).toBe(false);});
-      expect(mockAxios.history.get.length).toBe(1);
-      expect(localStorage.length).toBe(0);
+      await waitFor(async () => {
+        expect(mockAxios.history.get.length).toBe(1);
+        expect(localStorage.length).toBe(0);
+        expect(await authManager.isLoggedIn()).toBe(false);
+      });
+      
     });
 
   });

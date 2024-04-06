@@ -1,12 +1,9 @@
 package lab.en2b.quizapi.game;
 
-import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
-import lab.en2b.quizapi.questions.answer.AnswerRepository;
-import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionService;
@@ -28,6 +25,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final GameResponseDtoMapper gameResponseDtoMapper;
     private final UserService userService;
+    private final QuestionService questionService;
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
     private final StatisticsRepository statisticsRepository;
