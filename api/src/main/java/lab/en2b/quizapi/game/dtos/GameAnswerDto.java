@@ -12,7 +12,6 @@ import lombok.*;
 @Setter
 public class GameAnswerDto {
     @NonNull
-    @NotNull
     @PositiveOrZero
     @JsonProperty("answer_id")
     private Long answerId;

@@ -9,7 +9,6 @@ import GoBack from "components/GoBack";
 
 export default function About() {
   const { t, i18n } = useTranslation();
-  const currentLanguage = i18n.language;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const changeLanguage = (selectedLanguage) => {
@@ -17,9 +16,10 @@ export default function About() {
   };
 
   return (
-    <Center bgImage="/background.svg">
+    <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"}
+    justifyContent={"center"} alignItems={"center"} bgImage="/background.svg">
         <MenuButton data-testid="menu-button" onClick={() => setIsMenuOpen(true)} />
-        <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} currentLanguage={currentLanguage} isDashboard={false}/>
+        <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
         <Container maxW="lg">
             <Box textAlign="center">
               <InfoIcon boxSize={10} color="pigment_green.500" />
