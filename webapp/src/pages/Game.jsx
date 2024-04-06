@@ -15,7 +15,7 @@ export default function Game() {
     const [loading, setLoading] = useState(true);
     const [gameId, setGameId] = useState(null); 
     const [question, setQuestion] = useState(null);
-    const [answer, setAnswer] = useState({id:1, text:"answer1", category:"category1" });
+    const [answer, setAnswer] = useState({});
     const [selectedOption, setSelectedOption] = useState(null);
     const [nextDisabled, setNextDisabled] = useState(true);
     const [roundNumber, setRoundNumber] = useState(1);
@@ -69,16 +69,19 @@ export default function Game() {
 
     useEffect(() => {
         if (gameId !== null) {
+            setSelectedOption(null);
             generateQuestion();
         }
     }, [gameId, generateQuestion]);
+    
 
-    const answerButtonClick = (optionIndex) => {
+    const answerButtonClick = (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
         setSelectedOption(selectedOptionIndex);
+        setAnswer(answer);
         const anyOptionSelected = selectedOptionIndex !== null;
         setNextDisabled(!anyOptionSelected);
-    };    
+    };
 
     const nextButtonClick = useCallback(async () => {
         try {
@@ -95,9 +98,11 @@ export default function Game() {
             if (nextRoundNumber > 9)
                 navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers + (isCorrect ? 1 : 0) } });
             else {
+                setAnswer({});
                 setRoundNumber(nextRoundNumber);
                 setNextDisabled(true);
                 await generateQuestion();
+                startRound(gameId);
             }
         } catch (error) {
             console.error("Error processing next question:", error);
@@ -157,12 +162,12 @@ export default function Game() {
 
                             <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
                                 {question.answers.map((answer, index) => (
-                                    <Button 
-                                        key={index} 
-                                        data-testid={`Option${index + 1}`} 
-                                        variant={selectedOption === index + 1 ? "solid" : "outline"}
+                                    <Button
+                                        key={index}
+                                        data-testid={`Option${index + 1}`}
+                                        variant={selectedOption === index ? "solid" : "outline"}
                                         colorScheme={"green"}
-                                        onClick={() => answerButtonClick(index + 1)} 
+                                        onClick={() => answerButtonClick(index, answer)}
                                         style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
                                     >
                                         {answer.text}
