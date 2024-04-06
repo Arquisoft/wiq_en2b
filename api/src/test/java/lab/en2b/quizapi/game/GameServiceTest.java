@@ -88,9 +88,7 @@ public class GameServiceTest {
                 .id(1L)
                 .content("What is the capital of France?")
                 .answers(new ArrayList<>())
-                .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CAPITAL_CITY)
                 .type(QuestionType.TEXT)
                 .build();
 
