@@ -76,7 +76,7 @@ public class StatisticsServiceTest {
         this.defaultStatistics1 = Statistics.builder()
                 .id(1L)
                 .user(defaultUser)
-                .right(5L)
+                .correct(5L)
                 .wrong(5L)
                 .total(10L)
                 .build();
@@ -93,7 +93,7 @@ public class StatisticsServiceTest {
         this.defaultStatistics2 = Statistics.builder()
                 .id(1L)
                 .user(defaultUser)
-                .right(7L)
+                .correct(7L)
                 .wrong(3L)
                 .total(10L)
                 .build();

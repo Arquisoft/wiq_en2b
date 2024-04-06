@@ -19,8 +19,11 @@ public class Statistics {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    private Long right;
+    @NonNull
+    private Long correct;
+    @NonNull
     private Long wrong;
+    @NonNull
     private Long total;
 
     @ManyToOne
@@ -29,11 +32,11 @@ public class Statistics {
     private User user;
 
     public Long getCorrectRate() {
-        return (right * 100) / total;
+        return (correct * 100) / total;
     }
 
     public void updateStatistics(Statistics statistics){
-        this.right += statistics.getRight();
+        this.correct += statistics.getCorrect();
         this.wrong += statistics.getWrong();
         this.total += statistics.getTotal();
     }
