@@ -73,8 +73,6 @@ public class Game {
     }
 
     public Question getCurrentQuestion() {
-        if(getQuestions().isEmpty())
-            throw new IllegalStateException("The game hasn't started yet!");
         if(currentRoundIsOver())
             throw new IllegalStateException("The current round is over!");
         if(isGameOver())
