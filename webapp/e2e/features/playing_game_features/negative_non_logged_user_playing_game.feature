@@ -1,4 +1,4 @@
-Feature: Starting a new game
+Feature: Preventing starting a new game
 
   Scenario: A logged user wants to play a new game
     Given A non-logged user in the main menu
