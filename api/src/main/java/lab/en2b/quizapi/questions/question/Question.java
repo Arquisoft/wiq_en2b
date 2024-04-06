@@ -39,9 +39,6 @@ public class Question {
     @Enumerated(EnumType.STRING)
     @Column(name = "question_category")
     private QuestionCategory questionCategory;
-    @Column(name = "answer_category")
-    private AnswerCategory answerCategory;
-    private String language;
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 
