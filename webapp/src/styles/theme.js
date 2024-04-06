@@ -100,8 +100,14 @@ const theme = extendTheme({
             },
             ".statistics-table td, .statistics-table th": {
                 margin: "0vh 1vw",
-                padding: "0vh 1vw",
+                padding: "0vh 1vw"
             },
+            ".statistics-table td": {
+                fontSize: "0.8em"
+            },
+            ".statistics-table th": {
+                fontSize: "0.6em"
+            }
         },
     },
 });
