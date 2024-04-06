@@ -4,7 +4,6 @@ import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
-import ButtonEf from '../components/ButtonEf';
 import { newGame, startRound, getCurrentQuestion, answerQuestion } from '../components/game/Game';
 import axios from "axios";
 import LateralMenu from '../components/LateralMenu';
@@ -74,24 +73,24 @@ export default function Game() {
         }
     }, [gameId, generateQuestion]);
 
-    const answerButtonClick = (option) => {
-        setAnswer(question.answers[option-1]);
-        setSelectedOption((prevOption) => (prevOption === option ? null : option));
-        const anyOptionSelected = option === selectedOption ? null : option;
-        setNextDisabled(anyOptionSelected === null);
-    };
+    const answerButtonClick = (optionIndex) => {
+        const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
+        setSelectedOption(selectedOptionIndex);
+        const anyOptionSelected = selectedOptionIndex !== null;
+        setNextDisabled(!anyOptionSelected);
+    };    
 
-    const nextButtonClick = async () => {
+    const nextButtonClick = useCallback(async () => {
         try {
             const isCorrect = (await answerQuestion(gameId, answer.id)).wasCorrect;
-
+    
             if (isCorrect) {
                 setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
                 setShowConfetti(true);
             }
-
+    
             setSelectedOption(null);
-
+    
             const nextRoundNumber = roundNumber + 1;
             if (nextRoundNumber > 9)
                 navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers + (isCorrect ? 1 : 0) } });
@@ -104,7 +103,7 @@ export default function Game() {
             console.error("Error processing next question:", error);
             navigate("/dashboard");
         }
-    };
+    }, [gameId, answer.id, roundNumber, correctAnswers, generateQuestion, navigate]);    
 
     useEffect(() => { 
         let timeout;
@@ -158,7 +157,16 @@ export default function Game() {
 
                             <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
                                 {question.answers.map((answer, index) => (
-                                    <ButtonEf key={index} dataTestId={`Option${index + 1}`} variant={selectedOption === index + 1 ? "solid" : "outline"} colorScheme={"green"} text={answer.text} onClick={() => answerButtonClick(index + 1)} />
+                                    <Button 
+                                        key={index} 
+                                        data-testid={`Option${index + 1}`} 
+                                        variant={selectedOption === index + 1 ? "solid" : "outline"}
+                                        colorScheme={"green"}
+                                        onClick={() => answerButtonClick(index + 1)} 
+                                        style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
+                                    >
+                                        {answer.text}
+                                    </Button>
                                 ))}
                             </Grid>
 
