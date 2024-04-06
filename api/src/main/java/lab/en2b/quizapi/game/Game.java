@@ -48,6 +48,7 @@ public class Game {
             @JoinColumn(name="question_id", referencedColumnName="id")
     )
     private List<Question> questions;
+    private boolean isGameOver;
 
     public void newRound(Question question){
         if(getActualRound() != 0){
@@ -72,8 +73,6 @@ public class Game {
     }
 
     public Question getCurrentQuestion() {
-        if(getQuestions().isEmpty())
-            throw new IllegalStateException("The game hasn't started yet!");
         if(currentRoundIsOver())
             throw new IllegalStateException("The current round is over!");
         if(isGameOver())
