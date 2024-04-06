@@ -37,9 +37,9 @@ export default function Game() {
             try {
                 const newGameResponse = await newGame();
                 if (newGameResponse) {
-                    setGameId(newGameResponse.id);
                     setLoading(false);
                     await startRound(newGameResponse.id);
+                    setGameId(newGameResponse.id);
                     startTimer();
                 } else {
                     navigate("/dashboard");
