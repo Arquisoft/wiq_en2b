@@ -13,7 +13,6 @@ export default function Root() {
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const currentLanguage = i18n.language;
     
     const navigateToDashboard = async () => {
         if (await new AuthManager().isLoggedIn()) {
