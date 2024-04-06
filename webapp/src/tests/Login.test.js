@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router';
 import Login from '../pages/Login';
@@ -8,6 +8,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { HttpStatusCode } from 'axios';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
+import Signup from 'pages/Signup';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

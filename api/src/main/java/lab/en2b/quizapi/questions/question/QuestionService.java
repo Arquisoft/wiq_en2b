@@ -43,6 +43,15 @@ public class QuestionService {
 
         return questionResponseDtoMapper.apply(q);
     }
+    
+    public Question findRandomQuestion(String lang){
+        if (lang==null || lang.isBlank()) {
+            lang = "en";
+        }
+        Question q = questionRepository.findRandomQuestion(lang);
+        loadAnswers(q);
+        return q;
+    }
 
     public QuestionResponseDto getQuestionById(Long id) {
         return questionResponseDtoMapper.apply(questionRepository.findById(id).orElseThrow());
