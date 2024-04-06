@@ -51,6 +51,9 @@ public class GameServiceTest {
     @Mock
     private StatisticsRepository statisticsRepository;
 
+    @Mock
+    private QuestionService questionService;
+
     private User defaultUser;
     private Question defaultQuestion;
     private QuestionResponseDto defaultQuestionResponseDto;
@@ -70,7 +73,7 @@ public class GameServiceTest {
     @BeforeEach
     void setUp() {
         this.questionResponseDtoMapper = new QuestionResponseDtoMapper();
-        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionRepository, questionResponseDtoMapper, statisticsRepository);
+        this.gameService = new GameService(gameRepository,new GameResponseDtoMapper(new UserResponseDtoMapper()), userService, questionService, questionRepository, questionResponseDtoMapper, statisticsRepository);
         this.defaultUser = User.builder()
                 .id(1L)
                 .email("test@email.com")
