@@ -1,5 +1,5 @@
 version: '3'
-services:
+services:     
   WIQ_DB:
     container_name: postgresql-${teamname:-defaultASW}
     environment:
@@ -10,13 +10,12 @@ services:
     image: postgres:latest
     profiles: ["dev", "prod"]
     networks:
-      - mynetwork
-    ports:
-      - "5432:5432"
- 
+      mynetwork:
+        ipv4_address: 10.5.0.10
+      
   api:
     container_name: api-${teamname:-defaultASW}
-    image:  ghcr.io/arquisoft/wiq_en2b/api:latest
+    image:  api:latest
     profiles: [ "dev", "prod" ]
     build:
       context: ./api
@@ -30,15 +29,14 @@ services:
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
     networks:
-      - mynetwork
+      mynetwork:
+        ipv4_address: 10.5.0.6
     depends_on:
         - WIQ_DB
-    ports:
-      - "8080:8080"
-
+      
   question-generator:
     container_name: question-generator-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_en2b/question-generator:latest
+    image: question-generator:latest
     profiles: [ "dev", "prod" ]
     build:
       context: ./questiongenerator
@@ -50,43 +48,18 @@ services:
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     networks:
-      - mynetwork
+      mynetwork:
+        ipv4_address: 10.5.0.11
     depends_on:
       - WIQ_DB
-
-  webapp:
-    container_name: webapp-${teamname:-defaultASW}
-    image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
-    profiles: [ "dev", "prod" ]
-    build:
-      args:
-        REACT_APP_API_ENDPOINT: ${API_URI}
-      context: ./webapp
-    environment:
-      - REACT_APP_API_ENDPOINT=${API_URI}
-    ports:
-      - "80:3000"
-  
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus-${teamname:-defaultASW}
-    profiles: ["dev"]
-    networks:
-      - mynetwork
-    volumes:
-      - ./quiz-api/monitoring/prometheus:/etc/prometheus
-      - prometheus_data:/prometheus
-    ports:
-      - "9090:9090"
-    depends_on:
-      - api
-  
+      
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-defaultASW}
     profiles: [ "dev" ]
     networks:
-      - mynetwork
+      mynetwork:
+        ipv4_address: 10.5.0.7
     volumes:
       - grafana_data:/var/lib/grafana
       - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
@@ -95,18 +68,59 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    ports:
-      - "9091:9091"
     depends_on:
       - prometheus
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus-${teamname:-defaultASW}
+    profiles: ["dev"]
+    networks:
+      mynetwork:
+        ipv4_address: 10.5.0.8
+    volumes:
+      - ./quiz-api/monitoring/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    depends_on:
+      - api
+
+  webapp:
+    container_name: webapp-${teamname:-defaultASW}
+    image:  webapp:latest
+    profiles: [ "dev", "prod" ]
+    build:
+      args:
+        REACT_APP_API_ENDPOINT: ${API_URI}
+      context: ./webapp
+    environment:
+      - REACT_APP_API_ENDPOINT=${API_URI}
+    networks:
+      mynetwork:
+        ipv4_address: 10.5.0.9
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    networks:
+      mynetwork:
+        ipv4_address: 10.5.0.12
+    ports:
+      - "80:80"
+    depends_on:
+      - webapp
+      - api
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
 
 volumes:
   postgres_data:
   prometheus_data:
   grafana_data:
 
-
 networks:
   mynetwork:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
