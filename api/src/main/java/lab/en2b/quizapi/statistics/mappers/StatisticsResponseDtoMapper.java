@@ -18,7 +18,7 @@ public class StatisticsResponseDtoMapper implements Function<Statistics, Statist
     public StatisticsResponseDto apply(Statistics statistics) {
         return StatisticsResponseDto.builder()
                 .id(statistics.getId())
-                .right(statistics.getRight())
+                .right(statistics.getCorrect())
                 .wrong(statistics.getWrong())
                 .total(statistics.getTotal())
                 .user(userResponseDtoMapper.apply(statistics.getUser()))

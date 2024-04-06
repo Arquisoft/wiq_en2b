@@ -51,7 +51,7 @@ public class GameService {
         if (game.isGameOver()){
             Statistics statistics = Statistics.builder()
                     .user(game.getUser())
-                    .right(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
+                    .correct(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
                     .wrong(Long.valueOf(game.getRounds() - game.getCorrectlyAnsweredQuestions()))
                     .total(Long.valueOf(game.getRounds()))
                     .build();
