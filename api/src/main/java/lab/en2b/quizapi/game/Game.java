@@ -54,7 +54,7 @@ public class Game {
         if(getActualRound() != 0){
             if (isGameOver())
                 throw new IllegalStateException("You can't start a round for a finished game!");
-            if(!currentRoundIsOver())
+            if(!currentQuestionAnswered || roundTimeHasExpired())
                 throw new IllegalStateException("You can't start a new round when the current round is not over yet!");
         }
 
