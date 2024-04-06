@@ -30,6 +30,12 @@ export default function Game() {
         i18n.changeLanguage(selectedLanguage);
     };
 
+    const calculateProgress = (timeElapsed) => {
+        const totalTime = 30;
+        const percentage = (timeElapsed / totalTime) * 100;
+        return Math.min(Math.max(percentage, 0), 100);
+    };
+    
     useEffect(() => {
         axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
         const initializeGame = async () => {
@@ -118,15 +124,17 @@ export default function Game() {
     }, [showConfetti]);
 
     useEffect(() => {
+        let timeout;
         if (timeElapsed >= 30) {
-            nextButtonClick(); 
+            timeout = setTimeout(() => nextButtonClick(), 1000);
         } else {
-            const timer = setTimeout(() => {
+            timeout = setTimeout(() => {
                 setTimeElapsed((prevTime) => prevTime + 1);
             }, 1000); 
-            return () => clearTimeout(timer);
         }
+        return () => clearTimeout(timeout);
     }, [timeElapsed, nextButtonClick]);
+    
 
     const startTimer = () => {
         const timer = setTimeout(() => {
@@ -144,7 +152,7 @@ export default function Game() {
 
             <Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
-            <CircularProgress value={timeElapsed} color="green" size="120px" thickness="12px" capIsRound/>
+            <CircularProgress value={calculateProgress(timeElapsed)} color="green" size="120px" thickness="12px" capIsRound />
 
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
                 {loading ? (
