@@ -1,9 +1,12 @@
 import React from 'react';
-import { render, fireEvent, getByTestId, getAllByTestId } from '@testing-library/react';
+import { render, fireEvent, getByTestId, getAllByTestId, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
+import MockAdapter from 'axios-mock-adapter';
+import AuthManager from 'components/auth/AuthManager';
+import { HttpStatusCode } from 'axios';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
