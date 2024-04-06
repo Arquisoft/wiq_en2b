@@ -4,4 +4,4 @@ Scenario: A registered user wants to log in using his correct credentials
     Given A registered user
     When User enters the log in screen
     And User writes his credentials properly
-    Then User is able to log in successfully
+    Then The main menu screen shows on the user device
