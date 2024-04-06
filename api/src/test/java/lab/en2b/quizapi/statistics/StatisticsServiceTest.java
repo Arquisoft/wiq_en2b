@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,6 +47,10 @@ public class StatisticsServiceTest {
     private Statistics defaultStatistics1;
 
     private StatisticsResponseDto defaultStatisticsResponseDto1;
+
+    private StatisticsResponseDto defaultStatisticsResponseDto2;
+
+    private Statistics defaultStatistics2;
 
     private UserResponseDto defaultUserResponseDto;
 
@@ -84,6 +89,23 @@ public class StatisticsServiceTest {
                 .correctRate(50L)
                 .user(defaultUserResponseDto)
                 .build();
+
+        this.defaultStatistics2 = Statistics.builder()
+                .id(1L)
+                .user(defaultUser)
+                .right(7L)
+                .wrong(3L)
+                .total(10L)
+                .build();
+
+        this.defaultStatisticsResponseDto2 = StatisticsResponseDto.builder()
+                .id(1L)
+                .right(7L)
+                .wrong(3L)
+                .total(10L)
+                .correctRate(70L)
+                .user(defaultUserResponseDto)
+                .build();
     }
 
     @Test
@@ -94,6 +116,16 @@ public class StatisticsServiceTest {
         when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto1);
         StatisticsResponseDto result = statisticsService.getStatisticsForUser(authentication);
         Assertions.assertEquals(defaultStatisticsResponseDto1, result);
+    }
+
+    @Test
+    public void getTopTenStatisticsTestWhenThereAreNotTen(){
+        when(statisticsRepository.findAll()).thenReturn(List.of(defaultStatistics2, defaultStatistics1));
+        when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto1);
+        when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto2);
+        when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto1);
+        List<StatisticsResponseDto> result = statisticsService.getTopTenStatistics();
+        Assertions.assertEquals(List.of(defaultStatisticsResponseDto2,defaultStatisticsResponseDto1), result);
     }
 
 }
