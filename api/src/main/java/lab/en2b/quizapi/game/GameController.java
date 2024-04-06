@@ -5,11 +5,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
+import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/games")
@@ -77,6 +80,11 @@ public class GameController {
     @GetMapping("/{id}/details")
     public ResponseEntity<GameResponseDto> getGameDetails(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.getGameDetails(id, authentication));
+    }
+
+    @GetMapping("/questionCategories")
+    public ResponseEntity<List<QuestionCategory>> getQuestionCategories(){
+        return ResponseEntity.ok(gameService.getQuestionCategories());
     }
 
 }
