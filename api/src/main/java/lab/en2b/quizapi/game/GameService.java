@@ -60,9 +60,6 @@ public class GameService {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.answerQuestion(dto.getAnswerId(), questionRepository);
 
-        System.out.println("Current round: " + game.getActualRound());
-        System.out.println("Total round: " + game.getRounds());
-
         if (game.isLastRound()){
             game.setGameOver(true);
             gameRepository.save(game);
