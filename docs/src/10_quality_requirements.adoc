@@ -47,7 +47,7 @@ To obtain a measurable system response to stimulus corresponding to the various 
 | Security | User data shall be securely handled. Robust authentication mechanisms shall be in place for user registration and login. API access points for user information and generated questions shall be secured with proper authorization. | Medium, High 
 | Compatibility | The system shall be compatible with various web browsers and devices, providing a seamless experience for users regardless of their choice of platform. It shall be well-optimized for different screen sizes and functionalities. | High, Medium
 | Transferability | The system shall allow for easy transfer of user data and game-related information through its APIs. | Medium, High
-| Testability | The unit tests shall have at least 75% coverage. | High, Medium
+| Testability | The unit tests shall have at least 80% coverage. | High, Medium
 |===
 ==== Change Scenarios
 [options="header",cols="1,3,1"]
