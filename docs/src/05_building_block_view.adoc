@@ -38,7 +38,7 @@ An inner view on the WIQ Application and its components inside. How the WIQ appl
 Contained Building Blocks::
 ****
 * **WIQ Client:** This is the connection between the user and the application. It will allow the users to play the WIQ game. This part will be developed in React with Typescript for its clear component structure, simplified code quality and separation of concerns.
-* **WIQ REST API:** This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in Springboot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.
+* **WIQ REST API:** This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in SpringBoot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.
 * **WIQ Database:** This is where the most important data is going to be stored. Such as, users questions and other game info that will be specified in the future. The database we chose to use is PostgreSQL, since it is compatible with Docker and it's an object-relational kind of database, which is easier for the developers to use. Another alternative would've been to use MySQL.
 ****
 
