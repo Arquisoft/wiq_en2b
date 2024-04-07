@@ -100,9 +100,9 @@ services:
       mynetwork:
         ipv4_address: 10.5.0.9
 
-  nginx:
-    image: ubuntu:latest
-    container_name: nginx
+  kiwiq:
+    image: kiwiq_en2b
+    container_name: kiwiq
     networks:
       mynetwork:
         ipv4_address: 10.5.0.12
@@ -114,7 +114,8 @@ services:
       - api
       - grafana
       - prometheus
-    command: apt update -y && apt upgrade -y && apt install -y curl && curl -s https://raw.githubusercontent.com/Arquisoft/wiq_en2b/feat/https/nginx_conf/nginx.conf | bash
+    build:
+      context: ./nginx_conf
 
 volumes:
   postgres_data:
