@@ -7,9 +7,6 @@ AddElementTag("Person", $bgColor="#salmon", $fontColor="#white")
 AddElementTag("Internal system", $bgColor="#darksalmon", $fontColor="#white")
 AddElementTag("External system", $bgColor="#peachpuff", $fontColor="#963b17")
 
-AddRelTag("backup", $textColor="orange", $lineColor="orange", $lineStyle = DashedLine())
-
-
 'Containers
 Person(player, Player,"An authenticated player that wants to play WIQ games", $tags="Person")
 
