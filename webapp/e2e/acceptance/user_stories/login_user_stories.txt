@@ -1,0 +1,35 @@
+User story:
+    As a registered user
+    I want to log in
+    so that I can play the game
+
+
+Case 1:
+    SCENARIO:   a registered user wants to log in using his correct credentials
+    GIVEN:      a registered user
+    WHEN:       user enters the log in screen
+                user writes his credentials properly
+
+    THEN:       user is able to log in successfully
+
+Case 2:
+    SCENARIO:   a registered user wants to log in using his incorrect credentials
+    GIVEN:      a registered user
+    WHEN:       user enters the log in screen
+                user writes his credentials wrong
+
+    THEN:       user is not able to log in
+
+
+User story:
+    As an unregistered user
+    I want to log in
+    so that I can play the game
+
+Case 1:
+    SCENARIO:   a registered user wants to log in without using an account
+    GIVEN:      a registered user
+    WHEN:       user enters the log in screen
+                user leaves the credentials in blank
+
+    THEN:       user is not able to log in
