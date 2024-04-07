@@ -64,22 +64,25 @@ public class GameService {
         System.out.println("Total round: " + game.getRounds());
 
         if (game.isLastRound()){
-
-            /**
-            Statistics statistics = Statistics.builder()
-                    .user(game.getUser())
-                    .correct(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
-                    .wrong(Long.valueOf(game.getRounds() - game.getCorrectlyAnsweredQuestions()))
-                    .total(Long.valueOf(game.getRounds()))
-                    .build();
-            Statistics oldStatistics = statisticsRepository.findByUserId(game.getUser().getId()).orElseThrow();
-            statisticsRepository.delete(oldStatistics);
-            oldStatistics.updateStatistics(statistics);
-            statisticsRepository.save(oldStatistics);
-             **/
-
             game.setGameOver(true);
             gameRepository.save(game);
+        }
+        if (game.isGameOver()){
+            if (statisticsRepository.findByUserId(game.getUser().getId()).isPresent()){
+                Statistics statistics = statisticsRepository.findByUserId(game.getUser().getId()).get();
+                statistics.updateStatistics(Long.valueOf(game.getCorrectlyAnsweredQuestions()),
+                        Long.valueOf(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions()),
+                        Long.valueOf(game.getRounds()));
+                statisticsRepository.save(statistics);
+            } else {
+                Statistics statistics = Statistics.builder()
+                        .user(game.getUser())
+                        .correct(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
+                        .wrong(Long.valueOf(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions()))
+                        .total(Long.valueOf(game.getRounds()))
+                        .build();
+                statisticsRepository.save(statistics);
+            }
         }
 
         return gameResponseDtoMapper.apply(game);

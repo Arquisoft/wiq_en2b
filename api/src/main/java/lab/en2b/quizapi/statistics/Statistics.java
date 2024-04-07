@@ -35,10 +35,10 @@ public class Statistics {
         return (correct * 100) / total;
     }
 
-    public void updateStatistics(Statistics statistics){
-        this.correct += statistics.getCorrect();
-        this.wrong += statistics.getWrong();
-        this.total += statistics.getTotal();
+    public void updateStatistics(Long correct, Long wrong, Long total){
+        this.correct += correct;
+        this.wrong += wrong;
+        this.total += total;
     }
 
 }
