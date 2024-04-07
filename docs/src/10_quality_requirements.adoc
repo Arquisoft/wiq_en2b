@@ -41,7 +41,7 @@ To obtain a measurable system response to stimulus corresponding to the various 
 |Quality attribute|Scenario|Priority
 | Functional suitability | Users shall be able to register, log in, play the quiz, and access historical data without encountering errors or glitches. | High, Medium
 | Reliability | The system shall reliably generate accurate and diverse questions from Wikidata. User registrations, logins, and game data storage shall be handled without errors. | High, Medium
-| Availability | The system shall be available 99.99% of the time when a user attempts to access it. | High, High
+| Availability | The system shall be available 99% of the time when a user attempts to access it. | High, High
 | Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. It shall efficiently generate questions from Wikidata and handle real-time gameplay with up to N concurrent users. | High, High
 | Usability | The system shall provide a user-friendly interface, allowing users to register, log in, and play the game with a learning time of less than 4 hours. | High, Medium
 | Security | User data shall be securely handled. Robust authentication mechanisms shall be in place for user registration and login. API access points for user information and generated questions shall be secured with proper authorization. | Medium, High 
