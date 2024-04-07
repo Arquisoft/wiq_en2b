@@ -9,23 +9,18 @@ This is the first version of the diagram, it will be updated if needed.
 [plantuml,"ConceptsDomainModel1",png]
 ----
 @startuml
-
 enum QuestionCategory {
-    HISTORY
     GEOGRAPHY
-    SCIENCE
-    MATH
-    LITERATURE
-    ART
     SPORTS
+    MUSIC
 }
 
-enum AnsswerCategory {
-    CITY
+enum AnswerCategory {
+    CAPITAL_CITY
     COUNTRY
-    PERSON
-    DATE
-    OTHER
+    SONG
+    STADIUM
+    BALLON_DOR
 }
 
 enum QuestionType{
@@ -39,44 +34,49 @@ class Question{
     answers: List<Answer>
     correctAnswer: Answer
     questionCategory: QuestionCategory
-    answerCategory: AnswerCategory
-    language: String
-    QuestionType: Type
+    type: QuestionType
+    games: List<Game>
 }
 
 class User{
     username: String
     email: String
     password: String
-    answeredQuestions: int
+    role: String
+    games: List<Game>
 }
 
-class UserStat{
+class Statistics{
+    correct: Long
+    wrong: Long
+    total: Long
+    user: User
 }
 
 class Answer {
     text: String
     category: AnswerCategory
-    questionsWithThisAnswer: List<Question>
-
+    language: String
 }
 
 class Game {
     user: User
     questions: List<Question>
+    rounds: int
+    actualRound: int
+    correctlyAnsweredQuestions: int
+    language: String
+    roundStartTime: LocalDateTime
+    roundDuration: Integer
+    currentQuestionAnswered: boolean
+    isGameOver: boolean
 }
 
 
-class Ranking << Singleton >> {
-
-}
-
-User  o--> Question
-User "1" --> "1" UserStat
-Game  o--> Question
-Game "n" --> "n" User
-Question "n" --> "n" Answer
-Ranking "1" --> "n" User
+User "1"--"1" Statistics
+Game "n"--"n" Question
+Game "1" -- "n" User
+Question "n" -- "n" Answer
 
 @enduml
 ----
