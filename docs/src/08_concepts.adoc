@@ -89,6 +89,13 @@ Question "n" -- "n" Answer
 | Game | It is created when the user starts a game and includes the rounds that the user has to answer
 |===
 
+.Question Generator
+The Question Generator is an important part of our application, it is already briefly described in Section 6, but mopre insight is given here.
+
+The Question Generator module is written in Java and connects via HTTP with Wikidata query service. 
+It follows a template design pattern where each Java class is responsible for generating the questions and answers.
+The query is ran against Wikidata and it returns a text in JSON format that is processed into the question and answers, which are later stored in the DB.
+
 .Architecture and design patterns
 We decided to use a React based frontend with BootSpring for the backend, which will follow the model view controller pattern to make the code clear.
 
