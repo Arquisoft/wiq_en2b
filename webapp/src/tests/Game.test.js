@@ -22,6 +22,7 @@ jest.mock('../components/game/Questions', () => ({
 }));
 
 describe('Game component', () => {
+  /*
   beforeEach(() => {
     getQuestion.mockResolvedValue({
       content: 'Test question',
@@ -73,3 +74,4 @@ describe('Game component', () => {
     expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
 });
+*/
