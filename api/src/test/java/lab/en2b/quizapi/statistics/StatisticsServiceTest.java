@@ -118,14 +118,37 @@ public class StatisticsServiceTest {
         Assertions.assertEquals(defaultStatisticsResponseDto1, result);
     }
 
-    /*@Test
+    @Test
     public void getTopTenStatisticsTestWhenThereAreNotTen(){
         when(statisticsRepository.findAll()).thenReturn(List.of(defaultStatistics2, defaultStatistics1));
-        when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto1);
-        when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto2);
-        when(statisticsResponseDtoMapper.apply(any())).thenReturn(defaultStatisticsResponseDto1);
+        when(statisticsResponseDtoMapper.apply(defaultStatistics1)).thenReturn(defaultStatisticsResponseDto1);
+        when(statisticsResponseDtoMapper.apply(defaultStatistics2)).thenReturn(defaultStatisticsResponseDto2);
         List<StatisticsResponseDto> result = statisticsService.getTopTenStatistics();
         Assertions.assertEquals(List.of(defaultStatisticsResponseDto2,defaultStatisticsResponseDto1), result);
-    }*/
+    }
+
+    @Test
+    public void getTopTenStatisticsTestWhenThereAreNotTenAndAreEqual(){
+        Statistics defaultStatistics3 = Statistics.builder()
+                .id(2L)
+                .user(defaultUser)
+                .correct(5L)
+                .wrong(5L)
+                .total(10L)
+                .build();
+        StatisticsResponseDto defaultStatisticsResponseDto3 = StatisticsResponseDto.builder()
+                .id(2L)
+                .right(5L)
+                .wrong(5L)
+                .total(10L)
+                .correctRate(50L)
+                .user(defaultUserResponseDto)
+                .build();
+        when(statisticsRepository.findAll()).thenReturn(List.of(defaultStatistics1, defaultStatistics3));
+        when(statisticsResponseDtoMapper.apply(defaultStatistics1)).thenReturn(defaultStatisticsResponseDto1);
+        when(statisticsResponseDtoMapper.apply(defaultStatistics3)).thenReturn(defaultStatisticsResponseDto3);
+        List<StatisticsResponseDto> result = statisticsService.getTopTenStatistics();
+        Assertions.assertEquals(List.of(defaultStatisticsResponseDto1,defaultStatisticsResponseDto3), result);
+    }
 
 }

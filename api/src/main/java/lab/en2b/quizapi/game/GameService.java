@@ -33,31 +33,21 @@ public class GameService {
         if (gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).isPresent()){
             return gameResponseDtoMapper.apply(gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).get());
         }
-        return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
+        Game g = gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))
                 .questions(new ArrayList<>())
                 .rounds(9)
                 .correctlyAnsweredQuestions(0)
                 .roundDuration(30)
                 .language("en")
-                .build()));
+                .build());
+        return gameResponseDtoMapper.apply(g);
     }
 
     public GameResponseDto startRound(Long id, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
-        game.newRound(questionRepository.findRandomQuestion(game.getLanguage()));
-        if (game.isGameOver()){
-            Statistics statistics = Statistics.builder()
-                    .user(game.getUser())
-                    .correct(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
-                    .wrong(Long.valueOf(game.getRounds() - game.getCorrectlyAnsweredQuestions()))
-                    .total(Long.valueOf(game.getRounds()))
-                    .build();
-            Statistics oldStatistics = statisticsRepository.findByUserId(game.getUser().getId()).orElseThrow();
-            statisticsRepository.delete(oldStatistics);
-            oldStatistics.updateStatistics(statistics);
-            statisticsRepository.save(oldStatistics);
-        }
+        game.newRound(questionService.findRandomQuestion(game.getLanguage()));
+
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
 
@@ -69,6 +59,29 @@ public class GameService {
     public GameResponseDto answerQuestion(Long id, GameAnswerDto dto, Authentication authentication){
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.answerQuestion(dto.getAnswerId(), questionRepository);
+
+        System.out.println("Current round: " + game.getActualRound());
+        System.out.println("Total round: " + game.getRounds());
+
+        if (game.isLastRound()){
+
+            /**
+            Statistics statistics = Statistics.builder()
+                    .user(game.getUser())
+                    .correct(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
+                    .wrong(Long.valueOf(game.getRounds() - game.getCorrectlyAnsweredQuestions()))
+                    .total(Long.valueOf(game.getRounds()))
+                    .build();
+            Statistics oldStatistics = statisticsRepository.findByUserId(game.getUser().getId()).orElseThrow();
+            statisticsRepository.delete(oldStatistics);
+            oldStatistics.updateStatistics(statistics);
+            statisticsRepository.save(oldStatistics);
+             **/
+
+            game.setGameOver(true);
+            gameRepository.save(game);
+        }
+
         return gameResponseDtoMapper.apply(game);
     }
 

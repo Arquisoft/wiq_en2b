@@ -47,6 +47,8 @@ public class Game {
             inverseJoinColumns=
             @JoinColumn(name="question_id", referencedColumnName="id")
     )
+
+    @OrderColumn
     private List<Question> questions;
     private boolean isGameOver;
 
@@ -54,8 +56,8 @@ public class Game {
         if(getActualRound() != 0){
             if (isGameOver())
                 throw new IllegalStateException("You can't start a round for a finished game!");
-            if(!currentRoundIsOver())
-                throw new IllegalStateException("You can't start a new round when the current round is not over yet!");
+            //if(!currentQuestionAnswered)
+            //    throw new IllegalStateException("You can't start a new round when the current round is not over yet!");
         }
 
         setCurrentQuestionAnswered(false);
@@ -70,6 +72,10 @@ public class Game {
 
     public boolean isGameOver(){
         return getActualRound() > getRounds();
+    }
+
+    public boolean isLastRound(){
+        return getActualRound() >= getRounds();
     }
 
     public Question getCurrentQuestion() {
