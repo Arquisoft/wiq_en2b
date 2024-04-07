@@ -10,6 +10,7 @@ include::src/config.adoc[]
 :revnumber: 8.2 EN
 :revdate: March 2024
 :revremark: (based upon AsciiDoc version)
+:toc: left
 // toc-title definition MUST follow document title without blank line!
 :toc-title: Table of Contents
 
