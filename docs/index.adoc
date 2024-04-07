@@ -6,7 +6,7 @@
 // configure EN settings for asciidoc
 include::src/config.adoc[]
 
-= image:icon-image.png[arc42] WIQ_en2b
+= image:icon-image.png[arc42] KIWIQ
 :revnumber: 8.2 EN
 :revdate: March 2024
 :revremark: (based upon AsciiDoc version)
