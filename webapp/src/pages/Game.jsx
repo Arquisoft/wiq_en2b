@@ -89,10 +89,10 @@ export default function Game() {
 
     const nextButtonClick = useCallback(async () => {
         try {
-            const isCorrect = (await answerQuestion(gameId, answer.id)).wasCorrect;
+            const isCorrect = (await answerQuestion(gameId, answer.id)).correctly_answered_questions;
     
             if (isCorrect) {
-                setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
+                setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
                 setShowConfetti(true);
             }
     
