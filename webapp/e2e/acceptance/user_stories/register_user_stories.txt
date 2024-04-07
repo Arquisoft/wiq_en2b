@@ -1,0 +1,34 @@
+User story:
+    As an unregistered user
+    I want to register
+    so that I can play the game
+
+Case 1:
+    SCENARIO:   a new user registers into the game successfully
+    GIVEN:      an unregistered user
+    WHEN:       user enters the login screen
+                user types his information properly
+    THEN:       a new user is created
+
+
+Case 2:
+    SCENARIO:   a new user tries to register leaving a blank field
+    GIVEN:      an unregistered user
+    WHEN:       user enters the login screen
+                user types leaves the username field blank, fills all the other fields properly
+    THEN:       the user is unable to create a new account
+
+Case 3:
+    SCENARIO:   a new user tries to register having a wrong email format
+    GIVEN:      an unregistered user
+    WHEN:       user enters the login screen
+                user types sets an incorrect formatted email, fills all the other fields properly
+    THEN:       the user is unable to create a new account
+
+
+Case 4:
+    SCENARIO:   a new user tries to register placing a username already in use
+    GIVEN:      an unregistered user
+    WHEN:       user enters the login screen
+                user types sets a username which is already in use, fills all the other fields properly
+    THEN:       the user is unable to create a new account

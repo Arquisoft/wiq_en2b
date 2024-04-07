@@ -1,128 +1,199 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Grid, Flex, Heading, Button, Box, Text, Spinner } from "@chakra-ui/react";
+import { Grid, Flex, Heading, Button, Box, Text, Spinner, CircularProgress } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
-import axios from "axios";
-
-import ButtonEf from '../components/ButtonEf';
-import {getQuestion, answerQuestion} from '../components/game/Questions';
+import { newGame, startRound, getCurrentQuestion, answerQuestion } from '../components/game/Game';
 import LateralMenu from '../components/LateralMenu';
 import MenuButton from '../components/MenuButton';
 
 export default function Game() {
-	const navigate = useNavigate();
+    const navigate = useNavigate();
 
-	const [question, setQuestion] = useState(null);
-	const [loading, setLoading] = useState(true);
-	
-	const generateQuestion = useCallback(async () => {
-		const result = await getQuestion();
-		if (result !== undefined) {
-			setQuestion(result);
-		} else {
-			navigate("/dashboard");
-		}
-	}, [navigate]);
+    const [loading, setLoading] = useState(true);
+    const [gameId, setGameId] = useState(null); 
+    const [question, setQuestion] = useState(null);
+    const [answer, setAnswer] = useState({});
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [nextDisabled, setNextDisabled] = useState(true);
+    const [roundNumber, setRoundNumber] = useState(1);
+    const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [showConfetti, setShowConfetti] = useState(false);
+    const [timeElapsed, setTimeElapsed] = useState(0);
 
-	useEffect(() => {
-		axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
-		const fetchQuestion = async () => {
-			setLoading(true);
-			await generateQuestion();
-			setLoading(false);
-		};
-		fetchQuestion();
-	}, [generateQuestion, navigate]);
-
-	const [answer, setAnswer] = useState({id:1, text:"answer1", category:"category1" });
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [nextDisabled, setNextDisabled] = useState(true);
-	const [roundNumber, setRoundNumber] = useState(1);
-	const [correctAnswers, setCorrectAnswers] = useState(0);
-	const [showConfetti, setShowConfetti] = useState(false);
-
-	const answerButtonClick = (option) => {
-		setAnswer(question.answers[option-1]);
-		setSelectedOption((prevOption) => (prevOption === option ? null : option));
-		const anyOptionSelected = option === selectedOption ? null : option;
-		setNextDisabled(anyOptionSelected === null);
-	};
-
-	const nextButtonClick = async () => {
-		const isCorrect = (await answerQuestion(question.id, answer.id)).wasCorrect;
-
-		if (isCorrect) {
-			setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
-			setShowConfetti(true);
-		}
-
-		setSelectedOption(null);
-
-		const nextRoundNumber = roundNumber + 1;
-		if (nextRoundNumber > 9)
-			navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers + (isCorrect ? 1 : 0) } });
-		else {
-			setRoundNumber(nextRoundNumber);
-			setNextDisabled(true);
-			await generateQuestion();
-		}
-	};
-
-	useEffect(() => { // stop the confeti after 3000 milliseconds
-		let timeout;
-		if (showConfetti)
-			timeout = setTimeout(() => { setShowConfetti(false); }, 3000);
-		return () => clearTimeout(timeout);
-	}, [showConfetti]);
-
-	const { t, i18n } = useTranslation();
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { t, i18n } = useTranslation();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
     };
 
-	return (
-		<Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
-			<MenuButton onClick={() => setIsMenuOpen(true)} />
+    const calculateProgress = (timeElapsed) => {
+        const totalTime = 30;
+        const percentage = (timeElapsed / totalTime) * 100;
+        return Math.min(Math.max(percentage, 0), 100);
+    };
+    
+    useEffect(() => {
+        const initializeGame = async () => {
+            try {
+                const newGameResponse = await newGame();
+                if (newGameResponse) {
+                    setLoading(false);
+                    await startRound(newGameResponse.id);
+                    setGameId(newGameResponse.id);
+                    startTimer();
+                } else {
+                    navigate("/dashboard");
+                }
+            } catch (error) {
+                console.error("Error initializing game:", error);
+                navigate("/dashboard");
+            }
+        };
+
+        initializeGame();
+    }, [navigate]);
+
+    const generateQuestion = useCallback(async () => {
+        try {
+            const result = await getCurrentQuestion(gameId);
+            if (result !== undefined) {
+                setQuestion(result);
+                setTimeElapsed(0); 
+            } else {
+                navigate("/dashboard");
+            }
+        } catch (error) {
+            console.error("Error fetching question:", error);
+            navigate("/dashboard");
+        }
+    }, [gameId, navigate]);
+
+    useEffect(() => {
+        if (gameId !== null) {
+            setSelectedOption(null);
+            generateQuestion();
+        }
+    }, [gameId, generateQuestion]);
+    
+
+    const answerButtonClick = (optionIndex, answer) => {
+        const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
+        setSelectedOption(selectedOptionIndex);
+        setAnswer(answer);
+        const anyOptionSelected = selectedOptionIndex !== null;
+        setNextDisabled(!anyOptionSelected);
+    };
+
+    const nextButtonClick = useCallback(async () => {
+        try {
+            const isCorrect = (await answerQuestion(gameId, answer.id)).correctly_answered_questions;
+    
+            if (isCorrect) {
+                setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
+                setShowConfetti(true);
+            }
+    
+            setSelectedOption(null);
+    
+            const nextRoundNumber = roundNumber + 1;
+            if (nextRoundNumber > 9)
+                navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers + (isCorrect ? 1 : 0) } });
+            else {
+                setAnswer({});
+                setRoundNumber(nextRoundNumber);
+                setNextDisabled(true);
+                await startRound(gameId);
+                await generateQuestion();
+            }
+        } catch (error) {
+            console.error("Error processing next question:", error);
+            navigate("/dashboard");
+        }
+    }, [gameId, answer.id, roundNumber, correctAnswers, generateQuestion, navigate]);    
+
+    useEffect(() => { 
+        let timeout;
+        if (showConfetti)
+            timeout = setTimeout(() => { setShowConfetti(false); }, 3000);
+        return () => clearTimeout(timeout);
+    }, [showConfetti]);
+
+    useEffect(() => {
+        let timeout;
+        if (timeElapsed >= 30) {
+            timeout = setTimeout(() => nextButtonClick(), 1000);
+        } else {
+            timeout = setTimeout(() => {
+                setTimeElapsed((prevTime) => prevTime + 1);
+            }, 1000); 
+        }
+        return () => clearTimeout(timeout);
+    }, [timeElapsed, nextButtonClick]);
+    
+
+    const startTimer = () => {
+        const timer = setTimeout(() => {
+            setTimeElapsed((prevTime) => prevTime + 1);
+        }, 1000); 
+        return () => clearTimeout(timer);
+    };
+
+    return (
+        <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
+            <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
 
-			<Heading as="h2">{t("game.round") + `${roundNumber}`}</Heading>
+            <Heading as="h2">{t("game.round") + `${roundNumber}`}</Heading>
 
-			<Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
+            <Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
-			<Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
-				{loading ? (
-					<Spinner
-						thickness='4px'
-						speed='0.65s'
-						emptyColor='gray.200'
-						color='green.500'
-						size='xl'
-					/>
-				) : (
-					<> 
-				<Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
+            <CircularProgress value={calculateProgress(timeElapsed)} color="green" size="120px" thickness="12px" capIsRound />
 
-				<Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
-					<ButtonEf dataTestId={"Option1"} variant={selectedOption === 1 ? "solid" : "outline"} colorScheme={"green"} text={question.answers[0].text} onClick={() => answerButtonClick(1)} />
-					<ButtonEf dataTestId={"Option2"} variant={selectedOption === 2 ? "solid" : "outline"} colorScheme={"green"} text={question.answers[1].text} onClick={() => answerButtonClick(2)} />
-				</Grid>
+            <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
+                {loading ? (
+                    <Spinner
+                        thickness='4px'
+                        speed='0.65s'
+                        emptyColor='gray.200'
+                        color='green.500'
+                        size='xl'
+                    />
+                ) : (
+                    question && (
+                        <> 
+                            <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
 
-				<Flex direction="row" justifyContent="center" alignItems="center">
-					<Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
-						{t("game.next")}
-					</Button>
-				</Flex>
+                            <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
+                                {question.answers.map((answer, index) => (
+                                    <Button
+                                        key={index}
+                                        data-testid={`Option${index + 1}`}
+                                        variant={selectedOption === index ? "solid" : "outline"}
+                                        colorScheme={"green"}
+                                        onClick={() => answerButtonClick(index, answer)}
+                                        style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
+                                    >
+                                        {answer.text}
+                                    </Button>
+                                ))}
+                            </Grid>
 
-				{showConfetti && (
-					<Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} />
-				)}
-				</>
-			)}
-			</Box>
-		</Center>
-	);
+                            <Flex direction="row" justifyContent="center" alignItems="center">
+                                <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+                                    {t("game.next")}
+                                </Button>
+                            </Flex>
+
+                            {showConfetti && (
+                                <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} />
+                            )}
+                        </>
+                    )
+                )}
+            </Box>
+        </Center>
+    );
 }

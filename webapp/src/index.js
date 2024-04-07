@@ -13,9 +13,7 @@ const browserRouter = createBrowserRouter(router);
 
 root.render(
   <ChakraProvider theme={theme}>
-    <React.StrictMode>
       <RouterProvider router={browserRouter} />
-    </React.StrictMode>
   </ChakraProvider>
 );
 
