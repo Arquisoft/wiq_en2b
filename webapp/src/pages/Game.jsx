@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
 import { newGame, startRound, getCurrentQuestion, answerQuestion } from '../components/game/Game';
-import axios from "axios";
 import LateralMenu from '../components/LateralMenu';
 import MenuButton from '../components/MenuButton';
 
@@ -37,7 +36,6 @@ export default function Game() {
     };
     
     useEffect(() => {
-        axios.defaults.headers.common["Authorization"] = "Bearer " + sessionStorage.getItem("jwtToken");
         const initializeGame = async () => {
             try {
                 const newGameResponse = await newGame();
@@ -107,8 +105,8 @@ export default function Game() {
                 setAnswer({});
                 setRoundNumber(nextRoundNumber);
                 setNextDisabled(true);
+                await startRound(gameId);
                 await generateQuestion();
-                startRound(gameId);
             }
         } catch (error) {
             console.error("Error processing next question:", error);
