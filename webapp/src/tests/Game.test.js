@@ -73,5 +73,5 @@ describe('Game component', () => {
 
     expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
   });
+  */
 });
-*/
