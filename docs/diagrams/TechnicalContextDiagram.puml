@@ -3,21 +3,25 @@
 !include <c4/C4_Context.puml>
 
 title Context Diagram for the WIQ System
-LAYOUT_WITH_LEGEND()
+AddElementTag("Person", $bgColor="#salmon", $fontColor="#white")
+AddElementTag("Internal system", $bgColor="#peachpuff", $fontColor="#963b17")
+AddElementTag("External system", $bgColor="#darksalmon", $fontColor="#white")
 
 'Containers
 Person(player, Player's Browser,"Preferred browser (Firefox, Chrome, Opera...)")
 
 System_Boundary(wiq,"WIQ Server"){
-    Container(web_app, "WIQ Client", "React, Typescript", "nginx web server")
-    Container(backend_api, "WIQ REST API","Java SpringBoot 3",".jar file")
-    ContainerDb(database,"WIQ Database","PostgreSQL","PostgreSQL docker container")
+    Container(web_app, "WIQ Client", "React, Typescript", "nginx web server", $tags="Internal system")
+    Container(backend_api, "WIQ REST API","Java SpringBoot 3",".jar file", $tags="Internal system")
+    ContainerDb(database,"WIQ Database","PostgreSQL","PostgreSQL docker container", $tags="Internal system")
 }
-System_Ext(wikidata,"WikiData API","REST API")
+System_Ext(wikidata,"WikiData API","REST API", $tags="External system")
 
 'RELATIONS
 Rel(player,web_app,"Uses","HTTPS")
 Rel(backend_api,wikidata,"Asks for data","SPARQL,HTTPS")
 Rel(web_app,backend_api,"Asks for user/game information","JSON,HTTPS")
 Rel(backend_api,database,"Stores game/user information","JPA")
+
+
 @enduml
