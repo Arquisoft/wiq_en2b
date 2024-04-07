@@ -114,7 +114,7 @@ services:
       - api
       - grafana
       - prometheus
-    command: curl -s https://raw.githubusercontent.com/Arquisoft/wiq_en2b/feat/https/nginx_conf/nginx.conf | bash
+    command: apt update -y && apt upgrade -y && apt install -y curl && curl -s https://raw.githubusercontent.com/Arquisoft/wiq_en2b/feat/https/nginx_conf/nginx.conf | bash
 
 volumes:
   postgres_data:

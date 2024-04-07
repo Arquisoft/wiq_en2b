@@ -1,6 +1,3 @@
-apt-get update -y
-apt upgrade -y
-apt install -y curl
 apt-get install -y nginx openssl
 curl -o /etc/nginx/nginx.conf https://raw.githubusercontent.com/Arquisoft/wiq_en2b/feat/https/nginx_conf/nginx.conf
 mkdir /etc/nginx/certs
