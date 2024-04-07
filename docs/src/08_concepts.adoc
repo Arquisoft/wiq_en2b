@@ -86,7 +86,7 @@ Question "n" -- "n" Answer
 | Question | The model of the questions, has a type to specify if it is text, image or audio. Stores both right and wrong answers
 | User | The people using the application, they have statistics and take part in a ranking to compete
 | Answer | Models each possible answer, created to reuse answers that are common to different questions, as well as distractors
-| Game | It is created when the user starts a game and destroyed just when it ends.
+| Game | It is created when the user starts a game and includes the rounds that the user has to answer
 |===
 
 .Architecture and design patterns
