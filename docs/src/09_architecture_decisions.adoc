@@ -20,4 +20,10 @@ During the application development process, decisions had to be made as issues e
 
 |React Libraries
 |To enhance the efficiency and effectiveness of our development process, we've taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.
+
+|HTTPS
+|To improve security we have decided to make HTTPS as one main requirements in out project as can be seen in issue #51.
 |===
+
+If needed, a more descriptive record can be seen link:https://github.com/Arquisoft/wiq_en2b/wiki[here].
+
