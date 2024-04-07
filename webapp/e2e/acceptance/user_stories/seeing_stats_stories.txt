@@ -5,9 +5,9 @@ THEN:
 
 
 SCENARIO:   a logged user with many games wants to see its stats
-GIVEN:      a logged user with many games and a full ladder board (many other users with many other games)
+GIVEN:      a logged user with many games and a full leader board (many other users with many other games)
 WHEN:       clicking the button for seeing stats
-THEN:       it successfully displays both, the ladder board and the logged user statistics
+THEN:       it successfully displays both, the leader board and the logged user statistics
 
 
 User story:
