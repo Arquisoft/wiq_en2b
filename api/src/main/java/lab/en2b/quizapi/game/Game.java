@@ -79,6 +79,9 @@ public class Game {
     }
 
     public Question getCurrentQuestion() {
+        if(getRoundStartTime() == null){
+            throw new IllegalStateException("The round is not active!");
+        }
         if(currentRoundIsOver())
             throw new IllegalStateException("The current round is over!");
         if(isGameOver())
@@ -91,7 +94,7 @@ public class Game {
     }
 
     private boolean roundTimeHasExpired(){
-        return LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
+        return getRoundStartTime()!= null && LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
     }
 
     public void answerQuestion(Long answerId, QuestionRepository questionRepository){
