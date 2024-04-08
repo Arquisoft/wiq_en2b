@@ -25,9 +25,8 @@ export default function About() {
               <InfoIcon boxSize={10} color="pigment_green.500" />
               <Heading as="h2">{t('about.title')}</Heading>
             </Box> 
-            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
+            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem" data-testid={"About page"}>
               <Text>{t("about.description1")}</Text>
-              <br></br>
               <Table variant="simple">
                 <Thead>
                   <Tr>
