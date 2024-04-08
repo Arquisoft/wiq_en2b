@@ -25,6 +25,7 @@ public class GameResponseDto {
     private Long rounds;
 
     @Schema(description = "Actual round for the game", example = "3")
+    @JsonProperty("actual_round")
     private Long actualRound;
 
     @Schema(description = "Number of correct answered questions", example = "2")

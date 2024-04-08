@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,16 @@ public class GameService {
 
     @Transactional
     public GameResponseDto newGame(Authentication authentication) {
-        if (gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).isPresent()){
-            return gameResponseDtoMapper.apply(gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).get());
+        Optional<Game> game = gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId());
+
+        if (game.isPresent()){
+            if (game.get().shouldBeGameOver()){
+                game.get().setGameOver(true);
+                gameRepository.save(game.get());
+                saveStatistics(game.get());
+            }else{
+                return gameResponseDtoMapper.apply(game.get());
+            }
         }
         return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))
@@ -47,9 +56,13 @@ public class GameService {
                 .build()));
     }
 
-    @Transactional
     public GameResponseDto startRound(Long id, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
+        if (game.shouldBeGameOver()){
+            game.setGameOver(true);
+            gameRepository.save(game);
+            saveStatistics(game);
+        }
         game.newRound(questionService.findRandomQuestion(game.getLanguage()));
 
         return gameResponseDtoMapper.apply(gameRepository.save(game));
@@ -65,7 +78,7 @@ public class GameService {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.answerQuestion(dto.getAnswerId(), questionRepository);
 
-        if (game.isLastRound() && !game.isGameOver()){
+        if (game.shouldBeGameOver()){
             game.setGameOver(true);
             gameRepository.save(game);
             saveStatistics(game);
@@ -101,7 +114,7 @@ public class GameService {
 
     public GameResponseDto getGameDetails(Long id, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
-        if (game.isLastRound() && !game.isGameOver()){
+        if (game.shouldBeGameOver()){
             game.setGameOver(true);
             gameRepository.save(game);
             saveStatistics(game);

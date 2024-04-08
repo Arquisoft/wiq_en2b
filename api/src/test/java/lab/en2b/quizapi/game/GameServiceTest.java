@@ -231,6 +231,7 @@ public class GameServiceTest {
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.startRound(1L,authentication);
+        defaultGame.setGameOver(true);
         defaultGame.setActualRound(10L);
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
@@ -271,6 +272,7 @@ public class GameServiceTest {
         when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
+        defaultGame.setGameOver(true);
         defaultGame.setActualRound(30L);
         assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
     }
@@ -319,6 +321,7 @@ public class GameServiceTest {
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         defaultGame.setGameOver(true);
+        defaultGame.setActualRound(10L);
         assertThrows(IllegalStateException.class,() -> gameService.changeLanguage(1L, "es", authentication));
 
     }
