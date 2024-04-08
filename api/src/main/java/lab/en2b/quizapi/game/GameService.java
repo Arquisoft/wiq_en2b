@@ -31,6 +31,7 @@ public class GameService {
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
     private final StatisticsRepository statisticsRepository;
 
+    @Transactional
     public GameResponseDto newGame(Authentication authentication) {
         if (gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).isPresent()){
             return gameResponseDtoMapper.apply(gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).get());
@@ -46,6 +47,7 @@ public class GameService {
                 .build()));
     }
 
+    @Transactional
     public GameResponseDto startRound(Long id, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.newRound(questionService.findRandomQuestion(game.getLanguage()));
@@ -58,6 +60,7 @@ public class GameService {
         return questionResponseDtoMapper.apply(game.getCurrentQuestion());
     }
 
+    @Transactional
     public GameResponseDto answerQuestion(Long id, GameAnswerDto dto, Authentication authentication){
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.answerQuestion(dto.getAnswerId(), questionRepository);
