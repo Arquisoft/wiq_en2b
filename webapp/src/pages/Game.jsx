@@ -47,8 +47,8 @@ export default function Game() {
         try {
             const result = await getCurrentQuestion(gameId);
             if (result.status === HttpStatusCode.Ok) {
-                await setQuestion(result.data);
-                await setQuestionLoading(false);
+                setQuestion(result.data);
+                setQuestionLoading(false);
                 setTimeElapsed(0);
             } else {
                 navigate("/dashboard");
@@ -62,18 +62,17 @@ export default function Game() {
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
         setSelectedOption(selectedOptionIndex);
-        await setAnswer(answer);
-        const anyOptionSelected = selectedOptionIndex !== null;
-        setNextDisabled(!anyOptionSelected);
+        setAnswer(answer);
+        setNextDisabled(false);
     };
 
     const startNewRound = async (gameId) => {
         try{
-            console.log("pepe");
             const result = await startRound(gameId);
             setTimeStartRound(new Date(result.data.round_start_time).getTime());
             setRoundNumber(result.data.actual_round )
             setRoundDuration(result.data.round_duration);
+            setNextDisabled(true);
             await assignQuestion(gameId);
         }
         catch(error){
