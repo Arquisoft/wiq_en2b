@@ -65,4 +65,30 @@ describe("Game Component", () => {
       expect(nextButton).not.toBeDisabled();
     });
   });
+  it("displays correct answer after selecting wrong answer", async () => {
+    const data = {
+      question: "What is the capital of Spain?",
+      options: ["Madrid", "Barcelona", "Seville", "Valencia"],
+    };
+    mockAxios.onGet().reply(HttpStatusCode.Ok, data);
+    const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    waitFor(() => {
+      const optionButton = container.querySelector("button");
+      fireEvent.click(optionButton);
+      expect(optionButton).toHaveStyle("background-color: red");
+    });
+  });
+  it("displays correct answer after selecting correct answer", async () => {
+    const data = {
+      question: "What is the capital of Spain?",
+      options: ["Madrid", "Barcelona", "Seville", "Valencia"],
+    };
+    mockAxios.onGet().reply(HttpStatusCode.Ok, data);
+    const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    waitFor(() => {
+      const optionButton = container.querySelector("button");
+      fireEvent.click(optionButton);
+      expect(optionButton).toHaveStyle("background-color: green");
+    });
+  });
 });
