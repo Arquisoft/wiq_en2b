@@ -145,7 +145,7 @@ export default function Game() {
             await assignQuestion(gameId);
         }
 
-    }, [gameId, answer.id, maxRoundNumber, roundNumber, startNewRound,
+    }, [gameId, maxRoundNumber, roundNumber, startNewRound,
         correctAnswers, assignQuestion, navigate]);
 
     const nextButtonClick = useCallback(async () => {
