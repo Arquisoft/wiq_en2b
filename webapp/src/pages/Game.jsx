@@ -204,6 +204,7 @@ export default function Game() {
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
                 {loading ? (
                     <Spinner
+                        data-testid="loading-spinner"
                         thickness='4px'
                         speed='0.65s'
                         emptyColor='gray.200'

@@ -1,4 +1,4 @@
-import {HttpStatusCode} from "axios";
+import { HttpStatusCode } from "axios";
 import AuthManager from "components/auth/AuthManager";
 
 const authManager = new AuthManager();
@@ -15,11 +15,25 @@ export async function newGame() {
 }
 
 export async function startRound(gameId) {
-    return await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/startRound");
+    try {
+        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/startRound");
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            return requestAnswer.data;
+        }
+    } catch {
+
+    }
 }
 
 export async function getCurrentQuestion(gameId) {
-    return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/question");
+    try {
+        let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/question");
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            return requestAnswer.data;
+        }
+    } catch {
+
+    }
 }
 
 export async function changeLanguage(gameId, language) {
@@ -34,7 +48,14 @@ export async function changeLanguage(gameId, language) {
 }
 
 export async function answerQuestion(gameId, aId) {
-    return await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/answer", {answer_id:aId});
+    try {
+        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/answer", {answer_id:aId});
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            return requestAnswer.data;
+        }
+    } catch {
+
+    }
 }
 
 export async function getGameDetails(gameId) {
@@ -47,4 +68,3 @@ export async function getGameDetails(gameId) {
 
     }
 }
-

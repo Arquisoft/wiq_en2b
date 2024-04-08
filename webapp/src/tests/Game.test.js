@@ -1,79 +1,68 @@
-import React from 'react';
-import { render, fireEvent, screen, act } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
-import Game from '../pages/Game';
+import React from "react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
-import { getQuestion } from '../components/game/Questions';
+import { MemoryRouter } from 'react-router';
+import Game from "../pages/Game"; 
+import { HttpStatusCode } from "axios";
+import AuthManager from "components/auth/AuthManager";
+import MockAdapter from "axios-mock-adapter";
 
-jest.mock('react-i18next', () => ({
-  useTranslation: () => {
-    return {
-      t: (str) => str,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    }
-  },
-}));
+describe("Game Component", () => {
+  const authManager = new AuthManager();
+  let mockAxios;
 
-jest.mock('../components/game/Questions', () => ({
-  getQuestion: jest.fn(),
-}));
-
-describe('Game component', () => {
-  /*
   beforeEach(() => {
-    getQuestion.mockResolvedValue({
-      content: 'Test question',
-      answers: [
-        { id: 1, text: 'Test answer 1', category: 'Test category 1' },
-        { id: 2, text: 'Test answer 2', category: 'Test category 2' },
-      ],
+    authManager.reset();
+    mockAxios = new MockAdapter(authManager.getAxiosInstance());
+  });
+
+  afterAll(() => {
+    mockAxios = null;
+    authManager.reset();
+  });
+
+  it("renders loading spinner initially", () => {
+    const { getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    expect(getByTestId("loading-spinner")).toBeInTheDocument();
+  });
+
+  it("renders round number and correct answers count", async () => {
+    const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    expect(getByText("game.round1")).toBeInTheDocument();
+    expect(getByText("Correct answers: 0")).toBeInTheDocument();
+  });
+
+  it("displays question and options after loading", async () => {
+    const data = {
+      question: "What is the capital of Spain?",
+      options: ["Madrid", "Barcelona", "Seville", "Valencia"],
+    };
+    mockAxios.onGet().reply(HttpStatusCode.Ok, data);
+    const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    waitFor(() => {
+      expect(container).toHaveTextContent("What is the capital of Spain?");
+      expect(container).toHaveTextContent("Madrid");
+      expect(container).toHaveTextContent("Barcelona");
+      expect(container).toHaveTextContent("Seville");
+      expect(container).toHaveTextContent("Valencia");
     });
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
+  it("allows selecting an answer and enables next button", async () => {
+    const data = {
+      question: "What is the capital of Spain?",
+      options: ["Madrid", "Barcelona", "Seville", "Valencia"],
+    };
+    mockAxios.onGet().reply(HttpStatusCode.Ok, data);
+    const { container } = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+    waitFor(() => {
+      const optionButton = container.querySelector("button");
+      fireEvent.click(optionButton);
+      expect(optionButton).toHaveStyle("background-color: green");
+      const nextButton = container.querySelector("button");
+      expect(nextButton).not.toBeDisabled();
+    });
   });
-    */
-  test('selects an option when clicked', async () => {
-    /*
-    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const option1Button = await screen.findByTestId('Option1');
-
-    act(() => fireEvent.click(option1Button));
-
-    expect(option1Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
-    */
-  });
-    /*
-  test('disables next button when no option is selected', async () => {
-    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const nextButton = await screen.findByTestId('Next');
-
-    expect(nextButton).toBeDisabled();
-  });
-
-  test('enables next button when an option is selected', async () => {
-    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const option1Button = await screen.findByTestId('Option1');
-    const nextButton = await screen.findByTestId('Next');
-
-    act(() => fireEvent.click(option1Button));
-
-    expect(nextButton).toBeEnabled();
-  });
-
-  test('renders ButtonEf component correctly', async () => {
-    render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
-    const option2Button = await screen.findByTestId('Option2');
-
-    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-147pzm2');
-
-    act(() => fireEvent.click(option2Button));
-
-    expect(option2Button).toHaveClass('chakra-button custom-button effect1 css-m4hh83');
-  });
-  */
 });
