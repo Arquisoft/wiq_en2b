@@ -18,6 +18,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Log4j2
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(InternalApiErrorException.class)
+    public ResponseEntity<String> handleInternalApiErrorException(InternalApiErrorException exception){
+        log.error(exception.getMessage(),exception);
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.SERVICE_UNAVAILABLE);
+    }
     @ExceptionHandler(InvalidAuthenticationException.class)
     public ResponseEntity<String> handleInvalidAuthenticationException(InvalidAuthenticationException exception){
         log.error(exception.getMessage(),exception);
@@ -28,7 +33,11 @@ public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
         log.error(exception.getMessage(),exception);
         return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
     }
-
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalStateException(IllegalStateException exception){
+        log.error(exception.getMessage(),exception);
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
+    }
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception){
         log.error(exception.getMessage(),exception);
@@ -60,7 +69,7 @@ public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception exception){
         log.error(exception.getMessage(),exception);
-        return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

@@ -1,6 +1,6 @@
 import { Box,  Center, Heading, Stack, StackDivider, Table, Tbody, Text,
         Td, Th, Thead, Tr, CircularProgress} from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
@@ -18,6 +18,7 @@ export default function Statistics() {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
+        console.log('lmao')
         try {
             const request = await new AuthManager().getAxiosInstance()
                                                    .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/top");
@@ -48,15 +49,19 @@ export default function Statistics() {
         return topTen.map((element, counter) => { 
             return <Tr key={`row-${counter}`}> 
                 <Th isNumeric scope="row">{counter + 1}</Th> 
-                <Td>{element.username}</Td> 
-                <Td isNumeric>{element.correct}</Td> 
+                <Td>{element.user.username}</Td>
+                <Td isNumeric>{element.right}</Td>
                 <Td isNumeric>{element.wrong}</Td> 
                 <Td isNumeric>{element.total}</Td> 
-                <Td>{element.rate}%</Td> 
+                <Td>{element.correct_rate}%</Td>
             </Tr> 
         }); 
-    } 
-
+    }
+    useEffect(() => {
+        if(!retrievedData){
+            getData();
+        }
+    });
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -65,7 +70,7 @@ export default function Statistics() {
     };
 
     return (
-        <Center display={"flex"} onLoad={getData} data-testid={"background"}
+        <Center display={"flex"} data-testid={"background"}
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
             justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
             <MenuButton onClick={() => setIsMenuOpen(true)}/>

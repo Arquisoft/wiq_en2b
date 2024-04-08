@@ -32,6 +32,9 @@ public class Statistics {
     private User user;
 
     public Long getCorrectRate() {
+        if(total == 0){
+            return 0L;
+        }
         return (correct * 100) / total;
     }
 
