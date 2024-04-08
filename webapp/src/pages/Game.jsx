@@ -39,43 +39,7 @@ export default function Game() {
         const percentage = (((Date.now()-timeStartRound)/1000) / totalTime) * 100;
         return Math.min(Math.max(percentage, 0), 100);
     };
-    /*
-      Initialize game when loading the page
-     */
-    useEffect(() => {
-        const initializeGame = async () => {
-            try {
-                const newGameResponse = await newGame();
-                if (newGameResponse) {
-                    setRoundNumber(newGameResponse.actual_round)
-                    await setGameId(newGameResponse.id);
-                    setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
-                    setRoundDuration(newGameResponse.round_duration)
-                    setMaxRoundNumber(newGameResponse.rounds);
-                    try{
-                        await getCurrentQuestion(newGameResponse.id).then((result) => {
-                            if (result.status === 200) {
-                                setQuestion(result.data);
-                                setQuestionLoading(false);
-                            }
-                        });
-                    }catch (error) {
-                        await startNewRound(newGameResponse.id);
-                    }
-                    setLoading(false);
-                } else {
-                    navigate("/dashboard");
-                }
-            } catch (error) {
-                console.error("Error initializing game:", error);
-                navigate("/dashboard");
-            }
-        };
-
-        initializeGame();
-    }, [navigate, startNewRound]);
-
-
+    
     /*
         Generate new question when the round changes
      */
@@ -109,42 +73,6 @@ export default function Game() {
         setNextDisabled(!anyOptionSelected);
     };
 
-    const nextButtonClick = useCallback(async () => {
-        try {
-            const result = await answerQuestion(gameId, answer.id);
-            let isCorrect = result.data.was_correct;
-            if (isCorrect) {
-                setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
-                setShowConfetti(true);
-            }
-            setSelectedOption(null);
-            await nextRound()
-
-        } catch (error) {
-            if(error.response.status === 400){
-                setTimeout(nextButtonClick, 2000)
-            }else{
-                console.log('xd'+error.status)
-            }
-        }
-    }, [gameId, answer.id, nextRound, roundNumber, correctAnswers, assignQuestion, navigate]);
-
-    const nextRound = useCallback(async () => {
-        const nextRoundNumber = roundNumber + 1;
-        if (nextRoundNumber > maxRoundNumber)
-            navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
-        else {
-            setAnswer({});
-            setRoundNumber(nextRoundNumber);
-            setNextDisabled(true);
-            setQuestionLoading(true);
-            await startNewRound(gameId);
-
-            await assignQuestion(gameId);
-        }
-
-    }, [gameId, answer.id, maxRoundNumber, roundNumber, correctAnswers, assignQuestion, navigate]);
-
     const startNewRound = useCallback(async (gameId) => {
         try{
             const result = await startRound(gameId);
@@ -167,6 +95,78 @@ export default function Game() {
 
     }, [roundNumber, correctAnswers, assignQuestion, navigate]);
 
+    /*
+      Initialize game when loading the page
+     */
+      useEffect(() => {
+        const initializeGame = async () => {
+            try {
+                const newGameResponse = await newGame();
+                if (newGameResponse) {
+                    setRoundNumber(newGameResponse.actual_round)
+                    await setGameId(newGameResponse.id);
+                    setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
+                    setRoundDuration(newGameResponse.round_duration)
+                    setMaxRoundNumber(newGameResponse.rounds);
+                    try{
+                        await getCurrentQuestion(newGameResponse.id).then((result) => {
+                            if (result.status === 200) {
+                                setQuestion(result.data);
+                                setQuestionLoading(false);
+                            }
+                        });
+                    }catch (error) {
+                        await startNewRound(newGameResponse.id);
+                    }
+                    setLoading(false);
+                } else {
+                    navigate("/dashboard");
+                }
+            } catch (error) {
+                console.error("Error initializing game:", error);
+                navigate("/dashboard");
+            }
+        };
+
+        initializeGame();
+    }, [navigate, startNewRound]);
+
+    const nextRound = useCallback(async () => {
+        const nextRoundNumber = roundNumber + 1;
+        if (nextRoundNumber > maxRoundNumber)
+            navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
+        else {
+            setAnswer({});
+            setRoundNumber(nextRoundNumber);
+            setNextDisabled(true);
+            setQuestionLoading(true);
+            await startNewRound(gameId);
+
+            await assignQuestion(gameId);
+        }
+
+    }, [gameId, answer.id, maxRoundNumber, roundNumber, startNewRound,
+        correctAnswers, assignQuestion, navigate]);
+
+    const nextButtonClick = useCallback(async () => {
+        try {
+            const result = await answerQuestion(gameId, answer.id);
+            let isCorrect = result.data.was_correct;
+            if (isCorrect) {
+                setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
+                setShowConfetti(true);
+            }
+            setSelectedOption(null);
+            await nextRound()
+
+        } catch (error) {
+            if(error.response.status === 400){
+                setTimeout(nextButtonClick, 2000)
+            }else{
+                console.log('xd'+error.status)
+            }
+        }
+    }, [gameId, answer.id, nextRound, correctAnswers]);
 
     useEffect(() => { 
         let timeout;
@@ -188,7 +188,7 @@ export default function Game() {
             }, 1000); 
         }
         return () => clearTimeout(timeout);
-    }, [timeElapsed, nextRound]);
+    }, [timeElapsed, nextRound, timeStartRound, roundDuration]);
 
 
     return (
