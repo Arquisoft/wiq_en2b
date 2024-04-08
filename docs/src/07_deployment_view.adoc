@@ -43,4 +43,4 @@ Our main idea is that the server will be a self-contained .jar file with all the
 The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers. The databases to store the questions (and therefore the answers) and the user data might be different, though.
 
 ===== Question Generator
-The question generator will be run only at the beginning of the application. It will connect with Wikidata using SPARQL to generate questions and answers and store them in the database. This question generation will generate all the questions used by the application at once.
+The question generator will be run only at the beginning of the application. It will connect with Wikidata using SPARQL to generate questions and answers and store them in the database. This question generation will generate all the questions used by the application at once. It could be run again to generate new questions if they are added.

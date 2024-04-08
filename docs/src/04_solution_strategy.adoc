@@ -17,6 +17,8 @@ Regarding the technologies, we decided to use the following ones:
 
  * **Java SpringBoot 3** for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.
 
+ * **Java ** for the Question Generator process, due to the ease for connecting with the DB via JPA and our familiarity.
+
 === Organizational breakdown 
 
 Currently, we have been meeting twice a week, but that may change in the future. Most, if not all of us, were present for these meetings, and relevant decisions were also discussed on the side and between members, as well discussions related to opinions on some matter. Some of these meetings took place in person while others took place on a Discord Server.

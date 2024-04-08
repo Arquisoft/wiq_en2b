@@ -87,10 +87,11 @@ Question "n" -- "n" Answer
 | User | The people using the application, they have statistics and take part in a ranking to compete
 | Answer | Models each possible answer, created to reuse answers that are common to different questions, as well as distractors
 | Game | It is created when the user starts a game and includes the rounds that the user has to answer
+| Statistics | Stores information about the amount of correct and wrong answers that each user has answered
 |===
 
 .Question Generator
-The Question Generator is an important part of our application, it is already briefly described in Section 6, but mopre insight is given here.
+The Question Generator is an important part of our application, it is already briefly described in Section 6, but more insight is given here.
 
 The Question Generator module is written in Java and connects via HTTP with Wikidata query service. 
 It follows a template design pattern where each Java class is responsible for generating the questions and answers.
@@ -113,4 +114,4 @@ In order to archieve this, we will implement two modules regarding questions, on
 Our code will be deployed within an Azure's Virtual Machine using continuous integration. 
 
 .Under-the-hood:
-Regarding Data persistence, our project has two DB, one for storing questions as stated before while the other one will be in charge of storing any other meaningful data for the game such us users or game's histories.
+Regarding Data persistence, our project has a PostgreSQL DB, which stores information about users, statistics, games, answers and questions.
