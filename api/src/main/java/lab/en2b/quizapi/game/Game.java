@@ -71,7 +71,7 @@ public class Game {
     }
 
     public boolean isGameOver(){
-        return getActualRound() > getRounds();
+        return isGameOver || getActualRound() > getRounds();
     }
 
     public boolean isLastRound(){

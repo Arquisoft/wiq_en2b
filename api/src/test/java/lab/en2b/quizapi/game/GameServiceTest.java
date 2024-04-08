@@ -303,10 +303,24 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        GameResponseDto gameDto = gameService.newGame(authentication);
+        gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.changeLanguage(1L, "es", authentication);
-        assertEquals(defaultGameResponseDto, gameDto);
+        gameService.getGameDetails(1L, authentication);
+        assertEquals("es",defaultGame.getLanguage());
+    }
+
+    @Test
+    public void changeLanguageGameOver(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+
+        gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        defaultGame.setGameOver(true);
+        assertThrows(IllegalStateException.class,() -> gameService.changeLanguage(1L, "es", authentication));
+
     }
 
     @Test
