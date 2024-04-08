@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Flex, Heading, Button, Box, Text, Spinner, CircularProgress } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +43,7 @@ export default function Game() {
     /*
         Generate new question when the round changes
      */
-    const assignQuestion = useCallback(async (gameId) => {
+    const assignQuestion = async (gameId) => {
         try {
             const result = await getCurrentQuestion(gameId);
             if (result.status === HttpStatusCode.Ok) {
@@ -57,7 +57,7 @@ export default function Game() {
             console.error("Error fetching question:", error);
             navigate("/dashboard");
         }
-    }, [navigate]);
+    }
 
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
@@ -67,7 +67,7 @@ export default function Game() {
         setNextDisabled(!anyOptionSelected);
     };
 
-    const startNewRound = useCallback(async (gameId) => {
+    const startNewRound = async (gameId) => {
         try{
             console.log("pepe");
             const result = await startRound(gameId);
@@ -88,7 +88,7 @@ export default function Game() {
 
         }
 
-    }, [roundNumber, correctAnswers, assignQuestion, navigate]);
+    }
 
     /*
       Initialize game when loading the page
@@ -122,9 +122,7 @@ export default function Game() {
         }
     };
 
-    initializeGame();
-
-    const nextRound = useCallback(async () => {
+    const nextRound = async () => {
         if (roundNumber + 1 > maxRoundNumber)
             navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
         else {
@@ -134,10 +132,9 @@ export default function Game() {
             await startNewRound(gameId);
         }
 
-    }, [gameId, maxRoundNumber, roundNumber, startNewRound,
-        correctAnswers, navigate]);
+    }
 
-    const nextButtonClick = useCallback(async () => {
+    const nextButtonClick = async () => {
         try {
             const result = await answerQuestion(gameId, answer.id);
             let isCorrect = result.data.was_correct;
@@ -152,11 +149,15 @@ export default function Game() {
             if(error.response.status === 400){
                 setTimeout(nextButtonClick, 2000)
             }else{
-                console.log('xd'+error.status)
+                console.log('xd'+error.response.status)
             }
         }
-    }, [gameId, answer.id, nextRound, correctAnswers]);
-
+    };
+    useEffect(() => {
+        // Empty dependency array [] ensures this effect runs only once after initial render
+        initializeGame();
+        // eslint-disable-next-line
+    }, []);
     useEffect(() => { 
         let timeout;
         if (showConfetti)
@@ -177,7 +178,8 @@ export default function Game() {
             }, 1000); 
         }
         return () => clearTimeout(timeout);
-    }, [timeElapsed, nextRound, timeStartRound, roundDuration]);
+        // eslint-disable-next-line
+    }, [timeElapsed, timeStartRound, roundDuration]);
 
 
     return (
