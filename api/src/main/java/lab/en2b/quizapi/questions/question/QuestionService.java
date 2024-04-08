@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.questions.question;
 
+import lab.en2b.quizapi.commons.exceptions.InternalApiErrorException;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
@@ -21,6 +22,12 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
 
+    /**
+     * Answer a question
+     * @param id The id of the question
+     * @param answerDto The answer dto
+     * @return The response dto
+     */
     public AnswerCheckResponseDto answerQuestion(Long id, AnswerDto answerDto) {
         Question question = questionRepository.findById(id).orElseThrow();
         if(question.getCorrectAnswer().getId().equals(answerDto.getAnswerId())){
@@ -35,20 +42,22 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getRandomQuestion(String lang) {
-        if (lang==null || lang.isBlank()) {
-            lang = "en";
-        }
-        Question q = questionRepository.findRandomQuestion(lang);
-        loadAnswers(q);
-
-        return questionResponseDtoMapper.apply(q);
+        return questionResponseDtoMapper.apply(findRandomQuestion(lang));
     }
-    
+
+    /**
+     * Find a random question for the specified language
+     * @param lang The language to find the question for
+     * @return The random question
+     */
     public Question findRandomQuestion(String lang){
         if (lang==null || lang.isBlank()) {
             lang = "en";
         }
         Question q = questionRepository.findRandomQuestion(lang);
+        if(q==null) {
+            throw new InternalApiErrorException("No questions found for the specified language!");
+        }
         loadAnswers(q);
         return q;
     }
@@ -62,7 +71,8 @@ public class QuestionService {
      * Load the answers for a question (The distractors and the correct one)
      * @param question The question to load the answers for
      */
-    public void loadAnswers(Question question) {
+    //TODO: CHAPUZAS, FIXEAR ESTO
+    private void loadAnswers(Question question) {
         // Create the new answers list with the distractors
         List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
         // Add the correct
