@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.question.Question;
-import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -71,12 +70,9 @@ public class Game {
     }
 
     public boolean isGameOver(){
-        return isGameOver && getActualRound() > getRounds();
+        return isGameOver && getActualRound() >= getRounds();
     }
 
-    public boolean isLastRound(){
-        return getActualRound() > getRounds();
-    }
 
     public Question getCurrentQuestion() {
         if(getRoundStartTime() == null){
@@ -97,7 +93,7 @@ public class Game {
         return getRoundStartTime()!= null && LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
     }
 
-    public void answerQuestion(Long answerId, QuestionRepository questionRepository){
+    public void answerQuestion(Long answerId){
         if(currentRoundIsOver())
             throw new IllegalStateException("You can't answer a question when the current round is over!");
         if (isGameOver())
@@ -121,6 +117,6 @@ public class Game {
     }
 
     public boolean shouldBeGameOver() {
-        return getActualRound() > getRounds() && !isGameOver;
+        return getActualRound() >= getRounds() && !isGameOver;
     }
 }
