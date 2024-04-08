@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.22">
-<title>WIQ_en2b</title>
+<title>KIWIQ</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -434,15 +434,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1><span class="image"><img src="./images/icon-image.png" alt="arc42"></span> WIQ_en2b</h1>
+<h1><span class="image"><img src="./images/icon-image.png" alt="arc42"></span> KIWIQ</h1>
 <div class="details">
 <span id="revnumber">version 8.2 EN,</span>
 <span id="revdate">March 2024</span>
 <br><span id="revremark">(based upon AsciiDoc version)</span>
 </div>
-<div id="toc" class="toc">
+<div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#section-introduction-and-goals">1. Introduction and Goals</a>
@@ -476,9 +476,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_general_games_life_cycle">6.1. General Game&#8217;s life cycle</a></li>
-<li><a href="#_sign_up">6.2. Sign Up</a></li>
-<li><a href="#_login">6.3. Login</a></li>
+<li><a href="#_sign_up">6.1. Sign Up</a></li>
+<li><a href="#_login">6.2. Login</a></li>
+<li><a href="#_general_games_life_cycle">6.3. General Game&#8217;s life cycle</a></li>
 <li><a href="#_question_generation">6.4. Question Generation</a></li>
 </ul>
 </li>
@@ -525,7 +525,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new experimental version of the quiz show Saber y Ganar. This application will be called WIQ, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. For each question answered correctly, points will be obtained.</p>
+<p>RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new experimental version of the quiz show Saber y Ganar. This application will be called KiWiq, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. For each question answered correctly, points will be obtained.</p>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
@@ -642,7 +642,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">HappySw</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Develop a good application that fullfills the requirements expected by the client.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Develop a good application that fulfills the requirements expected by the client.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Registered user</p></td>
@@ -742,21 +742,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/wireframe-Welcome.png" alt="wireframe Welcome">
+<img src="./images/wireframe-Root.png" alt="wireframe Root">
 </div>
-<div class="title">Figure 1. Welcome Wireframe</div>
-</div>
-<div class="imageblock text-center">
-<div class="content">
-<img src="./images/wireframe-SignIn.png" alt="wireframe SignIn">
-</div>
-<div class="title">Figure 2. Sign In Wireframe</div>
+<div class="title">Figure 1. Root Wireframe</div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
 <img src="./images/wireframe-SignUp.png" alt="wireframe SignUp">
 </div>
-<div class="title">Figure 3. Sign Up Wireframe</div>
+<div class="title">Figure 2. Sign up Wireframe</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="./images/wireframe-SignIn.png" alt="wireframe SignIn">
+</div>
+<div class="title">Figure 3. Sign in Wireframe</div>
 </div>
 <div class="imageblock text-center">
 <div class="content">
@@ -778,9 +778,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/wireframe-Results.png" alt="wireframe Results">
+<img src="./images/wireframe-Menu.png" alt="wireframe Menu">
 </div>
-<div class="title">Figure 7. Results Wireframe</div>
+<div class="title">Figure 7. Menu Wireframe</div>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -792,9 +792,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_business_context">3.1. Business Context</h3>
 <div class="imageblock text-center">
 <div class="content">
-<a class="image" href=""BusinessContext.png"><img src="./images/BusinessContext.png" alt="BusinessContext"></a>
+<img src="./images/Business%20context%20diagram.png" alt="Business context diagram" width="280" height="811">
 </div>
-<div class="title">Figure 8. Business Context</div>
+<div class="title">Figure 8. Overall view of the business context</div>
 </div>
 <div class="paragraph">
 <p>The WIQ application will communicate with the WikiData API through REST HTTP calls using SPARQL for the queries. It will ask the API for information that will later be used for generating the questions that will be shown to the player. This information will come in the form of text, images or audio.</p>
@@ -840,10 +840,13 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 </div>
 </li>
 <li>
-<p><strong>PostgreSQL</strong> as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those that did preferring SQL. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.</p>
+<p><strong>PostgreSQL</strong> as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those who did, preferred SQL. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.</p>
 </li>
 <li>
-<p><strong>Java SpringBoot</strong> for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.</p>
+<p><strong>Java SpringBoot 3</strong> for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.</p>
+</li>
+<li>
+<p><strong>Java </strong> for the Question Generator process, due to the ease for connecting with the DB via JPA and our familiarity.</p>
 </li>
 </ul>
 </div>
@@ -934,7 +937,7 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/BusinessContext.png" alt="BusinessContext">
+<img src="./images/Business%20context%20diagram.png" alt="Business context diagram" width="280" height="811">
 </div>
 <div class="title">Figure 10. Overall view of the business context</div>
 </div>
@@ -992,7 +995,10 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 <p><strong>WIQ Client:</strong> This is the connection between the user and the application. It will allow the users to play the WIQ game. This part will be developed in React with Typescript for its clear component structure, simplified code quality and separation of concerns.</p>
 </li>
 <li>
-<p><strong>WIQ REST API:</strong> This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in Springboot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.</p>
+<p><strong>WIQ REST API:</strong> This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in SpringBoot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.</p>
+</li>
+<li>
+<p><strong>Question Generator Module:</strong> This component is in charge of everything related with the questions. It retrieves the information from WikiData QS and stores it in the WIQ Database, which later is queried for questions and answers from the REST API.</p>
 </li>
 <li>
 <p><strong>WIQ Database:</strong> This is where the most important data is going to be stored. Such as, users questions and other game info that will be specified in the future. The database we chose to use is PostgreSQL, since it is compatible with Docker and it&#8217;s an object-relational kind of database, which is easier for the developers to use. Another alternative would&#8217;ve been to use MySQL.</p>
@@ -1005,7 +1011,9 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 <dl>
 <dt class="hdlist1">Important Interfaces</dt>
 <dd>
-<p>This part will be more detailed later, since the structure of the different interfaces/classes has not been discussed by the team yet.</p>
+<p>We are connecting the front end with the back end via REST API. Also, the Question Generator Module communicates with WikiData QS this way.
+The Question Generator Module connects to the WIQ DataBase through JPA.
+In the near future, we are planning on allowing HTTPS connections, so there would be a proxy server in between the user&#8217;s agent and the back end.</p>
 </dd>
 </dl>
 </div>
@@ -1020,7 +1028,23 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 <p>Here we can see what the main workflow of main parts of the project.</p>
 </div>
 <div class="sect2">
-<h3 id="_general_games_life_cycle">6.1. General Game&#8217;s life cycle</h3>
+<h3 id="_sign_up">6.1. Sign Up</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Sign%20up%20diagram.png" alt="Sign up diagram" width="370" height="481">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_login">6.2. Login</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Login%20diagram.png" alt="Login diagram" width="407" height="481">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_general_games_life_cycle">6.3. General Game&#8217;s life cycle</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1030,23 +1054,7 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Game's%20life%20cycle%20diagram.png" alt="Game&#8217;s life cycle diagram" width="807" height="531">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_sign_up">6.2. Sign Up</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/Sign%20up%20diagram.png" alt="Sign up diagram" width="346" height="230">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_login">6.3. Login</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/Login%20diagram.png" alt="Login diagram" width="344" height="260">
+<img src="./images/Game's%20sequence%20diagram.png" alt="Game&#8217;s sequence diagram" width="479" height="678">
 </div>
 </div>
 </div>
@@ -1054,7 +1062,7 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 <h3 id="_question_generation">6.4. Question Generation</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Question%20generation%20diagram.png" alt="Question generation diagram" width="386" height="276">
+<img src="./images/Question%20generation%20diagram.png" alt="Question generation diagram" width="357" height="360">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1064,11 +1072,10 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 <div class="sect1">
 <h2 id="section-deployment-view">7. Deployment View</h2>
 <div class="sectionbody">
-<div class="imageblock text-center">
+<div class="imageblock">
 <div class="content">
-<a class="image" href=""DeploymentDiagram.png"><img src="./images/DeploymentDiagram.png" alt="DeploymentDiagram"></a>
+<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="692" height="799">
 </div>
-<div class="title">Figure 11. Deployment Diagram</div>
 </div>
 <div class="sect2">
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
@@ -1102,6 +1109,9 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 </ul>
 </div>
 </li>
+<li>
+<p>The question generator is a separate component that will be deployed on the server only at the beginning of the system. It is contained within the <code>questiongenerator</code> subfolder.</p>
+</li>
 </ul>
 </div>
 </dd>
@@ -1129,6 +1139,12 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 <div class="paragraph">
 <p>The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers. The databases to store the questions (and therefore the answers) and the user data might be different, though.</p>
 </div>
+</div>
+<div class="sect4">
+<h5 id="_question_generator">Question Generator</h5>
+<div class="paragraph">
+<p>The question generator will be run only at the beginning of the application. It will connect with Wikidata using SPARQL to generate questions and answers and store them in the database. This question generation will generate all the questions used by the application at once. It could be run again to generate new questions if they are added.</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1144,7 +1160,7 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/ConceptsDomainModel1.png" alt="ConceptsDomainModel1" width="705" height="754">
+<img src="./images/ConceptsDomainModel1.png" alt="ConceptsDomainModel1" width="703" height="629">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1171,10 +1187,23 @@ The REST API will request information to the WikiData REST API through HTTPS cal
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Game</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It is created when the user starts a game and destroyed just when it ends.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It is created when the user starts a game and includes the rounds that the user has to answer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Statistics</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stores information about the amount of correct and wrong answers that each user has answered</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<div class="title">Question Generator</div>
+<p>The Question Generator is an important part of our application, it is already briefly described in Section 6, but more insight is given here.</p>
+</div>
+<div class="paragraph">
+<p>The Question Generator module is written in Java and connects via HTTP with Wikidata query service.
+It follows a template design pattern where each Java class is responsible for generating the questions and answers.
+The query is ran against Wikidata and it returns a text in JSON format that is processed into the question and answers, which are later stored in the DB.</p>
+</div>
 <div class="paragraph">
 <div class="title">Architecture and design patterns</div>
 <p>We decided to use a React based frontend with BootSpring for the backend, which will follow the model view controller pattern to make the code clear.</p>
@@ -1198,7 +1227,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 </div>
 <div class="paragraph">
 <div class="title">Under-the-hood:</div>
-<p>Regarding Data persistence, our project has two DB, one for storing questions as stated before while the other one will be in charge of storing any other meaningful data for the game such us users or game&#8217;s histories.</p>
+<p>Regarding Data persistence, our project has a PostgreSQL DB, which stores information about users, statistics, games, answers and questions.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1237,8 +1266,19 @@ In order to archieve this, we will implement two modules regarding questions, on
 <td class="tableblock halign-left valign-top"><p class="tableblock">React Libraries</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">To enhance the efficiency and effectiveness of our development process, we&#8217;ve taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTPS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To improve security we have decided to make HTTPS as one main requirements in out project as can be seen in issue #51.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Architecture of the Question Generator</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It has been decided to implement the QG in an independent module so it is only run once and it is not generating questions at real time, this way, we are not dependent on wikidata for having our application available.</p></td>
+</tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>If needed, a more descriptive record can be seen <a href="https://github.com/Arquisoft/wiq_en2b/wiki">here</a>.</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1289,7 +1329,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall be available 99.99% of the time when a user attempts to access it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall be available 99% of the time when a user attempts to access it.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High, High</p></td>
 </tr>
 <tr>
@@ -1319,7 +1359,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The unit tests shall have at least 75% coverage.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The unit tests shall have at least 80% coverage.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High, Medium</p></td>
 </tr>
 </tbody>
@@ -1667,7 +1707,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-03-11 23:01:50 +0100
+Last updated 2024-04-07 22:57:59 +0200
 </div>
 </div>
 </body>
