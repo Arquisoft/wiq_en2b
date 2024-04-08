@@ -62,8 +62,9 @@ export default function Game() {
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
         setSelectedOption(selectedOptionIndex);
-        setAnswer(answer);
-        setNextDisabled(false);
+        await setAnswer(answer);
+        const anyOptionSelected = selectedOptionIndex !== null;
+        setNextDisabled(!anyOptionSelected);
     };
 
     const startNewRound = async (gameId) => {
@@ -72,7 +73,6 @@ export default function Game() {
             setTimeStartRound(new Date(result.data.round_start_time).getTime());
             setRoundNumber(result.data.actual_round )
             setRoundDuration(result.data.round_duration);
-            setNextDisabled(true);
             await assignQuestion(gameId);
         }
         catch(error){
@@ -99,6 +99,7 @@ export default function Game() {
                 setRoundNumber(newGameResponse.actual_round)
                 setGameId(newGameResponse.id);
                 setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
+                console.log(new Date(newGameResponse.round_start_time).getTime());
                 setRoundDuration(newGameResponse.round_duration)
                 setMaxRoundNumber(newGameResponse.rounds);
                 try{
