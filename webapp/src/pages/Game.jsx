@@ -58,12 +58,6 @@ export default function Game() {
             navigate("/dashboard");
         }
     }, [navigate]);
-    useEffect(() => {
-        if (gameId !== null) {
-            //setSelectedOption(null);
-            //generateQuestion();
-        }
-    }, [gameId, assignQuestion]);
 
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
@@ -75,6 +69,7 @@ export default function Game() {
 
     const startNewRound = useCallback(async (gameId) => {
         try{
+            console.log("pepe");
             const result = await startRound(gameId);
             setTimeStartRound(new Date(result.data.round_start_time).getTime());
             setRoundNumber(result.data.actual_round )
@@ -98,55 +93,49 @@ export default function Game() {
     /*
       Initialize game when loading the page
      */
-      useEffect(() => {
-        const initializeGame = async () => {
-            try {
-                const newGameResponse = await newGame();
-                if (newGameResponse) {
-                    setRoundNumber(newGameResponse.actual_round)
-                    await setGameId(newGameResponse.id);
-                    setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
-                    setRoundDuration(newGameResponse.round_duration)
-                    setMaxRoundNumber(newGameResponse.rounds);
-                    try{
-                        await getCurrentQuestion(newGameResponse.id).then((result) => {
-                            if (result.status === 200) {
-                                setQuestion(result.data);
-                                setQuestionLoading(false);
-                            }
-                        });
-                    }catch (error) {
-                        await startNewRound(newGameResponse.id);
-                    }
-                    setLoading(false);
-                } else {
-                    navigate("/dashboard");
+      const initializeGame = async () => {
+        try {
+            const newGameResponse = await newGame();
+            if (newGameResponse) {
+                setRoundNumber(newGameResponse.actual_round)
+                setGameId(newGameResponse.id);
+                setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
+                setRoundDuration(newGameResponse.round_duration)
+                setMaxRoundNumber(newGameResponse.rounds);
+                try{
+                    await getCurrentQuestion(newGameResponse.id).then((result) => {
+                        if (result.status === 200) {
+                            setQuestion(result.data);
+                            setQuestionLoading(false);
+                        }
+                    });
+                } catch (error) {
+                    await startNewRound(newGameResponse.id);
                 }
-            } catch (error) {
-                console.error("Error initializing game:", error);
+                setLoading(false);
+            } else {
                 navigate("/dashboard");
             }
-        };
+        } catch (error) {
+            console.error("Error initializing game:", error);
+            navigate("/dashboard");
+        }
+    };
 
-        initializeGame();
-    }, [navigate, startNewRound]);
+    initializeGame();
 
     const nextRound = useCallback(async () => {
-        const nextRoundNumber = roundNumber + 1;
-        if (nextRoundNumber > maxRoundNumber)
+        if (roundNumber + 1 > maxRoundNumber)
             navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
         else {
             setAnswer({});
-            setRoundNumber(nextRoundNumber);
             setNextDisabled(true);
             setQuestionLoading(true);
             await startNewRound(gameId);
-
-            await assignQuestion(gameId);
         }
 
     }, [gameId, maxRoundNumber, roundNumber, startNewRound,
-        correctAnswers, assignQuestion, navigate]);
+        correctAnswers, navigate]);
 
     const nextButtonClick = useCallback(async () => {
         try {
