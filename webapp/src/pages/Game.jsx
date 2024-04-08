@@ -46,7 +46,6 @@ export default function Game() {
             try {
                 const newGameResponse = await newGame();
                 if (newGameResponse) {
-                    setLoading(false);
                     setRoundNumber(newGameResponse.actual_round)
                     await setGameId(newGameResponse.id);
                     setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
@@ -62,7 +61,7 @@ export default function Game() {
                     }catch (error) {
                         await startNewRound(newGameResponse.id);
                     }
-
+                    setLoading(false);
                 } else {
                     navigate("/dashboard");
                 }
@@ -154,6 +153,7 @@ export default function Game() {
             await assignQuestion(gameId);
         }
         catch(error){
+            console.log(error)
             if(error.status === 409){
                 if(roundNumber >= 9){
                     navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
