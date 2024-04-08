@@ -21,6 +21,10 @@ export default function Game() {
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [showConfetti, setShowConfetti] = useState(false);
     const [timeElapsed, setTimeElapsed] = useState(0);
+    const [timeStartRound, setTimeStartRound] = useState(-1);
+    const [roundDuration, setRoundDuration] = useState(0);
+    const [maxRoundNumber, setMaxRoundNumber] = useState(9);
+    const [questionLoading, setQuestionLoading] = useState(false);
 
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,19 +35,34 @@ export default function Game() {
 
     const calculateProgress = (timeElapsed) => {
         const totalTime = 30;
-        const percentage = (timeElapsed / totalTime) * 100;
+        const percentage = (((Date.now()-timeStartRound)/1000) / totalTime) * 100;
         return Math.min(Math.max(percentage, 0), 100);
     };
-    
+    /*
+      Initialize game when loading the page
+     */
     useEffect(() => {
         const initializeGame = async () => {
             try {
                 const newGameResponse = await newGame();
                 if (newGameResponse) {
                     setLoading(false);
-                    await startRound(newGameResponse.id);
-                    setGameId(newGameResponse.id);
-                    startTimer();
+                    setRoundNumber(newGameResponse.actual_round)
+                    await setGameId(newGameResponse.id);
+                    setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
+                    setRoundDuration(newGameResponse.round_duration)
+                    setMaxRoundNumber(newGameResponse.rounds);
+                    try{
+                        await getCurrentQuestion(newGameResponse.id).then((result) => {
+                            if (result.status === 200) {
+                                setQuestion(result.data);
+                                setQuestionLoading(false);
+                            }
+                        });
+                    }catch (error) {
+                        await startNewRound(newGameResponse.id);
+                    }
+
                 } else {
                     navigate("/dashboard");
                 }
@@ -56,28 +75,32 @@ export default function Game() {
         initializeGame();
     }, [navigate]);
 
-    const generateQuestion = useCallback(async () => {
+
+    /*
+        Generate new question when the round changes
+     */
+    const assignQuestion = useCallback(async () => {
         try {
             const result = await getCurrentQuestion(gameId);
-            if (result !== undefined) {
-                setQuestion(result);
-                setTimeElapsed(0); 
+            if (result.status === 200) {
+                await setQuestion(result.data);
+                await setQuestionLoading(false);
+                setTimeElapsed(0);
             } else {
-                navigate("/dashboard");
+                console.log(result)
+                //navigate("/dashboard");
             }
         } catch (error) {
             console.error("Error fetching question:", error);
-            navigate("/dashboard");
+            //navigate("/dashboard");
         }
     }, [gameId, navigate]);
-
     useEffect(() => {
         if (gameId !== null) {
-            setSelectedOption(null);
-            generateQuestion();
+            //setSelectedOption(null);
+            //generateQuestion();
         }
-    }, [gameId, generateQuestion]);
-    
+    }, [gameId, assignQuestion]);
 
     const answerButtonClick = (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
@@ -90,29 +113,58 @@ export default function Game() {
     const nextButtonClick = useCallback(async () => {
         try {
             const isCorrect = (await answerQuestion(gameId, answer.id)).correctly_answered_questions;
-    
+
             if (isCorrect) {
                 setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
                 setShowConfetti(true);
             }
-    
+
             setSelectedOption(null);
-    
-            const nextRoundNumber = roundNumber + 1;
-            if (nextRoundNumber > 9)
-                navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers + (isCorrect ? 1 : 0) } });
-            else {
-                setAnswer({});
-                setRoundNumber(nextRoundNumber);
-                setNextDisabled(true);
-                await startRound(gameId);
-                await generateQuestion();
-            }
+            await nextRound()
+
         } catch (error) {
             console.error("Error processing next question:", error);
             navigate("/dashboard");
         }
-    }, [gameId, answer.id, roundNumber, correctAnswers, generateQuestion, navigate]);    
+    }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
+
+    const nextRound = useCallback(async () => {
+        const nextRoundNumber = roundNumber + 1;
+        if (nextRoundNumber > maxRoundNumber)
+            navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
+        else {
+            setAnswer({});
+            setRoundNumber(nextRoundNumber);
+            setNextDisabled(true);
+            setQuestionLoading(true);
+            await startNewRound(gameId);
+
+            await assignQuestion();
+        }
+
+    }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
+
+    const startNewRound = useCallback(async (gameId) => {
+        try{
+            const result = await startRound(gameId);
+            setTimeStartRound(new Date(result.data.round_start_time).getTime());
+            setRoundNumber(result.data.actual_round )
+            setRoundDuration(result.data.round_duration);
+            await assignQuestion();
+        }
+        catch(error){
+            if(error.status === 409){
+                if(roundNumber >= 9){
+                    navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
+                } else {
+                    await assignQuestion()
+                }
+            }
+
+        }
+
+    }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
+
 
     useEffect(() => { 
         let timeout;
@@ -123,8 +175,11 @@ export default function Game() {
 
     useEffect(() => {
         let timeout;
-        if (timeElapsed >= 30) {
-            timeout = setTimeout(() => nextButtonClick(), 1000);
+
+        //console.log(timeElapsed)
+        if ((Date.now()-timeStartRound)/1000 >= roundDuration && timeStartRound !== -1) {
+            timeout = setTimeout(() => nextRound(), 1000);
+
         } else {
             timeout = setTimeout(() => {
                 setTimeElapsed((prevTime) => prevTime + 1);
@@ -132,14 +187,7 @@ export default function Game() {
         }
         return () => clearTimeout(timeout);
     }, [timeElapsed, nextButtonClick]);
-    
 
-    const startTimer = () => {
-        const timer = setTimeout(() => {
-            setTimeElapsed((prevTime) => prevTime + 1);
-        }, 1000); 
-        return () => clearTimeout(timer);
-    };
 
     return (
         <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
@@ -182,7 +230,7 @@ export default function Game() {
                             </Grid>
 
                             <Flex direction="row" justifyContent="center" alignItems="center">
-                                <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+                                <Button data-testid={"Next"} isDisabled={nextDisabled || questionLoading} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
                                     {t("game.next")}
                                 </Button>
                             </Flex>

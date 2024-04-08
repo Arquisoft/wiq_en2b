@@ -1,4 +1,4 @@
-import { HttpStatusCode } from "axios";
+import {HttpStatusCode} from "axios";
 import AuthManager from "components/auth/AuthManager";
 
 const authManager = new AuthManager();
@@ -15,25 +15,11 @@ export async function newGame() {
 }
 
 export async function startRound(gameId) {
-    try {
-        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/startRound");
-        if (HttpStatusCode.Ok === requestAnswer.status) {
-            return requestAnswer.data;
-        }
-    } catch {
-
-    }
+    return await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/startRound");
 }
 
 export async function getCurrentQuestion(gameId) {
-    try {
-        let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/question");
-        if (HttpStatusCode.Ok === requestAnswer.status) {
-            return requestAnswer.data;
-        }
-    } catch {
-
-    }
+    return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/question");
 }
 
 export async function changeLanguage(gameId, language) {
@@ -68,3 +54,4 @@ export async function getGameDetails(gameId) {
 
     }
 }
+
