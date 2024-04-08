@@ -34,14 +34,7 @@ export async function changeLanguage(gameId, language) {
 }
 
 export async function answerQuestion(gameId, aId) {
-    try {
-        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/answer", {answer_id:aId});
-        if (HttpStatusCode.Ok === requestAnswer.status) {
-            return requestAnswer.data;
-        }
-    } catch {
-
-    }
+    return await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/answer", {answer_id:aId});
 }
 
 export async function getGameDetails(gameId) {

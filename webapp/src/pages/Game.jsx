@@ -79,7 +79,7 @@ export default function Game() {
     /*
         Generate new question when the round changes
      */
-    const assignQuestion = useCallback(async () => {
+    const assignQuestion = useCallback(async (gameId) => {
         try {
             const result = await getCurrentQuestion(gameId);
             if (result.status === 200) {
@@ -87,12 +87,11 @@ export default function Game() {
                 await setQuestionLoading(false);
                 setTimeElapsed(0);
             } else {
-                console.log(result)
-                //navigate("/dashboard");
+                navigate("/dashboard");
             }
         } catch (error) {
             console.error("Error fetching question:", error);
-            //navigate("/dashboard");
+            navigate("/dashboard");
         }
     }, [gameId, navigate]);
     useEffect(() => {
@@ -102,29 +101,31 @@ export default function Game() {
         }
     }, [gameId, assignQuestion]);
 
-    const answerButtonClick = (optionIndex, answer) => {
+    const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
         setSelectedOption(selectedOptionIndex);
-        setAnswer(answer);
+        await setAnswer(answer);
         const anyOptionSelected = selectedOptionIndex !== null;
         setNextDisabled(!anyOptionSelected);
     };
 
     const nextButtonClick = useCallback(async () => {
         try {
-            const isCorrect = (await answerQuestion(gameId, answer.id)).was_correct;
-
+            const result = await answerQuestion(gameId, answer.id);
+            let isCorrect = result.data.was_correct;
             if (isCorrect) {
                 setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
                 setShowConfetti(true);
             }
-
             setSelectedOption(null);
             await nextRound()
 
         } catch (error) {
-            console.error("Error processing next question:", error);
-            navigate("/dashboard");
+            if(error.response.status === 400){
+                setTimeout(nextButtonClick, 2000)
+            }else{
+                console.log('xd'+error.status)
+            }
         }
     }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
 
@@ -139,7 +140,7 @@ export default function Game() {
             setQuestionLoading(true);
             await startNewRound(gameId);
 
-            await assignQuestion();
+            await assignQuestion(gameId);
         }
 
     }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
@@ -150,14 +151,14 @@ export default function Game() {
             setTimeStartRound(new Date(result.data.round_start_time).getTime());
             setRoundNumber(result.data.actual_round )
             setRoundDuration(result.data.round_duration);
-            await assignQuestion();
+            await assignQuestion(gameId);
         }
         catch(error){
             if(error.status === 409){
                 if(roundNumber >= 9){
                     navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
                 } else {
-                    await assignQuestion()
+                    await assignQuestion(gameId)
                 }
             }
 
@@ -186,7 +187,7 @@ export default function Game() {
             }, 1000); 
         }
         return () => clearTimeout(timeout);
-    }, [timeElapsed, nextButtonClick]);
+    }, [timeElapsed]);
 
 
     return (
