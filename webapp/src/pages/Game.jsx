@@ -7,6 +7,7 @@ import Confetti from "react-confetti";
 import { newGame, startRound, getCurrentQuestion, answerQuestion } from '../components/game/Game';
 import LateralMenu from '../components/LateralMenu';
 import MenuButton from '../components/MenuButton';
+import { HttpStatusCode } from "axios";
 
 export default function Game() {
     const navigate = useNavigate();
@@ -72,7 +73,7 @@ export default function Game() {
         };
 
         initializeGame();
-    }, [navigate]);
+    }, [navigate, startNewRound]);
 
 
     /*
@@ -81,7 +82,7 @@ export default function Game() {
     const assignQuestion = useCallback(async (gameId) => {
         try {
             const result = await getCurrentQuestion(gameId);
-            if (result.status === 200) {
+            if (result.status === HttpStatusCode.Ok) {
                 await setQuestion(result.data);
                 await setQuestionLoading(false);
                 setTimeElapsed(0);
@@ -92,7 +93,7 @@ export default function Game() {
             console.error("Error fetching question:", error);
             navigate("/dashboard");
         }
-    }, [gameId, navigate]);
+    }, [navigate]);
     useEffect(() => {
         if (gameId !== null) {
             //setSelectedOption(null);
@@ -126,7 +127,7 @@ export default function Game() {
                 console.log('xd'+error.status)
             }
         }
-    }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
+    }, [gameId, answer.id, nextRound, roundNumber, correctAnswers, assignQuestion, navigate]);
 
     const nextRound = useCallback(async () => {
         const nextRoundNumber = roundNumber + 1;
@@ -142,7 +143,7 @@ export default function Game() {
             await assignQuestion(gameId);
         }
 
-    }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
+    }, [gameId, answer.id, maxRoundNumber, roundNumber, correctAnswers, assignQuestion, navigate]);
 
     const startNewRound = useCallback(async (gameId) => {
         try{
@@ -164,7 +165,7 @@ export default function Game() {
 
         }
 
-    }, [gameId, answer.id, roundNumber, correctAnswers, assignQuestion, navigate]);
+    }, [roundNumber, correctAnswers, assignQuestion, navigate]);
 
 
     useEffect(() => { 
@@ -187,7 +188,7 @@ export default function Game() {
             }, 1000); 
         }
         return () => clearTimeout(timeout);
-    }, [timeElapsed]);
+    }, [timeElapsed, nextRound]);
 
 
     return (
