@@ -92,6 +92,9 @@ public class GameService {
     }
     public GameResponseDto changeLanguage(Long id, String language, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
+        if(game.isGameOver()){
+            throw new IllegalStateException("Cannot change language after the game is over!");
+        }
         game.setLanguage(language);
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
