@@ -22,14 +22,14 @@ public class GameResponseDto {
     private UserResponseDto user;
 
     @Schema(description = "Total rounds for the game", example = "9")
-    private int rounds;
+    private Long rounds;
 
     @Schema(description = "Actual round for the game", example = "3")
-    private int actualRound;
+    private Long actualRound;
 
     @Schema(description = "Number of correct answered questions", example = "2")
     @JsonProperty("correctly_answered_questions")
-    private int correctlyAnsweredQuestions;
+    private Long correctlyAnsweredQuestions;
 
     @Schema(description = "Moment when the timer has started", example = "LocalDateTime.now()")
     @JsonProperty("round_start_time")
@@ -37,7 +37,7 @@ public class GameResponseDto {
 
     @Schema(description = "Number of seconds for the player to answer the question", example = "20")
     @JsonProperty("round_duration")
-    private int roundDuration;
+    private Integer roundDuration;
 
     @Schema(description = "Whether the game has finished or not", example = "true")
     private boolean isGameOver;

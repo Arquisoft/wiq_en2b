@@ -14,6 +14,7 @@ import lab.en2b.quizapi.statistics.StatisticsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,19 +30,20 @@ public class GameService {
     private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
     private final StatisticsRepository statisticsRepository;
+
     public GameResponseDto newGame(Authentication authentication) {
         if (gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).isPresent()){
             return gameResponseDtoMapper.apply(gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId()).get());
         }
-        Game g = gameRepository.save(Game.builder()
+        return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
                 .user(userService.getUserByAuthentication(authentication))
                 .questions(new ArrayList<>())
-                .rounds(9)
-                .correctlyAnsweredQuestions(0)
+                .rounds(9L)
+                .actualRound(0L)
+                .correctlyAnsweredQuestions(0L)
                 .roundDuration(30)
                 .language("en")
-                .build());
-        return gameResponseDtoMapper.apply(g);
+                .build()));
     }
 
     public GameResponseDto startRound(Long id, Authentication authentication) {
@@ -63,28 +65,28 @@ public class GameService {
         if (game.isLastRound()){
             game.setGameOver(true);
             gameRepository.save(game);
-        }
-        if (game.isGameOver()){
-            if (statisticsRepository.findByUserId(game.getUser().getId()).isPresent()){
-                Statistics statistics = statisticsRepository.findByUserId(game.getUser().getId()).get();
-                statistics.updateStatistics(Long.valueOf(game.getCorrectlyAnsweredQuestions()),
-                        Long.valueOf(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions()),
-                        Long.valueOf(game.getRounds()));
-                statisticsRepository.save(statistics);
-            } else {
-                Statistics statistics = Statistics.builder()
-                        .user(game.getUser())
-                        .correct(Long.valueOf(game.getCorrectlyAnsweredQuestions()))
-                        .wrong(Long.valueOf(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions()))
-                        .total(Long.valueOf(game.getRounds()))
-                        .build();
-                statisticsRepository.save(statistics);
-            }
+            saveStatistics(game);
         }
 
         return gameResponseDtoMapper.apply(game);
     }
-
+    private void saveStatistics(Game game){
+        if (statisticsRepository.findByUserId(game.getUser().getId()).isPresent()){
+            Statistics statistics = statisticsRepository.findByUserId(game.getUser().getId()).get();
+            statistics.updateStatistics(game.getCorrectlyAnsweredQuestions(),
+                    game.getQuestions().size()-game.getCorrectlyAnsweredQuestions(),
+                    game.getRounds());
+            statisticsRepository.save(statistics);
+        } else {
+            Statistics statistics = Statistics.builder()
+                    .user(game.getUser())
+                    .correct(game.getCorrectlyAnsweredQuestions())
+                    .wrong(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions())
+                    .total(game.getRounds())
+                    .build();
+            statisticsRepository.save(statistics);
+        }
+    }
     public GameResponseDto changeLanguage(Long id, String language, Authentication authentication) {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.setLanguage(language);

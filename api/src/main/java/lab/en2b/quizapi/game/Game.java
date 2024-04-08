@@ -25,10 +25,10 @@ public class Game {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    private int rounds = 9;
-    private int actualRound = 0;
+    private Long rounds = 9L;
+    private Long actualRound = 0L;
 
-    private int correctlyAnsweredQuestions = 0;
+    private Long correctlyAnsweredQuestions = 0L;
     private String language;
     private LocalDateTime roundStartTime;
     @NonNull
