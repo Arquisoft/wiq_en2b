@@ -65,7 +65,7 @@ public class GameService {
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         game.answerQuestion(dto.getAnswerId(), questionRepository);
 
-        if (game.isLastRound()){
+        if (game.isLastRound() && !game.isGameOver()){
             game.setGameOver(true);
             gameRepository.save(game);
             saveStatistics(game);
@@ -97,7 +97,13 @@ public class GameService {
     }
 
     public GameResponseDto getGameDetails(Long id, Authentication authentication) {
-        return gameResponseDtoMapper.apply(gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow());
+        Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
+        if (game.isLastRound() && !game.isGameOver()){
+            game.setGameOver(true);
+            gameRepository.save(game);
+            saveStatistics(game);
+        }
+        return gameResponseDtoMapper.apply(game);
     }
 
     public List<QuestionCategory> getQuestionCategories() {
