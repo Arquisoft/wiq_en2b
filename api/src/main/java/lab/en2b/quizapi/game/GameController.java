@@ -3,6 +3,7 @@ package lab.en2b.quizapi.game;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lab.en2b.quizapi.game.dtos.AnswerGameResponseDto;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
@@ -57,7 +58,7 @@ public class GameController {
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
     @PostMapping("/{id}/answer")
-        public ResponseEntity<GameResponseDto> answerQuestion(@PathVariable Long id, @RequestBody GameAnswerDto dto, Authentication authentication){
+        public ResponseEntity<AnswerGameResponseDto> answerQuestion(@PathVariable Long id, @RequestBody GameAnswerDto dto, Authentication authentication){
         return ResponseEntity.ok(gameService.answerQuestion(id, dto, authentication));
     }
 

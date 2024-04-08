@@ -93,7 +93,7 @@ public class Game {
         return getRoundStartTime()!= null && LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
     }
 
-    public void answerQuestion(Long answerId){
+    public boolean answerQuestion(Long answerId){
         if(currentRoundIsOver())
             throw new IllegalStateException("You can't answer a question when the current round is over!");
         if (isGameOver())
@@ -105,6 +105,7 @@ public class Game {
             setCorrectlyAnsweredQuestions(getCorrectlyAnsweredQuestions() + 1);
         }
         setCurrentQuestionAnswered(true);
+        return q.isCorrectAnswer(answerId);
     }
     public void setLanguage(String language){
         if(!isLanguageSupported(language))

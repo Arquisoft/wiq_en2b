@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.game;
 
 import lab.en2b.quizapi.commons.user.UserService;
+import lab.en2b.quizapi.game.dtos.AnswerGameResponseDto;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
@@ -74,9 +75,9 @@ public class GameService {
     }
 
     @Transactional
-    public GameResponseDto answerQuestion(Long id, GameAnswerDto dto, Authentication authentication){
+    public AnswerGameResponseDto answerQuestion(Long id, GameAnswerDto dto, Authentication authentication){
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
-        game.answerQuestion(dto.getAnswerId(), questionRepository);
+        boolean wasCorrect = game.answerQuestion(dto.getAnswerId());
 
         if (game.shouldBeGameOver()){
             game.setGameOver(true);
@@ -84,7 +85,7 @@ public class GameService {
             saveStatistics(game);
         }
 
-        return gameResponseDtoMapper.apply(game);
+        return new AnswerGameResponseDto(wasCorrect);
     }
     private void saveStatistics(Game game){
         if (statisticsRepository.findByUserId(game.getUser().getId()).isPresent()){

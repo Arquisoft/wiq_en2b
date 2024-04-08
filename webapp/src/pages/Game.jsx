@@ -112,7 +112,7 @@ export default function Game() {
 
     const nextButtonClick = useCallback(async () => {
         try {
-            const isCorrect = (await answerQuestion(gameId, answer.id)).correctly_answered_questions;
+            const isCorrect = (await answerQuestion(gameId, answer.id)).was_correct;
 
             if (isCorrect) {
                 setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
@@ -231,7 +231,7 @@ export default function Game() {
 
                             <Flex direction="row" justifyContent="center" alignItems="center">
                                 <Button data-testid={"Next"} isDisabled={nextDisabled || questionLoading} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
-                                    {t("game.next")}
+                                    {t("game.answer")}
                                 </Button>
                             </Flex>
 
