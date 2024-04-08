@@ -33,7 +33,11 @@ public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
         log.error(exception.getMessage(),exception);
         return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_FOUND);
     }
-
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalStateException(IllegalStateException exception){
+        log.error(exception.getMessage(),exception);
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
+    }
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception){
         log.error(exception.getMessage(),exception);
