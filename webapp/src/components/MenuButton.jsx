@@ -22,7 +22,7 @@ const MenuButton = ({ onClick }) => {
     }, []);
 
     return (
-        <Box position={isFixed ? "fixed" : "absolute"} top="1rem" left="1rem">
+        <Box position={isFixed ? "fixed" : "absolute"} top="1rem" left="1rem" id={"lateralMenuButton"}>
             <IconButton 
                 bg="pigment_green.600"
                 color="whiteAlpha.900"

@@ -1,0 +1,20 @@
+User story:
+    As a logged user
+    I want to start a game
+    so that I can play the game
+
+SCENARIO:   a logged user wants to play a new game
+GIVEN:      a logged user
+WHEN:       clicking the button to start a new game
+THEN:       a new game is created and the first question appears on the screen
+
+
+User story:
+    As a non-registered user
+    I want to start a game
+    so that I can play the game
+
+SCENARIO:   a non-registered user tries to access to a new game via URL
+GIVEN:      a non-registered user
+WHEN:       trying to create a new game via URL
+THEN:       game is not created as there's no open session and user is redirected to log in screen

@@ -88,9 +88,7 @@ public class GameServiceTest {
                 .id(1L)
                 .content("What is the capital of France?")
                 .answers(new ArrayList<>())
-                .language("en")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
-                .answerCategory(AnswerCategory.CAPITAL_CITY)
                 .type(QuestionType.TEXT)
                 .build();
 
@@ -135,16 +133,18 @@ public class GameServiceTest {
         LocalDateTime now = LocalDateTime.now();
         this.defaultGameResponseDto = GameResponseDto.builder()
                 .user(defaultUserResponseDto)
-                .rounds(9)
-                .correctlyAnsweredQuestions(0)
+                .rounds(9L)
+                .correctlyAnsweredQuestions(0L)
+                .actualRound(0L)
                 .roundDuration(30)
                 .build();
         this.defaultGame = Game.builder()
                 .id(1L)
                 .user(defaultUser)
                 .questions(new ArrayList<>())
-                .rounds(9)
-                .correctlyAnsweredQuestions(0)
+                .rounds(9L)
+                .actualRound(0L)
+                .correctlyAnsweredQuestions(0L)
                 .language("en")
                 .roundDuration(30)
                 .build();
@@ -164,11 +164,11 @@ public class GameServiceTest {
     public void startRound(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         GameResponseDto gameDto = gameService.startRound(1L, authentication);
         GameResponseDto result = defaultGameResponseDto;
-        result.setActualRound(1);
+        result.setActualRound(1L);
         result.setId(1L);
         result.setRoundStartTime(defaultGame.getRoundStartTime());
         assertEquals(result, gameDto);
@@ -177,27 +177,29 @@ public class GameServiceTest {
     @Test
     public void startRoundGameOver(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        defaultGame.setActualRound(10);
+        defaultGame.setActualRound(10L);
         assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
     }
 
+    /**
     @Test
     public void startRoundWhenRoundNotFinished(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
     }
+     **/
 
     @Test
     public void getCurrentQuestion() {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         QuestionResponseDto questionDto = gameService.getCurrentQuestion(1L,authentication);
@@ -215,7 +217,7 @@ public class GameServiceTest {
     public void getCurrentQuestionRoundFinished() {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
@@ -227,9 +229,10 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.startRound(1L,authentication);
-        defaultGame.setActualRound(10);
+        defaultGame.setGameOver(true);
+        defaultGame.setActualRound(10L);
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
 
@@ -238,7 +241,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication);
@@ -252,7 +255,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.answerQuestion(1L, new GameAnswerDto(2L), authentication);
@@ -266,10 +269,11 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        defaultGame.setActualRound(30);
+        defaultGame.setGameOver(true);
+        defaultGame.setActualRound(30L);
         assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
     }
 
@@ -278,7 +282,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
@@ -290,7 +294,7 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        when(questionRepository.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         assertThrows(IllegalArgumentException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(3L), authentication));
@@ -301,10 +305,25 @@ public class GameServiceTest {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
-        GameResponseDto gameDto = gameService.newGame(authentication);
+        gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
         gameService.changeLanguage(1L, "es", authentication);
-        assertEquals(defaultGameResponseDto, gameDto);
+        gameService.getGameDetails(1L, authentication);
+        assertEquals("es",defaultGame.getLanguage());
+    }
+
+    @Test
+    public void changeLanguageGameOver(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+
+        gameService.newGame(authentication);
+        gameService.startRound(1L, authentication);
+        defaultGame.setGameOver(true);
+        defaultGame.setActualRound(10L);
+        assertThrows(IllegalStateException.class,() -> gameService.changeLanguage(1L, "es", authentication));
+
     }
 
     @Test

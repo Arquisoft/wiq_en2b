@@ -25,7 +25,7 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
     };
 
     const handleApiClick = () => {
-        window.open("http://localhost:8080/swagger/swagger-ui/index.html#/auth-controller/registerUser", "_blank", "noopener");
+        window.open(`http://${process.env.REACT_APP_API_ENDPOINT}/swagger/swagger-ui/index.html#/auth-controller/registerUser`, "_blank", "noopener");
     };    
 
     const handleLogout = async () => {
@@ -103,7 +103,7 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
                             {isLoggedIn && (
                                 <Button data-testid={"LogOut"} type="submit" colorScheme="raw_umber" margin={"10px"} className={"custom-button effect1"} onClick={handleLogout} width="70%">{t("common.logout")}</Button>
                             )}
-                            <IconButton type="submit" aria-label='About' colorScheme={"forest_green"} icon={<InfoIcon />} className={"custom-button effect1"} onClick={() => {navigate("/about");}} margin={"10px"}></IconButton>
+                            <IconButton type="submit" aria-label='About' colorScheme={"forest_green"} icon={<InfoIcon />} className={"custom-button effect1"} onClick={() => {navigate("/about");}} margin={"10px"} id={"aboutButton"}></IconButton>
                         </Flex>
                     </DrawerFooter>
                 </DrawerContent>

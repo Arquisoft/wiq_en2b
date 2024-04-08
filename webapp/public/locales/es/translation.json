@@ -73,8 +73,8 @@
         }
     },
     "game": {
-        "round": "Ronda",
-        "next": "Siguiente"
+        "round": "Ronda ",
+        "answer": "Responder"
     },
     "about": {
         "title": "Sobre nosotros",

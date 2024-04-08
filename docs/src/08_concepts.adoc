@@ -9,23 +9,18 @@ This is the first version of the diagram, it will be updated if needed.
 [plantuml,"ConceptsDomainModel1",png]
 ----
 @startuml
-
 enum QuestionCategory {
-    HISTORY
     GEOGRAPHY
-    SCIENCE
-    MATH
-    LITERATURE
-    ART
     SPORTS
+    MUSIC
 }
 
-enum AnsswerCategory {
-    CITY
+enum AnswerCategory {
+    CAPITAL_CITY
     COUNTRY
-    PERSON
-    DATE
-    OTHER
+    SONG
+    STADIUM
+    BALLON_DOR
 }
 
 enum QuestionType{
@@ -39,44 +34,49 @@ class Question{
     answers: List<Answer>
     correctAnswer: Answer
     questionCategory: QuestionCategory
-    answerCategory: AnswerCategory
-    language: String
-    QuestionType: Type
+    type: QuestionType
+    games: List<Game>
 }
 
 class User{
     username: String
     email: String
     password: String
-    answeredQuestions: int
+    role: String
+    games: List<Game>
 }
 
-class UserStat{
+class Statistics{
+    correct: Long
+    wrong: Long
+    total: Long
+    user: User
 }
 
 class Answer {
     text: String
     category: AnswerCategory
-    questionsWithThisAnswer: List<Question>
-
+    language: String
 }
 
 class Game {
     user: User
     questions: List<Question>
+    rounds: int
+    actualRound: int
+    correctlyAnsweredQuestions: int
+    language: String
+    roundStartTime: LocalDateTime
+    roundDuration: Integer
+    currentQuestionAnswered: boolean
+    isGameOver: boolean
 }
 
 
-class Ranking << Singleton >> {
-
-}
-
-User  o--> Question
-User "1" --> "1" UserStat
-Game  o--> Question
-Game "n" --> "n" User
-Question "n" --> "n" Answer
-Ranking "1" --> "n" User
+User "1"--"1" Statistics
+Game "n"--"n" Question
+Game "1" -- "n" User
+Question "n" -- "n" Answer
 
 @enduml
 ----
@@ -86,8 +86,16 @@ Ranking "1" --> "n" User
 | Question | The model of the questions, has a type to specify if it is text, image or audio. Stores both right and wrong answers
 | User | The people using the application, they have statistics and take part in a ranking to compete
 | Answer | Models each possible answer, created to reuse answers that are common to different questions, as well as distractors
-| Game | It is created when the user starts a game and destroyed just when it ends.
+| Game | It is created when the user starts a game and includes the rounds that the user has to answer
+| Statistics | Stores information about the amount of correct and wrong answers that each user has answered
 |===
+
+.Question Generator
+The Question Generator is an important part of our application, it is already briefly described in Section 6, but more insight is given here.
+
+The Question Generator module is written in Java and connects via HTTP with Wikidata query service. 
+It follows a template design pattern where each Java class is responsible for generating the questions and answers.
+The query is ran against Wikidata and it returns a text in JSON format that is processed into the question and answers, which are later stored in the DB.
 
 .Architecture and design patterns
 We decided to use a React based frontend with BootSpring for the backend, which will follow the model view controller pattern to make the code clear.
@@ -106,4 +114,4 @@ In order to archieve this, we will implement two modules regarding questions, on
 Our code will be deployed within an Azure's Virtual Machine using continuous integration. 
 
 .Under-the-hood:
-Regarding Data persistence, our project has two DB, one for storing questions as stated before while the other one will be in charge of storing any other meaningful data for the game such us users or game's histories.
+Regarding Data persistence, our project has a PostgreSQL DB, which stores information about users, statistics, games, answers and questions.
