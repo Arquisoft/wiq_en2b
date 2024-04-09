@@ -65,7 +65,7 @@ export default function Game() {
     const startNewRound = async (gameId) => {
         try{
             const result = await startRound(gameId);
-            setTimeStartRound(new Date(result.data.round_start_time).getUTCMilliseconds());
+            setTimeStartRound(new Date(result.data.round_start_time).getTime());
             setRoundNumber(result.data.actual_round )
             setRoundDuration(result.data.round_duration);
             await assignQuestion(gameId);
@@ -93,17 +93,20 @@ export default function Game() {
             const newGameResponse = await newGame();
             if (newGameResponse) {
                 setGameId(newGameResponse.id);
-                setTimeStartRound(new Date(newGameResponse.round_start_time).getUTCMilliseconds());
+                setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
                 setRoundDuration(newGameResponse.round_duration)
                 setMaxRoundNumber(newGameResponse.rounds);
-                getCurrentQuestion(newGameResponse.id).then((result) => {
-                    if (result.status === 200) {
+                try{
+                    const result = await getCurrentQuestion(newGameResponse.id);
+                    if (result.status === HttpStatusCode.Ok) {
                         setQuestion(result.data);
                         setNextDisabled(false);
+                        setLoading(false);
                     }
-                }).catch(() => {
+                }catch(error){
                     startNewRound(newGameResponse.id);
-                })
+                }
+
                 
             } else {
                 navigate("/dashboard");
@@ -158,9 +161,7 @@ export default function Game() {
 
     useEffect(() => {
         let timeout;
-
-        //console.log(timeElapsed)
-        if ((new Date().getUTCMilliseconds() - timeStartRound)/1000 >= roundDuration && timeStartRound !== -1) {
+        if (timeElapsed >= roundDuration && timeStartRound !== -1) {
             timeout = setTimeout(() => nextRound(), 1000);
 
         } else {
