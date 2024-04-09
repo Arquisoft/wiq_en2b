@@ -22,7 +22,7 @@ public class GameResponseDtoMapper implements Function<Game, GameResponseDto>{
                 .correctlyAnsweredQuestions(game.getCorrectlyAnsweredQuestions())
                 .actualRound(game.getActualRound())
                 .roundDuration(game.getRoundDuration())
-                .roundStartTime(Instant.ofEpochMilli(game.getRoundStartTime()).toString())
+                .roundStartTime(game.getRoundStartTime() != null?  Instant.ofEpochMilli(game.getRoundStartTime()).toString(): null)
                 .isGameOver(game.isGameOver())
                 .build();
     }
