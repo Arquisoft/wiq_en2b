@@ -13,9 +13,11 @@ Regarding the technologies, we decided to use the following ones:
 
  ** As a consecuence of this, pure JavaScript is being used due to React 18 not supporting Typescript 5.
 
- * **PostgreSQL** as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those that did preferring SQL. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.
+ * **PostgreSQL** as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those who did, preferred SQL. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.
 
- * **Java SpringBoot** for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.
+ * **Java SpringBoot 3** for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.
+
+ * **Java ** for the Question Generator process, due to the ease for connecting with the DB via JPA and our familiarity.
 
 === Organizational breakdown 
 

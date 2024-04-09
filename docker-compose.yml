@@ -69,7 +69,7 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: ["dev", "prod"]
     networks:
       mynetwork:
         ipv4_address: 10.5.0.8
@@ -115,7 +115,7 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: [ "dev" , "prod"]
     networks:
       mynetwork:
         ipv4_address: 10.5.0.7

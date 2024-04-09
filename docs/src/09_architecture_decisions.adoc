@@ -20,4 +20,13 @@ During the application development process, decisions had to be made as issues e
 
 |React Libraries
 |To enhance the efficiency and effectiveness of our development process, we've taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.
+
+|HTTPS
+|To improve security we have decided to make HTTPS as one main requirements in out project as can be seen in issue #51.
+
+|Architecture of the Question Generator
+|It has been decided to implement the QG in an independent module so it is only run once and it is not generating questions at real time, this way, we are not dependent on wikidata for having our application available.
 |===
+
+If needed, a more descriptive record can be seen link:https://github.com/Arquisoft/wiq_en2b/wiki[here].
+

@@ -31,6 +31,6 @@ node "WikiData Server" #DarkSalmon {
 "Web Client" ..> "WIQ React Application" : "HTTPS"
 "WIQ React Application" ..> "WIQ_API.jar" : "HTTPS"
 "WIQ_API.jar" ..> "WIQ Database" : "JPA"
-"WIQ API" ..> "WikiData REST API" : "HTTPS, SPARQL"
-"Question_Generator.jar" ..> "WIQ Database" : "JPA
+"Question_Generator.jar" ..> "WikiData REST API" : "HTTPS, SPARQL"
+"Question_Generator.jar" ..> "WIQ Database" : "JPA"
 @enduml

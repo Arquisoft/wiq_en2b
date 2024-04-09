@@ -4,21 +4,20 @@
 
 title Context Diagram for the WIQ System
 AddElementTag("Person", $bgColor="#salmon", $fontColor="#white")
-AddElementTag("Internal system", $bgColor="#darksalmon", $fontColor="#white")
-AddElementTag("External system", $bgColor="#peachpuff", $fontColor="#963b17")
-
-AddRelTag("backup", $textColor="orange", $lineColor="orange", $lineStyle = DashedLine())
-
+AddElementTag("Internal system", $bgColor="#peachpuff", $fontColor="#963b17")
+AddElementTag("External system", $bgColor="#darksalmon", $fontColor="#white")
 
 'Containers
 Person(player, Player,"An authenticated player that wants to play WIQ games", $tags="Person")
 
 Container(wiq, "WIQ Application","", "Application that allows the users to play WIQ games", $tags="Internal system")
 
+Container(question_generator, "Question Generator Module","", "Organizes everything related with questions", $tags="Internal system")
+
 System_Ext(wikidata,"WikiData API","Contains the information used for the question generation", $tags="External system")
 
 'RELATIONS
 Rel(player,wiq,"Plays games")
-Rel(wiq,wikidata,"Asks for data for question generation")
-SHOW_LEGEND()
+Rel(wiq, question_generator, "Asks for questions and answers")
+Rel(question_generator,wikidata,"Asks for data for question generation")
 @enduml

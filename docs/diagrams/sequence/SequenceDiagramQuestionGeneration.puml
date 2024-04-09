@@ -10,7 +10,7 @@ loop #PeachPuff Generate question templates
 activate QuestionGenerator #darksalmon
 QuestionGenerator -> WikiDataQS  : request query template
 activate WikiDataQS #darksalmon
-QuestionGenerator <-- WikiDataQS  : returns query answer
+QuestionGenerator <-- WikiDataQS  : returns query answers
 deactivate WikiDataQS
 QuestionGenerator -> QuestionGenerator  : process query answer
 QuestionGenerator -> DB  : store answers

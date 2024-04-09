@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Flex, Box, Heading, Center } from "@chakra-ui/react";
 import { useNavigate, useLocation } from "react-router-dom";
+import UserStatistics from "../components/statistics/UserStatistics";
 
 export default function Results() {
     const { t } = useTranslation();
@@ -19,6 +20,7 @@ export default function Results() {
                         {t("common.finish")}
                     </Button>
                 </Flex>
+                <UserStatistics />
             </Box>
         </Center>
     );

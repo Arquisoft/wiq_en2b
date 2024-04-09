@@ -75,7 +75,7 @@
     },
     "game": {
         "round": "Round ",
-        "next": "Next"
+        "answer": "Answer"
     },
     "about": {
         "title": "About",
