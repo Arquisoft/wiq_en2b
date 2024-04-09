@@ -37,7 +37,7 @@ services:
       - ./certs:/etc/letsencrypt
     depends_on:
       - WIQ_DB
-      - certbot
+      - kiwiq
 
   question-generator:
     container_name: question-generator-${teamname:-defaultASW}
@@ -92,12 +92,12 @@ services:
     depends_on:
       - webapp
       - grafana
-      - api
       - certbot
     volumes:
       - ./certs:/etc/certs
     build:
       context: ./nginx_conf
+    command: openssl pkcs12 -export -in /etc/certs/fullchain.pem -inkey /etc/certs/privkey.pem -out /etc/certs/keystore.p12 -name tomcat -CAfile /etc/certs/chain.pem -caname root
 
   grafana:
     image: grafana/grafana
