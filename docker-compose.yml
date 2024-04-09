@@ -37,6 +37,7 @@ services:
       - ./certs:/etc/letsencrypt
     depends_on:
       - WIQ_DB
+      - certbot
 
   question-generator:
     container_name: question-generator-${teamname:-defaultASW}
@@ -90,9 +91,8 @@ services:
       - "443:443"
     depends_on:
       - webapp
-      - api
       - grafana
-      - prometheus
+      - api
       - certbot
     volumes:
       - ./certs:/etc/certs
@@ -113,6 +113,8 @@ services:
     environment:
       - GF_SERVER_HTTP_PORT=9091
       - GF_AUTH_DISABLE_LOGIN_FORM=true
+    depends_on:
+      - certbot
   
 volumes:
   postgres_data:
