@@ -15,7 +15,7 @@ services:
 
   api:
     container_name: api-${teamname:-defaultASW}
-    image: api:latest
+    image: ghcr.io/arquisoft/wiq_en2b/api:latest
     profiles: ["dev", "prod"]
     build:
       context: ./api
@@ -41,7 +41,7 @@ services:
 
   question-generator:
     container_name: question-generator-${teamname:-defaultASW}
-    image: question-generator:latest
+    image: ghcr.io/arquisoft/wiq_en2b/question-generator:latest
     profiles: ["dev", "prod"]
     build:
       context: ./questiongenerator
@@ -100,7 +100,7 @@ services:
 
   webapp: 
     container_name: webapp-${teamname:-defaultASW} 
-    image:  webapp:latest 
+    image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
     profiles: [ "dev", "prod" ] 
     build: 
       args: 
