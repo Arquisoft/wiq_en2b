@@ -72,7 +72,7 @@
 
     kiwiq:
       image: kiwiq_en2b
-      container_name: kiwiq
+      container_name: ghcr.io/arquisoft/wiq_en2b/kiwiq:latest
       networks:
         mynetwork:
       links:
