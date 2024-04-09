@@ -1,5 +1,5 @@
 version: '3'
-services:     
+services:
   WIQ_DB:
     container_name: postgresql-${teamname:-defaultASW}
     environment:
@@ -8,15 +8,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     image: postgres:latest
-    profiles: ["dev", "prod"]
+    profiles: ["dev", "prod"] 
     networks:
       mynetwork:
         ipv4_address: 10.5.0.10
-      
+
   api:
     container_name: api-${teamname:-defaultASW}
-    image:  api:latest
-    profiles: [ "dev", "prod" ]
+    image: api:latest
+    profiles: ["dev", "prod"]
     build:
       context: ./api
       args:
@@ -33,13 +33,15 @@ services:
     networks:
       mynetwork:
         ipv4_address: 10.5.0.6
+    volumes:
+      - ./certs:/etc/letsencrypt
     depends_on:
-        - WIQ_DB
-      
+      - WIQ_DB
+
   question-generator:
     container_name: question-generator-${teamname:-defaultASW}
     image: question-generator:latest
-    profiles: [ "dev", "prod" ]
+    profiles: ["dev", "prod"]
     build:
       context: ./questiongenerator
       args:
@@ -54,24 +56,14 @@ services:
         ipv4_address: 10.5.0.11
     depends_on:
       - WIQ_DB
-      
-  grafana:
-    image: grafana/grafana
-    container_name: grafana-${teamname:-defaultASW}
-    profiles: [ "dev" ]
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
     networks:
       mynetwork:
-        ipv4_address: 10.5.0.7
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
-    environment:
-      - GF_SERVER_HTTP_PORT=9091
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    depends_on:
-      - prometheus
+        ipv4_address: 10.5.0.10
 
   prometheus:
     image: prom/prometheus
@@ -83,22 +75,9 @@ services:
     volumes:
       - ./quiz-api/monitoring/prometheus:/etc/prometheus
       - prometheus_data:/prometheus
+      - ./certs:/etc/letsencrypt/kiwiq.run.place
     depends_on:
       - api
-
-  webapp:
-    container_name: webapp-${teamname:-defaultASW}
-    image:  webapp:latest
-    profiles: [ "dev", "prod" ]
-    build:
-      args:
-        REACT_APP_API_ENDPOINT: ${API_URI}
-      context: ./webapp
-    environment:
-      - REACT_APP_API_ENDPOINT=${API_URI}
-    networks:
-      mynetwork:
-        ipv4_address: 10.5.0.9
 
   kiwiq:
     image: kiwiq_en2b
@@ -114,9 +93,27 @@ services:
       - api
       - grafana
       - prometheus
+      - certbot
+    volumes:
+      - ./certs:/etc/certs
     build:
       context: ./nginx_conf
 
+  grafana:
+    image: grafana/grafana
+    container_name: grafana-${teamname:-defaultASW}
+    profiles: ["dev"]
+    networks:
+      mynetwork:
+        ipv4_address: 10.5.0.7
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./certs:/etc/grafana
+    environment:
+      - GF_SERVER_HTTP_PORT=9091
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+  
 volumes:
   postgres_data:
   prometheus_data:
