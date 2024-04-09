@@ -34,7 +34,7 @@ services:
       mynetwork:
         ipv4_address: 10.5.0.6
     volumes:
-      - ./certs:/etc/letsencrypt
+      - /certs:/etc/letsencrypt
     depends_on:
       - WIQ_DB
       - kiwiq
@@ -61,7 +61,7 @@ services:
   certbot:
     image: certbot/certbot
     volumes:
-      - ./certs:/etc/letsencrypt
+      - /certs:/etc/letsencrypt
     networks:
       mynetwork:
         ipv4_address: 10.5.0.10
@@ -76,7 +76,7 @@ services:
     volumes:
       - ./quiz-api/monitoring/prometheus:/etc/prometheus
       - prometheus_data:/prometheus
-      - ./certs:/etc/letsencrypt/kiwiq.run.place
+      - /certs:/etc/letsencrypt/kiwiq.run.place
     depends_on:
       - api
 
@@ -91,13 +91,26 @@ services:
       - "443:443"
     depends_on:
       - webapp
-      - grafana
       - certbot
     volumes:
-      - ./certs:/etc/certs
+      - /certs:/etc/certs
     build:
       context: ./nginx_conf
     command: openssl pkcs12 -export -in /etc/certs/fullchain.pem -inkey /etc/certs/privkey.pem -out /etc/certs/keystore.p12 -name tomcat -CAfile /etc/certs/chain.pem -caname root
+
+  webapp: 
+    container_name: webapp-${teamname:-defaultASW} 
+    image:  webapp:latest 
+    profiles: [ "dev", "prod" ] 
+    build: 
+      args: 
+        REACT_APP_API_ENDPOINT: ${API_URI} 
+      context: ./webapp 
+    environment: 
+      - REACT_APP_API_ENDPOINT=${API_URI} 
+    networks: 
+      mynetwork: 
+        ipv4_address: 10.5.0.9 
 
   grafana:
     image: grafana/grafana
@@ -109,17 +122,16 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
-      - ./certs:/etc/grafana
     environment:
       - GF_SERVER_HTTP_PORT=9091
       - GF_AUTH_DISABLE_LOGIN_FORM=true
     depends_on:
-      - certbot
-  
+      - prometheus  
 volumes:
   postgres_data:
   prometheus_data:
   grafana_data:
+  certs:
 
 networks:
   mynetwork:
