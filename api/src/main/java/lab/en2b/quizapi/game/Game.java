@@ -31,7 +31,7 @@ public class Game {
 
     private Long correctlyAnsweredQuestions = 0L;
     private String language;
-    private String roundStartTime;
+    private Long roundStartTime = 0L;
     @NonNull
     private Integer roundDuration;
     private boolean currentQuestionAnswered;
@@ -64,7 +64,7 @@ public class Game {
         setCurrentQuestionAnswered(false);
         getQuestions().add(question);
         increaseRound();
-        setRoundStartTime(Instant.now().toString());
+        setRoundStartTime(Instant.now().toEpochMilli());
     }
 
     private void increaseRound(){
@@ -92,7 +92,7 @@ public class Game {
     }
 
     private boolean roundTimeHasExpired(){
-        return getRoundStartTime()!= null && Instant.now().isAfter(Instant.parse(getRoundStartTime()).plusSeconds(getRoundDuration()));
+        return getRoundStartTime()!= null && Instant.now().isAfter(Instant.ofEpochMilli(getRoundStartTime()).plusSeconds(getRoundDuration()));
     }
 
     public boolean answerQuestion(Long answerId){

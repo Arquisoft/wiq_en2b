@@ -6,6 +6,7 @@ import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.function.Function;
 
 @Service
@@ -21,7 +22,7 @@ public class GameResponseDtoMapper implements Function<Game, GameResponseDto>{
                 .correctlyAnsweredQuestions(game.getCorrectlyAnsweredQuestions())
                 .actualRound(game.getActualRound())
                 .roundDuration(game.getRoundDuration())
-                .roundStartTime(game.getRoundStartTime())
+                .roundStartTime(Instant.ofEpochMilli(game.getRoundStartTime()).toString())
                 .isGameOver(game.isGameOver())
                 .build();
     }
