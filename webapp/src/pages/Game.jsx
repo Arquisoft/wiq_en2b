@@ -25,7 +25,6 @@ export default function Game() {
     const [timeStartRound, setTimeStartRound] = useState(-1);
     const [roundDuration, setRoundDuration] = useState(0);
     const [maxRoundNumber, setMaxRoundNumber] = useState(9);
-    const [questionLoading, setQuestionLoading] = useState(false);
 
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,21 +33,17 @@ export default function Game() {
         i18n.changeLanguage(selectedLanguage);
     };
 
-    const calculateProgress = (timeElapsed) => {
-        const totalTime = 30;
-        const percentage = (((Date.now()-timeStartRound)/1000) / totalTime) * 100;
+    const calculateProgress = () => {
+        const percentage = (timeElapsed / roundDuration) * 100;
         return Math.min(Math.max(percentage, 0), 100);
     };
     
-    /*
-        Generate new question when the round changes
-     */
     const assignQuestion = async (gameId) => {
         try {
             const result = await getCurrentQuestion(gameId);
             if (result.status === HttpStatusCode.Ok) {
                 setQuestion(result.data);
-                setQuestionLoading(false);
+                setNextDisabled(false);
                 setTimeElapsed(0);
             } else {
                 navigate("/dashboard");
@@ -70,10 +65,11 @@ export default function Game() {
     const startNewRound = async (gameId) => {
         try{
             const result = await startRound(gameId);
-            setTimeStartRound(new Date(result.data.round_start_time).getTime());
+            setTimeStartRound(new Date(result.data.round_start_time).getUTCMilliseconds());
             setRoundNumber(result.data.actual_round )
             setRoundDuration(result.data.round_duration);
             await assignQuestion(gameId);
+            setLoading(false);
         }
         catch(error){
             console.log(error)
@@ -96,23 +92,19 @@ export default function Game() {
         try {
             const newGameResponse = await newGame();
             if (newGameResponse) {
-                setRoundNumber(newGameResponse.actual_round)
                 setGameId(newGameResponse.id);
-                setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
-                console.log(new Date(newGameResponse.round_start_time).getTime());
+                setTimeStartRound(new Date(newGameResponse.round_start_time).getUTCMilliseconds());
                 setRoundDuration(newGameResponse.round_duration)
                 setMaxRoundNumber(newGameResponse.rounds);
-                try{
-                    await getCurrentQuestion(newGameResponse.id).then((result) => {
-                        if (result.status === 200) {
-                            setQuestion(result.data);
-                            setQuestionLoading(false);
-                        }
-                    });
-                } catch (error) {
-                    await startNewRound(newGameResponse.id);
-                }
-                setLoading(false);
+                getCurrentQuestion(newGameResponse.id).then((result) => {
+                    if (result.status === 200) {
+                        setQuestion(result.data);
+                        setNextDisabled(false);
+                    }
+                }).catch(() => {
+                    startNewRound(newGameResponse.id);
+                })
+                
             } else {
                 navigate("/dashboard");
             }
@@ -123,15 +115,13 @@ export default function Game() {
     };
 
     const nextRound = async () => {
-        if (roundNumber + 1 > maxRoundNumber)
+        if (roundNumber + 1 > maxRoundNumber) {
             navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
-        else {
+        } else {
             setAnswer({});
             setNextDisabled(true);
-            setQuestionLoading(true);
             await startNewRound(gameId);
         }
-
     }
 
     const nextButtonClick = async () => {
@@ -142,6 +132,7 @@ export default function Game() {
                 setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
                 setShowConfetti(true);
             }
+            setNextDisabled(true);
             setSelectedOption(null);
             await nextRound()
 
@@ -169,7 +160,7 @@ export default function Game() {
         let timeout;
 
         //console.log(timeElapsed)
-        if ((Date.now()-timeStartRound)/1000 >= roundDuration && timeStartRound !== -1) {
+        if ((new Date().getUTCMilliseconds() - timeStartRound)/1000 >= roundDuration && timeStartRound !== -1) {
             timeout = setTimeout(() => nextRound(), 1000);
 
         } else {
@@ -191,7 +182,7 @@ export default function Game() {
 
             <Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
-            <CircularProgress value={calculateProgress(timeElapsed)} color="green" size="120px" thickness="12px" capIsRound />
+            <CircularProgress value={calculateProgress()} color="green" size="120px" thickness="12px" capIsRound />
 
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
                 {loading ? (
@@ -223,7 +214,7 @@ export default function Game() {
                             </Grid>
 
                             <Flex direction="row" justifyContent="center" alignItems="center">
-                                <Button data-testid={"Next"} isDisabled={nextDisabled || questionLoading} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+                                <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
                                     {t("game.answer")}
                                 </Button>
                             </Flex>
