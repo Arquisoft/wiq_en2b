@@ -220,7 +220,7 @@ public class GameServiceTest {
         when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
-        defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
+        defaultGame.setRoundStartTime(Instant.now().minusSeconds(100).toString());
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
 
@@ -285,7 +285,7 @@ public class GameServiceTest {
         when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
+        defaultGame.setRoundStartTime(Instant.now().minusSeconds(100).toString());
         assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
     }
 

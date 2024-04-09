@@ -7,7 +7,9 @@ import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.question.Question;
 import lombok.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
@@ -29,7 +31,7 @@ public class Game {
 
     private Long correctlyAnsweredQuestions = 0L;
     private String language;
-    private LocalDateTime roundStartTime;
+    private String roundStartTime;
     @NonNull
     private Integer roundDuration;
     private boolean currentQuestionAnswered;
@@ -62,7 +64,7 @@ public class Game {
         setCurrentQuestionAnswered(false);
         getQuestions().add(question);
         increaseRound();
-        setRoundStartTime(LocalDateTime.now());
+        setRoundStartTime(Instant.now().toString());
     }
 
     private void increaseRound(){
@@ -90,7 +92,7 @@ public class Game {
     }
 
     private boolean roundTimeHasExpired(){
-        return getRoundStartTime()!= null && LocalDateTime.now().isAfter(getRoundStartTime().plusSeconds(getRoundDuration()));
+        return getRoundStartTime()!= null && Instant.now().isAfter(Instant.parse(getRoundStartTime()).plusSeconds(getRoundDuration()));
     }
 
     public boolean answerQuestion(Long answerId){
