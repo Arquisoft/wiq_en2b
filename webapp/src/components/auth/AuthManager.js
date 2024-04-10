@@ -76,8 +76,12 @@ export default class AuthManager {
         let response = await this.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/auth/refresh-token", {
           "refresh_token": localStorage.getItem("jwtRefreshToken")
         });
-        this.#saveToken(response);
-        AuthManager.#instance.setLoggedIn(true);
+        if (response.status === HttpStatusCode.Ok) {
+          this.#saveToken(response);
+          AuthManager.#instance.setLoggedIn(true);
+        } else {
+          localStorage.removeItem("jwtRefreshToken");
+        }
     } catch (error) {
         console.error("Error refreshing token: ", error);
     }  
