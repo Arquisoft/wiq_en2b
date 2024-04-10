@@ -18,7 +18,8 @@
         "finish": "Finish",
         "english": "English",
         "spanish": "Spanish",
-        "language": "Language:"
+        "language": "Language:",
+        "results": "Results"
     },
     "session": {
         "username": "Username",

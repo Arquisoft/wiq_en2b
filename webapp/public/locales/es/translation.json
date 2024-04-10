@@ -18,7 +18,8 @@
         "finish": "Finalizar",
         "english": "Inglés",
         "spanish": "Español",
-        "language": "Idioma:"
+        "language": "Idioma:",
+        "results": "Resultados"
     },
     "session": {
         "username": "Nombre de usuario",
