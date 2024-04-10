@@ -19,7 +19,8 @@
         "english": "English",
         "spanish": "Spanish",
         "language": "Language:",
-        "results": "Results"
+        "results": "Results",
+        "welcome": "Welcome"
     },
     "session": {
         "username": "Username",
