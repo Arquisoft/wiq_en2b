@@ -5,6 +5,7 @@ export default class AuthManager {
   static #instance = null;
   #isLoggedIn = false;
   #axiosInstance = null;
+  #hasRefreshed = false;
 
   constructor() {
     if (!AuthManager.#instance) {
@@ -24,7 +25,7 @@ export default class AuthManager {
   async isLoggedIn() {
 
     if (!AuthManager.#instance.#isLoggedIn) {
-      if (localStorage.getItem("jwtRefreshToken")) {
+      if (localStorage.getItem("jwtRefreshToken") && !AuthManager.#instance.#hasRefreshed()) {
         await this.#refresh();
       }
     }
@@ -66,6 +67,10 @@ export default class AuthManager {
     }
   }
 
+  hasRefreshed() {
+    return AuthManager.#instance.#hasRefreshed;
+  }
+
   #saveToken(requestAnswer) {
     this.getAxiosInstance().defaults.headers.common["authorization"] = "Bearer " + requestAnswer.data.token;;
     localStorage.setItem("jwtRefreshToken", requestAnswer.data.refresh_token);
@@ -79,6 +84,8 @@ export default class AuthManager {
         if (response.status === HttpStatusCode.Ok) {
           this.#saveToken(response);
           AuthManager.#instance.setLoggedIn(true);
+          AuthManager.#instance.#hasRefreshed = true;
+          setTimeout(() => AuthManager.#instance.#hasRefreshed = false, 2500);
         } else {
           localStorage.removeItem("jwtRefreshToken");
         }
