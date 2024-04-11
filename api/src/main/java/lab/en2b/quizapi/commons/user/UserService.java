@@ -69,7 +69,6 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseDto getUserDetailsByAuthentication(Authentication authentication) {
-        User user = userRepository.findByEmail(((UserDetailsImpl) authentication.getPrincipal()).getEmail()).orElseThrow();
-        return userResponseDtoMapper.apply(user);
+        return userResponseDtoMapper.apply(getUserByAuthentication(authentication));
     }
 }
