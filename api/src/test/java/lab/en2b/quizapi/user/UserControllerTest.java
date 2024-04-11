@@ -37,4 +37,10 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void getUserShouldReturn403() throws Exception{
+        mockMvc.perform(get("/users/details"))
+                .andExpect(status().isForbidden());
+    }
+
 }
