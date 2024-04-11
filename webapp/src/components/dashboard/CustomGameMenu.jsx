@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { Box, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Button, Text, Flex, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper } from '@chakra-ui/react';
 
-import AuthManager from "components/auth/AuthManager";
-
 const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
     const navigate = useNavigate();
     const [selectedLanguage, setSelectedLanguage] = useState([]);
@@ -26,15 +24,6 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
             setSelectedGameType(selectedGameType.filter(item => item !== gameType));
         } else {
             setSelectedGameType([...selectedGameType, gameType]);
-        }
-    };
-
-    const handleLogout = async () => {
-        try {
-            await new AuthManager().logout();
-            navigate("/");
-        } catch (error) {
-            console.error("Error al cerrar sesión:", error);
         }
     };
 
@@ -97,7 +86,7 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
                     </DrawerBody>
                     <DrawerFooter>
                         <Flex justify="flex-end" align="center" w="100%">
-                                <Button className={"custom-button effect1"} data-testid={"Save"} type="submit" colorScheme="forest_green" margin={"10px"} width="100%" onClick={handleLogout}>Save</Button>
+                                <Button className={"custom-button effect1"} data-testid={"Play"} type="submit" colorScheme="forest_green" margin={"10px"} width="100%" onClick={() => navigate("/dashboard/game")}>Play</Button>
                         </Flex>
                     </DrawerFooter>
                 </DrawerContent>
