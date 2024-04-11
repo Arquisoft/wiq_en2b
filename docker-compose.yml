@@ -14,7 +14,7 @@
 
     api:
       container_name: api-${teamname:-defaultASW}
-      image: ghcr.io/arquisoft/wiq_en2b/api:latest
+      image: api:latest
       profiles: ["dev", "prod"]
       build:
         context: ./api
@@ -30,11 +30,11 @@
         - JWT_SECRET=${JWT_SECRET}
         - SSL_PASSWORD=${SSL_PASSWORD}
       ports:
-        - 8080:8080
+        - 8443:8443
       networks:
         mynetwork:
       volumes:
-        - /etc/letsencrypt/live/kiwiq.run.place:/etc/letsencrypt
+        - /certs:/etc/letsencrypt/live/kiwiq.run.place:ro
       depends_on:
         - WIQ_DB
         - kiwiq
@@ -66,24 +66,23 @@
       volumes:
         - ./quiz-api/monitoring/prometheus:/etc/prometheus
         - prometheus_data:/prometheus
-        - /etc/letsencrypt/live/kiwiq.run.place:/etc/letsencrypt/kiwiq.run.place
+        - /certs:/etc/letsencrypt/kiwiq.run.place:ro
       depends_on:
         - api
 
     kiwiq:
-      image: kiwiq_en2b
-      container_name: ghcr.io/arquisoft/wiq_en2b/kiwiq:latest
+      image: ghcr.io/arquisoft/wiq_en2b/kiwiq:latest
+      container_name: kiwiq
       networks:
         mynetwork:
       links:
         - webapp
       ports:
-        - "80:80"
         - "443:443"
       depends_on:
         - webapp
       volumes:
-        - /etc/letsencrypt/live/kiwiq.run.place:/etc/certs
+        - /certs:/etc/letsencrypt/live/kiwiq.run.place:ro
       build:
         context: ./nginx_conf
 
