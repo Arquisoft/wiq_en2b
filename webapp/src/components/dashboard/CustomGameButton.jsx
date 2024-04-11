@@ -18,7 +18,7 @@ const SettingsButton = ({ onClick }) => {
         maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
         onClick={onClick}
         >
-            <SettingsIcon style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />
+            <SettingsIcon style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.5em' }} />
             <Box>Custom</Box>
         </Button>
     );

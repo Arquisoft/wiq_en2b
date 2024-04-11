@@ -98,6 +98,13 @@ const theme = extendTheme({
                 transform: "scale(1.1)",
                 backgroundColor: "#0f47ee",
             },
+            ".effect2": {
+                transition: "transform 0.3s, background-color 0.3s, color 0.3s",
+            },
+            ".effect2:hover": {
+                transform: "scale(1.02)",
+                backgroundColor: "#0f47ee",
+            },
             ".statistics-table td, .statistics-table th": {
                 margin: "0vh 1vw",
                 padding: "0vh 1vw"

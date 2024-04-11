@@ -20,7 +20,7 @@ export default function Dashboard() {
     const { t, i18n } = useTranslation();
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [selectedButtons, setSelectedButtons] = useState(new Set());
+    const [selectedButton, setSelectedButton] = useState("Kiwi Quest");
     
     const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
@@ -33,16 +33,6 @@ export default function Dashboard() {
     const config = genConfig(user.email) 
     
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-    const handleButtonClick = (label) => {
-      const newSelectedButtons = new Set(selectedButtons);
-      if (selectedButtons.has(label)) {
-          newSelectedButtons.delete(label);
-      } else {
-          newSelectedButtons.add(label);
-      }
-      setSelectedButtons(newSelectedButtons);
-    };
 
     return (
       <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
@@ -60,60 +50,45 @@ export default function Dashboard() {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <Flex justify="center" align="center" flexWrap={{ base: "wrap", md: "nowrap" }}>
+                  <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
                     <DashboardButton 
-                      label="Default"
-                      selectedButtons={selectedButtons}
-                      onClick={handleButtonClick}
-                      icon={<FaKiwiBird style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />}
+                      label="Kiwi Quest"
+                      selectedButton={selectedButton}
+                      onClick={setSelectedButton}
+                      icon={<FaKiwiBird style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
                     />
                     <DashboardButton 
-                      label="Football"
-                      selectedButtons={selectedButtons}
-                      onClick={handleButtonClick}
-                      icon={<IoIosFootball style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />}
+                      label="Football Showdown"
+                      selectedButton={selectedButton}
+                      onClick={setSelectedButton}
+                      icon={<IoIosFootball style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
                     />
                     <DashboardButton 
-                      label="Geography"
-                      selectedButtons={selectedButtons}
-                      onClick={handleButtonClick}
-                      icon={<TbWorld style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />}
+                      label="Geo Genius"
+                      selectedButton={selectedButton}
+                      onClick={setSelectedButton}
+                      icon={<TbWorld style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
                     />
                     <DashboardButton 
-                      label="Videogames"
-                      selectedButtons={selectedButtons}
-                      onClick={handleButtonClick}
-                      icon={<IoLogoGameControllerB style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />}
+                      label="Videogame adventure"
+                      selectedButton={selectedButton}
+                      onClick={setSelectedButton}
+                      icon={<IoLogoGameControllerB style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
                     />
                     <DashboardButton 
-                      label="History"
-                      selectedButtons={selectedButtons}
-                      onClick={handleButtonClick}
-                      icon={<FaPalette style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />}
+                      label="Ancient Odyssey"
+                      selectedButton={selectedButton}
+                      onClick={setSelectedButton}
+                      icon={<FaPalette style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
                     />
                     <DashboardButton 
                       label="Random"
-                      selectedButtons={selectedButtons}
-                      onClick={handleButtonClick}
-                      icon={<FaRandom style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />}
+                      selectedButton={selectedButton}
+                      onClick={setSelectedButton}
+                      icon={<FaRandom style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
                     />
                     <SettingsButton onClick={() => setIsSettingsOpen(true)}/>
                     <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} changeLanguage={changeLanguage}/>
-                    {/* <Button
-                      colorScheme="green"
-                      variant="outline"
-                      textAlign="center"
-                      m="1em"
-                      display="flex"
-                      flexDirection="column"
-                      alignItems="center"
-                      size="lg"
-                      height="4rem"
-                      maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
-                    >
-                      <SettingsIcon style={{ marginBottom: '0.5em', marginRight: '0.25em' }} />
-                      <Box>Custom</Box>
-                    </Button> */}
                   </Flex>
                 </TabPanel>
                 <TabPanel>
@@ -127,22 +102,22 @@ export default function Dashboard() {
                 </TabPanel>
               </TabPanels>
             </Tabs>
-            <Flex justify="center">
-              <Button 
-                type="submit" 
-                data-testid={"Play"} 
-                variant={"solid"} 
-                colorScheme={"pigment_green"} 
-                margin={"5px"} 
-                className={"custom-button effect1"} 
-                onClick={() => navigate("/dashboard/game")}
-                size={"lg"}
-                fontSize={"2xl"}
-                maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }} 
-              >
-                {t("common.play")}
-              </Button>
-            </Flex>
+              <Flex justify="center">
+                <Button  
+                  type="submit" 
+                  data-testid={"Play"} 
+                  variant={"solid"} 
+                  colorScheme={"pigment_green"} 
+                  margin={"0.5rem"} 
+                  className={"custom-button effect2"} 
+                  onClick={() => navigate("/dashboard/game")}
+                  size={"lg"}
+                  fontSize={"2xl"}
+                  flex="1"
+                >
+                  {t("common.play")}
+                </Button>
+              </Flex>
           </Stack>
         </Box>
       </Center>
