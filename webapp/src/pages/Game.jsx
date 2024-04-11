@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
 import { newGame, startRound, getCurrentQuestion, answerQuestion } from '../components/game/Game';
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import LateralMenu from '../components/menu/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
 import { HttpStatusCode } from "axios";
 
 export default function Game() {

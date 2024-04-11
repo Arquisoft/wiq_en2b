@@ -8,8 +8,8 @@ import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import UserStatistics from "components/statistics/UserStatistics";
 import { FaChartBar } from 'react-icons/fa';
-import MenuButton from '../components/MenuButton';
-import LateralMenu from '../components/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
+import LateralMenu from '../components/menu/LateralMenu';
 
 export default function Statistics() {
     const { t, i18n } = useTranslation();

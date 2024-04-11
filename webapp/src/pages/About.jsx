@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Center, Heading, Stack, Box, Text, Table, Thead, Tr, Td, Th, Tbody, Container } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import LateralMenu from '../components/menu/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
 import GoBack from "components/GoBack";
 
 export default function About() {

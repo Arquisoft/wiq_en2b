@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 import AuthManager from '../components/auth/AuthManager';
-import LateralMenu from '../components/LateralMenu';
+import LateralMenu from '../components/menu/LateralMenu';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
