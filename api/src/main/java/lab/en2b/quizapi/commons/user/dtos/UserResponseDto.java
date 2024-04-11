@@ -1,4 +1,4 @@
-package lab.en2b.quizapi.commons.user;
+package lab.en2b.quizapi.commons.user.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
