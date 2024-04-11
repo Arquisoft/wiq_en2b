@@ -2,7 +2,6 @@ import model.AnswerCategory;
 import repositories.GeneralRepositoryStorer;
 import templates.BallonDOrQuestion;
 import templates.CountryCapitalQuestion;
-import templates.PaintingQuestion;
 import templates.VideogamesPublisherQuestion;
 
 public class Main {
