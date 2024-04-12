@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.questions;
 
+import lab.en2b.quizapi.commons.exceptions.InternalApiErrorException;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
@@ -102,6 +103,18 @@ public class QuestionServiceTest {
         QuestionResponseDto response =  questionService.getRandomQuestion("");
 
         assertEquals(response.getId(), defaultResponseDto.getId());
+    }
+    @Test
+    void testGetRandomQuestionAnswersNotYetLoaded() {
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        defaultQuestion.setAnswers(List.of());
+        QuestionResponseDto response =  questionService.getRandomQuestion("");
+
+        assertEquals(response.getId(), defaultResponseDto.getId());
+    }
+    @Test
+    void testGetRandomQuestionNoQuestionsFound() {
+        assertThrows(InternalApiErrorException.class,() -> questionService.getRandomQuestion(""));
     }
 
     @Test
