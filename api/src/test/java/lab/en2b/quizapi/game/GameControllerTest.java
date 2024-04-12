@@ -192,4 +192,21 @@ public class GameControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void getGameModeshouldReturn200() throws Exception{
+        mockMvc.perform(get("/games/gamemodes")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getGameModesShouldReturn403() throws Exception{
+        mockMvc.perform(get("/games/gamemodes")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
 }

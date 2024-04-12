@@ -135,8 +135,8 @@ public class Game {
     public void setCustomGameMode(CustomGameDto gameDto){
         setRounds(gameDto.getRounds());
         setRoundDuration(gameDto.getRoundDuration());
-        setQuestionCategoriesForCustom(gameDto.getCategories());
         this.gamemode = CUSTOM;
+        setQuestionCategoriesForCustom(gameDto.getCategories());
     }
     public void setGamemode(GameMode gamemode){
         if(gamemode == null){
@@ -172,7 +172,8 @@ public class Game {
                 setRoundDuration(30);
                 break;
             default:
-                throw new IllegalStateException("Invalid gamemode!");
+                setRounds(9L);
+                setRoundDuration(30);
         }
         this.gamemode = gamemode;
     }
@@ -204,6 +205,6 @@ public class Game {
     }
 
     public boolean shouldBeGameOver() {
-        return getActualRound() >= getRounds() && !isGameOver;
+        return getActualRound() >= getRounds() && !isGameOver && currentRoundIsOver();
     }
 }

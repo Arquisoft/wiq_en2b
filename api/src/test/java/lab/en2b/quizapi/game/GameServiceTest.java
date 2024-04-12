@@ -5,6 +5,7 @@ import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserResponseDto;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
+import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
@@ -14,6 +15,7 @@ import lab.en2b.quizapi.questions.answer.mappers.AnswerResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
+import lab.en2b.quizapi.statistics.Statistics;
 import lab.en2b.quizapi.statistics.StatisticsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,8 +32,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
 public class GameServiceTest {
@@ -151,16 +152,73 @@ public class GameServiceTest {
                 .build();
     }
 
+    // NEW GAME TESTS
     @Test
     public void newGame(){
         Authentication authentication = mock(Authentication.class);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         GameResponseDto gameDto = gameService.newGame(null,null,null,authentication);
+        assertEquals(defaultGameResponseDto, gameDto);
+    }
+
+    @Test
+    public void newGameActiveGame(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(1L)).thenReturn(Optional.of(defaultGame));
+        GameResponseDto gameDto = gameService.newGame(null,null,null,authentication);
+        defaultGameResponseDto.setId(1L);
+        assertEquals(defaultGameResponseDto, gameDto);
+    }
+
+    @Test
+    public void newGameWasMeantToBeOver(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(1L)).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        defaultGame.setActualRound(10L);
+        gameService.newGame(null,null,null,authentication);
+        verify(statisticsRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void newGameWasMeantToBeOverExistingLeaderboard(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(1L)).thenReturn(Optional.of(defaultGame));
+        when(statisticsRepository.findByUserId(1L)).thenReturn(Optional.of(Statistics.builder().user(new User())
+                .correct(0L)
+                .wrong(0L)
+                .total(0L)
+                .build()));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        defaultGame.setActualRound(10L);
+        gameService.newGame(null,null,null,authentication);
+        verify(statisticsRepository, times(1)).save(any());
+    }
+
+    @Test
+    public void newGameCustomGame(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        GameResponseDto gameDto = gameService.newGame("es",GameMode.CUSTOM,
+                CustomGameDto.builder()
+                        .roundDuration(30)
+                        .categories(List.of(QuestionCategory.GEOGRAPHY))
+                        .rounds(10L)
+                        .build()
+                ,authentication);
+        defaultGameResponseDto.setGamemode(GameMode.CUSTOM);
+        defaultGameResponseDto.setRounds(10L);
+        defaultGameResponseDto.setRoundDuration(30);
 
         assertEquals(defaultGameResponseDto, gameDto);
     }
 
+    // START ROUND TESTS
     @Test
     public void startRound(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
@@ -184,17 +242,15 @@ public class GameServiceTest {
         assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
     }
 
-    /**
     @Test
     public void startRoundWhenRoundNotFinished(){
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
-        when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
+        when(questionService.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
         assertThrows(IllegalStateException.class, () -> gameService.startRound(1L,authentication));
     }
-     **/
 
     @Test
     public void getCurrentQuestion() {
@@ -207,12 +263,12 @@ public class GameServiceTest {
         assertEquals(defaultQuestionResponseDto, questionDto);
     }
 
-    /*@Test
+    @Test
     public void getCurrentQuestionRoundNotStarted() {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
-    }*/
+    }
 
     @Test
     public void getCurrentQuestionRoundFinished() {
@@ -276,6 +332,19 @@ public class GameServiceTest {
         defaultGame.setGameOver(true);
         defaultGame.setActualRound(30L);
         assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
+    }
+
+    @Test
+    public void answerQuestionLastRound(){
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(questionService.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        gameService.newGame(null,null,null,authentication);
+        defaultGame.setActualRound(8L);
+        gameService.startRound(1L, authentication);
+        gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication);
+        verify(statisticsRepository, times(1)).save(any());
     }
 
     @Test
