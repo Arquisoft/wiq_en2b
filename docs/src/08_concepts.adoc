@@ -75,7 +75,7 @@ class Game {
 
 User "1"--"1" Statistics
 Game "n"--"n" Question
-Game "1" -- "n" User
+Game "n" -- "1" User
 Question "n" -- "n" Answer
 
 @enduml
