@@ -187,7 +187,7 @@ public class GameControllerTest {
 
     @Test
     void getQuestionCategoriesShouldReturn200() throws Exception{
-        mockMvc.perform(get("/games/questionCategories")
+        mockMvc.perform(get("/games/question-categories")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
@@ -196,7 +196,7 @@ public class GameControllerTest {
 
     @Test
     void getQuestionCategoriesShouldReturn403() throws Exception{
-        mockMvc.perform(get("/games/questionCategories")
+        mockMvc.perform(get("/games/question-categories")
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isForbidden());
