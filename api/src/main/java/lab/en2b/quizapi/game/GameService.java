@@ -2,6 +2,7 @@ package lab.en2b.quizapi.game;
 
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.game.dtos.AnswerGameResponseDto;
+import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
@@ -29,12 +30,11 @@ public class GameService {
     private final GameResponseDtoMapper gameResponseDtoMapper;
     private final UserService userService;
     private final QuestionService questionService;
-    private final QuestionRepository questionRepository;
     private final QuestionResponseDtoMapper questionResponseDtoMapper;
     private final StatisticsRepository statisticsRepository;
 
     @Transactional
-    public GameResponseDto newGame(String lang, GameMode gamemode, Authentication authentication) {
+    public GameResponseDto newGame(String lang, GameMode gamemode, CustomGameDto newGameDto, Authentication authentication) {
         Optional<Game> game = gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId());
         if (game.isPresent()){
             if (game.get().shouldBeGameOver()){
@@ -45,7 +45,7 @@ public class GameService {
                 return gameResponseDtoMapper.apply(game.get());
             }
         }
-        return gameResponseDtoMapper.apply(gameRepository.save(new Game(userService.getUserByAuthentication(authentication),gamemode,lang)));
+        return gameResponseDtoMapper.apply(gameRepository.save(new Game(userService.getUserByAuthentication(authentication),gamemode,lang,newGameDto)));
     }
 
     public GameResponseDto startRound(Long id, Authentication authentication) {

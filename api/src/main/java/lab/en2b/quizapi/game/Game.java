@@ -3,8 +3,10 @@ package lab.en2b.quizapi.game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lab.en2b.quizapi.commons.user.User;
+import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.question.Question;
+import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lombok.*;
 
 import java.time.Instant;
@@ -53,13 +55,17 @@ public class Game {
     @OrderColumn
     private List<Question> questions;
     private boolean isGameOver;
+    private List<QuestionCategory> questionCategoriesForCustom;
 
-    public Game(User user, GameMode gamemode,String lang) {
+    public Game(User user,GameMode gamemode,String lang, CustomGameDto gameDto){
         this.user = user;
-        setGamemode(gamemode);
         this.questions = new ArrayList<>();
         this.actualRound = 0L;
         this.language = lang;
+        if(gamemode == CUSTOM)
+            setCustomGameMode(gameDto);
+        else
+            setGamemode(gamemode);
     }
 
     public void newRound(Question question){
@@ -126,6 +132,12 @@ public class Game {
             throw new IllegalArgumentException("The language you provided is not supported");
         this.language = language;
     }
+    public void setCustomGameMode(CustomGameDto gameDto){
+        setRounds(gameDto.getRounds());
+        setRoundDuration(gameDto.getRoundDuration());
+        setQuestionCategoriesForCustom(gameDto.getCategories());
+        this.gamemode = CUSTOM;
+    }
     public void setGamemode(GameMode gamemode){
         if(gamemode == null){
             gamemode = KIWI_QUEST;
@@ -159,12 +171,31 @@ public class Game {
                 setRounds(9L);
                 setRoundDuration(30);
                 break;
-            case CUSTOM:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
+            default:
+                throw new IllegalStateException("Invalid gamemode!");
         }
+        this.gamemode = gamemode;
 
+    }
+
+    public void setQuestionCategoriesForCustom(List<QuestionCategory> questionCategoriesForCustom) {
+        if(gamemode != CUSTOM)
+            throw new IllegalStateException("You can't set custom categories for a non-custom gamemode!");
+        if(questionCategoriesForCustom == null || questionCategoriesForCustom.isEmpty())
+            throw new IllegalArgumentException("You can't set an empty list of categories for a custom gamemode!");
+        this.questionCategoriesForCustom = questionCategoriesForCustom;
+    }
+
+    public List<QuestionCategory> getQuestionCategoriesForGamemode(){
+        return switch (gamemode) {
+            case KIWI_QUEST -> List.of(QuestionCategory.GEOGRAPHY, QuestionCategory.MUSIC);
+            case FOOTBALL_SHOWDOWN -> List.of(QuestionCategory.SPORTS);
+            case GEO_GENIUS -> List.of(QuestionCategory.GEOGRAPHY);
+            case VIDEOGAME_ADVENTURE -> List.of(QuestionCategory.VIDEOGAMES);
+            case ANCIENT_ODYSSEY -> List.of(QuestionCategory.MUSIC,QuestionCategory.ART);
+            case RANDOM -> List.of(QuestionCategory.values());
+            case CUSTOM -> questionCategoriesForCustom;
+        };
     }
     private boolean isLanguageSupported(String language) {
         return language.equals("en") || language.equals("es");

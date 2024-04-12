@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lab.en2b.quizapi.game.dtos.AnswerGameResponseDto;
+import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
@@ -26,9 +27,9 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
-    @PostMapping("/new")
-    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang,@RequestParam(required=false) GameMode gamemode, Authentication authentication){
-        return ResponseEntity.ok(gameService.newGame(lang,gamemode,authentication));
+    @PostMapping("/start")
+    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang, @RequestParam(required=false) GameMode gamemode, @RequestBody CustomGameDto customGameDto, Authentication authentication){
+        return ResponseEntity.ok(gameService.newGame(lang,gamemode,customGameDto,authentication));
     }
 
     @Operation(summary = "Starts a new round", description = "Starts the round (asks a question and its possible answers to the API and start the timer) for a given authentication (a player)")
