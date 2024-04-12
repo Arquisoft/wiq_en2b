@@ -55,7 +55,7 @@ public class GameService {
             gameRepository.save(game);
             saveStatistics(game);
         }
-        game.newRound(questionService.findRandomQuestion(game.getLanguage()));
+        game.newRound(questionService.findRandomQuestion(game.getLanguage(),game.getGamemode(),game.getQuestionCategoriesForCustom()));
 
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }

@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.questions.question;
 
 import lab.en2b.quizapi.commons.exceptions.InternalApiErrorException;
+import lab.en2b.quizapi.game.GameMode;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;
@@ -42,24 +43,39 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getRandomQuestion(String lang) {
-        return questionResponseDtoMapper.apply(findRandomQuestion(lang));
+        return questionResponseDtoMapper.apply(findRandomQuestion(lang, GameMode.KIWI_QUEST, null));
     }
 
     /**
      * Find a random question for the specified language
-     * @param lang The language to find the question for
+     * @param language The language to find the question for
      * @return The random question
      */
-    public Question findRandomQuestion(String lang){
-        if (lang==null || lang.isBlank()) {
-            lang = "en";
+
+    public Question findRandomQuestion(String language, GameMode gamemode, List<QuestionCategory> questionCategoriesForCustom) {
+        if (language==null || language.isBlank()) {
+            language = "en";
         }
-        Question q = questionRepository.findRandomQuestion(lang);
+        List<QuestionCategory> questionCategories = getQuestionCategoriesForGamemode(gamemode, questionCategoriesForCustom);
+        Question q = questionRepository.findRandomQuestion(language,questionCategories);
         if(q==null) {
             throw new InternalApiErrorException("No questions found for the specified language!");
         }
         loadAnswers(q);
         return q;
+    }
+
+    private List<QuestionCategory> getQuestionCategoriesForGamemode(GameMode gamemode, List<QuestionCategory> questionCategoriesForCustom) {
+        return switch (gamemode) {
+            case KIWI_QUEST ->
+                    new ArrayList<>(List.of(QuestionCategory.ART, QuestionCategory.MUSIC, QuestionCategory.GEOGRAPHY));
+            case FOOTBALL_SHOWDOWN -> new ArrayList<>(List.of(QuestionCategory.SPORTS));
+            case GEO_GENIUS -> new ArrayList<>(List.of(QuestionCategory.GEOGRAPHY));
+            case VIDEOGAME_ADVENTURE -> new ArrayList<>(List.of(QuestionCategory.VIDEOGAMES));
+            case ANCIENT_ODYSSEY -> new ArrayList<>(List.of(QuestionCategory.ART));
+            case CUSTOM -> questionCategoriesForCustom;
+            default -> new ArrayList<>(List.of(QuestionCategory.values()));
+        };
     }
 
     public QuestionResponseDto getQuestionById(Long id) {
@@ -74,6 +90,9 @@ public class QuestionService {
     //TODO: CHAPUZAS, FIXEAR ESTO
     private void loadAnswers(Question question) {
         // Create the new answers list with the distractors
+        if(question.getAnswers().size() > 1) {
+            return;
+        }
         List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
         // Add the correct
         answers.add(question.getCorrectAnswer());
@@ -84,4 +103,5 @@ public class QuestionService {
         question.setAnswers(answers);
         questionRepository.save(question);
     }
+
 }
