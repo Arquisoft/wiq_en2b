@@ -3,6 +3,7 @@ package lab.en2b.quizapi.game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lab.en2b.quizapi.commons.user.User;
+import lab.en2b.quizapi.commons.utils.GameModeUtils;
 import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.question.Question;
@@ -66,7 +67,7 @@ public class Game {
         if(gamemode == CUSTOM)
             setCustomGameMode(gameDto);
         else
-            setGamemode(gamemode);
+            setGameMode(gamemode);
     }
 
     public void newRound(Question question){
@@ -139,44 +140,12 @@ public class Game {
         this.gamemode = CUSTOM;
         setQuestionCategoriesForCustom(gameDto.getCategories());
     }
-    public void setGamemode(GameMode gamemode){
+    public void setGameMode(GameMode gamemode){
         if(gamemode == null){
             gamemode = KIWI_QUEST;
         }
-        setGamemodeParams(gamemode);
-    }
-
-    private void setGamemodeParams(GameMode gamemode){ //This could be moved to a GameMode entity if we have time
-        switch(gamemode){
-            case KIWI_QUEST:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
-            case FOOTBALL_SHOWDOWN:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
-            case GEO_GENIUS:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
-            case VIDEOGAME_ADVENTURE:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
-            case ANCIENT_ODYSSEY:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
-            case RANDOM:
-                setRounds(9L);
-                setRoundDuration(30);
-                break;
-            default:
-                setRounds(9L);
-                setRoundDuration(30);
-        }
         this.gamemode = gamemode;
+        GameModeUtils.setGamemodeParams(this);
     }
 
     public void setQuestionCategoriesForCustom(List<QuestionCategory> questionCategoriesForCustom) {
@@ -188,18 +157,7 @@ public class Game {
     }
 
     public List<QuestionCategory> getQuestionCategoriesForGamemode(){
-        if(gamemode == null){
-            gamemode = KIWI_QUEST;
-        }
-        return switch (gamemode) {
-            case KIWI_QUEST -> List.of(QuestionCategory.ART, QuestionCategory.MUSIC, QuestionCategory.GEOGRAPHY);
-            case FOOTBALL_SHOWDOWN -> List.of(QuestionCategory.SPORTS);
-            case GEO_GENIUS -> List.of(QuestionCategory.GEOGRAPHY);
-            case VIDEOGAME_ADVENTURE -> List.of(QuestionCategory.VIDEOGAMES);
-            case ANCIENT_ODYSSEY -> List.of(QuestionCategory.MUSIC,QuestionCategory.ART);
-            case RANDOM -> List.of(QuestionCategory.values());
-            case CUSTOM -> questionCategoriesForCustom;
-        };
+        return GameModeUtils.getQuestionCategoriesForGamemode(gamemode,questionCategoriesForCustom);
     }
     private boolean isLanguageSupported(String language) {
         return language.equals("en") || language.equals("es");
