@@ -55,7 +55,7 @@ public class QuestionService {
         if (language==null || language.isBlank()) {
             language = "en";
         }
-        Question q = questionRepository.findRandomQuestion(language,questionCategoriesForCustom);
+        Question q = questionRepository.findRandomQuestion(language,questionCategoriesForCustom.stream().map(Enum::toString).toList());
         if(q==null) {
             throw new InternalApiErrorException("No questions found for the specified language!");
         }

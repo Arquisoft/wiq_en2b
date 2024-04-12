@@ -135,6 +135,7 @@ public class GameServiceTest {
                 .roundStartTime(Instant.ofEpochSecond(0L).toString())
                 .actualRound(0L)
                 .roundDuration(30)
+                .gamemode(GameMode.KIWI_QUEST)
                 .build();
         this.defaultGame = Game.builder()
                 .id(1L)

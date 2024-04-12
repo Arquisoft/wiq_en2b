@@ -55,6 +55,7 @@ public class GameService {
      * @param authentication the authentication of the user
      * @return the game with the new round started
      */
+    @Transactional
     public GameResponseDto startRound(Long id, Authentication authentication) {
         // Get the game by id and user
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();

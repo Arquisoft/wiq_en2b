@@ -186,6 +186,9 @@ public class Game {
     }
 
     public List<QuestionCategory> getQuestionCategoriesForGamemode(){
+        if(gamemode == null){
+            gamemode = KIWI_QUEST;
+        }
         return switch (gamemode) {
             case KIWI_QUEST -> List.of(QuestionCategory.ART, QuestionCategory.MUSIC, QuestionCategory.GEOGRAPHY);
             case FOOTBALL_SHOWDOWN -> List.of(QuestionCategory.SPORTS);

@@ -3,6 +3,7 @@ package lab.en2b.quizapi.game.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lab.en2b.quizapi.commons.user.UserResponseDto;
+import lab.en2b.quizapi.game.GameMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,4 +44,7 @@ public class GameResponseDto {
 
     @Schema(description = "Whether the game has finished or not", example = "true")
     private boolean isGameOver;
+
+    @Schema(description = "Game mode for the game", example = "KIWI_QUEST")
+    private GameMode gamemode;
 }
