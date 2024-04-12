@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lab.en2b.quizapi.game.dtos.*;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -33,7 +34,7 @@ public class GameController {
     })
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The custom game dto, only required if the gamemode is CUSTOM")
     @PostMapping("/play")
-    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang, @RequestParam(required=false) GameMode gamemode, @RequestBody(required = false) CustomGameDto customGameDto, Authentication authentication){
+    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang, @RequestParam(required=false) GameMode gamemode, @RequestBody(required = false) @Valid CustomGameDto customGameDto, Authentication authentication){
         if(gamemode == GameMode.CUSTOM && customGameDto == null)
             throw new IllegalArgumentException("Custom game mode requires a body");
         return ResponseEntity.ok(gameService.newGame(lang,gamemode,customGameDto,authentication));

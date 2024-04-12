@@ -3,6 +3,7 @@ package lab.en2b.quizapi.game;
 import lab.en2b.quizapi.auth.config.SecurityConfig;
 import lab.en2b.quizapi.auth.jwt.JwtUtils;
 import lab.en2b.quizapi.commons.user.UserService;
+import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,15 @@ public class GameControllerTest {
     void newGameCustomNoBodyShouldReturn400() throws Exception{
         mockMvc.perform(post("/games/play?gamemode=CUSTOM")
                         .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void newGameInvalidBodyForCustomShouldReturn400() throws Exception{
+        mockMvc.perform(post("/games/play?gamemode=CUSTOM")
+                        .with(user("test").roles("user"))
+                        .content(asJsonString(new CustomGameDto()))
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
@@ -208,5 +218,6 @@ public class GameControllerTest {
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
+
 
 }
