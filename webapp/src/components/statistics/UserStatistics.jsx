@@ -15,7 +15,7 @@ export default function UserStatistics() {
     const getData = async () => {
         try {
             const request = await new AuthManager().getAxiosInstance()
-                                                   .get("http://localhost:8080" + "/statistics/personal");
+                                                   .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/personal");
             if (request.status === HttpStatusCode.Ok) {
                 setUserData({
                     "raw": [
