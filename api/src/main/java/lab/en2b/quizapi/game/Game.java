@@ -8,9 +8,10 @@ import lab.en2b.quizapi.questions.question.Question;
 import lombok.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static lab.en2b.quizapi.game.GameMode.*;
 
 @Entity
 @Table(name = "games")
@@ -20,7 +21,6 @@ import java.util.List;
 @Setter
 @Builder
 public class Game {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -35,7 +35,8 @@ public class Game {
     @NonNull
     private Integer roundDuration;
     private boolean currentQuestionAnswered;
-
+    @Enumerated(EnumType.STRING)
+    private GameMode gamemode;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "user_id")
@@ -52,6 +53,14 @@ public class Game {
     @OrderColumn
     private List<Question> questions;
     private boolean isGameOver;
+
+    public Game(User user, GameMode gamemode,String lang) {
+        this.user = user;
+        setGamemode(gamemode);
+        this.questions = new ArrayList<>();
+        this.actualRound = 0L;
+        this.language = lang;
+    }
 
     public void newRound(Question question){
         if(getActualRound() != 0){
@@ -110,11 +119,53 @@ public class Game {
         return q.isCorrectAnswer(answerId);
     }
     public void setLanguage(String language){
+        if(language == null){
+            language = "en";
+        }
         if(!isLanguageSupported(language))
             throw new IllegalArgumentException("The language you provided is not supported");
         this.language = language;
     }
+    public void setGamemode(GameMode gamemode){
+        if(gamemode == null){
+            gamemode = KIWI_QUEST;
+        }
+        setGamemodeParams(gamemode);
+    }
 
+    private void setGamemodeParams(GameMode gamemode){ //This could be moved to a GameMode entity if we have time
+        switch(gamemode){
+            case KIWI_QUEST:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+            case FOOTBALL_SHOWDOWN:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+            case GEO_GENIUS:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+            case VIDEOGAME_ADVENTURE:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+            case ANCIENT_ODYSSEY:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+            case RANDOM:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+            case CUSTOM:
+                setRounds(9L);
+                setRoundDuration(30);
+                break;
+        }
+
+    }
     private boolean isLanguageSupported(String language) {
         return language.equals("en") || language.equals("es");
     }

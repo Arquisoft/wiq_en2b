@@ -27,8 +27,8 @@ public class GameController {
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
     @PostMapping("/new")
-    public ResponseEntity<GameResponseDto> newGame(Authentication authentication){
-        return ResponseEntity.ok(gameService.newGame(authentication));
+    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang,@RequestParam(required=false) GameMode gamemode, Authentication authentication){
+        return ResponseEntity.ok(gameService.newGame(lang,gamemode,authentication));
     }
 
     @Operation(summary = "Starts a new round", description = "Starts the round (asks a question and its possible answers to the API and start the timer) for a given authentication (a player)")

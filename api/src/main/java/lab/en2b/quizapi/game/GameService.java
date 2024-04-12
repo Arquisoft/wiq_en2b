@@ -34,9 +34,8 @@ public class GameService {
     private final StatisticsRepository statisticsRepository;
 
     @Transactional
-    public GameResponseDto newGame(Authentication authentication) {
+    public GameResponseDto newGame(String lang, GameMode gamemode, Authentication authentication) {
         Optional<Game> game = gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId());
-
         if (game.isPresent()){
             if (game.get().shouldBeGameOver()){
                 game.get().setGameOver(true);
@@ -46,15 +45,7 @@ public class GameService {
                 return gameResponseDtoMapper.apply(game.get());
             }
         }
-        return gameResponseDtoMapper.apply(gameRepository.save(Game.builder()
-                .user(userService.getUserByAuthentication(authentication))
-                .questions(new ArrayList<>())
-                .rounds(9L)
-                .actualRound(0L)
-                .correctlyAnsweredQuestions(0L)
-                .roundDuration(30)
-                .language("en")
-                .build()));
+        return gameResponseDtoMapper.apply(gameRepository.save(new Game(userService.getUserByAuthentication(authentication),gamemode,lang)));
     }
 
     public GameResponseDto startRound(Long id, Authentication authentication) {
