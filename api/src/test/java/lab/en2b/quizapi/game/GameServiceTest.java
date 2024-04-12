@@ -144,6 +144,7 @@ public class GameServiceTest {
                 .questions(new ArrayList<>())
                 .rounds(9L)
                 .actualRound(0L)
+                .roundStartTime(0L)
                 .correctlyAnsweredQuestions(0L)
                 .language("en")
                 .roundDuration(30)
@@ -170,7 +171,7 @@ public class GameServiceTest {
         GameResponseDto result = defaultGameResponseDto;
         result.setActualRound(1L);
         result.setId(1L);
-        result.setRoundStartTime(defaultGame.getRoundStartTime());
+        result.setRoundStartTime(Instant.ofEpochMilli(defaultGame.getRoundStartTime()).toString());
         assertEquals(result, gameDto);
     }
 
@@ -220,7 +221,7 @@ public class GameServiceTest {
         when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
         gameService.startRound(1L,authentication);
-        defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
+        defaultGame.setRoundStartTime(Instant.now().minusSeconds(100).toEpochMilli());
         assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
 
@@ -285,7 +286,7 @@ public class GameServiceTest {
         when(questionService.findRandomQuestion(any())).thenReturn(defaultQuestion);
         gameService.newGame(authentication);
         gameService.startRound(1L, authentication);
-        defaultGame.setRoundStartTime(LocalDateTime.now().minusSeconds(100));
+        defaultGame.setRoundStartTime(Instant.now().minusSeconds(100).toEpochMilli());
         assertThrows(IllegalStateException.class, () -> gameService.answerQuestion(1L, new GameAnswerDto(1L), authentication));
     }
 

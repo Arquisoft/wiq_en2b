@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @AllArgsConstructor
 @Data
@@ -34,7 +35,7 @@ public class GameResponseDto {
 
     @Schema(description = "Moment when the timer has started", example = "LocalDateTime.now()")
     @JsonProperty("round_start_time")
-    private LocalDateTime roundStartTime;
+    private String roundStartTime;
 
     @Schema(description = "Number of seconds for the player to answer the question", example = "20")
     @JsonProperty("round_duration")
