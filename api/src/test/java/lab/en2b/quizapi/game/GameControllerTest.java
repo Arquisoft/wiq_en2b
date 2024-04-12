@@ -41,19 +41,35 @@ public class GameControllerTest {
 
     @Test
     void newQuestionShouldReturn403() throws Exception{
-        mockMvc.perform(post("/games/new")
+        mockMvc.perform(post("/games/play")
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    void newQuestionShouldReturn200() throws Exception{
-        mockMvc.perform(post("/games/new")
+    void newGameShouldReturn200() throws Exception{
+        mockMvc.perform(post("/games/play")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isOk());
+    }
+    @Test
+    void newGameCustomNoBodyShouldReturn400() throws Exception{
+        mockMvc.perform(post("/games/play?gamemode=CUSTOM")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    void newGameInvalidGameModeShouldReturn400() throws Exception{
+        mockMvc.perform(post("/games/play?gamemode=patata")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

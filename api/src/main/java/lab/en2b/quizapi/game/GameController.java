@@ -27,8 +27,10 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
-    @PostMapping("/start")
-    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang, @RequestParam(required=false) GameMode gamemode, @RequestBody CustomGameDto customGameDto, Authentication authentication){
+    @PostMapping("/play")
+    public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang, @RequestParam(required=false) GameMode gamemode, @RequestBody(required = false) CustomGameDto customGameDto, Authentication authentication){
+        if(gamemode == GameMode.CUSTOM && customGameDto == null)
+            throw new IllegalArgumentException("Custom game mode requires a body");
         return ResponseEntity.ok(gameService.newGame(lang,gamemode,customGameDto,authentication));
     }
 
