@@ -9,3 +9,4 @@ public enum GameMode {
     RANDOM,
     CUSTOM
 }
+

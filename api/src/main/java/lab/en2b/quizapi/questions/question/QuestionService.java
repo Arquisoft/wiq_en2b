@@ -1,7 +1,6 @@
 package lab.en2b.quizapi.questions.question;
 
 import lab.en2b.quizapi.commons.exceptions.InternalApiErrorException;
-import lab.en2b.quizapi.game.GameMode;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
 import lab.en2b.quizapi.questions.answer.dtos.AnswerDto;

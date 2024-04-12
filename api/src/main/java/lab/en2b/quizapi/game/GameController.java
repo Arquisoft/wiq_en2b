@@ -3,10 +3,7 @@ package lab.en2b.quizapi.game;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lab.en2b.quizapi.game.dtos.AnswerGameResponseDto;
-import lab.en2b.quizapi.game.dtos.CustomGameDto;
-import lab.en2b.quizapi.game.dtos.GameAnswerDto;
-import lab.en2b.quizapi.game.dtos.GameResponseDto;
+import lab.en2b.quizapi.game.dtos.*;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +81,16 @@ public class GameController {
     @GetMapping("/{id}/details")
     public ResponseEntity<GameResponseDto> getGameDetails(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.getGameDetails(id, authentication));
+    }
+
+    @Operation(summary = "Get the list of gamemodes a game can have")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content)
+    })
+    @GetMapping("/gamemodes")
+    public ResponseEntity<List<GameModeDto>> getQuestionGameModes(){
+        return ResponseEntity.ok(gameService.getQuestionGameModes());
     }
 
     @GetMapping("/questionCategories")
