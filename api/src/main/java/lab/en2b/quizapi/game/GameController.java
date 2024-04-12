@@ -22,6 +22,7 @@ public class GameController {
     @Operation(summary = "Starts new game", description = "Requests the API to create a new game for a given authentication (a player)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "400", description = "Given when: \n * language provided is not valid \n * gamemode provided is not valid \n * body is not provided with custom game", content = @io.swagger.v3.oas.annotations.media.Content),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
     @PostMapping("/play")
@@ -65,7 +66,7 @@ public class GameController {
     @Operation(summary = "Changing languages", description = "Changes the language of the game for a given authentication (a player) and a language supported. Changes may are applied on the next round.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "400", description = "Not a valid answer", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "400", description = "Not a valid language to change to", content = @io.swagger.v3.oas.annotations.media.Content),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
     @PutMapping("/{id}/language")
@@ -93,6 +94,11 @@ public class GameController {
         return ResponseEntity.ok(gameService.getQuestionGameModes());
     }
 
+    @Operation(summary = "Get the list of categories a game can have")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content)
+    })
     @GetMapping("/questionCategories")
     public ResponseEntity<List<QuestionCategory>> getQuestionCategories(){
         return ResponseEntity.ok(gameService.getQuestionCategories());
