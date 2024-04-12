@@ -1,6 +1,8 @@
 package lab.en2b.quizapi.game;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lab.en2b.quizapi.game.dtos.*;
@@ -25,6 +27,11 @@ public class GameController {
             @ApiResponse(responseCode = "400", description = "Given when: \n * language provided is not valid \n * gamemode provided is not valid \n * body is not provided with custom game", content = @io.swagger.v3.oas.annotations.media.Content),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
+    @Parameters({
+            @Parameter(name = "lang", description = "The language of the game", example = "en"),
+            @Parameter(name = "gamemode", description = "The gamemode of the game", example = "KIWI_QUEST")
+    })
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The custom game dto, only required if the gamemode is CUSTOM")
     @PostMapping("/play")
     public ResponseEntity<GameResponseDto> newGame(@RequestParam(required = false) String lang, @RequestParam(required=false) GameMode gamemode, @RequestBody(required = false) CustomGameDto customGameDto, Authentication authentication){
         if(gamemode == GameMode.CUSTOM && customGameDto == null)
@@ -37,27 +44,30 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
+    @Parameter(name = "id", description = "The id of the game to start the round for", example = "1")
     @PostMapping("/{id}/startRound")
     public ResponseEntity<GameResponseDto> startRound(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.startRound(id, authentication));
     }
 
-    @Operation(summary = "Starts a new round", description = "Gets the question and its possible answers from the API for a given authentication (a player)")
+    @Operation(summary = "Gets the current question", description = "Gets the question and its possible answers from the API for a given authentication (a player)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
+    @Parameter(name = "id", description = "The id of the game to get the current question for", example = "1")
     @GetMapping("/{id}/question")
     public ResponseEntity<QuestionResponseDto> getCurrentQuestion(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.getCurrentQuestion(id, authentication));
     }
 
-    @Operation(summary = "Starts a new round", description = "Starts the round (getting a question and its possible answers and start the timer) for a given authentication (a player)")
+    @Operation(summary = "Answers the question", description = "Answers the question for the current game")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "400", description = "Not a valid answer", content = @io.swagger.v3.oas.annotations.media.Content),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
+    @Parameter(name = "id", description = "The id of the game to answer the question for", example = "1")
     @PostMapping("/{id}/answer")
         public ResponseEntity<AnswerGameResponseDto> answerQuestion(@PathVariable Long id, @RequestBody GameAnswerDto dto, Authentication authentication){
         return ResponseEntity.ok(gameService.answerQuestion(id, dto, authentication));
@@ -69,6 +79,7 @@ public class GameController {
             @ApiResponse(responseCode = "400", description = "Not a valid language to change to", content = @io.swagger.v3.oas.annotations.media.Content),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
+    @Parameter(name = "id", description = "The id of the game to change the language for", example = "1")
     @PutMapping("/{id}/language")
     public ResponseEntity<GameResponseDto> changeLanguage(@PathVariable Long id, @RequestParam String language, Authentication authentication){
         return ResponseEntity.ok(gameService.changeLanguage(id, language, authentication));
@@ -79,6 +90,7 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
+    @Parameter(name = "id", description = "The id of the game to get the summary for", example = "1")
     @GetMapping("/{id}/details")
     public ResponseEntity<GameResponseDto> getGameDetails(@PathVariable Long id, Authentication authentication){
         return ResponseEntity.ok(gameService.getGameDetails(id, authentication));
