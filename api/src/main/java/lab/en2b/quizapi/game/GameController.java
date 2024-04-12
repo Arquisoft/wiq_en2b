@@ -112,7 +112,7 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content)
     })
-    @GetMapping("/questionCategories")
+    @GetMapping("/question-categories")
     public ResponseEntity<List<QuestionCategory>> getQuestionCategories(){
         return ResponseEntity.ok(gameService.getQuestionCategories());
     }
