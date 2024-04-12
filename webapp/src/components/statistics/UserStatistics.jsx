@@ -15,7 +15,7 @@ export default function UserStatistics() {
     const getData = async () => {
         try {
             const request = await new AuthManager().getAxiosInstance()
-                                                   .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/personal");
+                                                   .get("http://localhost:8080" + "/statistics/personal");
             if (request.status === HttpStatusCode.Ok) {
                 setUserData({
                     "raw": [
@@ -67,7 +67,7 @@ export default function UserStatistics() {
                             <Heading as="h3" fontSize={"1.25em"}>
                                 {t("statistics.rightAnswers")}
                             </Heading>
-                            <Text>
+                            <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>
                                 {t("statistics.texts.personalRight", {right: userData.raw[0].value})}
                             </Text>
                         </Box>
@@ -75,7 +75,7 @@ export default function UserStatistics() {
                             <Heading as="h3" fontSize={"1.25em"}>
                                     {t("statistics.wrongAnswers")}
                             </Heading>
-                            <Text>
+                            <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>
                                 {t("statistics.texts.personalWrong", {wrong: userData.raw[1].value}) }
                             </Text>
                         </Box>
@@ -83,7 +83,7 @@ export default function UserStatistics() {
                             <Heading as="h3" fontSize={"1.25em"}>
                                 {t("statistics.percentage")}
                             </Heading>
-                            <Text>
+                            <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>
                                 {t("statistics.texts.personalRate", {rate: userData.rate})}
                             </Text>
                         </Box>
