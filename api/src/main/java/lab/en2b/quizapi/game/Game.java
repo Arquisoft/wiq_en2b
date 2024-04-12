@@ -55,6 +55,7 @@ public class Game {
     @OrderColumn
     private List<Question> questions;
     private boolean isGameOver;
+    @Enumerated(EnumType.STRING)
     private List<QuestionCategory> questionCategoriesForCustom;
 
     public Game(User user,GameMode gamemode,String lang, CustomGameDto gameDto){
