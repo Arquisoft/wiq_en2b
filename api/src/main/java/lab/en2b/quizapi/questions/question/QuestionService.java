@@ -43,7 +43,7 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getRandomQuestion(String lang) {
-        return questionResponseDtoMapper.apply(findRandomQuestion(lang, GameMode.KIWI_QUEST, null));
+        return questionResponseDtoMapper.apply(findRandomQuestion(lang, List.of(QuestionCategory.values())));
     }
 
     /**
@@ -52,30 +52,16 @@ public class QuestionService {
      * @return The random question
      */
 
-    public Question findRandomQuestion(String language, GameMode gamemode, List<QuestionCategory> questionCategoriesForCustom) {
+    public Question findRandomQuestion(String language, List<QuestionCategory> questionCategoriesForCustom) {
         if (language==null || language.isBlank()) {
             language = "en";
         }
-        List<QuestionCategory> questionCategories = getQuestionCategoriesForGamemode(gamemode, questionCategoriesForCustom);
-        Question q = questionRepository.findRandomQuestion(language,questionCategories);
+        Question q = questionRepository.findRandomQuestion(language,questionCategoriesForCustom);
         if(q==null) {
             throw new InternalApiErrorException("No questions found for the specified language!");
         }
         loadAnswers(q);
         return q;
-    }
-
-    private List<QuestionCategory> getQuestionCategoriesForGamemode(GameMode gamemode, List<QuestionCategory> questionCategoriesForCustom) {
-        return switch (gamemode) {
-            case KIWI_QUEST ->
-                    new ArrayList<>(List.of(QuestionCategory.ART, QuestionCategory.MUSIC, QuestionCategory.GEOGRAPHY));
-            case FOOTBALL_SHOWDOWN -> new ArrayList<>(List.of(QuestionCategory.SPORTS));
-            case GEO_GENIUS -> new ArrayList<>(List.of(QuestionCategory.GEOGRAPHY));
-            case VIDEOGAME_ADVENTURE -> new ArrayList<>(List.of(QuestionCategory.VIDEOGAMES));
-            case ANCIENT_ODYSSEY -> new ArrayList<>(List.of(QuestionCategory.ART));
-            case CUSTOM -> questionCategoriesForCustom;
-            default -> new ArrayList<>(List.of(QuestionCategory.values()));
-        };
     }
 
     public QuestionResponseDto getQuestionById(Long id) {

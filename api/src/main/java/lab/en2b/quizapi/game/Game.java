@@ -175,7 +175,6 @@ public class Game {
                 throw new IllegalStateException("Invalid gamemode!");
         }
         this.gamemode = gamemode;
-
     }
 
     public void setQuestionCategoriesForCustom(List<QuestionCategory> questionCategoriesForCustom) {
@@ -188,7 +187,7 @@ public class Game {
 
     public List<QuestionCategory> getQuestionCategoriesForGamemode(){
         return switch (gamemode) {
-            case KIWI_QUEST -> List.of(QuestionCategory.GEOGRAPHY, QuestionCategory.MUSIC);
+            case KIWI_QUEST -> List.of(QuestionCategory.ART, QuestionCategory.MUSIC, QuestionCategory.GEOGRAPHY);
             case FOOTBALL_SHOWDOWN -> List.of(QuestionCategory.SPORTS);
             case GEO_GENIUS -> List.of(QuestionCategory.GEOGRAPHY);
             case VIDEOGAME_ADVENTURE -> List.of(QuestionCategory.VIDEOGAMES);

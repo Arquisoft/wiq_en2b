@@ -7,7 +7,6 @@ import lab.en2b.quizapi.game.dtos.GameAnswerDto;
 import lab.en2b.quizapi.game.dtos.GameResponseDto;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
-import lab.en2b.quizapi.questions.question.QuestionRepository;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
@@ -18,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +53,7 @@ public class GameService {
             gameRepository.save(game);
             saveStatistics(game);
         }
-        game.newRound(questionService.findRandomQuestion(game.getLanguage(),game.getGamemode(),game.getQuestionCategoriesForCustom()));
+        game.newRound(questionService.findRandomQuestion(game.getLanguage(),game.getQuestionCategoriesForGamemode()));
 
         return gameResponseDtoMapper.apply(gameRepository.save(game));
     }
