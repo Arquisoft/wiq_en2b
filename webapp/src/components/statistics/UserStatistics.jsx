@@ -64,7 +64,7 @@ export default function UserStatistics() {
                         <ErrorMessageAlert errorMessage={errorMessage} t={t} errorWhere={"error.statistics.personal"}/>
                         <Heading as="h2" fontSize={"1.75em"}>{t("common.statistics.personal")}</Heading>
                         <Box>
-                            <Heading as="h3" fontSize={"1.25em"}>
+                            <Heading mt={2} mb={2} display={"flex"} justifyContent={"center"} alignItems={"center"} as="h3" fontSize={"1.25em"}>
                                 {t("statistics.rightAnswers")}
                             </Heading>
                             <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>
@@ -72,7 +72,7 @@ export default function UserStatistics() {
                             </Text>
                         </Box>
                         <Box>
-                            <Heading as="h3" fontSize={"1.25em"}>
+                            <Heading mt={2} mb={2} display={"flex"} justifyContent={"center"} alignItems={"center"} as="h3" fontSize={"1.25em"}>
                                     {t("statistics.wrongAnswers")}
                             </Heading>
                             <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>
@@ -80,7 +80,7 @@ export default function UserStatistics() {
                             </Text>
                         </Box>
                         <Box>
-                            <Heading as="h3" fontSize={"1.25em"}>
+                            <Heading mt={2} mb={2} display={"flex"} justifyContent={"center"} alignItems={"center"} as="h3" fontSize={"1.25em"}>
                                 {t("statistics.percentage")}
                             </Heading>
                             <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>

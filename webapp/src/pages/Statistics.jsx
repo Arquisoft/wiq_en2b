@@ -47,8 +47,8 @@ export default function Statistics() {
 
     const formatTopTen = () => { 
         return topTen.map((element, counter) => { 
-            return <Tr key={`row-${counter}`}> 
-                <Th isNumeric scope="row">{counter + 1}</Th> 
+            return <Tr fontSize={"1.25em"} key={`row-${counter}`}> 
+                <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} isNumeric scope="row">{counter + 1}</Th> 
                 <Td>{element.user.username}</Td>
                 <Td isNumeric>{element.right}</Td>
                 <Td isNumeric>{element.wrong}</Td> 
@@ -82,7 +82,7 @@ export default function Statistics() {
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
                 <Stack spacing={4} divider={<StackDivider />} minH="50vh" 
-                    p="1rem" backgroundColor="whiteAlpha.900" shadow="2xl"
+                    p="1rem" backgroundColor="whiteAlpha.900" shadow="1.25em"
                     boxShadow="md" rounded="1rem" alignItems={"center"} data-testid={"leaderboard-component"}>
                         {retrievedData ? 
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
@@ -92,15 +92,15 @@ export default function Statistics() {
                             {
                                 topTen.length === 0 ?
                                 <Text>{t("statistics.empty")}</Text> : 
-                                <Table className="statistics-table" data-testid={"top-ten"}>
+                                <Table mt={4} mb={4} variant="simple" className="statistics-table" data-testid={"top-ten"}>
                                     <Thead>
-                                        <Tr>
-                                            <Th scope="col">{t("statistics.position")}</Th>
-                                            <Th scope="col">{t("statistics.username")}</Th>
-                                            <Th scope="col">{t("statistics.rightAnswers")}</Th>
-                                            <Th scope="col">{t("statistics.wrongAnswers")}</Th>
-                                            <Th scope="col">{t("statistics.totalAnswers")}</Th>
-                                            <Th scope="col">{t("statistics.percentage")}</Th>
+                                        <Tr fontWeight='extrabold' color={"pigment_green.400"} textAlign={"center"} fontSize={"1.25em"}>
+                                            <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.position")}</Th>
+                                            <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.username")}</Th>
+                                            <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.rightAnswers")}</Th>
+                                            <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.wrongAnswers")}</Th>
+                                            <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.totalAnswers")}</Th>
+                                            <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.percentage")}</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
