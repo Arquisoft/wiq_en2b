@@ -98,7 +98,7 @@ public class QuestionServiceTest {
 
     @Test
     void testGetRandomQuestion() {
-        when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
         QuestionResponseDto response =  questionService.getRandomQuestion("");
 
         assertEquals(response.getId(), defaultResponseDto.getId());
