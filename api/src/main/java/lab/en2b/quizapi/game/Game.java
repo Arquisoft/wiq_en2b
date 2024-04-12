@@ -61,7 +61,7 @@ public class Game {
         this.user = user;
         this.questions = new ArrayList<>();
         this.actualRound = 0L;
-        this.language = lang;
+        setLanguage(lang);
         if(gamemode == CUSTOM)
             setCustomGameMode(gameDto);
         else
