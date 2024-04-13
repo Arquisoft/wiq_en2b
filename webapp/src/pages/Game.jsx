@@ -42,7 +42,6 @@ export default function Game() {
             const result = await getCurrentQuestion(gameId);
             if (result.status === HttpStatusCode.Ok) {
                 setQuestion(result.data);
-                setNextDisabled(false);
                 setTimeElapsed(0);
             } else {
                 navigate("/dashboard");
@@ -103,7 +102,7 @@ export default function Game() {
             }
             setNextDisabled(true);
             setSelectedOption(null);
-            await nextRound()
+            await nextRound();
 
         } catch (error) {
             if(error.response.status === 400){
