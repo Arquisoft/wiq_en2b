@@ -90,7 +90,8 @@ export default function Game() {
             setNextDisabled(true);
             await startNewRound(gameId);
         }
-    }, [navigate, setAnswer, setNextDisabled, startNewRound, correctAnswers, gameId, maxRoundNumber, roundNumber]);
+    }, [navigate, setAnswer, setNextDisabled, startNewRound, correctAnswers, 
+        gameId, maxRoundNumber, roundNumber]);
 
     const nextButtonClick = async () => {
         try {
@@ -170,7 +171,7 @@ export default function Game() {
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
 
             <Heading as="h2">{t("game.round", {currentRound: roundNumber, roundAmount: maxRoundNumber})}</Heading>
-            <Heading as="h3" color="pigment_green.400" fontSize="xl">{t("game.correct_counter", {correctCounter: correctAnswers})}</Heading>
+            <Heading as="h3" color="pigment_green.400" fontSize="xl">{t("game.correct_counter", {correctCount: correctAnswers})}</Heading>
 
             <CircularProgress value={calculateProgress()} color="green" size="120px" thickness="12px" capIsRound>
                 <CircularProgressLabel>{roundDuration - timeElapsed}</CircularProgressLabel>
