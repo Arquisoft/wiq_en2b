@@ -47,8 +47,12 @@ export default function Game() {
                 navigate("/dashboard");
             }
         } catch (error) {
-            console.error("Error fetching question:", error);
-            navigate("/dashboard");
+            if (error.response.status === HttpStatusCode.Conflict) {
+                throw error;
+            } else {
+                console.error("Error fetching question:", error);
+                navigate("/dashboard");
+            }
         }
     }, [setQuestion, setTimeElapsed, navigate])
 
@@ -114,6 +118,9 @@ export default function Game() {
     
     useEffect(() => {
         const initializeGame = async () => {
+            if (gameId) {
+                return;
+            }
             try {
                 const newGameResponse = await newGame();
                 if (newGameResponse) {
@@ -122,17 +129,11 @@ export default function Game() {
                     setRoundDuration(newGameResponse.round_duration)
                     setMaxRoundNumber(newGameResponse.rounds);
                     try{
-                        const result = await getCurrentQuestion(newGameResponse.id);
-                        if (result.status === HttpStatusCode.Ok) {
-                            setQuestion(result.data);
-                            setNextDisabled(false);
-                            setLoading(false);
-                        }
+                        await assignQuestion(newGameResponse.id);
+                        setLoading(false);
                     }catch(error){
                         startNewRound(newGameResponse.id);
                     }
-    
-                    
                 } else {
                     navigate("/dashboard");
                 }
@@ -142,8 +143,8 @@ export default function Game() {
             }
         };
         initializeGame();
-    }, [setGameId, setTimeStartRound, setRoundDuration, setMaxRoundNumber,
-        setQuestion, setNextDisabled, setLoading, startNewRound, navigate]);
+    }, [setGameId, gameId, setTimeStartRound, setRoundDuration, setMaxRoundNumber,
+        setQuestion, setLoading, startNewRound, navigate, assignQuestion]);
     useEffect(() => { 
         let timeout;
         if (showConfetti)
