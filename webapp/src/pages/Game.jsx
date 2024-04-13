@@ -33,7 +33,7 @@ export default function Game() {
     };
 
     const calculateProgress = () => {
-        const percentage = (roundDuration - timeElapsed / roundDuration) * 100;
+        const percentage = ((roundDuration - timeElapsed) / roundDuration) * 100;
         return Math.min(Math.max(percentage, 0), 100);
     };
     
