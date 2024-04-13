@@ -73,8 +73,9 @@
         }
     },
     "game": {
-        "round": "Ronda ",
-        "answer": "Responder"
+        "round": "Ronda {{currentRound, number}} de {{roundAmount, number}}",
+        "answer": "Responder",
+        "correct_counter": "Respuestas correctas: {{correctCount, number}}"
     },
     "about": {
         "title": "Sobre nosotros",

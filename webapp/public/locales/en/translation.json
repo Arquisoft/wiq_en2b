@@ -74,8 +74,9 @@
         }
     },
     "game": {
-        "round": "Round ",
-        "answer": "Answer"
+        "round": "Round {{currentRound, number}} of {{roundAmount, number}}",
+        "answer": "Answer",
+        "correct_counter": "Correct answers: {{correctCount, number}}"
     },
     "about": {
         "title": "About",

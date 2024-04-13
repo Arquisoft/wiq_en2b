@@ -50,7 +50,7 @@ export default function Game() {
             console.error("Error fetching question:", error);
             navigate("/dashboard");
         }
-    }, [setQuestion, setNextDisabled, setTimeElapsed, navigate])
+    }, [setQuestion, setTimeElapsed, navigate])
 
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
@@ -169,9 +169,8 @@ export default function Game() {
             <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
 
-            <Heading as="h2">{t("game.round") + `${roundNumber}`}</Heading>
-
-            <Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
+            <Heading as="h2">{t("game.round", {currentRound: roundNumber, roundAmount: maxRoundNumber})}</Heading>
+            <Heading as="h3" color="pigment_green.400" fontSize="xl">{t("game.correct_counter", {correctCounter: correctAnswers})}</Heading>
 
             <CircularProgress value={calculateProgress()} color="green" size="120px" thickness="12px" capIsRound>
                 <CircularProgressLabel>{roundDuration - timeElapsed}</CircularProgressLabel>
