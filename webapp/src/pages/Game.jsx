@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Grid, Flex, Heading, Button, Box, Text, Spinner, CircularProgress } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
@@ -10,8 +10,7 @@ import MenuButton from '../components/MenuButton';
 import { HttpStatusCode } from "axios";
 
 export default function Game() {
-    const navigate = useNavigate();
-
+    const navigate = useRef(useNavigate()).current;
     const [loading, setLoading] = useState(true);
     const [gameId, setGameId] = useState(null); 
     const [question, setQuestion] = useState(null);
@@ -38,7 +37,7 @@ export default function Game() {
         return Math.min(Math.max(percentage, 0), 100);
     };
     
-    const assignQuestion = async (gameId) => {
+    const assignQuestion = useCallback(async (gameId) => {
         try {
             const result = await getCurrentQuestion(gameId);
             if (result.status === HttpStatusCode.Ok) {
@@ -52,17 +51,17 @@ export default function Game() {
             console.error("Error fetching question:", error);
             navigate("/dashboard");
         }
-    }
+    }, [setQuestion, setNextDisabled, setTimeElapsed, navigate])
 
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
         setSelectedOption(selectedOptionIndex);
-        await setAnswer(answer);
+        setAnswer(answer);
         const anyOptionSelected = selectedOptionIndex !== null;
         setNextDisabled(!anyOptionSelected);
     };
 
-    const startNewRound = async (gameId) => {
+    const startNewRound = useCallback(async (gameId) => {
         try{
             const result = await startRound(gameId);
             setTimeStartRound(new Date(result.data.round_start_time).getTime());
@@ -73,51 +72,18 @@ export default function Game() {
         }
         catch(error){
             console.log(error)
-            if(error.status === 409){
+            if(error.response.status === 409){
                 if(roundNumber >= 9){
                     navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
                 } else {
                     await assignQuestion(gameId)
                 }
             }
-
         }
+    }, [setTimeStartRound, setRoundDuration, setRoundNumber,
+        assignQuestion, setLoading, navigate, correctAnswers, roundNumber])
 
-    }
-
-    /*
-      Initialize game when loading the page
-     */
-      const initializeGame = async () => {
-        try {
-            const newGameResponse = await newGame();
-            if (newGameResponse) {
-                setGameId(newGameResponse.id);
-                setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
-                setRoundDuration(newGameResponse.round_duration)
-                setMaxRoundNumber(newGameResponse.rounds);
-                try{
-                    const result = await getCurrentQuestion(newGameResponse.id);
-                    if (result.status === HttpStatusCode.Ok) {
-                        setQuestion(result.data);
-                        setNextDisabled(false);
-                        setLoading(false);
-                    }
-                }catch(error){
-                    startNewRound(newGameResponse.id);
-                }
-
-                
-            } else {
-                navigate("/dashboard");
-            }
-        } catch (error) {
-            console.error("Error initializing game:", error);
-            navigate("/dashboard");
-        }
-    };
-
-    const nextRound = async () => {
+    const nextRound = useCallback(async () => {
         if (roundNumber + 1 > maxRoundNumber) {
             navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
         } else {
@@ -125,7 +91,7 @@ export default function Game() {
             setNextDisabled(true);
             await startNewRound(gameId);
         }
-    }
+    }, [navigate, setAnswer, setNextDisabled, startNewRound, correctAnswers, gameId, maxRoundNumber, roundNumber]);
 
     const nextButtonClick = async () => {
         try {
@@ -142,16 +108,42 @@ export default function Game() {
         } catch (error) {
             if(error.response.status === 400){
                 setTimeout(nextButtonClick, 2000)
-            }else{
-                console.log('xd'+error.response.status)
             }
         }
-    };
+    }
+    
     useEffect(() => {
-        // Empty dependency array [] ensures this effect runs only once after initial render
+        const initializeGame = async () => {
+            try {
+                const newGameResponse = await newGame();
+                if (newGameResponse) {
+                    setGameId(newGameResponse.id);
+                    setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
+                    setRoundDuration(newGameResponse.round_duration)
+                    setMaxRoundNumber(newGameResponse.rounds);
+                    try{
+                        const result = await getCurrentQuestion(newGameResponse.id);
+                        if (result.status === HttpStatusCode.Ok) {
+                            setQuestion(result.data);
+                            setNextDisabled(false);
+                            setLoading(false);
+                        }
+                    }catch(error){
+                        startNewRound(newGameResponse.id);
+                    }
+    
+                    
+                } else {
+                    navigate("/dashboard");
+                }
+            } catch (error) {
+                console.error("Error initializing game:", error);
+                navigate("/dashboard");
+            }
+        };
         initializeGame();
-        // eslint-disable-next-line
-    }, []);
+    }, [setGameId, setTimeStartRound, setRoundDuration, setMaxRoundNumber,
+        setQuestion, setNextDisabled, setLoading, startNewRound, navigate]);
     useEffect(() => { 
         let timeout;
         if (showConfetti)
@@ -170,8 +162,7 @@ export default function Game() {
             }, 1000); 
         }
         return () => clearTimeout(timeout);
-        // eslint-disable-next-line
-    }, [timeElapsed, timeStartRound, roundDuration]);
+    }, [timeElapsed, timeStartRound, roundDuration, nextRound]);
 
 
     return (
