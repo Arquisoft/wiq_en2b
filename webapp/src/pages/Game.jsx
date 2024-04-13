@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Grid, Flex, Heading, Button, Box, Text, Spinner, CircularProgress } from "@chakra-ui/react";
+import { Grid, Flex, Heading, Button, Box, Text, Spinner, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -174,7 +174,9 @@ export default function Game() {
 
             <Heading as="h3" color="pigment_green.400" fontSize="xl">{`Correct answers: ${correctAnswers}`}</Heading>
 
-            <CircularProgress value={calculateProgress()} color="green" size="120px" thickness="12px" capIsRound />
+            <CircularProgress value={calculateProgress()} color="green" size="120px" thickness="12px" capIsRound>
+                <CircularProgressLabel>{roundDuration - timeElapsed}</CircularProgressLabel>
+            </CircularProgress>
 
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
                 {loading ? (
