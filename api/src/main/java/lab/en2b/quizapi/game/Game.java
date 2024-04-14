@@ -3,14 +3,18 @@ package lab.en2b.quizapi.game;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lab.en2b.quizapi.commons.user.User;
+import lab.en2b.quizapi.commons.utils.GameModeUtils;
+import lab.en2b.quizapi.game.dtos.CustomGameDto;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.question.Question;
+import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lombok.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static lab.en2b.quizapi.game.GameMode.*;
 
 @Entity
 @Table(name = "games")
@@ -20,7 +24,6 @@ import java.util.List;
 @Setter
 @Builder
 public class Game {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -35,7 +38,8 @@ public class Game {
     @NonNull
     private Integer roundDuration;
     private boolean currentQuestionAnswered;
-
+    @Enumerated(EnumType.STRING)
+    private GameMode gamemode;
     @ManyToOne
     @NotNull
     @JoinColumn(name = "user_id")
@@ -52,6 +56,19 @@ public class Game {
     @OrderColumn
     private List<Question> questions;
     private boolean isGameOver;
+    @Enumerated(EnumType.STRING)
+    private List<QuestionCategory> questionCategoriesForCustom;
+
+    public Game(User user,GameMode gamemode,String lang, CustomGameDto gameDto){
+        this.user = user;
+        this.questions = new ArrayList<>();
+        this.actualRound = 0L;
+        setLanguage(lang);
+        if(gamemode == CUSTOM)
+            setCustomGameMode(gameDto);
+        else
+            setGameMode(gamemode);
+    }
 
     public void newRound(Question question){
         if(getActualRound() != 0){
@@ -110,16 +127,43 @@ public class Game {
         return q.isCorrectAnswer(answerId);
     }
     public void setLanguage(String language){
+        if(language == null){
+            language = "en";
+        }
         if(!isLanguageSupported(language))
             throw new IllegalArgumentException("The language you provided is not supported");
         this.language = language;
     }
+    public void setCustomGameMode(CustomGameDto gameDto){
+        setRounds(gameDto.getRounds());
+        setRoundDuration(gameDto.getRoundDuration());
+        this.gamemode = CUSTOM;
+        setQuestionCategoriesForCustom(gameDto.getCategories());
+    }
+    public void setGameMode(GameMode gamemode){
+        if(gamemode == null){
+            gamemode = KIWI_QUEST;
+        }
+        this.gamemode = gamemode;
+        GameModeUtils.setGamemodeParams(this);
+    }
 
+    public void setQuestionCategoriesForCustom(List<QuestionCategory> questionCategoriesForCustom) {
+        if(gamemode != CUSTOM)
+            throw new IllegalStateException("You can't set custom categories for a non-custom gamemode!");
+        if(questionCategoriesForCustom == null || questionCategoriesForCustom.isEmpty())
+            throw new IllegalArgumentException("You can't set an empty list of categories for a custom gamemode!");
+        this.questionCategoriesForCustom = questionCategoriesForCustom;
+    }
+
+    public List<QuestionCategory> getQuestionCategoriesForGamemode(){
+        return GameModeUtils.getQuestionCategoriesForGamemode(gamemode,questionCategoriesForCustom);
+    }
     private boolean isLanguageSupported(String language) {
         return language.equals("en") || language.equals("es");
     }
 
     public boolean shouldBeGameOver() {
-        return getActualRound() >= getRounds() && !isGameOver;
+        return getActualRound() >= getRounds() && !isGameOver && currentRoundIsOver();
     }
 }
