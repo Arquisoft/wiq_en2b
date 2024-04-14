@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     @Value("${REFRESH_TOKEN_DURATION_MS}")
     private long refreshTokenDurationMs;
-    private UserResponseDtoMapper userResponseDtoMapper;
+    private final UserResponseDtoMapper userResponseDtoMapper;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow(() -> new InvalidAuthenticationException("Invalid email or password provided!")));

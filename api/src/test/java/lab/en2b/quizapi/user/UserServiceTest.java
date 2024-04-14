@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.user;
 
+import lab.en2b.quizapi.auth.config.UserDetailsImpl;
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserRepository;
 import lab.en2b.quizapi.commons.user.UserService;
@@ -12,9 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,16 +33,13 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private UserResponseDtoMapper userResponseDtoMapper;
-
     private User defaultUser;
 
     private UserResponseDto defaultUserResponseDto;
 
     @BeforeEach
     public void setUp() {
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, new UserResponseDtoMapper());
         defaultUser = User.builder()
                 .id(1L)
                 .username("HordyJurtado")
@@ -57,8 +57,18 @@ public class UserServiceTest {
     @Test
     public void getUserDetailsTest(){
         Authentication authentication = mock(Authentication.class);
-        when(userService.getUserByAuthentication(any())).thenReturn(defaultUser);
-        Assertions.assertEquals(defaultUserResponseDto, userService.getUserDetailsByAuthentication(authentication));
+        when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(defaultUser));
+        UserResponseDto result = userService.getUserDetailsByAuthentication(authentication);
+        Assertions.assertEquals(defaultUserResponseDto, result);
+    }
+
+    @Test
+    public void getUserDetailsWhenNotFound() {
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
+        when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
+        Assertions.assertThrows(NoSuchElementException.class, () -> userService.getUserDetailsByAuthentication(authentication));
     }
 
 }
