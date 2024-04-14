@@ -5,7 +5,7 @@ const authManager = new AuthManager();
 
 export async function newGame() {
     try {
-        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/new");
+        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play");
         if (HttpStatusCode.Ok === requestAnswer.status) {
             return requestAnswer.data;
         }
