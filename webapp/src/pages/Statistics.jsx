@@ -18,7 +18,6 @@ export default function Statistics() {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const getData = async () => {
-        console.log('lmao')
         try {
             const request = await new AuthManager().getAxiosInstance()
                                                    .get(process.env.REACT_APP_API_ENDPOINT + "/statistics/top");
