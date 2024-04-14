@@ -2,7 +2,7 @@ package lab.en2b.quizapi.statistics;
 
 import ch.qos.logback.core.util.TimeUtil;
 import lab.en2b.quizapi.commons.user.User;
-import lab.en2b.quizapi.commons.user.UserResponseDto;
+import lab.en2b.quizapi.commons.user.dtos.UserResponseDto;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.statistics.dtos.StatisticsResponseDto;
 import lab.en2b.quizapi.statistics.mappers.StatisticsResponseDtoMapper;
