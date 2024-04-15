@@ -2,6 +2,7 @@ package templates;
 
 import model.*;
 import org.json.JSONObject;
+import repositories.GeneralRepositoryStorer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +63,9 @@ public class PaintingQuestion extends QuestionTemplate {
             answers.add(a);
 
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es este cuadro? " + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
+                questions.add(new Question(a, "¿Cuál es este cuadro?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which painting is this? " + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
+                questions.add(new Question(a, "Which painting is this?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));

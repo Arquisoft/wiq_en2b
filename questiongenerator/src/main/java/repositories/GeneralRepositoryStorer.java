@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class GeneralRepositoryStorer {
 
+    public static final String LINKCONCAT = "#* &%";
+
     public void saveAll(List<Storable> storableList) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
         EntityManager entityManager = emf.createEntityManager();
@@ -40,7 +42,26 @@ public class GeneralRepositoryStorer {
         Jpa.close();
 
         return count == 0;
-
-
     }
+
+    public static void editConstraints() {
+        EntityManagerFactory emf = Jpa.getEntityManagerFactory();
+        EntityManager entityManager = emf.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+
+        // Drop constraint "answers_category_check" from table "answers" if exists
+        entityManager.createNativeQuery("ALTER TABLE answers DROP CONSTRAINT IF EXISTS answers_category_check").executeUpdate();
+        // Drop constraint "questions_question_category_check" from table "questions" if exists
+        entityManager.createNativeQuery("ALTER TABLE questions DROP CONSTRAINT IF EXISTS questions_question_category_check").executeUpdate();
+
+
+        entityManager.getTransaction().commit();
+
+        entityManager.close();
+        Jpa.close();
+    }
+
+
 }

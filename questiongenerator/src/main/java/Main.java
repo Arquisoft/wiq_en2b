@@ -1,11 +1,14 @@
 import model.AnswerCategory;
 import repositories.GeneralRepositoryStorer;
-import templates.BallonDOrQuestion;
-import templates.CountryCapitalQuestion;
-import templates.VideogamesPublisherQuestion;
+import templates.*;
 
 public class Main {
+
+
+
     public static void main(String[] args) {
+
+        GeneralRepositoryStorer.editConstraints();
 
         // TEXT
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.CAPITAL_CITY)) {
@@ -23,10 +26,8 @@ public class Main {
         }
 
 
-        /*
         // IMAGES
-
-        if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM.toString())) {
+        if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {
             new StadiumQuestion("en");
             new StadiumQuestion("es");
         }
@@ -35,7 +36,6 @@ public class Main {
             new PaintingQuestion("en");
             new PaintingQuestion("es");
         }
-        */
 
 
         /*
