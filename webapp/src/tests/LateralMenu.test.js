@@ -139,4 +139,15 @@ describe('LateralMenu component', () => {
           expect(changeLanguageMock).toHaveBeenCalledWith('en');
       });
     });
+    it('renders API button when isLoggedIn is true', async () => {
+      authManager.setLoggedIn(true);
+      const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+        expect(getByText('API')).toBeInTheDocument();
+      });      
+      fireEvent.click(screen.getByTestId('API'));
+      await waitFor(() => {
+        expect(screen.getByText('KIWIQ')).toBeInTheDocument();
+      });
+  });
 });
