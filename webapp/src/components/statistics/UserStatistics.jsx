@@ -20,14 +20,14 @@ export default function UserStatistics() {
                     raw: [
                         {
                             name: t("statistics.texts.personalRight"),
-                            value: 60,
+                            value: request.data.right,
                         },
                         {
                             name: t("statistics.texts.personalWrong"),
-                            value: 40,
+                            value: request.data.wrong,
                         },
                     ],
-                    rate: 60
+                    rate: request.data.correct_rate
                 });
                 setRetrievedData(true);
             } else {
