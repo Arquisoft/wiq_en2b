@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 import AuthManager from '../components/auth/AuthManager';
 import LateralMenu from '../components/LateralMenu';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -121,4 +122,13 @@ describe('LateralMenu component', () => {
         const aboutButton = screen.getByLabelText('About');
         expect(aboutButton).toBeInTheDocument();
     });
+    it('changes language on select change', async () => {
+      const changeLanguageMock = jest.fn();
+      render(<LateralMenu isOpen={true} onClose={() => {}} changeLanguage={changeLanguageMock} isDashboard={false} />);
+
+      userEvent.selectOptions(screen.getByTestId('language-select'), 'en');
+      await waitFor(() => {
+          expect(changeLanguageMock).toHaveBeenCalledWith('en');
+      });
+  });
 });
