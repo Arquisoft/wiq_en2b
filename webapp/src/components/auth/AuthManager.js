@@ -79,11 +79,13 @@ export default class AuthManager {
         if (response.status === HttpStatusCode.Ok) {
           this.#saveToken(response);
           AuthManager.#instance.setLoggedIn(true);
-        } else {
-          localStorage.removeItem("jwtRefreshToken");
-        }
+        } 
     } catch (error) {
-        console.error("Error refreshing token: ", error);
+        if (error.response.status === HttpStatusCode.Forbidden) {
+          localStorage.removeItem("jwtRefreshToken");
+        } else {
+          console.error("Error refreshing token: ", error);
+        }
     }  
   }
 
