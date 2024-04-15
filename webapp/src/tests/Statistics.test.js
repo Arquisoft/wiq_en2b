@@ -105,6 +105,30 @@ describe("Statistics", () => {
       });
     });
 
+    test("renders initial loading state", () => {
+      render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+      expect(screen.getByTestId("leaderboard-spinner")).toBeVisible();
+    });
+    
+    test("displays error message when data retrieval fails", async () => {
+      const errorMessage = "error.unknown.typeerror.unknown.message";
+      const mockAxios = new MockAdapter(authManager.getAxiosInstance());
+      mockAxios.onGet().reply(HttpStatusCode.InternalServerError);
+      render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+          expect(screen.getByTestId("error-message")).toHaveTextContent(errorMessage);
+      });
+    });
+  
+    test("displays empty state when no data is returned", async () => {
+      const mockAxios = new MockAdapter(authManager.getAxiosInstance());
+      mockAxios.onGet().reply(HttpStatusCode.Ok, []);
+      render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+          expect(screen.getByText("statistics.empty")).toBeVisible();
+      });
+    });
+  
 
     describe("the petition fails", () => {
       each([HttpStatusCode.BadRequest, HttpStatusCode.NotFound, 
