@@ -1,7 +1,7 @@
 package lab.en2b.quizapi.commons.user.mappers;
 
 import lab.en2b.quizapi.commons.user.User;
-import lab.en2b.quizapi.commons.user.UserResponseDto;
+import lab.en2b.quizapi.commons.user.dtos.UserResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

@@ -9,3 +9,8 @@ docs/build
 .idea
 .vscode
 .DS_Store
+
+*.crt
+*.key
+*.pem
+.env

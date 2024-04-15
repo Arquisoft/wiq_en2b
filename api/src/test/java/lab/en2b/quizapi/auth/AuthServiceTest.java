@@ -41,7 +41,7 @@ public class AuthServiceTest {
     User defaultUser;
     @BeforeEach
     void setUp() {
-        this.userService = new UserService(userRepository);
+        this.userService = new UserService(userRepository,null);
         this.authService = new AuthService(authenticationManager,userService,jwtUtils);
         this.defaultUser = User.builder()
                 .id(1L)

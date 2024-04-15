@@ -1,7 +1,7 @@
 package lab.en2b.quizapi.statistics.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lab.en2b.quizapi.commons.user.UserResponseDto;
+import lab.en2b.quizapi.commons.user.dtos.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

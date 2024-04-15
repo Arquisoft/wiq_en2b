@@ -3,6 +3,8 @@ package lab.en2b.quizapi.commons.user;
 import lab.en2b.quizapi.auth.config.UserDetailsImpl;
 import lab.en2b.quizapi.auth.dtos.RegisterDto;
 import lab.en2b.quizapi.commons.exceptions.InvalidAuthenticationException;
+import lab.en2b.quizapi.commons.user.dtos.UserResponseDto;
+import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     @Value("${REFRESH_TOKEN_DURATION_MS}")
     private long refreshTokenDurationMs;
+    private final UserResponseDtoMapper userResponseDtoMapper;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return UserDetailsImpl.build(userRepository.findByEmail(email).orElseThrow(() -> new InvalidAuthenticationException("Invalid email or password provided!")));
@@ -63,5 +66,9 @@ public class UserService implements UserDetailsService {
     public User getUserByAuthentication(Authentication authentication) {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             return userRepository.findByEmail(userDetails.getEmail()).orElseThrow();
+    }
+
+    public UserResponseDto getUserDetailsByAuthentication(Authentication authentication) {
+        return userResponseDtoMapper.apply(getUserByAuthentication(authentication));
     }
 }
