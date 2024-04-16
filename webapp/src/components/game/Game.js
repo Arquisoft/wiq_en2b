@@ -14,9 +14,23 @@ export async function gameModes() {
     }
 }
 
-export async function newGame() {
+export async function newGame(lang, gamemode, customGameDto) {
     try {
-        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/new");
+        let requestData = {};
+        if (gamemode === "CUSTOM") {
+            requestData = {
+                lang: lang,
+                gamemode: gamemode,
+                customGameDto: customGameDto
+            };
+        } else {
+            requestData = {
+                lang: lang,
+                gamemode: gamemode
+            };
+        }
+
+        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play/", requestData);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             return requestAnswer.data;
         }
