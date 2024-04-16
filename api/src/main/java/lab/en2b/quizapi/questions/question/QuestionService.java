@@ -64,7 +64,9 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getQuestionById(Long id) {
-        return questionResponseDtoMapper.apply(questionRepository.findById(id).orElseThrow());
+        Question q = questionRepository.findById(id).orElseThrow();
+        loadAnswers(q);
+        return questionResponseDtoMapper.apply(q);
     }
 
 
