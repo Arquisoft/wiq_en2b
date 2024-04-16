@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Heading, Button, Box, Stack, Tabs, TabList, Tab, TabPanels, TabPanel, Flex, Text } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,12 @@ import { FaUser, FaGamepad, FaKiwiBird, FaRandom, FaPalette } from "react-icons/
 import { TbWorld } from "react-icons/tb";
 import { IoIosFootball, IoLogoGameControllerB } from "react-icons/io";
 
-import DashboardButton from '../components/dashboard/DashboardButton';
 import CustomGameMenu from '../components/dashboard/CustomGameMenu';
 import LateralMenu from '../components/menu/LateralMenu';
 import MenuButton from '../components/menu/MenuButton';
 import UserStatistics from "../components/statistics/UserStatistics";
 import SettingsButton from "../components/dashboard/CustomGameButton";
+import { gameModes } from "../components/game/Game";
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -21,7 +21,21 @@ export default function Dashboard() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedButton, setSelectedButton] = useState("Kiwi Quest");
+    const [modes, setModes] = useState([]);
     
+    useEffect(() => {
+      async function fetchGameModes() {
+        try {
+          const modes = await gameModes();
+          setModes(modes);
+          setSelectedButton(modes[0]?.name);
+        } catch (error) {
+          console.error("Error fetching game modes:", error);
+        }
+      }
+      fetchGameModes();
+    }, []);
+
     const changeLanguage = (selectedLanguage) => {
         i18n.changeLanguage(selectedLanguage);
     };
@@ -33,6 +47,25 @@ export default function Dashboard() {
     const config = genConfig(user.email) 
     
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    const selectIcon = (iconName) => {
+      switch (iconName) {
+        case "FaKiwiBird":
+          return <FaKiwiBird style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "IoIosFootball":
+          return <IoIosFootball style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "FaGlobeAmericas":
+          return <TbWorld style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "IoLogoGameControllerB":
+          return <IoLogoGameControllerB style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "FaPalette":
+          return <FaPalette style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "FaRandom":
+          return <FaRandom style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        default:
+          return null;
+      }
+    };
 
     return (
       <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
@@ -51,42 +84,25 @@ export default function Dashboard() {
               <TabPanels>
                 <TabPanel>
                   <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
-                    <DashboardButton 
-                      label="Kiwi Quest"
-                      selectedButton={selectedButton}
-                      onClick={setSelectedButton}
-                      icon={<FaKiwiBird style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
-                    />
-                    <DashboardButton 
-                      label="Football Showdown"
-                      selectedButton={selectedButton}
-                      onClick={setSelectedButton}
-                      icon={<IoIosFootball style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
-                    />
-                    <DashboardButton 
-                      label="Geo Genius"
-                      selectedButton={selectedButton}
-                      onClick={setSelectedButton}
-                      icon={<TbWorld style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
-                    />
-                    <DashboardButton 
-                      label="Videogame adventure"
-                      selectedButton={selectedButton}
-                      onClick={setSelectedButton}
-                      icon={<IoLogoGameControllerB style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
-                    />
-                    <DashboardButton 
-                      label="Ancient Odyssey"
-                      selectedButton={selectedButton}
-                      onClick={setSelectedButton}
-                      icon={<FaPalette style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
-                    />
-                    <DashboardButton 
-                      label="Random"
-                      selectedButton={selectedButton}
-                      onClick={setSelectedButton}
-                      icon={<FaRandom style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />}
-                    />
+                    {modes.map(mode => (
+                      <Button
+                        key={mode.internalRepresentation}
+                        colorScheme={"green"}
+                        variant={selectedButton === mode.name ? "solid" : "ghost"}
+                        textAlign="center"
+                        m="1em"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        size="lg"
+                        height="4rem"
+                        maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
+                        onClick={() => setSelectedButton(mode.name)}
+                      >
+                        {selectIcon(mode.icon_name)}
+                        <Box>{mode.name}</Box>
+                      </Button>
+                    ))}
                     <SettingsButton onClick={() => setIsSettingsOpen(true)}/>
                     <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} changeLanguage={changeLanguage}/>
                   </Flex>

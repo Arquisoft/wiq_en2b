@@ -3,6 +3,17 @@ import AuthManager from "components/auth/AuthManager";
 
 const authManager = new AuthManager();
 
+export async function gameModes() {
+    try {
+        let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/gamemodes");
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            return requestAnswer.data;
+        }
+    } catch {
+
+    }
+}
+
 export async function newGame() {
     try {
         let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/new");
