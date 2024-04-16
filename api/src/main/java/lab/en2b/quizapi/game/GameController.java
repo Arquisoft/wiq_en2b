@@ -43,16 +43,21 @@ public class GameController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
-            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "No active game", content = @io.swagger.v3.oas.annotations.media.Content),
     })
-    @Parameters({
-            @Parameter(name = "lang", description = "The language of the game", example = "en"),
-            @Parameter(name = "gamemode", description = "The gamemode of the game", example = "KIWI_QUEST")
-    })
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The custom game dto, only required if the gamemode is CUSTOM")
     @GetMapping("/play")
     public ResponseEntity<GameResponseDto> getGame(Authentication authentication){
         return ResponseEntity.ok(gameService.getGame(authentication));
+    }
+
+    @Operation(summary = "Checks if there is an active game", description = "Requests the API to check if there exists an active game for a given authentication (a player)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+    })
+    @GetMapping("/is-active")
+    public ResponseEntity<GameActiveResponseDto> isActive(Authentication authentication){
+        return ResponseEntity.ok(gameService.isActive(authentication));
     }
 
     @Operation(summary = "Starts a new round", description = "Starts the round (asks a question and its possible answers to the API and start the timer) for a given authentication (a player)")

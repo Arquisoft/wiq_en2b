@@ -197,4 +197,13 @@ public class GameService {
     private Optional<Game> getCurrentGameForAuth(Authentication authentication){
         return gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId());
     }
+
+    /**
+     * Checks if the game is active
+     * @param authentication the authentication of the user
+     * @return the response of the check
+     */
+    public GameActiveResponseDto isActive(Authentication authentication) {
+        return new GameActiveResponseDto(getCurrentGameForAuth(authentication).isPresent());
+    }
 }
