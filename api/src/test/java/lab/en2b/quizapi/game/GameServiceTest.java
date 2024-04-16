@@ -293,6 +293,14 @@ public class GameServiceTest {
     }
 
     @Test
+    public void getCurrentQuestionRoundTimeNull() {
+        defaultGame.setRoundStartTime(null);
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
+    }
+
+    @Test
     public void getCurrentQuestionRoundNotStarted() {
         when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
         when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
