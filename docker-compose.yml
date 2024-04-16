@@ -73,6 +73,7 @@
     kiwiq:
       image: ghcr.io/arquisoft/wiq_en2b/kiwiq:latest
       container_name: kiwiq
+      profiles: ["dev", "prod"]
       networks:
         mynetwork:
       links:
