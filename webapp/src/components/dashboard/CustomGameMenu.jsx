@@ -41,7 +41,14 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
 
     const initializeCustomGameMode = async () => {
         try {
-            const lang = i18n.language;
+            let lang = i18n.language;
+            if (lang.includes("en"))
+                lang = "en";
+            else if (lang.includes("es"))
+                lang = "es"
+            else
+                lang = "en";
+
             const gamemode = 'CUSTOM';
             const uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
             const customGameDto = {

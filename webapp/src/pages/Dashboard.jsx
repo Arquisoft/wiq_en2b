@@ -84,7 +84,13 @@ export default function Dashboard() {
 
     const initializeGameMode = async () => {
       try {
-        const lang = i18n.language;
+        let lang = i18n.language;
+        if (lang.includes("en"))
+          lang = "en";
+        else if (lang.includes("es"))
+          lang = "es"
+        else
+          lang = "en";
         const newGameResponse = await newGame(lang, gamemode, null);
         if (newGameResponse)
           navigate("/dashboard/game");
@@ -127,7 +133,9 @@ export default function Dashboard() {
                             maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
                             onClick={() => {
                               setSelectedButton(mode.name);
+                              console.log(mode.internalRepresentation);
                               setGamemode(mode.internalRepresentation);
+                              console.log(gamemode);
                             }}
                           >
                             {selectIcon(mode.icon_name)}
