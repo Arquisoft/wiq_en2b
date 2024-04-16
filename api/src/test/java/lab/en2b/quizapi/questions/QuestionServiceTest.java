@@ -52,6 +52,7 @@ public class QuestionServiceTest {
         defaultQuestion = Question.builder()
                 .id(1L)
                 .answers(new ArrayList<>())
+                .content("What is the capital of France?")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .type(QuestionType.TEXT)
                 .build();
@@ -60,6 +61,7 @@ public class QuestionServiceTest {
                 .text("Paris")
                 .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
+                .language("en")
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
 
@@ -104,13 +106,29 @@ public class QuestionServiceTest {
 
         assertEquals(response.getId(), defaultResponseDto.getId());
     }
+
+    @Test
+    void testGetRandomQuestionImageType() {
+        defaultQuestion.setType(QuestionType.IMAGE);
+        defaultQuestion.setContent("What is the capital of France?#* &%https://www.example.com/image.jpg");
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        QuestionResponseDto response =  questionService.getRandomQuestion("en");
+        defaultResponseDto.setType(QuestionType.IMAGE);
+        defaultResponseDto.setImage("https://www.example.com/image.jpg");
+        assertEquals(response, defaultResponseDto);
+    }
+
     @Test
     void testGetRandomQuestionAnswersNotYetLoaded() {
         when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
         defaultQuestion.setAnswers(List.of());
-        QuestionResponseDto response =  questionService.getRandomQuestion("");
-
-        assertEquals(response.getId(), defaultResponseDto.getId());
+        QuestionResponseDto response =  questionService.getRandomQuestion("en");
+        defaultResponseDto.setAnswers(List.of(AnswerResponseDto.builder()
+                .id(1L)
+                .category(AnswerCategory.CAPITAL_CITY)
+                .text("Paris")
+                .build()));
+        assertEquals(response, defaultResponseDto);
     }
     @Test
     void testGetRandomQuestionNoQuestionsFound() {
@@ -122,7 +140,7 @@ public class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(defaultQuestion));
         QuestionResponseDto response = questionService.getQuestionById(1L);
 
-        assertEquals(response.getId(), defaultResponseDto.getId());
+        assertEquals(response, defaultResponseDto);
     }
 
     @Test
