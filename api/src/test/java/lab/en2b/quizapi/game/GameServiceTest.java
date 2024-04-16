@@ -234,6 +234,19 @@ public class GameServiceTest {
         assertThrows(NoSuchElementException.class, () -> gameService.getGame(authentication));
     }
 
+    // IS GAME ACTIVE TESTS
+    @Test
+    public void isGameActive(){
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(1L)).thenReturn(Optional.of(defaultGame));
+        assertTrue(gameService.isActive(authentication).isActive());
+    }
+    @Test
+    public void isGameActiveNoActiveGame(){
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertFalse(gameService.isActive(authentication).isActive());
+    }
+
     // START ROUND TESTS
     @Test
     public void startRound(){
@@ -447,6 +460,11 @@ public class GameServiceTest {
     @Test
     public void testGetQuestionCategories(){
         assertEquals(Arrays.asList(QuestionCategory.values()), gameService.getQuestionCategories());
+    }
+
+    @Test
+    public void testGetGameModes(){
+        assertFalse(gameService.getQuestionGameModes().isEmpty());
     }
 
 }
