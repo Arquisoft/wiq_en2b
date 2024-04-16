@@ -77,4 +77,8 @@ public class UserService implements UserDetailsService {
     public List<UserResponseDto> getUsers() {
         return userRepository.findAll().stream().map(userResponseDtoMapper).collect(Collectors.toList());
     }
+
+    public UserResponseDto getUser(Long id) {
+        return userResponseDtoMapper.apply(userRepository.findById(id).orElseThrow());
+    }
 }
