@@ -2,6 +2,7 @@ package lab.en2b.quizapi.statistics;
 
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.UserService;
+import lab.en2b.quizapi.game.GameRepository;
 import lab.en2b.quizapi.statistics.dtos.StatisticsResponseDto;
 import lab.en2b.quizapi.statistics.mappers.StatisticsResponseDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class StatisticsService {
     private final StatisticsRepository statisticsRepository;
     private final UserService userService;
     private final StatisticsResponseDtoMapper statisticsResponseDtoMapper;
+    private final GameRepository gameRepository;
 
     /**
      * Updates the statistics for a user. If no statistics are found for the user, they are created.
@@ -37,6 +39,7 @@ public class StatisticsService {
                     .correct(0L)
                     .wrong(0L)
                     .total(0L)
+                    .finishedGames(gameRepository.countFinishedGamesForUser(user.getId()))
                     .build()));
         }
 
