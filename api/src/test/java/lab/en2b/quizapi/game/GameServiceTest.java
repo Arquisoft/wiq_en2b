@@ -217,6 +217,22 @@ public class GameServiceTest {
 
         assertEquals(defaultGameResponseDto, gameDto);
     }
+    // GET GAME
+    @Test
+    public void getGame(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(any())).thenReturn(Optional.of(defaultGame));
+        GameResponseDto gameDto = gameService.getGame(authentication);
+        gameDto.setId(null);
+        assertEquals(defaultGameResponseDto, gameDto);
+    }
+    @Test
+    public void getGameNotActive(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertThrows(NoSuchElementException.class, () -> gameService.getGame(authentication));
+    }
 
     // START ROUND TESTS
     @Test
