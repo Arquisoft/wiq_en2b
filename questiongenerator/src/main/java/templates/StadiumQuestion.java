@@ -2,6 +2,7 @@ package templates;
 
 import model.*;
 import org.json.JSONObject;
+import repositories.GeneralRepositoryStorer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +56,9 @@ public class StadiumQuestion extends QuestionTemplate {
             answers.add(a);
 
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es este estadio? " + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, "¿Cuál es este estadio?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which stadium is this? " + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, "Which stadium is this?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));

@@ -175,8 +175,8 @@ public class GameService {
                 new GameModeDto("Geo Genius","Do you know the capital of Mongolia? I don't, so if you do this game is for you!",GameMode.GEO_GENIUS,"FaGlobeAmericas"),
                 new GameModeDto("Videogame Adventure","It's dangerous to go alone, guess this!",GameMode.VIDEOGAME_ADVENTURE,"IoLogoGameControllerB"),
                 new GameModeDto("Ancient Odyssey","Antiques are pricey for a reason!",GameMode.ANCIENT_ODYSSEY,"FaPalette"),
-                new GameModeDto("Random","Try a bit of everything!",GameMode.RANDOM,"FaRandom"),
-                new GameModeDto("Custom","Don't like our gamemodes? That's fine! (I only feel a bit offended)",GameMode.CUSTOM,"FaCog")
+                new GameModeDto("Random","Try a bit of everything!",GameMode.RANDOM,"FaRandom")
+                //new GameModeDto("Custom","Don't like our gamemodes? That's fine! (I only feel a bit offended)",GameMode.CUSTOM,"FaCog")
         );
     }
 }
