@@ -55,10 +55,11 @@
         }
     },
     "rules": {
-        "description1": "The WIQ game consists of quick games of 9 rounds. In each round there is one question and two possible answers. The key to earning points lies in choosing the correct answer.",
-        "description2": "There is only one correct answer.",
-        "description3": "You have to select a question before time runs out.",
-        "description4": "To start playing you have to click on the Play button."
+        "description1": "Welcome to the exciting world of KiWiQ! In this challenging game, your goal is to embark on a journey full of knowledge and fun.",
+        "description2": "Each question is a door to a universe of possibilities, with four options before you. But be careful, only one of those options is the golden key that will unlock the treasure of the correct answer.",
+        "description3": "With just 30 seconds for each question, you'll feel the adrenaline rushing through your veins as you fight against the clock to find the perfect answer. Take on the standard challenge with 9 questions waiting for you in each match, or venture into the custom terrain, where you can choose your own route. Do you feel brave? Or do you prefer strategy?",
+        "description4": "At the end of the road, your score will be your badge of honor. Can you achieve maximum glory and become the KiWiQ champion? Only time will tell!",
+        "description5": "Let the game begin!"
         
     },
     "statistics": {

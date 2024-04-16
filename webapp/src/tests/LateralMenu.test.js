@@ -1,10 +1,11 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 import AuthManager from '../components/auth/AuthManager';
 import LateralMenu from '../components/menu/LateralMenu';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -116,9 +117,37 @@ describe('LateralMenu component', () => {
         expect(logoutButton).toBeNull();
     });
 
+    it('renders logout button when isLoggedIn is true', async () => {
+      authManager.setLoggedIn(true);
+      const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+        expect(getByText('common.logout')).toBeInTheDocument();
+      });
+    });
+
     it('renders about button', () => {
         render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props} /></MemoryRouter></ChakraProvider>);
         const aboutButton = screen.getByLabelText('About');
         expect(aboutButton).toBeInTheDocument();
     });
+    it('changes language on select change', async () => {
+      const changeLanguageMock = jest.fn();
+      render(<LateralMenu isOpen={true} onClose={() => {}} changeLanguage={changeLanguageMock} isDashboard={false} />);
+
+      userEvent.selectOptions(screen.getByTestId('language-select'), 'en');
+      await waitFor(() => {
+          expect(changeLanguageMock).toHaveBeenCalledWith('en');
+      });
+    });
+    it('renders API button when isLoggedIn is true', async () => {
+      authManager.setLoggedIn(true);
+      const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+        expect(getByText('API')).toBeInTheDocument();
+      });      
+      fireEvent.click(screen.getByTestId('API'));
+      await waitFor(() => {
+        expect(screen.getByText('KIWIQ')).toBeInTheDocument();
+      });
+  });
 });
