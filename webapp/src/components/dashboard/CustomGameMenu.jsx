@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { 
     Box, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, 
@@ -7,30 +8,54 @@ import {
     NumberInput, NumberInputField, NumberInputStepper, 
     NumberIncrementStepper, NumberDecrementStepper 
 } from '@chakra-ui/react';
+import { newGame, gameCategories } from 'components/game/Game';
 
-const CustomGameMenu = ({ isOpen, onClose, changeLanguage, initializeCustomGameMode }) => {
+const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
     const navigate = useNavigate();
-    const [selectedLanguage, setSelectedLanguage] = useState([]);
-    const [selectedGameType, setSelectedGameType] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [rounds, setRounds] = useState(9);
     const [time, setTime] = useState(20);
+    const [categories, setCategories] = useState([]);
+    const { i18n } = useTranslation();
 
-    const handleChangeLanguage = (language) => {
-        if (selectedLanguage.includes(language)) {
-            setSelectedLanguage(selectedLanguage.filter(item => item !== language));
-        } else {
-            setSelectedLanguage([...selectedLanguage, language]);
+    useEffect(() => {
+        async function fetchCategories() {
+            try {
+                const categoriesData = await gameCategories();
+                const formattedCategories = categoriesData.map(category => category.charAt(0).toUpperCase() + category.slice(1).toLowerCase());
+                setCategories(formattedCategories);
+            } catch (error) {
+                console.error("Error fetching game categories:", error);
+            }
         }
-        changeLanguage(language);
+        fetchCategories();
+    }, []); 
+
+    const handleChangeLanguage = (category) => {
+        if (selectedCategories.includes(category)) {
+            setSelectedCategories(selectedCategories.filter(item => item !== category));
+        } else {
+            setSelectedCategories([...selectedCategories, category]);
+        }
     };
 
-    const handleGameTypeChange = (gameType) => {
-        if (selectedGameType.includes(gameType)) {
-            setSelectedGameType(selectedGameType.filter(item => item !== gameType));
-        } else {
-            setSelectedGameType([...selectedGameType, gameType]);
-        }
-    };
+    const initializeCustomGameMode = async () => {
+        try {
+            const lang = i18n.language;
+            const gamemode = 'CUSTOM';
+            const uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
+            const customGameDto = {
+                rounds: rounds,
+                roundDuration: time,
+                categories: uppercaseCategories
+            }
+            const newGameResponse = await newGame(lang, gamemode, customGameDto);
+            if (newGameResponse)
+              navigate("/dashboard/game");
+          } catch (error) {
+            console.error("Error initializing game:", error);
+          }
+      };
 
     return (
         <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
@@ -62,31 +87,22 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage, initializeCustomGameM
                                 </Flex>
                             </Box>
                             <Box marginTop="2em">
-                                <Text fontWeight='extrabold' color={"forest_green.400"}>Game type</Text>
+                                <Text color={"forest_green.500"}>Game categories</Text>
                                 <Flex direction="column">
-                                    <Button className={"custom-button effect2"} variant={selectedGameType.includes('image') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleGameTypeChange('image')}>Image</Button>
-                                    <Button className={"custom-button effect2"} variant={selectedGameType.includes('text') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleGameTypeChange('text')}>Text</Button>
+                                    {categories.map(category => (
+                                        <Button
+                                            key={category}
+                                            className={"custom-button effect2"}
+                                            variant={selectedCategories.includes(category) ? "solid" : "outline"}
+                                            colorScheme="green"
+                                            margin={"10px"}
+                                            onClick={() => handleChangeLanguage(category)}
+                                        >
+                                            {category}
+                                        </Button>
+                                    ))}
                                 </Flex>
                             </Box>
-                            {(selectedGameType.includes('image') || selectedGameType.includes('both')) && (
-                                <Box>
-                                    <Text color={"forest_green.500"}>Image categories</Text>
-                                    <Flex direction="column">
-                                        <Button className={"custom-button effect2"} variant={selectedLanguage.includes('football_stadium') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleChangeLanguage('football_stadium')}>Football Stadium</Button>
-                                        <Button className={"custom-button effect2"} variant={selectedLanguage.includes('drawings') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleChangeLanguage('drawings')}>Drawings</Button>
-                                    </Flex>
-                                </Box>
-                            )}
-                            {(selectedGameType.includes('text') || selectedGameType.includes('both')) && (
-                                <Box>
-                                    <Text color={"forest_green.500"}>Text categories</Text>
-                                    <Flex direction="column">
-                                        <Button className={"custom-button effect2"} variant={selectedLanguage.includes('ballon_dor') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleChangeLanguage('ballon_dor')}>Ballon D'or</Button>
-                                        <Button className={"custom-button effect2"} variant={selectedLanguage.includes('capitals') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleChangeLanguage('capitals')}>Capitals</Button>
-                                        <Button className={"custom-button effect2"} variant={selectedLanguage.includes('videogame_publishers') ? "solid" : "outline"} colorScheme="green" margin={"10px"} onClick={() => handleChangeLanguage('videogame_publishers')}>Videogame publishers</Button>
-                                    </Flex>
-                                </Box>
-                            )}
                         </Box>
                     </DrawerBody>
                     <DrawerFooter>
@@ -98,10 +114,7 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage, initializeCustomGameM
                                 colorScheme="forest_green"
                                 margin={"10px"}
                                 width="100%"
-                                onClick={() => {
-                                    initializeCustomGameMode();
-                                    navigate("/dashboard/game");
-                                }}
+                                onClick={initializeCustomGameMode}
                             >
                                 Play
                             </Button>

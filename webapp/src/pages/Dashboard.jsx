@@ -19,7 +19,7 @@ import { userInfo } from '../components/user/UserInfo';
 export default function Dashboard() {
     const navigate = useNavigate();
 
-    const [gamemode, setGamemode] = useState(null);
+    const [gamemode, setGamemode] = useState("KIWI_QUEST");
 
     const { t, i18n } = useTranslation();
 
@@ -58,7 +58,7 @@ export default function Dashboard() {
     }, [user]);
 
     const changeLanguage = (selectedLanguage) => {
-        i18n.changeLanguage(selectedLanguage);
+      i18n.changeLanguage(selectedLanguage);
     };
 
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -91,14 +91,6 @@ export default function Dashboard() {
       } catch (error) {
         console.error("Error initializing game:", error);
       }
-    };
-
-    const initializeCustomGameMode = async () => {
-      // const lang = i18n.language;
-      // const gamemode = 'CUSTOM';
-      // const customGameDto = {
-
-      // }
     };
 
     return (
@@ -143,7 +135,7 @@ export default function Dashboard() {
                           </Button>
                         ))}
                         <SettingsButton onClick={() => setIsSettingsOpen(true)}/>
-                        <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} changeLanguage={changeLanguage} initializeCustomGameMode={initializeCustomGameMode}/>
+                        <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} changeLanguage={changeLanguage}/>
                       </Flex>
                     </TabPanel>
                     <TabPanel>
@@ -165,7 +157,7 @@ export default function Dashboard() {
                       colorScheme={"pigment_green"} 
                       margin={"0.5rem"} 
                       className={"custom-button effect2"} 
-                      onClick={() => { navigate("/dashboard/game"); initializeGameMode(); }}
+                      onClick={initializeGameMode}
                       size={"lg"}
                       fontSize={"2xl"}
                       flex="1"
