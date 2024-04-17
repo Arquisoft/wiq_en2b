@@ -175,5 +175,12 @@ public class QuestionServiceTest {
         assertThrows(IllegalArgumentException.class,() -> questionService.answerQuestion(1L, AnswerDto.builder().answerId(3L).build()));
     }
 
+    @Test
+    void getQuestionsWithPage() {
+        when(questionRepository.findAll()).thenReturn(List.of(defaultQuestion));
+        List<QuestionResponseDto> response = questionService.getQuestionsWithPage(1L);
+        assertEquals(response, List.of(defaultResponseDto));
+    }
+
 
 }
