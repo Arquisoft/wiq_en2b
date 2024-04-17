@@ -10,6 +10,7 @@ import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -182,5 +183,15 @@ public class QuestionServiceTest {
         assertEquals(response, List.of(defaultResponseDto));
     }
 
+    @Test
+    void getQuestionsWithPageInvalidPage() {
+        assertThrows(InternalApiErrorException.class,() -> questionService.getQuestionsWithPage(0L));
+    }
+
+    @Test
+    void getQuestionsWithPageNoQuestions() {
+        when(questionRepository.findAll()).thenReturn(List.of());
+        Assertions.assertEquals(questionService.getQuestionsWithPage(1L), List.of());
+    }
 
 }
