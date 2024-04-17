@@ -43,4 +43,30 @@ public class UserControllerTest {
                 .andExpect(status().isForbidden());
     }
 
+    @Test
+    void getUsersShouldReturn200() throws Exception{
+        mockMvc.perform(get("/users")
+                        .with(user("test").roles("user")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUsersShouldReturn403() throws Exception{
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getUserShouldReturn200() throws Exception{
+        mockMvc.perform(get("/users/1")
+                        .with(user("test").roles("user")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUserShouldReturn403() throws Exception{
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().isForbidden());
+    }
+
 }
