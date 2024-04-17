@@ -51,9 +51,9 @@ public class UserControllerTest {
     }
 
     @Test
-    void getUsersShouldReturn403() throws Exception{
+    void getUsersNoAuthShouldReturn200() throws Exception{
         mockMvc.perform(get("/users"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -64,9 +64,9 @@ public class UserControllerTest {
     }
 
     @Test
-    void getUserShouldReturn403() throws Exception{
+    void getUserNoAuthShouldReturn200() throws Exception{
         mockMvc.perform(get("/users/1"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
 }
