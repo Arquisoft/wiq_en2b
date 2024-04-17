@@ -10,6 +10,7 @@ import lab.en2b.quizapi.questions.question.*;
 import lab.en2b.quizapi.questions.question.dtos.AnswerCheckResponseDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -175,5 +176,28 @@ public class QuestionServiceTest {
         assertThrows(IllegalArgumentException.class,() -> questionService.answerQuestion(1L, AnswerDto.builder().answerId(3L).build()));
     }
 
+    @Test
+    void getQuestionsWithPage() {
+        when(questionRepository.findAll()).thenReturn(List.of(defaultQuestion));
+        List<QuestionResponseDto> response = questionService.getQuestionsWithPage(1L);
+        assertEquals(response, List.of(defaultResponseDto));
+    }
+
+    @Test
+    void getQuestionsWithPageInvalidPage() {
+        assertThrows(IllegalArgumentException.class,() -> questionService.getQuestionsWithPage(0L));
+    }
+    @Test
+    void getQuestionsWithPageGreaterThanSize() {
+        when(questionRepository.findAll()).thenReturn(List.of(defaultQuestion));
+
+        assertThrows(IllegalArgumentException.class,() -> questionService.getQuestionsWithPage(2L));
+    }
+
+    @Test
+    void getQuestionsWithPageNoQuestions() {
+        when(questionRepository.findAll()).thenReturn(List.of());
+        Assertions.assertEquals(questionService.getQuestionsWithPage(1L), List.of());
+    }
 
 }
