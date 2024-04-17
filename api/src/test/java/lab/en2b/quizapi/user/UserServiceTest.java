@@ -111,4 +111,16 @@ public class UserServiceTest {
         Assertions.assertEquals(List.of(), userService.getUsers());
     }
 
+    @Test
+    public void getUserTest(){
+        when(userRepository.findById(1L)).thenReturn(Optional.of(defaultUser));
+        Assertions.assertEquals(defaultUserResponseDto, userService.getUser(1L));
+    }
+
+    @Test
+    public void getUserTestWhenNotFound(){
+        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        Assertions.assertThrows(NoSuchElementException.class, () -> userService.getUser(1L));
+    }
+
 }
