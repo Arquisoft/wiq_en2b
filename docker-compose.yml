@@ -1,112 +1,125 @@
-version: '3'
-services:
-  WIQ_DB:
-    container_name: postgresql-${teamname:-defaultASW}
-    environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    image: postgres:latest
-    profiles: ["dev", "prod"]
-    networks:
-      - mynetwork
-    ports:
-      - "5432:5432"
- 
-  api:
-    container_name: api-${teamname:-defaultASW}
-    image:  ghcr.io/arquisoft/wiq_en2b/api:latest
-    profiles: [ "dev", "prod" ]
-    build:
-      context: ./api
-      args:
-        DATABASE_USER: ${DATABASE_USER}
-        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-        JWT_SECRET: ${JWT_SECRET}
-    environment:
-      - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - JWT_SECRET=${JWT_SECRET}
-    networks:
-      - mynetwork
-    depends_on:
+  version: '3'
+  services:
+    WIQ_DB:
+      container_name: postgresql-${teamname:-defaultASW}
+      environment:
+        POSTGRES_USER: ${DATABASE_USER}
+        POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      image: postgres:latest
+      profiles: ["dev", "prod"] 
+      networks:
+        mynetwork:
+
+    api:
+      container_name: api-${teamname:-defaultASW}
+      image: api:latest
+      profiles: ["dev", "prod"]
+      build:
+        context: ./api
+        args:
+          DATABASE_USER: ${DATABASE_USER}
+          DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+          JWT_SECRET: ${JWT_SECRET}
+          SSL_PASSWORD: ${SSL_PASSWORD}
+      environment:
+        - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
+        - DATABASE_USER=${DATABASE_USER}
+        - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+        - JWT_SECRET=${JWT_SECRET}
+        - SSL_PASSWORD=${SSL_PASSWORD}
+      ports:
+        - 8443:8443
+      networks:
+        mynetwork:
+      volumes:
+        - /certs:/etc/letsencrypt/live/kiwiq.run.place:ro
+      depends_on:
         - WIQ_DB
-    ports:
-      - "8080:8080"
+        - kiwiq
 
-  question-generator:
-    container_name: question-generator-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_en2b/question-generator:latest
-    profiles: [ "dev", "prod" ]
-    build:
-      context: ./questiongenerator
-      args:
-        DATABASE_USER: ${DATABASE_USER}
-        DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-    environment:
-      - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
-      - DATABASE_USER=${DATABASE_USER}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-    networks:
-      - mynetwork
-    depends_on:
-      - WIQ_DB
+    question-generator:
+      container_name: question-generator-${teamname:-defaultASW}
+      image: ghcr.io/arquisoft/wiq_en2b/question-generator:latest
+      profiles: ["dev", "prod"]
+      build:
+        context: ./questiongenerator
+        args:
+          DATABASE_USER: ${DATABASE_USER}
+          DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      environment:
+        - DATABASE_URL=jdbc:postgresql://WIQ_DB:5432/wiq
+        - DATABASE_USER=${DATABASE_USER}
+        - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      networks:
+        mynetwork:
+      depends_on:
+        - WIQ_DB
 
-  webapp:
-    container_name: webapp-${teamname:-defaultASW}
-    image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
-    profiles: [ "dev", "prod" ]
-    build:
-      args:
-        REACT_APP_API_ENDPOINT: ${API_URI}
-      context: ./webapp
-    environment:
-      - REACT_APP_API_ENDPOINT=${API_URI}
-    ports:
-      - "80:3000"
-  
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus-${teamname:-defaultASW}
-    profiles: ["dev"]
-    networks:
-      - mynetwork
-    volumes:
-      - ./quiz-api/monitoring/prometheus:/etc/prometheus
-      - prometheus_data:/prometheus
-    ports:
-      - "9090:9090"
-    depends_on:
-      - api
-  
-  grafana:
-    image: grafana/grafana
-    container_name: grafana-${teamname:-defaultASW}
-    profiles: [ "dev" ]
-    networks:
-      - mynetwork
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
-    environment:
-      - GF_SERVER_HTTP_PORT=9091
-      - GF_AUTH_DISABLE_LOGIN_FORM=true
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    ports:
-      - "9091:9091"
-    depends_on:
-      - prometheus
+    prometheus:
+      image: prom/prometheus
+      container_name: prometheus-${teamname:-defaultASW}
+      profiles: ["dev", "prod"]
+      networks:
+        mynetwork:
+      volumes:
+        - ./quiz-api/monitoring/prometheus:/etc/prometheus
+        - prometheus_data:/prometheus
+        - /certs:/etc/letsencrypt/kiwiq.run.place:ro
+      depends_on:
+        - api
 
+    kiwiq:
+      image: ghcr.io/arquisoft/wiq_en2b/kiwiq:latest
+      container_name: kiwiq
+      profiles: ["dev", "prod"]
+      networks:
+        mynetwork:
+      links:
+        - webapp
+      ports:
+        - "443:443"
+      depends_on:
+        - webapp
+      volumes:
+        - /certs:/etc/letsencrypt/live/kiwiq.run.place:ro
+      build:
+        context: ./nginx_conf
 
-volumes:
-  postgres_data:
-  prometheus_data:
-  grafana_data:
+    webapp: 
+      container_name: webapp-${teamname:-defaultASW} 
+      image:  ghcr.io/arquisoft/wiq_en2b/webapp:latest
+      profiles: [ "dev", "prod" ] 
+      build: 
+        args: 
+          REACT_APP_API_ENDPOINT: ${API_URI} 
+        context: ./webapp 
+      environment: 
+        - REACT_APP_API_ENDPOINT=${API_URI} 
+      networks: 
+        mynetwork: 
 
+    grafana:
+      image: grafana/grafana
+      container_name: grafana-${teamname:-defaultASW}
+      profiles: [ "dev" , "prod"]
+      networks:
+        mynetwork:
+      volumes:
+        - grafana_data:/var/lib/grafana
+        - ./quiz-api/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      environment:
+        - GF_SERVER_HTTP_PORT=9091
+        - GF_AUTH_DISABLE_LOGIN_FORM=true
+      depends_on:
+        - prometheus  
+  volumes:
+    postgres_data:
+    prometheus_data:
+    grafana_data:
+    certs:
 
-networks:
-  mynetwork:
-    driver: bridge
+  networks:
+    mynetwork:
+      driver: bridge

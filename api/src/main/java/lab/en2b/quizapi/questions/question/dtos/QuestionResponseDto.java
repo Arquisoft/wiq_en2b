@@ -39,4 +39,7 @@ public class QuestionResponseDto {
 
     @Schema(description = "Type of the question",example = "MULTIPLE_CHOICE")
     private QuestionType type;
+
+    @Schema(description = "Image for the question",example = "https://www.example.com/image.jpg")
+    private String image;
 }

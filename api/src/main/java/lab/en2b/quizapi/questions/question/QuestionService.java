@@ -42,19 +42,20 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getRandomQuestion(String lang) {
-        return questionResponseDtoMapper.apply(findRandomQuestion(lang));
+        return questionResponseDtoMapper.apply(findRandomQuestion(lang, List.of(QuestionCategory.values())));
     }
 
     /**
      * Find a random question for the specified language
-     * @param lang The language to find the question for
+     * @param language The language to find the question for
      * @return The random question
      */
-    public Question findRandomQuestion(String lang){
-        if (lang==null || lang.isBlank()) {
-            lang = "en";
+
+    public Question findRandomQuestion(String language, List<QuestionCategory> questionCategoriesForCustom) {
+        if (language==null || language.isBlank()) {
+            language = "en";
         }
-        Question q = questionRepository.findRandomQuestion(lang);
+        Question q = questionRepository.findRandomQuestion(language,questionCategoriesForCustom.stream().map(Enum::toString).toList());
         if(q==null) {
             throw new InternalApiErrorException("No questions found for the specified language!");
         }
@@ -63,7 +64,9 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getQuestionById(Long id) {
-        return questionResponseDtoMapper.apply(questionRepository.findById(id).orElseThrow());
+        Question q = questionRepository.findById(id).orElseThrow();
+        loadAnswers(q);
+        return questionResponseDtoMapper.apply(q);
     }
 
 
@@ -74,6 +77,9 @@ public class QuestionService {
     //TODO: CHAPUZAS, FIXEAR ESTO
     private void loadAnswers(Question question) {
         // Create the new answers list with the distractors
+        if(question.getAnswers().size() > 1) {
+            return;
+        }
         List<Answer> answers = new ArrayList<>(QuestionHelper.getDistractors(answerRepository, question));
         // Add the correct
         answers.add(question.getCorrectAnswer());
@@ -84,4 +90,5 @@ public class QuestionService {
         question.setAnswers(answers);
         questionRepository.save(question);
     }
+
 }

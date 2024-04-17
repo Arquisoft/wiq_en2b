@@ -1,5 +1,6 @@
 package lab.en2b.quizapi.questions;
 
+import lab.en2b.quizapi.commons.exceptions.InternalApiErrorException;
 import lab.en2b.quizapi.questions.answer.Answer;
 import lab.en2b.quizapi.questions.answer.AnswerCategory;
 import lab.en2b.quizapi.questions.answer.AnswerRepository;
@@ -51,6 +52,7 @@ public class QuestionServiceTest {
         defaultQuestion = Question.builder()
                 .id(1L)
                 .answers(new ArrayList<>())
+                .content("What is the capital of France?")
                 .questionCategory(QuestionCategory.GEOGRAPHY)
                 .type(QuestionType.TEXT)
                 .build();
@@ -59,6 +61,7 @@ public class QuestionServiceTest {
                 .text("Paris")
                 .category(AnswerCategory.CAPITAL_CITY)
                 .questions(List.of(defaultQuestion))
+                .language("en")
                 .questionsWithThisAnswer(List.of(defaultQuestion))
                 .build();
 
@@ -98,10 +101,38 @@ public class QuestionServiceTest {
 
     @Test
     void testGetRandomQuestion() {
-        when(questionRepository.findRandomQuestion("en")).thenReturn(defaultQuestion);
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
         QuestionResponseDto response =  questionService.getRandomQuestion("");
 
         assertEquals(response.getId(), defaultResponseDto.getId());
+    }
+
+    @Test
+    void testGetRandomQuestionImageType() {
+        defaultQuestion.setType(QuestionType.IMAGE);
+        defaultQuestion.setContent("What is the capital of France?#* &%https://www.example.com/image.jpg");
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        QuestionResponseDto response =  questionService.getRandomQuestion("en");
+        defaultResponseDto.setType(QuestionType.IMAGE);
+        defaultResponseDto.setImage("https://www.example.com/image.jpg");
+        assertEquals(response, defaultResponseDto);
+    }
+
+    @Test
+    void testGetRandomQuestionAnswersNotYetLoaded() {
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        defaultQuestion.setAnswers(List.of());
+        QuestionResponseDto response =  questionService.getRandomQuestion("en");
+        defaultResponseDto.setAnswers(List.of(AnswerResponseDto.builder()
+                .id(1L)
+                .category(AnswerCategory.CAPITAL_CITY)
+                .text("Paris")
+                .build()));
+        assertEquals(response, defaultResponseDto);
+    }
+    @Test
+    void testGetRandomQuestionNoQuestionsFound() {
+        assertThrows(InternalApiErrorException.class,() -> questionService.getRandomQuestion(""));
     }
 
     @Test
@@ -109,7 +140,7 @@ public class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(defaultQuestion));
         QuestionResponseDto response = questionService.getQuestionById(1L);
 
-        assertEquals(response.getId(), defaultResponseDto.getId());
+        assertEquals(response, defaultResponseDto);
     }
 
     @Test

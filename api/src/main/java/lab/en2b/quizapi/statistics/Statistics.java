@@ -31,6 +31,9 @@ public class Statistics {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NonNull
+    private Long finishedGames;
+
     public Long getCorrectRate() {
         if(total == 0){
             return 0L;
