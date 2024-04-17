@@ -83,13 +83,18 @@ public class QuestionService {
     }
 
     private List<QuestionResponseDto> getPage(List<QuestionResponseDto> result, Long page) {
-        int QUESTION_PAGE_SIZE = 100;
-        int startIndex = Math.toIntExact((page-1)* QUESTION_PAGE_SIZE);
-        if(startIndex > result.size())
-            throw new IllegalArgumentException("Invalid page number, maximum page is "+(result.size()/ QUESTION_PAGE_SIZE +1) + " and you requested page "+page);
-        if (result.size() < page* QUESTION_PAGE_SIZE)
-            return result.subList(startIndex,result.size());
-        return result.subList(startIndex, Math.toIntExact(page* QUESTION_PAGE_SIZE));
+        try{
+            int QUESTION_PAGE_SIZE = 100;
+            int startIndex = Math.toIntExact((page-1)* QUESTION_PAGE_SIZE);
+            if(startIndex > result.size())
+                throw new IllegalArgumentException("Invalid page number, maximum page is "+(result.size()/ QUESTION_PAGE_SIZE +1) + " and you requested page "+page);
+            if (result.size() < page* QUESTION_PAGE_SIZE)
+                return result.subList(startIndex,result.size());
+            return result.subList(startIndex, Math.toIntExact(page* QUESTION_PAGE_SIZE));
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Invalid page number");
+        }
+
     }
 
     /**
