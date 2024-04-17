@@ -75,8 +75,13 @@ public class QuestionService {
      * @return the list of questions
      */
     public List<QuestionResponseDto> getQuestionsWithPage(Long page){
-        return questionRepository.findAll().stream().map(questionResponseDtoMapper).
-                toList().subList(Math.toIntExact((page-1)*100), Math.toIntExact(page*100));
+        if (page < 1)
+            throw new InternalApiErrorException("Invalid page number");
+        List<QuestionResponseDto> result = questionRepository.findAll().stream()
+                .map(questionResponseDtoMapper).toList();
+        if (result.size() < page*100)
+            return result.subList(Math.toIntExact((page-1)*100),result.size());
+        return result.subList(Math.toIntExact((page-1)*100), Math.toIntExact(page*100));
     }
 
     /**
