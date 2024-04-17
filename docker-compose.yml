@@ -14,7 +14,7 @@
 
     api:
       container_name: api-${teamname:-defaultASW}
-      image: api:latest
+      image: ghcr.io/arquisoft/wiq_en2b/api:latest
       profiles: ["dev", "prod"]
       build:
         context: ./api
