@@ -69,6 +69,15 @@ public class QuestionService {
         return questionResponseDtoMapper.apply(q);
     }
 
+    /**
+     * Get a list of questions with a page
+     * @param page The page number
+     * @return the list of questions
+     */
+    public List<QuestionResponseDto> getQuestionsWithPage(Long page){
+        return questionRepository.findAll().stream().map(questionResponseDtoMapper).
+                toList().subList(Math.toIntExact((page-1)*100), Math.toIntExact(page*100));
+    }
 
     /**
      * Load the answers for a question (The distractors and the correct one)
