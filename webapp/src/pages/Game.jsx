@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Grid, Flex, Heading, Button, Box, Text, Spinner, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
+import { Grid, Flex, Heading, Button, Box, Text, Image, Spinner, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
-import { newGame, startRound, getCurrentQuestion, answerQuestion } from '../components/game/Game';
+import {  startRound, getCurrentQuestion, answerQuestion, getCurrentGame } from '../components/game/Game';
 import LateralMenu from '../components/LateralMenu';
 import MenuButton from '../components/MenuButton';
 import { HttpStatusCode } from "axios";
@@ -24,6 +24,7 @@ export default function Game() {
     const [timeStartRound, setTimeStartRound] = useState(-1);
     const [roundDuration, setRoundDuration] = useState(0);
     const [maxRoundNumber, setMaxRoundNumber] = useState(9);
+    const [hasImage, setHasImage] = useState(false);
 
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,6 +44,9 @@ export default function Game() {
             if (result.status === HttpStatusCode.Ok) {
                 setQuestion(result.data);
                 setTimeElapsed(0);
+                if (result.data.image) {
+                    setHasImage(true);
+                }
             } else {
                 navigate("/dashboard");
             }
@@ -91,6 +95,7 @@ export default function Game() {
             navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
         } else {
             setAnswer({});
+            setHasImage(false);
             setNextDisabled(true);
             await startNewRound(gameId);
         }
@@ -122,7 +127,7 @@ export default function Game() {
                 return;
             }
             try {
-                const newGameResponse = await newGame();
+                const newGameResponse = await getCurrentGame();
                 if (newGameResponse) {
                     setGameId(newGameResponse.id);
                     setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
@@ -188,10 +193,11 @@ export default function Game() {
                         size='xl'
                     />
                 ) : (
-                    question && (
                         <> 
                             <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
-
+                            { hasImage && <Box maxH={"20vh"} maxW={"20vw"}>
+                                <Image src={question.image} alt={t("game.image")}></Image>
+                                </Box>}
                             <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
                                 {question.answers.map((answer, index) => (
                                     <Button

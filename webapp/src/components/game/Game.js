@@ -6,6 +6,10 @@ export async function newGame() {
     await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play");
 }
 
+export async function getCurrentGame() {
+    return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/play");
+}
+
 export async function startRound(gameId) {
     return await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/startRound");
 }
