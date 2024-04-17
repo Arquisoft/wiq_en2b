@@ -117,6 +117,7 @@ public class GameService {
                     .correct(game.getCorrectlyAnsweredQuestions())
                     .wrong(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions())
                     .total(game.getRounds())
+                    .finishedGames(gameRepository.countFinishedGamesForUser(game.getUser().getId()))
                     .build();
         }
         statisticsRepository.save(statistics);

@@ -20,5 +20,7 @@ public class StatisticsResponseDto {
     private UserResponseDto user;
     @JsonProperty("correct_rate")
     private Long correctRate;
+    @JsonProperty("finished_games")
+    private Long finishedGames;
 
 }

@@ -192,6 +192,7 @@ public class GameServiceTest {
                 .correct(0L)
                 .wrong(0L)
                 .total(0L)
+                .finishedGames(1L)
                 .build()));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         defaultGame.setActualRound(10L);
