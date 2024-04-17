@@ -2,7 +2,7 @@ package lab.en2b.quizapi.game;
 
 import ch.qos.logback.core.util.TimeUtil;
 import lab.en2b.quizapi.commons.user.User;
-import lab.en2b.quizapi.commons.user.UserResponseDto;
+import lab.en2b.quizapi.commons.user.dtos.UserResponseDto;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.user.mappers.UserResponseDtoMapper;
 import lab.en2b.quizapi.game.dtos.CustomGameDto;
@@ -192,6 +192,7 @@ public class GameServiceTest {
                 .correct(0L)
                 .wrong(0L)
                 .total(0L)
+                .finishedGames(1L)
                 .build()));
         when(gameRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
         defaultGame.setActualRound(10L);
@@ -216,6 +217,35 @@ public class GameServiceTest {
         defaultGameResponseDto.setRoundDuration(30);
 
         assertEquals(defaultGameResponseDto, gameDto);
+    }
+    // GET GAME
+    @Test
+    public void getGame(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(any())).thenReturn(Optional.of(defaultGame));
+        GameResponseDto gameDto = gameService.getGame(authentication);
+        gameDto.setId(null);
+        assertEquals(defaultGameResponseDto, gameDto);
+    }
+    @Test
+    public void getGameNotActive(){
+        Authentication authentication = mock(Authentication.class);
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertThrows(NoSuchElementException.class, () -> gameService.getGame(authentication));
+    }
+
+    // IS GAME ACTIVE TESTS
+    @Test
+    public void isGameActive(){
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        when(gameRepository.findActiveGameForUser(1L)).thenReturn(Optional.of(defaultGame));
+        assertTrue(gameService.isActive(authentication).isActive());
+    }
+    @Test
+    public void isGameActiveNoActiveGame(){
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertFalse(gameService.isActive(authentication).isActive());
     }
 
     // START ROUND TESTS
@@ -261,6 +291,14 @@ public class GameServiceTest {
         gameService.startRound(1L,authentication);
         QuestionResponseDto questionDto = gameService.getCurrentQuestion(1L,authentication);
         assertEquals(defaultQuestionResponseDto, questionDto);
+    }
+
+    @Test
+    public void getCurrentQuestionRoundTimeNull() {
+        defaultGame.setRoundStartTime(null);
+        when(gameRepository.findByIdForUser(any(), any())).thenReturn(Optional.of(defaultGame));
+        when(userService.getUserByAuthentication(authentication)).thenReturn(defaultUser);
+        assertThrows(IllegalStateException.class, () -> gameService.getCurrentQuestion(1L,authentication));
     }
 
     @Test
@@ -431,6 +469,11 @@ public class GameServiceTest {
     @Test
     public void testGetQuestionCategories(){
         assertEquals(Arrays.asList(QuestionCategory.values()), gameService.getQuestionCategories());
+    }
+
+    @Test
+    public void testGetGameModes(){
+        assertFalse(gameService.getQuestionGameModes().isEmpty());
     }
 
 }

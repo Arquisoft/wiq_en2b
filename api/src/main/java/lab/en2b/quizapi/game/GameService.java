@@ -39,7 +39,7 @@ public class GameService {
     @Transactional
     public GameResponseDto newGame(String lang, GameMode gamemode, CustomGameDto newGameDto, Authentication authentication) {
         // Check if there is an active game for the user
-        Optional<Game> game = gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId());
+        Optional<Game> game = getCurrentGameForAuth(authentication);
         if (game.isPresent() && !wasGameMeantToBeOver(game.get())){
             // If there is an active game and it should not be over, return it
             return gameResponseDtoMapper.apply(game.get());
@@ -117,6 +117,7 @@ public class GameService {
                     .correct(game.getCorrectlyAnsweredQuestions())
                     .wrong(game.getQuestions().size()-game.getCorrectlyAnsweredQuestions())
                     .total(game.getRounds())
+                    .finishedGames(gameRepository.countFinishedGamesForUser(game.getUser().getId()))
                     .build();
         }
         statisticsRepository.save(statistics);
@@ -175,8 +176,35 @@ public class GameService {
                 new GameModeDto("Geo Genius","Do you know the capital of Mongolia? I don't, so if you do this game is for you!",GameMode.GEO_GENIUS,"FaGlobeAmericas"),
                 new GameModeDto("Videogame Adventure","It's dangerous to go alone, guess this!",GameMode.VIDEOGAME_ADVENTURE,"IoLogoGameControllerB"),
                 new GameModeDto("Ancient Odyssey","Antiques are pricey for a reason!",GameMode.ANCIENT_ODYSSEY,"FaPalette"),
-                new GameModeDto("Random","Try a bit of everything!",GameMode.RANDOM,"FaRandom"),
-                new GameModeDto("Custom","Don't like our gamemodes? That's fine! (I only feel a bit offended)",GameMode.CUSTOM,"FaCog")
+                new GameModeDto("Random","Try a bit of everything!",GameMode.RANDOM,"FaRandom")
+                //new GameModeDto("Custom","Don't like our gamemodes? That's fine! (I only feel a bit offended)",GameMode.CUSTOM,"FaCog")
         );
+    }
+
+    /**
+     * Gets the game
+     * @param authentication the authentication of the user
+     * @return the game that is currently active
+     */
+    public GameResponseDto getGame(Authentication authentication) {
+        return gameResponseDtoMapper.apply(getCurrentGameForAuth(authentication).orElseThrow());
+    }
+
+    /**
+     * Gets the current game for the user
+     * @param authentication the authentication of the user
+     * @return the current game
+     */
+    private Optional<Game> getCurrentGameForAuth(Authentication authentication){
+        return gameRepository.findActiveGameForUser(userService.getUserByAuthentication(authentication).getId());
+    }
+
+    /**
+     * Checks if the game is active
+     * @param authentication the authentication of the user
+     * @return the response of the check
+     */
+    public GameActiveResponseDto isActive(Authentication authentication) {
+        return new GameActiveResponseDto(getCurrentGameForAuth(authentication).isPresent());
     }
 }

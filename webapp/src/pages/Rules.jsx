@@ -23,8 +23,8 @@ export default function Rules() {
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
             <FaBook style={{ fontSize: '2.5rem', color: 'green' }} /> 
             <Heading as="h2">{t("common.rules")}</Heading>
-    
-            <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} maxW="400px" w="90%" shadow="2xl" rounded="1rem" textAlign={"justify"}>
+
+            <Box textAlign="center" py={8} bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} maxW="400px" w="90%" shadow="2xl" rounded="1rem" >
                 <Text>{t("rules.description1")}</Text>
                 <br></br>
                 <Text>{t("rules.description2")}</Text>
@@ -32,6 +32,8 @@ export default function Rules() {
                 <Text>{t("rules.description3")}</Text>
                 <br></br>
                 <Text>{t("rules.description4")}</Text>
+                <br></br>
+                <Text>{t("rules.description5")}</Text>
                 <GoBack />
             </Box>
         </Center>

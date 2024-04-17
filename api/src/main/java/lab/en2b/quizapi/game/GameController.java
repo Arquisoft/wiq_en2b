@@ -39,6 +39,26 @@ public class GameController {
             throw new IllegalArgumentException("Custom game mode requires a body");
         return ResponseEntity.ok(gameService.newGame(lang,gamemode,customGameDto,authentication));
     }
+    @Operation(summary = "Gets the current game", description = "Requests the API to get the current game")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+            @ApiResponse(responseCode = "404", description = "No active game", content = @io.swagger.v3.oas.annotations.media.Content),
+    })
+    @GetMapping("/play")
+    public ResponseEntity<GameResponseDto> getGame(Authentication authentication){
+        return ResponseEntity.ok(gameService.getGame(authentication));
+    }
+
+    @Operation(summary = "Checks if there is an active game", description = "Requests the API to check if there exists an active game for a given authentication (a player)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
+    })
+    @GetMapping("/is-active")
+    public ResponseEntity<GameActiveResponseDto> isActive(Authentication authentication){
+        return ResponseEntity.ok(gameService.isActive(authentication));
+    }
 
     @Operation(summary = "Starts a new round", description = "Starts the round (asks a question and its possible answers to the API and start the timer) for a given authentication (a player)")
     @ApiResponses(value = {

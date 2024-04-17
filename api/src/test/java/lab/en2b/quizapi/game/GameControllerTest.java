@@ -203,7 +203,7 @@ public class GameControllerTest {
     }
 
     @Test
-    void getGameModeshouldReturn200() throws Exception{
+    void getGameModeShouldReturn200() throws Exception{
         mockMvc.perform(get("/games/gamemodes")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
@@ -214,6 +214,40 @@ public class GameControllerTest {
     @Test
     void getGameModesShouldReturn403() throws Exception{
         mockMvc.perform(get("/games/gamemodes")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getGameShouldReturn200() throws Exception{
+        mockMvc.perform(get("/games/play")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getGameShouldReturn403() throws Exception{
+        mockMvc.perform(get("/games/play")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getGameIsActiveShouldReturn200() throws Exception{
+        mockMvc.perform(get("/games/is-active")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getGameIsActiveShouldReturn403() throws Exception{
+        mockMvc.perform(get("/games/is-active")
                         .contentType("application/json")
                         .with(csrf()))
                 .andExpect(status().isForbidden());
