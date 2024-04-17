@@ -31,14 +31,14 @@ public class UserControllerTest {
     UserService userService;
 
     @Test
-    void getUserShouldReturn200() throws Exception{
+    void getPersonalDetailsShouldReturn200() throws Exception{
         mockMvc.perform(get("/users/details")
                         .with(user("test").roles("user")))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getUserShouldReturn403() throws Exception{
+    void getPersonalDetailsShouldReturn403() throws Exception{
         mockMvc.perform(get("/users/details"))
                 .andExpect(status().isForbidden());
     }
