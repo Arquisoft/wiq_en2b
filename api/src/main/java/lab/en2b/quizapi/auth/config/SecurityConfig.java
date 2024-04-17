@@ -58,6 +58,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(configuration -> configuration.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST,"/questions/**/answer").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/questions/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/users/details").authenticated()
                         .requestMatchers(HttpMethod.GET,"/users","/users/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/auth/logout").authenticated()
