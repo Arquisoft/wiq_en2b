@@ -155,4 +155,13 @@ public class QuestionControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void getQuestionsWithPageNoPageShouldReturn400() throws Exception{
+        mockMvc.perform(get("/questions")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
 }
