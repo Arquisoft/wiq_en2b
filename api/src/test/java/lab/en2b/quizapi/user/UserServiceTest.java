@@ -55,7 +55,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserDetailsTest(){
+    public void getPersonalDetailsTest(){
         Authentication authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(defaultUser));
@@ -64,7 +64,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserDetailsWhenNotFound() {
+    public void getPersonalDetailsWhenNotFound() {
         Authentication authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(UserDetailsImpl.build(defaultUser));
         when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
