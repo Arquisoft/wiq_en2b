@@ -76,12 +76,20 @@ public class QuestionService {
      */
     public List<QuestionResponseDto> getQuestionsWithPage(Long page){
         if (page < 1)
-            throw new InternalApiErrorException("Invalid page number");
+            throw new IllegalArgumentException("Invalid page number");
         List<QuestionResponseDto> result = questionRepository.findAll().stream()
                 .map(questionResponseDtoMapper).toList();
-        if (result.size() < page*100)
-            return result.subList(Math.toIntExact((page-1)*100),result.size());
-        return result.subList(Math.toIntExact((page-1)*100), Math.toIntExact(page*100));
+        return getPage(result, page);
+    }
+
+    private List<QuestionResponseDto> getPage(List<QuestionResponseDto> result, Long page) {
+        int QUESTION_PAGE_SIZE = 100;
+        int startIndex = Math.toIntExact((page-1)* QUESTION_PAGE_SIZE);
+        if(startIndex > result.size())
+            throw new IllegalArgumentException("Invalid page number, maximum page is "+(result.size()/ QUESTION_PAGE_SIZE +1) + " and you requested page "+page);
+        if (result.size() < page* QUESTION_PAGE_SIZE)
+            return result.subList(startIndex,result.size());
+        return result.subList(startIndex, Math.toIntExact(page* QUESTION_PAGE_SIZE));
     }
 
     /**

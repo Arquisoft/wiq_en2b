@@ -57,7 +57,7 @@ public class QuestionController {
         @ApiResponse(responseCode = "404", description = "Not found - There are no questions", content = @io.swagger.v3.oas.annotations.media.Content),
         @ApiResponse(responseCode = "400", description = "Bad request - The page number is invalid", content = @io.swagger.v3.oas.annotations.media.Content)
     })
-    @Parameter(name = "page", description = "The page number", required = true)
+    @Parameter(name = "page", description = "The page number. Cannot be lower or equal to 0.", required = true)
     @GetMapping
     private ResponseEntity<List<QuestionResponseDto>> getQuestions(@RequestParam Long page){
         return ResponseEntity.ok(questionService.getQuestionsWithPage(page));

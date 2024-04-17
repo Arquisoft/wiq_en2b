@@ -185,7 +185,13 @@ public class QuestionServiceTest {
 
     @Test
     void getQuestionsWithPageInvalidPage() {
-        assertThrows(InternalApiErrorException.class,() -> questionService.getQuestionsWithPage(0L));
+        assertThrows(IllegalArgumentException.class,() -> questionService.getQuestionsWithPage(0L));
+    }
+    @Test
+    void getQuestionsWithPageGreaterThanSize() {
+        when(questionRepository.findAll()).thenReturn(List.of(defaultQuestion));
+
+        assertThrows(IllegalArgumentException.class,() -> questionService.getQuestionsWithPage(2L));
     }
 
     @Test
