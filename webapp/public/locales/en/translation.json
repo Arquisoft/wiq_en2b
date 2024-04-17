@@ -80,7 +80,8 @@
     "game": {
         "round": "Round {{currentRound, number}} of {{roundAmount, number}}",
         "answer": "Answer",
-        "correct_counter": "Correct answers: {{correctCount, number}}"
+        "correct_counter": "Correct answers: {{correctCount, number}}",
+        "image": "Image of the question",
         "gamemodes": "Game modes",
         "userinfo": "User panel",
         "custom": "Custom",
