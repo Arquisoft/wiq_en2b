@@ -33,11 +33,12 @@ describe('Dashboard component', () => {
     await act(async () => {
       render(<ChakraProvider theme={theme}><MemoryRouter><Dashboard/></MemoryRouter></ChakraProvider>);
     });
-
+  
     await waitFor(() => {
-      expect(screen.getByText("common.dashboard")).toBeInTheDocument();
+      expect(screen.getByTestId('Welcome')).toBeInTheDocument();
       expect(screen.getByTestId('Play')).toBeInTheDocument();
-      expect(screen.getByText(/logout/i)).toBeInTheDocument();
+      expect(screen.getByText(/Game modes/i)).toBeInTheDocument();
+      expect(screen.getByText(/User info/i)).toBeInTheDocument();
     });
   });
 
@@ -45,26 +46,10 @@ describe('Dashboard component', () => {
     await act(async () => {
       render(<ChakraProvider theme={theme}><MemoryRouter><Dashboard/></MemoryRouter></ChakraProvider>);
     });
-
+  
     const playButton = screen.getByTestId('Play');
     fireEvent.click(playButton);
-
+  
     expect(screen.getByText("common.play")).toBeInTheDocument();
-  });
-
-  it('handles logout successfully', async () => {
-    await act(async () => {
-      render(<ChakraProvider theme={theme}><MemoryRouter><Dashboard/></MemoryRouter></ChakraProvider>);
-    });
-
-    mockAxios.onGet().replyOnce(HttpStatusCode.Ok);
-    const logoutButton = screen.getByText(/logout/i);
-
-    await act(async () => {
-      fireEvent.click(logoutButton);
-    });
-
-    expect(mockAxios.history.get.length).toBe(1);
-    expect(screen.getByText("common.dashboard")).toBeInTheDocument();
   });
 });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Box } from "@chakra-ui/react";
 import { SettingsIcon } from '@chakra-ui/icons';
 
-const SettingsButton = ({ onClick }) => {
+const SettingsButton = ({ onClick, name }) => {
     return (
         <Button
         colorScheme="green"
@@ -19,13 +19,14 @@ const SettingsButton = ({ onClick }) => {
         onClick={onClick}
         >
             <SettingsIcon style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.5em' }} />
-            <Box>Custom</Box>
+            <Box>{name}</Box>
         </Button>
     );
 }
 
 SettingsButton.propTypes = {
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired
 };
 
 export default SettingsButton;

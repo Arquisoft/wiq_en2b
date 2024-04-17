@@ -3,6 +3,17 @@ import AuthManager from "components/auth/AuthManager";
 
 const authManager = new AuthManager();
 
+export async function isActive() {
+    try {
+        let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/is-active");
+        if (HttpStatusCode.Ok === requestAnswer.status) {
+            return requestAnswer.data;
+        }
+    } catch {
+
+    }
+}
+
 export async function gameCategories() {
     try {
         let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/question-categories");
@@ -29,9 +40,9 @@ export async function newGame(lang, gamemode, customGameDto) {
     try {
         let requestAnswer;
         if (gamemode === "CUSTOM")
-            requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play" + "?lang=" + lang + "&gamemode=" + gamemode, customGameDto);
+            requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play?lang=" + lang + "&gamemode=" + gamemode, customGameDto);
         else
-            requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play" + "?lang=" + lang + "&gamemode=" + gamemode);
+            requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play?lang=" + lang + "&gamemode=" + gamemode);
         
         if (HttpStatusCode.Ok === requestAnswer.status) {
             return requestAnswer.data;

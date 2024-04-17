@@ -13,7 +13,7 @@ import LateralMenu from '../components/menu/LateralMenu';
 import MenuButton from '../components/menu/MenuButton';
 import UserStatistics from "../components/statistics/UserStatistics";
 import SettingsButton from "../components/dashboard/CustomGameButton";
-import { newGame, gameModes } from '../components/game/Game';
+import { newGame, gameModes, isActive } from '../components/game/Game';
 import { userInfo } from '../components/user/UserInfo';
 
 export default function Dashboard() {
@@ -28,6 +28,7 @@ export default function Dashboard() {
     const [modes, setModes] = useState([]);
     const [user, setUser] = useState(null);
     const [config, setConfig] = useState(null);
+    const [active, setActive] = useState(false);
     
     useEffect(() => {
       async function fetchGameModes() {
@@ -56,6 +57,14 @@ export default function Dashboard() {
         setConfig(userConfig);
       }
     }, [user]);
+
+    useEffect(() => {
+      async function checkActiveStatus() {
+          const active = await isActive();
+          setActive(active);
+      }
+      checkActiveStatus();
+  }, []);
 
     const changeLanguage = (selectedLanguage) => {
       i18n.changeLanguage(selectedLanguage);
@@ -106,17 +115,18 @@ export default function Dashboard() {
         {user && (
           <>
             <Avatar style={{ width: '8rem', height: '8rem' }} {...config} /> 
-            <Heading as="h2">{t("common.welcome") + " " + user.username}</Heading>
+            <Heading as="h2" data-testid={"Welcome"}>{t("common.welcome") + " " + user.username}</Heading>
       
             <Box minW={{ md: "400px" }} shadow="2xl">
               <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
                 <Tabs isFitted variant='enclosed'>
                   <TabList mb='1em'>
-                    <Tab color="green.500"><FaGamepad /><Box ml={2}>Game modes</Box></Tab>
-                    <Tab color="green.500"><FaUser/> <Box ml={2}>User info</Box></Tab>
+                    <Tab color="green.500"><FaGamepad /><Box ml={2}>{t("game.gamemodes")}</Box></Tab>
+                    <Tab color="green.500"><FaUser/> <Box ml={2}>{t("game.userinfo")}</Box></Tab>
                   </TabList>
                   <TabPanels>
                     <TabPanel>
+                    {active && (
                       <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
                         {modes.map(mode => (
                           <Button
@@ -140,9 +150,10 @@ export default function Dashboard() {
                             <Box>{mode.name}</Box>
                           </Button>
                         ))}
-                        <SettingsButton onClick={() => setIsSettingsOpen(true)}/>
-                        <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} changeLanguage={changeLanguage}/>
+                        <SettingsButton onClick={() => setIsSettingsOpen(true)} name={t("game.custom")}/>
+                        <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}/>
                       </Flex>
+                    )}
                     </TabPanel>
                     <TabPanel>
                       <Stack spacing={2}>
@@ -155,7 +166,8 @@ export default function Dashboard() {
                     </TabPanel>
                   </TabPanels>
                 </Tabs>
-                  <Flex justify="center">
+                <Flex justify="center">
+                  {active && (
                     <Button  
                       type="submit" 
                       data-testid={"Play"} 
@@ -170,7 +182,24 @@ export default function Dashboard() {
                     >
                       {t("common.play")}
                     </Button>
-                  </Flex>
+                  )}
+                  {!active && (
+                      <Button  
+                        type="submit" 
+                        data-testid={"Resume"} 
+                        variant={"solid"} 
+                        colorScheme={"pigment_green"} 
+                        margin={"0.5rem"} 
+                        className={"custom-button effect2"} 
+                        onClick={initializeGameMode}
+                        size={"lg"}
+                        fontSize={"2xl"}
+                        flex="1"
+                      >
+                        {t("session.resume")}
+                      </Button>
+                  )}
+                </Flex>
               </Stack>
             </Box>
           </>
