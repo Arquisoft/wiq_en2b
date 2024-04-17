@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
 import {  startRound, getCurrentQuestion, answerQuestion, getCurrentGame } from '../components/game/Game';
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import LateralMenu from '../components/menu/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
 import { HttpStatusCode } from "axios";
 
 export default function Game() {
@@ -127,7 +127,7 @@ export default function Game() {
                 return;
             }
             try {
-                const newGameResponse = await getCurrentGame();
+                const newGameResponse = (await getCurrentGame()).data;
                 if (newGameResponse) {
                     setGameId(newGameResponse.id);
                     setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
@@ -192,39 +192,38 @@ export default function Game() {
                         color='green.500'
                         size='xl'
                     />
-                ) : (
-                        <> 
-                            <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
-                            { hasImage && <Box maxH={"20vh"} maxW={"20vw"}>
-                                <Image src={question.image} alt={t("game.image")}></Image>
-                                </Box>}
-                            <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
-                                {question.answers.map((answer, index) => (
-                                    <Button
-                                        key={index}
-                                        data-testid={`Option${index + 1}`}
-                                        variant={selectedOption === index ? "solid" : "outline"}
-                                        colorScheme={"green"}
-                                        onClick={() => answerButtonClick(index, answer)}
-                                        style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
-                                    >
-                                        {answer.text}
-                                    </Button>
-                                ))}
-                            </Grid>
-
-                            <Flex direction="row" justifyContent="center" alignItems="center">
-                                <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
-                                    {t("game.answer")}
+                ) : <> 
+                        <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
+                        { hasImage && <Box maxH={"20vh"} maxW={"20vw"}>
+                            <Image src={question.image} alt={t("game.image")}></Image>
+                            </Box>
+                        }
+                        <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
+                            {question.answers.map((answer, index) => (
+                                <Button
+                                    key={index}
+                                    data-testid={`Option${index + 1}`}
+                                    variant={selectedOption === index ? "solid" : "outline"}
+                                    colorScheme={"green"}
+                                    onClick={() => answerButtonClick(index, answer)}
+                                    style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
+                                >
+                                    {answer.text}
                                 </Button>
-                            </Flex>
+                            ))}
+                        </Grid>
 
-                            {showConfetti && (
-                                <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} />
-                            )}
-                        </>
-                    )
-                )}
+                        <Flex direction="row" justifyContent="center" alignItems="center">
+                            <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+                                {t("game.answer")}
+                            </Button>
+                        </Flex>
+
+                        {showConfetti && (
+                            <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} />
+                        )}
+                    </>
+                }
             </Box>
         </Center>
     );
