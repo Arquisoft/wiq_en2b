@@ -120,7 +120,7 @@ export default function Dashboard() {
                       <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
                         {modes.map(mode => (
                           <Button
-                            key={mode.internalRepresentation}
+                            key={mode.internal_representation}
                             colorScheme={"green"}
                             variant={selectedButton === mode.name ? "solid" : "ghost"}
                             textAlign="center"
@@ -133,9 +133,7 @@ export default function Dashboard() {
                             maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
                             onClick={() => {
                               setSelectedButton(mode.name);
-                              console.log(mode.internalRepresentation);
-                              setGamemode(mode.internalRepresentation);
-                              console.log(gamemode);
+                              setGamemode(mode.internal_representation);
                             }}
                           >
                             {selectIcon(mode.icon_name)}

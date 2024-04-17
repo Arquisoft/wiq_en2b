@@ -27,21 +27,12 @@ export async function gameModes() {
 
 export async function newGame(lang, gamemode, customGameDto) {
     try {
-        let requestData = {};
-        if (gamemode === "CUSTOM") {
-            requestData = {
-                lang: lang,
-                gamemode: gamemode,
-                customGameDto: customGameDto
-            };
-        } else {
-            requestData = {
-                lang: lang,
-                gamemode: gamemode
-            };
-        }
-
-        let requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play/", requestData);
+        let requestAnswer;
+        if (gamemode === "CUSTOM")
+            requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play" + "?lang=" + lang + "&gamemode=" + gamemode, customGameDto);
+        else
+            requestAnswer = await authManager.getAxiosInstance().post(process.env.REACT_APP_API_ENDPOINT + "/games/play" + "?lang=" + lang + "&gamemode=" + gamemode);
+        
         if (HttpStatusCode.Ok === requestAnswer.status) {
             return requestAnswer.data;
         }

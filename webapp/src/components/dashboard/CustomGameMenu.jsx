@@ -12,7 +12,7 @@ import { newGame, gameCategories } from 'components/game/Game';
 
 const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
     const navigate = useNavigate();
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState(["ART"]);
     const [rounds, setRounds] = useState(9);
     const [time, setTime] = useState(20);
     const [categories, setCategories] = useState([]);
@@ -50,11 +50,12 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
                 lang = "en";
 
             const gamemode = 'CUSTOM';
-            const uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
+            let uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
             const customGameDto = {
                 rounds: rounds,
-                roundDuration: time,
-                categories: uppercaseCategories
+                categories: uppercaseCategories,
+                round_duration: time
+                
             }
             const newGameResponse = await newGame(lang, gamemode, customGameDto);
             if (newGameResponse)
@@ -76,7 +77,7 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
                                 <Text fontWeight='extrabold' color={"forest_green.400"}>Game settings</Text>
                                 <Flex direction="column">
                                     <Text color={"forest_green.400"}>Rounds</Text>
-                                    <NumberInput defaultValue={rounds} min={0} max={100} onChange={valueString => setRounds(parseInt(valueString))}>
+                                    <NumberInput defaultValue={rounds} min={1} max={100} onChange={valueString => setRounds(parseInt(valueString))}>
                                         <NumberInputField />
                                         <NumberInputStepper>
                                             <NumberIncrementStepper />
@@ -84,7 +85,7 @@ const CustomGameMenu = ({ isOpen, onClose, changeLanguage }) => {
                                         </NumberInputStepper>
                                     </NumberInput>
                                     <Text color={"forest_green.400"}>Time</Text>
-                                    <NumberInput defaultValue={time} min={0} max={100} onChange={valueString => setTime(parseInt(valueString))}>
+                                    <NumberInput defaultValue={time} min={5} max={100} onChange={valueString => setTime(parseInt(valueString))}>
                                         <NumberInputField />
                                         <NumberInputStepper>
                                             <NumberIncrementStepper />
