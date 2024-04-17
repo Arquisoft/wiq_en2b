@@ -23,6 +23,7 @@ public class StatisticsResponseDtoMapper implements Function<Statistics, Statist
                 .total(statistics.getTotal())
                 .user(userResponseDtoMapper.apply(statistics.getUser()))
                 .correctRate(statistics.getCorrectRate())
+                .finishedGames(statistics.getFinishedGames())
                 .build();
     }
 }

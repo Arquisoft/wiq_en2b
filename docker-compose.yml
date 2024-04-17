@@ -14,7 +14,7 @@
 
     api:
       container_name: api-${teamname:-defaultASW}
-      image: api:latest
+      image: ghcr.io/arquisoft/wiq_en2b/api:latest
       profiles: ["dev", "prod"]
       build:
         context: ./api
@@ -73,6 +73,7 @@
     kiwiq:
       image: ghcr.io/arquisoft/wiq_en2b/kiwiq:latest
       container_name: kiwiq
+      profiles: ["dev", "prod"]
       networks:
         mynetwork:
       links:

@@ -13,4 +13,7 @@ public interface GameRepository extends JpaRepository<Game,Long> {
 
     @Query(value = "SELECT * FROM Games g WHERE user_id = ?1 AND g.is_game_over = false LIMIT 1", nativeQuery = true)
     Optional<Game> findActiveGameForUser(Long userId);
+
+    @Query(value = "COUNT(*) FROM Games g WHERE user_id = ?1 AND g.is_game_over = true", nativeQuery = true)
+    Long countFinishedGamesForUser(Long userId);
 }

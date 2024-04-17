@@ -31,16 +31,42 @@ public class UserControllerTest {
     UserService userService;
 
     @Test
-    void getUserShouldReturn200() throws Exception{
+    void getPersonalDetailsShouldReturn200() throws Exception{
         mockMvc.perform(get("/users/details")
                         .with(user("test").roles("user")))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getUserShouldReturn403() throws Exception{
+    void getPersonalDetailsShouldReturn403() throws Exception{
         mockMvc.perform(get("/users/details"))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void getUsersShouldReturn200() throws Exception{
+        mockMvc.perform(get("/users")
+                        .with(user("test").roles("user")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUsersNoAuthShouldReturn200() throws Exception{
+        mockMvc.perform(get("/users"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUserShouldReturn200() throws Exception{
+        mockMvc.perform(get("/users/1")
+                        .with(user("test").roles("user")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getUserNoAuthShouldReturn200() throws Exception{
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().isOk());
     }
 
 }
