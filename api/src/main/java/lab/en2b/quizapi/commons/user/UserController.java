@@ -40,6 +40,7 @@ public class UserController {
     @Operation(summary = "Gets all users", description = "Gets all users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getUsers() {
@@ -49,6 +50,7 @@ public class UserController {
     @Operation(summary = "Gets a user", description = "Gets a user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content),
     })
     @Parameters({
             @Parameter(name = "id", description = "The id of the user to get", example = "1")
