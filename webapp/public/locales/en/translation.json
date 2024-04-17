@@ -18,7 +18,9 @@
         "finish": "Finish",
         "english": "English",
         "spanish": "Spanish",
-        "language": "Language:"
+        "language": "Language:",
+        "results": "Results",
+        "welcome": "Welcome"
     },
     "session": {
         "username": "Username",
@@ -27,7 +29,8 @@
         "confirm_password": "Confirm password",
         "welcome": "Are you ready to test your ingenuity?",
         "account": "Don't have an account?",
-        "clickHere": "Click here"
+        "clickHere": "Click here",
+        "resume": "Resume game"
     },
     "error": {
         "login": "Login error: ",
@@ -78,11 +81,19 @@
         "round": "Round {{currentRound, number}} of {{roundAmount, number}}",
         "answer": "Answer",
         "correct_counter": "Correct answers: {{correctCount, number}}"
+        "gamemodes": "Game modes",
+        "userinfo": "User panel",
+        "custom": "Custom",
+        "customgame": "Custom game",
+        "settings": "Game settings",
+        "rounds": "Rounds:",
+        "time": "Time:",
+        "categories": "Categories"
     },
     "about": {
         "title": "About",
         "description1": "We are the WIQ_EN2B group and we are delighted that you like 🥝KIWIQ🥝. Enjoy!!!",
-        "table1": "Developers🍌🍌",
+        "table1": "Developers",
         "table2": "Contact"
     }
 }

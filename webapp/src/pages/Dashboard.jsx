@@ -1,46 +1,209 @@
-import React, { useState } from "react";
-import { Heading, Button, Box, Stack } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Heading, Button, Box, Stack, Tabs, TabList, Tab, TabPanels, TabPanel, Flex, Text } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FaTachometerAlt } from 'react-icons/fa';
+import Avatar, { genConfig } from 'react-nice-avatar';
+import { FaUser, FaGamepad, FaKiwiBird, FaRandom, FaPalette } from "react-icons/fa";
+import { TbWorld } from "react-icons/tb";
+import { IoIosFootball, IoLogoGameControllerB } from "react-icons/io";
 
-import AuthManager from "components/auth/AuthManager";
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import CustomGameMenu from '../components/dashboard/CustomGameMenu';
+import LateralMenu from '../components/menu/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
+import UserStatistics from "../components/statistics/UserStatistics";
+import SettingsButton from "../components/dashboard/CustomGameButton";
+import { newGame, gameModes, isActive } from '../components/game/Game';
+import { userInfo } from '../components/user/UserInfo';
 
 export default function Dashboard() {
     const navigate = useNavigate();
+
+    const [gamemode, setGamemode] = useState("KIWI_QUEST");
+
     const { t, i18n } = useTranslation();
 
-    const handleLogout = async () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [selectedButton, setSelectedButton] = useState("Kiwi Quest");
+    const [modes, setModes] = useState([]);
+    const [user, setUser] = useState(null);
+    const [config, setConfig] = useState(null);
+    const [active, setActive] = useState(false);
+    
+    useEffect(() => {
+      async function fetchGameModes() {
         try {
-            await new AuthManager().logout();
-            navigate("/");
+          const modes = await gameModes();
+          setModes(modes);
+          setSelectedButton(modes[0]?.name);
         } catch (error) {
-            console.error("Error al cerrar sesión:", error);
+          console.error("Error fetching game modes:", error);
         }
+      }
+      fetchGameModes();
+    }, []);
+
+    useEffect(() => {
+      async function fetchData() {
+        const userData = await userInfo();
+        setUser(userData);
+      }
+      fetchData();
+    }, []);
+
+    useEffect(() => {
+      if (user) {
+        const userConfig = genConfig(user.email);
+        setConfig(userConfig);
+      }
+    }, [user]);
+
+    useEffect(() => {
+      async function checkActiveStatus() {
+          const active = await isActive();
+          setActive(active);
+      }
+      checkActiveStatus();
+  }, []);
+
+    const changeLanguage = (selectedLanguage) => {
+      i18n.changeLanguage(selectedLanguage);
     };
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    
-    const changeLanguage = (selectedLanguage) => {
-        i18n.changeLanguage(selectedLanguage);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    const selectIcon = (iconName) => {
+      switch (iconName) {
+        case "FaKiwiBird":
+          return <FaKiwiBird style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "IoIosFootball":
+          return <IoIosFootball style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "FaGlobeAmericas":
+          return <TbWorld style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "IoLogoGameControllerB":
+          return <IoLogoGameControllerB style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "FaPalette":
+          return <FaPalette style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        case "FaRandom":
+          return <FaRandom style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+        default:
+          return null;
+      }
+    };
+
+    const initializeGameMode = async () => {
+      try {
+        let lang = i18n.language;
+        if (lang.includes("en"))
+          lang = "en";
+        else if (lang.includes("es"))
+          lang = "es"
+        else
+          lang = "en";
+        const newGameResponse = await newGame(lang, gamemode, null);
+        if (newGameResponse)
+          navigate("/dashboard/game");
+      } catch (error) {
+        console.error("Error initializing game:", error);
+      }
     };
 
     return (
-        <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" bgImage={'/background.svg'}>
-          <MenuButton onClick={() => setIsMenuOpen(true)} />
-          <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={true}/>
-          <FaTachometerAlt style={{ fontSize: '2.5rem', color: 'green' }} /> 
-          <Heading as="h2">{t("common.dashboard")}</Heading>
-    
-          <Box minW={{ md: "400px" }} shadow="2xl">
-            <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
-              <Button type="submit" data-testid={"Play"} variant={"solid"} colorScheme={"pigment_green"} margin={"5px"} size="lg" className={"custom-button effect1"} onClick={() => navigate("/dashboard/game")}>{t("common.play")}</Button>
-              <Button type="submit" colorScheme="raw_umber" margin={"5px"} className={"custom-button effect1"} onClick={handleLogout}>{t("common.logout")}</Button>
-            </Stack>
-          </Box>
-        </Center>
+      <Center display={"flex"} flexDirection={"column"} w={"100wh"} h={"100vh"} justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
+        <MenuButton onClick={() => setIsMenuOpen(true)} />
+        <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={true}/>
+        {user && (
+          <>
+            <Avatar style={{ width: '8rem', height: '8rem' }} {...config} /> 
+            <Heading as="h2" data-testid={"Welcome"}>{t("common.welcome") + " " + user.username}</Heading>
+      
+            <Box minW={{ md: "400px" }} shadow="2xl">
+              <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem">
+                <Tabs isFitted variant='enclosed'>
+                  <TabList mb='1em'>
+                    <Tab color="green.500"><FaGamepad /><Box ml={2}>{t("game.gamemodes")}</Box></Tab>
+                    <Tab color="green.500"><FaUser/> <Box ml={2}>{t("game.userinfo")}</Box></Tab>
+                  </TabList>
+                  <TabPanels>
+                    <TabPanel>
+                    {active && (
+                      <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
+                        {modes.map(mode => (
+                          <Button
+                            key={mode.internal_representation}
+                            colorScheme={"green"}
+                            variant={selectedButton === mode.name ? "solid" : "ghost"}
+                            textAlign="center"
+                            m="1em"
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="center"
+                            size="lg"
+                            height="4rem"
+                            maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
+                            onClick={() => {
+                              setSelectedButton(mode.name);
+                              setGamemode(mode.internal_representation);
+                            }}
+                          >
+                            {selectIcon(mode.icon_name)}
+                            <Box>{mode.name}</Box>
+                          </Button>
+                        ))}
+                        <SettingsButton onClick={() => setIsSettingsOpen(true)} name={t("game.custom")}/>
+                        <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}/>
+                      </Flex>
+                    )}
+                    </TabPanel>
+                    <TabPanel>
+                      <Stack spacing={2}>
+                        <Heading as="h3" color="green.400" fontSize="xl">Username</Heading>
+                        <Text fontWeight='extrabold' color={"forest_green.400"}>{user.username}</Text>
+                        <Heading as="h3" color="green.400" fontSize="xl">Email</Heading>
+                        <Text fontWeight='extrabold' color={"forest_green.400"}>{user.email}</Text>
+                        <UserStatistics />
+                      </Stack>
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
+                <Flex justify="center">
+                  {active && (
+                    <Button  
+                      type="submit" 
+                      data-testid={"Play"} 
+                      variant={"solid"} 
+                      colorScheme={"pigment_green"} 
+                      margin={"0.5rem"} 
+                      className={"custom-button effect2"} 
+                      onClick={initializeGameMode}
+                      size={"lg"}
+                      fontSize={"2xl"}
+                      flex="1"
+                    >
+                      {t("common.play")}
+                    </Button>
+                  )}
+                  {!active && (
+                      <Button  
+                        type="submit" 
+                        data-testid={"Resume"} 
+                        variant={"solid"} 
+                        colorScheme={"pigment_green"} 
+                        margin={"0.5rem"} 
+                        className={"custom-button effect2"} 
+                        onClick={initializeGameMode}
+                        size={"lg"}
+                        fontSize={"2xl"}
+                        flex="1"
+                      >
+                        {t("session.resume")}
+                      </Button>
+                  )}
+                </Flex>
+              </Stack>
+            </Box>
+          </>
+        )}
+      </Center>
     );
 }

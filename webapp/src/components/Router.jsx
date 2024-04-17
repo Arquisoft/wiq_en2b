@@ -13,7 +13,6 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import Logout from "pages/Logout";
 import About from "pages/About";
 
-
 export default createRoutesFromElements(
   <Route path="/">
     <Route index element={<Root />} />

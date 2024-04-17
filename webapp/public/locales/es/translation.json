@@ -18,7 +18,9 @@
         "finish": "Finalizar",
         "english": "Inglés",
         "spanish": "Español",
-        "language": "Idioma:"
+        "language": "Idioma:",
+        "results": "Resultados",
+        "welcome": "Bienvenid@"
     },
     "session": {
         "username": "Nombre de usuario",
@@ -27,7 +29,8 @@
         "confirm_password": "Confirmar contraseña",
         "welcome": "¿Estás listo para poner a prueba tu ingenio?",
         "account": "¿No tienes una cuenta?",
-        "clickHere": "Haz clic aquí"
+        "clickHere": "Haz clic aquí",
+        "resume": "Resumir partida"
     },
     "error": {
         "login": "Error en el inicio de sesión: ",
@@ -77,11 +80,19 @@
         "round": "Ronda {{currentRound, number}} de {{roundAmount, number}}",
         "answer": "Responder",
         "correct_counter": "Respuestas correctas: {{correctCount, number}}"
+        "gamemodes": "Modos de juego",
+        "userinfo": "Panel de usuario",
+        "custom": "Personalizado",
+        "customgame": "Partida personalizada",
+        "settings": "Ajustes de la partida",
+        "rounds": "Rondas:",
+        "time": "Duración:",
+        "categories": "Categorías"
     },
     "about": {
         "title": "Sobre nosotros",
         "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Disfruta!!!",
-        "table1": "Desarrolladores🍌🍌",
+        "table1": "Desarrolladores",
         "table2": "Contacto"
     }
 }
