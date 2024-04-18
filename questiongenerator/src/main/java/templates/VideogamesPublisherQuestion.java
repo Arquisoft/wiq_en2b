@@ -77,29 +77,11 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
         }
         videoGameLabels.add(videoGameLabel);
 
-        boolean isEntityName = isEntityName(videoGameLabel);
-        if (isEntityName){
+        if (QGHelper.isEntityName(videoGameLabel))
             return true;
-        }
-        isEntityName = isEntityName(publisherLabel);
-        if (isEntityName){
+        if (QGHelper.isEntityName(publisherLabel))
             return true;
-        }
-        return false;
-    }
 
-    private boolean isEntityName(String label){
-        boolean isEntityName = true; // Check if it is like Q232334
-        if (label.startsWith("Q") ){
-            for (int i=1; i<label.length(); i++){
-                if (!Character.isDigit(label.charAt(i))){
-                    isEntityName = false;
-                }
-            }
-            if (isEntityName){
-                return true;
-            }
-        }
         return false;
     }
 }
