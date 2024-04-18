@@ -25,6 +25,11 @@ public class Main {
             new VideogamesPublisherQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.GAMES_GENRE)) {
+            new VideogamesGenreQuestion("en");
+            new VideogamesGenreQuestion("es");
+        }
+
 
         // IMAGES
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {
