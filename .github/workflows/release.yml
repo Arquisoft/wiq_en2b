@@ -78,6 +78,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: api/monitoring/prometheus
+  docker-push-grafana:
+    runs-on: ubuntu-latest
+    needs: [ e2e-tests ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: arquisoft/wiq_en2b/grafana
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: api/monitoring/grafana
   docker-push-kiwiq:
     runs-on: ubuntu-latest
     needs: [ e2e-tests ]
