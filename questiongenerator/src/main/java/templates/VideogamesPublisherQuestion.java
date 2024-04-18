@@ -9,6 +9,12 @@ import java.util.List;
 public class VideogamesPublisherQuestion extends QuestionTemplate {
     List<String> videoGameLabels;
 
+    private static final String[] spanishStringsIni = {"¿Que compañía publicó ", "¿Quién publicó ", "¿Qué empresa publicó ", "¿Quién fue el publicador de "};
+    private static final String[] englishStringsIni= {"Who published ", "What company published ", "Who was the publisher of ", "Which company published "};
+
+    private static final String[] spanishStringsFin = {"?", "?", "?", "?"};
+    private static final String[] englishStringsFin = {"?", "?", "?", "?"};
+
     public VideogamesPublisherQuestion(String langCode) {
         super(langCode);
     }
@@ -61,10 +67,15 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
             Answer a = new Answer(publisherLabel, AnswerCategory.GAMES_PUBLISHER, langCode);
             answers.add(a);
 
+
+            String questionString = "";
+
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Qué compañía publicó " + videoGameLabel + "?", QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
+                questionString = spanishStringsIni[i%4] + videoGameLabel + spanishStringsFin[i%4];
             else
-                questions.add(new Question(a, "Who published " + videoGameLabel + "?", QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
+                questionString = englishStringsIni[i%4] + videoGameLabel + englishStringsFin[i%4];
+
+            questions.add(new Question(a, questionString, QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
         }
 
         repository.saveAll(new ArrayList<>(answers));

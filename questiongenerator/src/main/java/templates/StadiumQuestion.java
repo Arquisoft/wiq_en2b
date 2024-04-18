@@ -8,6 +8,9 @@ import java.util.List;
 
 public class StadiumQuestion extends QuestionTemplate {
 
+    private static final String[] spanishStringsIni = {"¿Cómo se llama este estadio?", "¿Cuál es el nombre de este estadio?", "¿Cuál es este estadio?", "¿Con qué nombre se conoce a este estadio?"};
+    private static final String[] englishStringsIni= {"What is the name of this stadium?", "How's this stadium called", "Which stadium is this?", "How do they call this stadium?"};
+
     List<String> stadiumLabels;
 
     public StadiumQuestion(String langCode) {
@@ -56,9 +59,9 @@ public class StadiumQuestion extends QuestionTemplate {
 
             imageLink = imageLink.replace("http://", "https://");
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es este estadio?" + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, spanishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which stadium is this?" + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, englishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));

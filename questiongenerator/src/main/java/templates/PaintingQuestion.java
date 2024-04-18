@@ -8,6 +8,9 @@ import java.util.List;
 
 public class PaintingQuestion extends QuestionTemplate {
 
+    private static final String[] spanishStringsIni = {"¿Cómo se llama este cuadro?", "¿Cuál es este cuadro?", "¿Qué pintura es esta?", "¿Cuál es el nombre de este cuadro?"};
+    private static final String[] englishStringsIni= {"What is the name of this painting?", "Which painting is this?", "What painting is this?", "How's this painting called?"};
+
     List<String> paintingLabels;
 
     public PaintingQuestion(String langCode) {
@@ -63,9 +66,9 @@ public class PaintingQuestion extends QuestionTemplate {
 
             imageLink = imageLink.replace("http://", "https://");
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es este cuadro?" + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
+                questions.add(new Question(a, spanishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which painting is this?" + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
+                questions.add(new Question(a, englishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));
