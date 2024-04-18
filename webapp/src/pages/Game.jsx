@@ -123,9 +123,6 @@ export default function Game() {
     
     useEffect(() => {
         const initializeGame = async () => {
-            if (gameId) {
-                return;
-            }
             try {
                 const newGameResponse = (await getCurrentGame()).data;
                 if (newGameResponse) {
@@ -147,7 +144,9 @@ export default function Game() {
                 navigate("/dashboard");
             }
         };
-        initializeGame();
+        if (!gameId) {
+            initializeGame();
+        }
     }, [setGameId, gameId, setTimeStartRound, setRoundDuration, setMaxRoundNumber,
         setQuestion, setLoading, startNewRound, navigate, assignQuestion]);
     useEffect(() => { 
