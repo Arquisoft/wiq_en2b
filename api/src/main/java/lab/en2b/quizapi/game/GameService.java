@@ -1,10 +1,12 @@
 package lab.en2b.quizapi.game;
 
 import lab.en2b.quizapi.commons.user.UserService;
+import lab.en2b.quizapi.commons.utils.GameModeUtils;
 import lab.en2b.quizapi.game.dtos.*;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionService;
+import lab.en2b.quizapi.questions.question.dtos.QuestionCategoryDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lab.en2b.quizapi.questions.question.mappers.QuestionResponseDtoMapper;
 import lab.en2b.quizapi.statistics.Statistics;
@@ -151,8 +153,8 @@ public class GameService {
         return gameResponseDtoMapper.apply(game);
     }
 
-    public List<QuestionCategory> getQuestionCategories() {
-        return Arrays.asList(QuestionCategory.values());
+    public List<QuestionCategoryDto> getQuestionCategories(String lang) {
+        return GameModeUtils.getQuestionCategories(lang);
     }
 
     private boolean wasGameMeantToBeOver(Game game) {
