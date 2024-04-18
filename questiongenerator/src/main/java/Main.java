@@ -30,6 +30,11 @@ public class Main {
             new VideogamesGenreQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.GAMES_COUNTRY)) {
+            new VideogamesCountryQuestion("en");
+            new VideogamesCountryQuestion("es");
+        }
+
 
         // IMAGES
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {

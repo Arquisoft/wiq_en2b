@@ -4,6 +4,9 @@ public class QGHelper {
     public final static String LINKCONCAT = "%& #";
     public final static String[] allowedExtensions = {"png", "jpg", "jpeg", "gif"};
 
+    private QGHelper() {
+    }
+
     public static boolean isEntityName(String label){
         boolean isEntityName = true; // Check if it is like Q232334
         if (label.startsWith("Q") ){
