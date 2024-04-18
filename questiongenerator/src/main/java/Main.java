@@ -35,6 +35,11 @@ public class Main {
             new VideogamesCountryQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.BASKETBALL_VENUE)) {
+            new BasketballVenueQuestion("en");
+            new BasketballVenueQuestion("es");
+        }
+
 
         // IMAGES
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {
@@ -54,7 +59,7 @@ public class Main {
 
 
         /*
-        // VIDEOS
+        // VIDEOS not yet supported
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.SONG.toString())) {
             new SongQuestion("en");
             new SongQuestion("es");
