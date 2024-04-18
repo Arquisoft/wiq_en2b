@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Grid, Flex, Heading, Button, Box, Text, Image, Spinner, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
+import { Flex, Heading, Button, Box, Text, Image, Spinner, CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -182,7 +182,12 @@ export default function Game() {
             <CircularProgress value={calculateProgress()} color="green" size="120px" thickness="12px" capIsRound>
                 <CircularProgressLabel>{roundDuration - timeElapsed}</CircularProgressLabel>
             </CircularProgress>
-
+            {
+                (!loading && hasImage) && <Flex maxH={["80vh", "40vh"]} 
+                                            maxW={["80vh", "40vh"]} justify={"center"}>
+                <Image src={question.image} alt={t("game.image")}></Image>
+                </Flex>
+            }
             <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
                 {loading ? (
                     <Spinner
@@ -193,28 +198,25 @@ export default function Game() {
                         size='xl'
                     />
                 ) : <> 
-                        <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"}>{question.content}</Text>
-                        { hasImage && <Box maxH={"20vh"} maxW={"20vw"}>
-                            <Image src={question.image} alt={t("game.image")}></Image>
-                            </Box>
-                        }
-                        <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
+                        <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"} textAlign={"center"}>{question.content}</Text>
+                        <Flex flexWrap={"wrap"} gap={4} mb={4} justify={"center"}>
                             {question.answers.map((answer, index) => (
                                 <Button
                                     key={index}
                                     data-testid={`Option${index + 1}`}
                                     variant={selectedOption === index ? "solid" : "outline"}
-                                    colorScheme={"green"}
+                                    colorScheme={"green"} w="40%"
                                     onClick={() => answerButtonClick(index, answer)}
                                     style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
                                 >
                                     {answer.text}
                                 </Button>
                             ))}
-                        </Grid>
+                        </Flex>
 
                         <Flex direction="row" justifyContent="center" alignItems="center">
-                            <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green" className={"custom-button effect1"} onClick={nextButtonClick} w="100%" margin={"10px"}>
+                            <Button data-testid={"Next"} isDisabled={nextDisabled} colorScheme="pigment_green"
+                            className={"custom-button effect1"} onClick={nextButtonClick} w={["80%", "50%"]} margin={"10px"}>
                                 {t("game.answer")}
                             </Button>
                         </Flex>
