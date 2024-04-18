@@ -35,6 +35,10 @@ public class StadiumQuestion extends QuestionTemplate {
 
     @Override
     public void processResults() {
+
+        System.out.println("Processing Stadiums");
+        System.out.println(results.toString());
+
         stadiumLabels = new ArrayList<>();
         List<Question> questions = new ArrayList<>();
         List<Answer> answers = new ArrayList<>();

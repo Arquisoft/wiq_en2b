@@ -4,10 +4,11 @@ import templates.*;
 
 public class Main {
 
-
-
     public static void main(String[] args) {
+        // Deletes all questions and answers from the DB
+        GeneralRepositoryStorer.clearAllQA();
 
+        //Edit constraints of the DB
         GeneralRepositoryStorer.editConstraints();
 
         // TEXT
@@ -56,7 +57,6 @@ public class Main {
             new WhosThatPokemonQuestion("en");
             new WhosThatPokemonQuestion("es");
         }
-
 
         /*
         // VIDEOS not yet supported

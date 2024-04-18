@@ -14,6 +14,30 @@ import java.util.List;
  */
 public class GeneralRepositoryStorer {
 
+    /**
+     * Removes all questions and answers from the DB using SQL queries on cascade.
+     */
+    public static void clearAllQA() {
+        try{
+            EntityManagerFactory emf = Jpa.getEntityManagerFactory();
+            EntityManager entityManager = emf.createEntityManager();
+
+            entityManager.getTransaction().begin();
+
+            entityManager.createNativeQuery("DELETE FROM games_questions").executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM questions_answers").executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM questions").executeUpdate();
+            entityManager.createNativeQuery("DELETE FROM answers").executeUpdate();
+
+            entityManager.getTransaction().commit();
+
+            entityManager.close();
+            Jpa.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void saveAll(List<Storable> storableList) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
         EntityManager entityManager = emf.createEntityManager();
