@@ -2,7 +2,7 @@ import { Box, Flex, Heading, Stack, Text, CircularProgress } from "@chakra-ui/re
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Cell, Pie, PieChart } from "recharts";
 
@@ -12,7 +12,7 @@ export default function UserStatistics() {
     const [retrievedData, setRetrievedData] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const getData = async () => {
+    const getData = useCallback(async () => {
         try {
             const request = await new AuthManager().getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/statistics/personal");
             if (request.status === HttpStatusCode.Ok) {
@@ -48,12 +48,13 @@ export default function UserStatistics() {
             }
             setErrorMessage(errorType);
         }
-    };
+    }, [t, setErrorMessage, setRetrievedData, setUserData]);
+
     useEffect(() => {
         if (!retrievedData) {
             getData();
         }
-    });
+    }, [retrievedData, getData]);
 
     return (
         <Flex w={"100%"} minH={"10%"} data-testid={"user-statistics"} flexDirection={"column"}>
