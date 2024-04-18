@@ -21,15 +21,22 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
     useEffect(() => {
         async function fetchCategories() {
             try {
-                const categoriesData = await gameCategories();
-                const formattedCategories = categoriesData.map(category => category.charAt(0).toUpperCase() + category.slice(1).toLowerCase());
+                let lang = i18n.language;
+                if (lang.includes("en"))
+                    lang = "en";
+                else if (lang.includes("es"))
+                    lang = "es"
+                else
+                    lang = "en";
+                const categoriesData = await gameCategories(lang);
+                const formattedCategories = categoriesData.map(category => category.name);
                 setCategories(formattedCategories);
             } catch (error) {
                 console.error("Error fetching game categories:", error);
             }
         }
         fetchCategories();
-    }, []); 
+    }, [i18n.language]); 
 
     const manageCategory = (category) => {
         if (selectedCategories.includes(category)) {

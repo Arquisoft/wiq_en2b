@@ -14,9 +14,9 @@ export async function isActive() {
     }
 }
 
-export async function gameCategories() {
+export async function gameCategories(lang) {
     try {
-        let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/question-categories");
+        let requestAnswer = await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/question-categories?lang=" + lang);
         if (HttpStatusCode.Ok === requestAnswer.status) {
             return requestAnswer.data;
         }
