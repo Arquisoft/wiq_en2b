@@ -2,6 +2,7 @@ package templates;
 
 public class QGHelper {
     public final static String LINKCONCAT = "%& #";
+    public final static String[] allowedExtensions = {"png", "jpg", "jpeg", "gif"};
 
     public static boolean isEntityName(String label){
         boolean isEntityName = true; // Check if it is like Q232334
@@ -16,5 +17,14 @@ public class QGHelper {
             }
         }
         return false;
+    }
+
+    public static boolean notAllowedExtension(String link){
+        for (String s : allowedExtensions){
+            if (link.endsWith(s)){
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -37,6 +37,11 @@ public class Main {
             new PaintingQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.WTPOKEMON)) {
+            new WhosThatPokemonQuestion("en");
+            new WhosThatPokemonQuestion("es");
+        }
+
 
         /*
         // VIDEOS

@@ -47,13 +47,14 @@ public class StadiumQuestion extends QuestionTemplate {
             JSONObject imageObject = result.getJSONObject("image");
             String imageLink = imageObject.getString("value");
 
-            if (needToSkip(stadiumLabel))
+            if (needToSkip(stadiumLabel, imageLink))
                 continue;
 
 
             Answer a = new Answer(stadiumLabel, AnswerCategory.STADIUM, langCode);
             answers.add(a);
 
+            imageLink = imageLink.replace("http://", "https://");
             if (langCode.equals("es"))
                 questions.add(new Question(a, "¿Cuál es este estadio?" + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
             else
@@ -64,22 +65,14 @@ public class StadiumQuestion extends QuestionTemplate {
         repository.saveAll(new ArrayList<>(questions));
     }
 
-    private boolean needToSkip(String stadiumLabel) {
+    private boolean needToSkip(String stadiumLabel, String imageLink) {
         if (stadiumLabels.contains(stadiumLabel)) {
             return true;
         }
         stadiumLabels.add(stadiumLabel);
 
-        boolean isEntityName = true; // Check if it is like Q232334
-        if (stadiumLabel.startsWith("Q") ){
-            for (int i=1; i<stadiumLabel.length(); i++){
-                if (!Character.isDigit(stadiumLabel.charAt(i))){
-                    isEntityName = false;
-                }
-            }
-            if (isEntityName){
-                return true;
-            }
+        if (QGHelper.notAllowedExtension(imageLink)){
+            return true;
         }
 
         return false;

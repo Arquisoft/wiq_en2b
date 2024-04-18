@@ -49,7 +49,7 @@ public class PaintingQuestion extends QuestionTemplate {
             JSONObject imageObject = result.getJSONObject("image");
             String imageLink = imageObject.getString("value");
 
-            if (needToSkip(paintingLabel))
+            if (needToSkip(paintingLabel, imageLink))
                 continue;
 
             String answerText = "";
@@ -61,6 +61,7 @@ public class PaintingQuestion extends QuestionTemplate {
             Answer a = new Answer(answerText, AnswerCategory.PAINTING, langCode);
             answers.add(a);
 
+            imageLink = imageLink.replace("http://", "https://");
             if (langCode.equals("es"))
                 questions.add(new Question(a, "¿Cuál es este cuadro?" + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
             else
@@ -71,13 +72,17 @@ public class PaintingQuestion extends QuestionTemplate {
         repository.saveAll(new ArrayList<>(questions));
     }
 
-    private boolean needToSkip(String paintingLabel) {
+    private boolean needToSkip(String paintingLabel, String imageLink) {
         if (paintingLabels.contains(paintingLabel)) {
             return true;
         }
         paintingLabels.add(paintingLabel);
 
         if (QGHelper.isEntityName(paintingLabel)){
+            return true;
+        }
+
+        if (QGHelper.notAllowedExtension(imageLink)){
             return true;
         }
 
