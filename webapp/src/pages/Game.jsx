@@ -4,7 +4,7 @@ import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
-import {  startRound, getCurrentQuestion, answerQuestion, getCurrentGame } from '../components/game/Game';
+import {  startRound, getCurrentQuestion, answerQuestion, getCurrentGame, getGameDetails } from '../components/game/Game';
 import LateralMenu from '../components/menu/LateralMenu';
 import MenuButton from '../components/menu/MenuButton';
 import { HttpStatusCode } from "axios";
@@ -92,6 +92,7 @@ export default function Game() {
 
     const nextRound = useCallback(async () => {
         if (roundNumber + 1 > maxRoundNumber) {
+            await getGameDetails(gameId);
             navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
         } else {
             setAnswer({});
