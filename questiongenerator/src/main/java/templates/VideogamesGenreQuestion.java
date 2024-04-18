@@ -86,12 +86,9 @@ public class VideogamesGenreQuestion extends QuestionTemplate {
         }
         videoGameLabels.add(videoGameLabel);
 
-        if (QGHelper.isEntityName(videoGameLabel)){
+        if (QGHelper.isEntityName(videoGameLabel) || QGHelper.isEntityName(genreLabel))
             return true;
-        }
-        if (QGHelper.isEntityName(genreLabel)){
-            return true;
-        }
+
 
         return false;
     }

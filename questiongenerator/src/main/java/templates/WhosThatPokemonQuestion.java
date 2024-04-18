@@ -78,6 +78,10 @@ public class WhosThatPokemonQuestion extends QuestionTemplate {
             return true;
         }
 
+        if (QGHelper.isEntityName(pokemonLabel) || QGHelper.isEntityName(pokemonIndex))
+            return true;
+
+
         return false;
     }
 }

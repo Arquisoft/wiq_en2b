@@ -87,10 +87,9 @@ public class VideogamesCountryQuestion extends QuestionTemplate {
         }
         videoGameLabels.add(videoGameLabel);
 
-        if (QGHelper.isEntityName(videoGameLabel))
+        if (QGHelper.isEntityName(videoGameLabel) || QGHelper.isEntityName(countryLabel))
             return true;
-        if (QGHelper.isEntityName(countryLabel))
-            return true;
+
 
         return false;
     }

@@ -77,9 +77,7 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
         }
         videoGameLabels.add(videoGameLabel);
 
-        if (QGHelper.isEntityName(videoGameLabel))
-            return true;
-        if (QGHelper.isEntityName(publisherLabel))
+        if (QGHelper.isEntityName(videoGameLabel) || QGHelper.isEntityName(publisherLabel))
             return true;
 
         return false;
