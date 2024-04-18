@@ -1,6 +1,7 @@
 package lab.en2b.quizapi.questions.question;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -11,6 +12,8 @@ import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/questions")
@@ -46,5 +49,17 @@ public class QuestionController {
     @GetMapping("/{id}")
     private ResponseEntity<QuestionResponseDto> getQuestionById(@PathVariable @PositiveOrZero Long id){
         return ResponseEntity.ok(questionService.getQuestionById(id));
+    }
+
+    @Operation(summary = "Gets a list of questions", description = "Gets a list of questions given a page number")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+        @ApiResponse(responseCode = "404", description = "Not found - There are no questions", content = @io.swagger.v3.oas.annotations.media.Content),
+        @ApiResponse(responseCode = "400", description = "Bad request - The page number is invalid", content = @io.swagger.v3.oas.annotations.media.Content)
+    })
+    @Parameter(name = "page", description = "The page number. Cannot be lower or equal to 0.", required = true)
+    @GetMapping
+    private ResponseEntity<List<QuestionResponseDto>> getQuestions(@RequestParam Long page){
+        return ResponseEntity.ok(questionService.getQuestionsWithPage(page));
     }
 }
