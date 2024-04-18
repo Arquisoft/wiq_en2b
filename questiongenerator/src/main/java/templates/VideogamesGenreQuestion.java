@@ -75,6 +75,9 @@ public class VideogamesGenreQuestion extends QuestionTemplate {
 
             questions.add(new Question(a, questionString, QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
         }
+
+        repository.saveAll(new ArrayList<>(answers));
+        repository.saveAll(new ArrayList<>(questions));
     }
 
     private boolean needToSkip(String videoGameLabel, String genreLabel) {
