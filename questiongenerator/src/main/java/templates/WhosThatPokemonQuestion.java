@@ -11,8 +11,6 @@ public class WhosThatPokemonQuestion extends QuestionTemplate {
 
     List<String> pokemonLabels;
 
-    private static final String CONCAT = "%& #";
-
     private static final String[] spanishStrings = {"¿Quién es este Pokémon?", "¿Cuál es este Pokémon?", "¿Qué Pokémon es este?", "¿Cómo se llama este Pokémon?"};
     private static final String[] englishStrings = {"Who's that Pokémon?", "What Pokémon is this?", "What's the name of this Pokémon?", "Who is  this Pokémon?"};
 
@@ -54,11 +52,11 @@ public class WhosThatPokemonQuestion extends QuestionTemplate {
             answers.add(a);
 
             if (langCode.equals("es")){
-                spanishString = spanishStrings[i%4] + CONCAT + "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNum + ".png";
+                spanishString = spanishStrings[i%4] + QGHelper.LINKCONCAT + "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNum + ".png";
                 questions.add(new Question(a, spanishString, QuestionCategory.POKEMON, QuestionType.TEXT));
             }
             else{
-                englishString = englishStrings[i%4] + CONCAT + "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNum + ".png";
+                englishString = englishStrings[i%4] + QGHelper.LINKCONCAT + "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNum + ".png";
                 questions.add(new Question(a, englishString, QuestionCategory.POKEMON, QuestionType.TEXT));
             }
         }
