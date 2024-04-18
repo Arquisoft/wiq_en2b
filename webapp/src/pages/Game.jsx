@@ -172,7 +172,8 @@ export default function Game() {
 
 
     return (
-        <Center display="flex" flexDirection="column" w="100wh" h="100vh" justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'}>
+        <Center display="flex" flexDirection="column" w="100vw" h="100vh" 
+            justifyContent="center" alignItems="center" padding={"4"} bgImage={'/background.svg'} bgSize={"contain"}>
             <MenuButton onClick={() => setIsMenuOpen(true)} />
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={false}/>
 
@@ -183,12 +184,12 @@ export default function Game() {
                 <CircularProgressLabel>{roundDuration - timeElapsed}</CircularProgressLabel>
             </CircularProgress>
             {
-                (!loading && hasImage) && <Flex maxH={["80vh", "40vh"]} 
-                                            maxW={["80vh", "40vh"]} justify={"center"}>
+                (!loading && hasImage) && <Flex maxH={"40vh"} 
+                                            maxW={"40vh"} justify={"center"}>
                 <Image src={question.image} alt={t("game.image")}></Image>
                 </Flex>
             }
-            <Box bg="white" p={4} borderRadius="md" boxShadow="md" mt={4} mb={4} w="fit-content" shadow="2xl" rounded="1rem" alignItems="center">
+            <Box bg="white" p={"4 0.5"} borderRadius="md" boxShadow="md" mt={4} mb={4} w={["80%", "60%"]} shadow="2xl" rounded="1rem" alignItems="center">
                 {loading ? (
                     <Spinner
                         thickness='4px'
@@ -205,11 +206,12 @@ export default function Game() {
                                     key={index}
                                     data-testid={`Option${index + 1}`}
                                     variant={selectedOption === index ? "solid" : "outline"}
-                                    colorScheme={"green"} w="40%"
+                                    colorScheme={"green"} maxW={"fit-content"} minW={"40%"}
                                     onClick={() => answerButtonClick(index, answer)}
+                                    fontSize={["0.85em", "1em"]} display={"flex"}
                                     style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
                                 >
-                                    {answer.text}
+                                    <Text noOfLines={[1,2,3]}>{answer.text}</Text>
                                 </Button>
                             ))}
                         </Flex>
