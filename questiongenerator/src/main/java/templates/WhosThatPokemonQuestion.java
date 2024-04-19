@@ -53,11 +53,11 @@ public class WhosThatPokemonQuestion extends QuestionTemplate {
 
             if (langCode.equals("es")){
                 spanishString = spanishStrings[i%4] + QGHelper.LINKCONCAT + "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNum + ".png";
-                questions.add(new Question(a, spanishString, QuestionCategory.POKEMON, QuestionType.TEXT));
+                questions.add(new Question(a, spanishString, QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
             }
             else{
                 englishString = englishStrings[i%4] + QGHelper.LINKCONCAT + "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokedexNum + ".png";
-                questions.add(new Question(a, englishString, QuestionCategory.POKEMON, QuestionType.TEXT));
+                questions.add(new Question(a, englishString, QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
             }
         }
 
