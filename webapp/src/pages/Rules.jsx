@@ -5,8 +5,8 @@ import { Text, Heading, Box } from "@chakra-ui/react";
 import { FaBook } from 'react-icons/fa';
 
 import GoBack from "components/GoBack";
-import LateralMenu from '../components/LateralMenu';
-import MenuButton from '../components/MenuButton';
+import LateralMenu from '../components/menu/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
 
 export default function Rules() {
     const { t, i18n } = useTranslation();
