@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Center } from "@chakra-ui/layout";
 import { Text, Heading, Stack, Link, Image, Box } from "@chakra-ui/react";
 
-import MenuButton from '../components/MenuButton';
-import LateralMenu from '../components/LateralMenu';
+import MenuButton from '../components/menu/MenuButton';
+import LateralMenu from '../components/menu/LateralMenu';
 import ButtonEf from '../components/ButtonEf';
 import AuthManager from "components/auth/AuthManager";
 

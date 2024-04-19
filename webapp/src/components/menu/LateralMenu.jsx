@@ -12,11 +12,12 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
     const navigate = useNavigate();
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         checkIsLoggedIn();
-    }, []);
+        setSelectedLanguage(i18n.language);
+    }, [i18n.language]);
 
     const handleChangeLanguage = (e) => {
         const selectedValue = e.target.value;
