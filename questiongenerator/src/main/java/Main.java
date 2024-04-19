@@ -5,9 +5,6 @@ import templates.*;
 public class Main {
 
     public static void main(String[] args) {
-        // Deletes all questions and answers from the DB
-        GeneralRepositoryStorer.clearAllQA();
-
         //Edit constraints of the DB
         GeneralRepositoryStorer.editConstraints();
 
