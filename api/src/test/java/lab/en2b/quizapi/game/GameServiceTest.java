@@ -468,7 +468,7 @@ public class GameServiceTest {
 
     @Test
     public void testGetQuestionCategories(){
-        assertEquals(Arrays.asList(QuestionCategory.values()), gameService.getQuestionCategories());
+        assertEquals(QuestionCategory.values().length, gameService.getQuestionCategories(null).size());
     }
 
     @Test

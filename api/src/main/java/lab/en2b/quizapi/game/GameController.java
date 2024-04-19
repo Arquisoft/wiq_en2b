@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lab.en2b.quizapi.game.dtos.*;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
+import lab.en2b.quizapi.questions.question.dtos.QuestionCategoryDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -133,8 +134,8 @@ public class GameController {
             @ApiResponse(responseCode = "403", description = "You are not logged in", content = @io.swagger.v3.oas.annotations.media.Content)
     })
     @GetMapping("/question-categories")
-    public ResponseEntity<List<QuestionCategory>> getQuestionCategories(){
-        return ResponseEntity.ok(gameService.getQuestionCategories());
+    public ResponseEntity<List<QuestionCategoryDto>> getQuestionCategories(@RequestParam(required = false) String lang){
+        return ResponseEntity.ok(gameService.getQuestionCategories(lang));
     }
 
 }

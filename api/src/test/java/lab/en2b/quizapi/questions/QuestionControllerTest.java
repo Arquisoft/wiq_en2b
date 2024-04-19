@@ -35,16 +35,16 @@ public class QuestionControllerTest {
     UserService userService;
 
     @Test
-    void newQuestionShouldReturn403() throws Exception{
-        mockMvc.perform(get("/questions/new?lang=en")
+    void randomQuestionNoAuthShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions/random?lang=en")
                         .contentType("application/json")
                         .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test
-    void newQuestionShouldReturn200() throws Exception{
-        mockMvc.perform(get("/questions/new?lang=en")
+    void randomQuestionShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions/random?lang=en")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
@@ -52,8 +52,8 @@ public class QuestionControllerTest {
     }
 
     @Test
-    void newQuestionNoLangShouldReturn200() throws Exception{
-        mockMvc.perform(get("/questions/new")
+    void randomQuestionNoLangShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions/random")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))
@@ -61,11 +61,11 @@ public class QuestionControllerTest {
     }
 
     @Test
-    void questionByIdShouldReturn403() throws Exception{
+    void questionByIdNoAuthShouldReturn200() throws Exception{
         mockMvc.perform(get("/questions/1")
                         .contentType("application/json")
                         .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -86,11 +86,12 @@ public class QuestionControllerTest {
     }
 
     @Test
-    void answerQuestionShouldReturn403() throws Exception{
-        mockMvc.perform(get("/questions/1/answer")
+    void answerQuestionNoAuthShouldReturn200() throws Exception{
+        mockMvc.perform(post("/questions/1/answer")
+                        .content(asJsonString(new AnswerDto(1L)))
                         .contentType("application/json")
                         .with(csrf()))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -132,6 +133,32 @@ public class QuestionControllerTest {
     @Test
     void answerQuestionNegativeIdShouldReturn400() throws Exception{
         mockMvc.perform(post("/questions/-1/answer")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getQuestionsWithPageNoAuthShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions?page=1")
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getQuestionsWithPageShouldReturn200() throws Exception{
+        mockMvc.perform(get("/questions?page=1")
+                        .with(user("test").roles("user"))
+                        .contentType("application/json")
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getQuestionsWithPageNoPageShouldReturn400() throws Exception{
+        mockMvc.perform(get("/questions")
                         .with(user("test").roles("user"))
                         .contentType("application/json")
                         .with(csrf()))

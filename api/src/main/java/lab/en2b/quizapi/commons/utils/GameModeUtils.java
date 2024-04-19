@@ -3,6 +3,7 @@ package lab.en2b.quizapi.commons.utils;
 import lab.en2b.quizapi.game.Game;
 import lab.en2b.quizapi.game.GameMode;
 import lab.en2b.quizapi.questions.question.QuestionCategory;
+import lab.en2b.quizapi.questions.question.dtos.QuestionCategoryDto;
 
 import java.util.List;
 
@@ -53,5 +54,72 @@ public class GameModeUtils {
                 game.setRounds(9L);
                 game.setRoundDuration(30);
         }
+    }
+
+    public static List<QuestionCategoryDto> getQuestionCategories(String lang) {
+        if(lang == null)
+            lang = "en";
+        if(lang.equals("en"))
+            return getQuestionCategoriesEn();
+        return getQuestionCategoriesEs();
+    }
+    private static List<QuestionCategoryDto> getQuestionCategoriesEn(){
+        return List.of(
+                QuestionCategoryDto.builder()
+                        .name("Art")
+                        .description("Are you an art expert? Prove it!")
+                        .internalRepresentation(QuestionCategory.ART)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Music")
+                        .description("Are you a music lover? Prove it!")
+                        .internalRepresentation(QuestionCategory.MUSIC)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Geography")
+                        .description("Are you a geography expert? Prove it!")
+                        .internalRepresentation(QuestionCategory.GEOGRAPHY)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Sports")
+                        .description("Are you a sports fanatic? Prove it!")
+                        .internalRepresentation(QuestionCategory.SPORTS)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Video Games")
+                        .description("Are you a gamer? Prove it!")
+                        .internalRepresentation(QuestionCategory.VIDEOGAMES)
+                        .build()
+        );
+    }
+
+    private static List<QuestionCategoryDto> getQuestionCategoriesEs(){
+        return List.of(
+                QuestionCategoryDto.builder()
+                        .name("Arte")
+                        .description("¿Eres un experto en arte? ¡Demuéstralo!")
+                        .internalRepresentation(QuestionCategory.ART)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Música")
+                        .description("¿Eres un melómano? ¡Demuéstralo!")
+                        .internalRepresentation(QuestionCategory.MUSIC)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Geografía")
+                        .description("¿Eres un experto en geografía? ¡Demuéstralo!")
+                        .internalRepresentation(QuestionCategory.GEOGRAPHY)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Deportes")
+                        .description("¿Eres un fanático de los deportes? ¡Demuéstralo!")
+                        .internalRepresentation(QuestionCategory.SPORTS)
+                        .build(),
+                QuestionCategoryDto.builder()
+                        .name("Videojuegos")
+                        .description("¿Eres un gamer? ¡Demuéstralo!")
+                        .internalRepresentation(QuestionCategory.VIDEOGAMES)
+                        .build()
+        );
     }
 }
