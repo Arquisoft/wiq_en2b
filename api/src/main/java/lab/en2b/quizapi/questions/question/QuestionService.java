@@ -69,6 +69,33 @@ public class QuestionService {
         return questionResponseDtoMapper.apply(q);
     }
 
+    /**
+     * Get a list of questions with a page
+     * @param page The page number
+     * @return the list of questions
+     */
+    public List<QuestionResponseDto> getQuestionsWithPage(Long page){
+        if (page < 1)
+            throw new IllegalArgumentException("Invalid page number");
+        List<QuestionResponseDto> result = questionRepository.findAll().stream()
+                .map(questionResponseDtoMapper).toList();
+        return getPage(result, page);
+    }
+
+    private List<QuestionResponseDto> getPage(List<QuestionResponseDto> result, Long page) {
+        try{
+            int QUESTION_PAGE_SIZE = 100;
+            int startIndex = Math.toIntExact((page-1)* QUESTION_PAGE_SIZE);
+            if(startIndex > result.size())
+                throw new IllegalArgumentException("Invalid page number, maximum page is "+(result.size()/ QUESTION_PAGE_SIZE +1) + " and you requested page "+page);
+            if (result.size() < page* QUESTION_PAGE_SIZE)
+                return result.subList(startIndex,result.size());
+            return result.subList(startIndex, Math.toIntExact(page* QUESTION_PAGE_SIZE));
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Invalid page number");
+        }
+
+    }
 
     /**
      * Load the answers for a question (The distractors and the correct one)
