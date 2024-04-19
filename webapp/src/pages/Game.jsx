@@ -108,7 +108,7 @@ export default function Game() {
             const result = await answerQuestion(gameId, answer.id);
             let isCorrect = result.data.was_correct;
             if (isCorrect) {
-                setCorrectAnswers(correctAnswers + (isCorrect ? 1 : 0));
+                setCorrectAnswers(correctAnswers + 1);
                 setShowConfetti(true);
             }
             setNextDisabled(true);

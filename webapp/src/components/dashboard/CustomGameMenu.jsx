@@ -22,13 +22,15 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
         async function fetchCategories() {
             try {
                 let lang = i18n.language;
-                if (lang.includes("en"))
+                if (lang.includes("en")) {
                     lang = "en";
-                else if (lang.includes("es"))
+                } else if (lang.includes("es")) {
                     lang = "es"
-                else
+                } else {
                     lang = "en";
-                const categoriesData = await gameCategories(lang);
+                }
+                
+                const categoriesData = (await gameCategories(lang)).data;
                 const formattedCategories = categoriesData.map(category => category.name);
                 setCategories(formattedCategories);
             } catch (error) {
@@ -49,17 +51,20 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
     const initializeCustomGameMode = async () => {
         try {
             let lang = i18n.language;
-            if (lang.includes("en"))
+            if (lang.includes("en")) {
                 lang = "en";
-            else if (lang.includes("es"))
+            } else if (lang.includes("es")) {
                 lang = "es"
-            else
+            } else {
                 lang = "en";
+            }
 
             const gamemode = 'CUSTOM';
             let uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
-            if (uppercaseCategories.length === 0)
+            if (uppercaseCategories.length === 0) {
                 uppercaseCategories = ["GEOGRAPHY", "SPORTS", "MUSIC", "ART", "VIDEOGAMES"];
+            }
+
             const customGameDto = {
                 rounds: rounds,
                 categories: uppercaseCategories,
@@ -67,8 +72,9 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
                 
             }
             const newGameResponse = await newGame(lang, gamemode, customGameDto);
-            if (newGameResponse)
+            if (newGameResponse) {
               navigate("/dashboard/game");
+            }
           } catch (error) {
             console.error("Error initializing game:", error);
           }
