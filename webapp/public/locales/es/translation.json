@@ -77,8 +77,10 @@
         }
     },
     "game": {
-        "round": "Ronda ",
+        "round": "Ronda {{currentRound, number}} de {{roundAmount, number}}",
         "answer": "Responder",
+        "correct_counter": "Respuestas correctas: {{correctCount, number}}",
+        "image": "Imagen de la pregunta",
         "gamemodes": "Modos de juego",
         "userinfo": "Panel de usuario",
         "custom": "Personalizado",

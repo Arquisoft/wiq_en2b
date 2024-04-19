@@ -33,7 +33,7 @@ export default function Dashboard() {
     useEffect(() => {
       async function fetchGameModes() {
         try {
-          const modes = await gameModes();
+          const modes = (await gameModes()).data;
           setModes(modes);
           setSelectedButton(modes[0]?.name);
         } catch (error) {
