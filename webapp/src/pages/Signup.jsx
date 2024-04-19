@@ -8,8 +8,8 @@ import { FaUserAlt, FaLock, FaAddressCard } from "react-icons/fa";
 
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
-import LateralMenu from 'components/LateralMenu';
-import MenuButton from 'components/MenuButton';
+import LateralMenu from 'components/menu/LateralMenu';
+import MenuButton from 'components/menu/MenuButton';
 
 export default function Signup() {
     const [email, setEmail] = useState("");

@@ -8,8 +8,8 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 import ErrorMessageAlert from "components/ErrorMessageAlert";
 import AuthManager from "components/auth/AuthManager";
-import LateralMenu from 'components/LateralMenu';
-import MenuButton from 'components/MenuButton';
+import LateralMenu from 'components/menu/LateralMenu';
+import MenuButton from 'components/menu/MenuButton';
 
 export default function Login() {
     const navigate = useNavigate();

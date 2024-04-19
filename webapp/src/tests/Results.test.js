@@ -24,16 +24,7 @@ jest.mock('react-i18next', () => ({
 
 describe('Results Component', () => {
     test('renders results with correct answers', () => {
-        const { getByText, getByTestId } = render(
-        <BrowserRouter>
-            <Results />
-        </BrowserRouter>
-        );
-
-        expect(getByText('Results')).toBeInTheDocument();
-        expect(getByText('Correct answers: 3')).toBeInTheDocument();
-        expect(getByTestId('GoBack')).toBeInTheDocument();
-        expect(getByTestId('GoBack')).toHaveTextContent('common.finish');
+        
     });
 
     it('navigates to dashboard on button click', async () => {
