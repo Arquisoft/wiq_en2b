@@ -157,9 +157,9 @@ export default function Dashboard() {
                     </TabPanel>
                     <TabPanel>
                       <Stack spacing={2}>
-                        <Heading as="h3" color="green.400" fontSize="xl">Username</Heading>
+                        <Heading as="h3" color="green.400" fontSize="xl">{t("session.username")}</Heading>
                         <Text fontWeight='extrabold' color={"forest_green.400"}>{user.username}</Text>
-                        <Heading as="h3" color="green.400" fontSize="xl">Email</Heading>
+                        <Heading as="h3" color="green.400" fontSize="xl">{t("session.email")}</Heading>
                         <Text fontWeight='extrabold' color={"forest_green.400"}>{user.email}</Text>
                         <UserStatistics />
                       </Stack>
