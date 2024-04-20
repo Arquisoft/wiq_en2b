@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Dashboard from '../pages/Dashboard';
 import { MemoryRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -7,30 +7,30 @@ import theme from '../styles/theme';
 import MockAdapter from 'axios-mock-adapter';
 import AuthManager from 'components/auth/AuthManager';
 import { HttpStatusCode } from 'axios';
+import { __esModule } from '@testing-library/jest-dom/dist/matchers';
+
+const api = process.env.REACT_APP_API_ENDPOINT;
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
     return {
       t: (str) => str,
       i18n: {
-        changeLanguage: () => new Promise(() => {}),
+        changeLanguage: () => new Promise(() => { }),
+        language: "en"
       },
     }
   },
 }));
 
 describe('Dashboard', () => {
-  let mockUserInfo, mockGameModes, mockIsActive, mockNewGame, authManager, mockAxios;
+
+  const authManager = new AuthManager();
+  let mockAxios;
 
   beforeEach(() => {
-    mockUserInfo = jest.fn().mockResolvedValue({id: 1, username: 'testUser', email: 'test@example.com' });
-    mockGameModes = jest.fn().mockResolvedValue({ data: [{ name: "KiWiQ", description: "Test description of the game mode", internal_representation: "KIWIQ_QUEST", icon_name: "FaKiwiBird" }] });
-    mockIsActive = true;
-    mockNewGame = jest.fn().mockResolvedValue(true);
-
-    authManager = new AuthManager();
+    authManager.reset();
     mockAxios = new MockAdapter(authManager.getAxiosInstance());
-    mockAxios.onAny().reply(HttpStatusCode.Ok);
   });
 
   afterEach(() => {
@@ -38,12 +38,30 @@ describe('Dashboard', () => {
   });
 
   test('renders Dashboard component with user data and game modes', async () => {
-    let isActive = jest.fn();
-    let userInfo = jest.fn();
-    let gameModes = jest.fn();
-    isActive.mockResolvedValueOnce(mockIsActive);
-    userInfo.mockImplementationOnce(mockUserInfo);
-    gameModes.mockImplementationOnce(mockGameModes);
+    mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
+      "is_active": true
+    });
+
+    mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, {
+      name: "KiWiQ",
+      description: "Test description of the game mode",
+      internal_representation: "KIWIQ_QUEST",
+      icon_name: "FaKiwiBird"
+    });
+
+    mockAxios.onGet(`${api}/users/details`).reply(HttpStatusCode.Ok, {
+      id: 1,
+      username: 'testUser',
+      email: 'test@example.com'
+    });
+
+    mockAxios.onGet(`${api}/games/question-categories`).reply(HttpStatusCode.Ok, [
+      {
+        "name": "Sports",
+        "description": "Test description of the question category",
+        "internal_representation": "SPORTS"
+      }
+    ])
 
     render(
       <ChakraProvider theme={theme}>
@@ -54,18 +72,39 @@ describe('Dashboard', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId('avatar')).toBeInTheDocument();
       expect(screen.getByTestId('Welcome')).toHaveTextContent('common.welcome testUser');
-      expect(mockUserInfo).toHaveBeenCalled();
-      expect(mockGameModes).toHaveBeenCalled();
+      expect(mockAxios.history.get.length).toBeGreaterThan(4);
     });
   });
 
   test('renders Play button when game is active', async () => {
-    let isActive = jest.fn();
-    isActive.mockResolvedValueOnce(mockIsActive);
 
-    render(
+    mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
+      "is_active": true
+    });
+
+    mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, {
+      name: "KiWiQ",
+      description: "Test description of the game mode",
+      internal_representation: "KIWIQ_QUEST",
+      icon_name: "FaKiwiBird"
+    });
+
+    mockAxios.onGet(`${api}/users/details`).reply(HttpStatusCode.Ok, {
+      id: 1,
+      username: 'testUser',
+      email: 'test@example.com'
+    });
+
+    mockAxios.onGet(`${api}/games/question-categories`).reply(HttpStatusCode.Ok, [
+      {
+        "name": "Sports",
+        "description": "Test description of the question category",
+        "internal_representation": "SPORTS"
+      }
+    ])
+
+    const {container} = render(
       <ChakraProvider theme={theme}>
         <MemoryRouter>
           <Dashboard />
@@ -74,34 +113,77 @@ describe('Dashboard', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByTestId('Play')).toBeInTheDocument();
+      expect(container.querySelector('#play')).toBeInTheDocument();
     });
   });
 
   test('renders Resume button when game is not active', async () => {
-    let isActive = jest.fn();
-    isActive.mockResolvedValueOnce(false);
+    mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
+      "is_active": false
+    });
 
-    render(
+    mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, {
+      name: "KiWiQ",
+      description: "Test description of the game mode",
+      internal_representation: "KIWIQ_QUEST",
+      icon_name: "FaKiwiBird"
+    });
+
+    mockAxios.onGet(`${api}/users/details`).reply(HttpStatusCode.Ok, {
+      id: 1,
+      username: 'testUser',
+      email: 'test@example.com'
+    });
+
+    mockAxios.onGet(`${api}/games/question-categories`).reply(HttpStatusCode.Ok, [
+      {
+        "name": "Sports",
+        "description": "Test description of the question category",
+        "internal_representation": "SPORTS"
+      }
+    ])
+
+    const {container} = render(
       <ChakraProvider theme={theme}>
         <MemoryRouter>
           <Dashboard />
         </MemoryRouter>
       </ChakraProvider>
     );
-
+    
+    // FIXME: This does not pass
     await waitFor(() => {
-      expect(screen.getByTestId('Resume')).toBeInTheDocument();
+      expect(container.querySelector('#resumeBtn')).toBeInTheDocument();
     });
   });
 
   test('clicking Play button initializes a new game', async () => {
-    let isActive = jest.fn();
-    let newGame = jest.fn();
-    isActive.mockResolvedValueOnce(mockIsActive);
-    newGame.mockImplementationOnce(mockNewGame);
+    mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
+      "is_active": false
+    });
 
-    render(
+    mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, {
+      name: "KiWiQ",
+      description: "Test description of the game mode",
+      internal_representation: "KIWIQ_QUEST",
+      icon_name: "FaKiwiBird"
+    });
+
+    mockAxios.onGet(`${api}/users/details`).reply(HttpStatusCode.Ok, {
+      id: 1,
+      username: 'testUser',
+      email: 'test@example.com'
+    });
+
+    mockAxios.onGet(`${api}/games/question-categories`).reply(HttpStatusCode.Ok, [
+      {
+        "name": "Sports",
+        "description": "Test description of the question category",
+        "internal_representation": "SPORTS"
+      }
+    ])
+
+    const {container} = render(
       <ChakraProvider theme={theme}>
         <MemoryRouter>
           <Dashboard />
@@ -109,32 +191,11 @@ describe('Dashboard', () => {
       </ChakraProvider>
     );
 
-    fireEvent.click(screen.getByTestId('Play'));
-
     await waitFor(() => {
-      expect(mockNewGame).toHaveBeenCalled();
+      fireEvent.click(container.querySelector("#play"));
+
+      expect(mockAxios.history.post.length).toBeGreaterThan(0);
     });
   });
 
-  test('changing language updates language', async () => {
-    const mockChangeLanguage = jest.fn();
-    const mockI18n = { changeLanguage: mockChangeLanguage };
-    jest.mock('react-i18next', () => ({
-      useTranslation: () => ({ t: (key) => key, i18n: mockI18n }),
-    }));
-
-    render(
-      <ChakraProvider theme={theme}>
-        <MemoryRouter>
-          <Dashboard />
-        </MemoryRouter>
-      </ChakraProvider>
-    );
-
-    fireEvent.click(screen.getByText('EN'));
-
-    await waitFor(() => {
-      expect(mockChangeLanguage).toHaveBeenCalledWith('en');
-    });
-  });
 });

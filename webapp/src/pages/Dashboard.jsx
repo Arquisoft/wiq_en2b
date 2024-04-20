@@ -114,7 +114,7 @@ export default function Dashboard() {
         <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} changeLanguage={changeLanguage} isDashboard={true}/>
         {user && (
           <>
-            <Avatar style={{ width: '8rem', height: '8rem' }} {...config} /> 
+            <Avatar style={{ width: '8rem', height: '8rem' }} {...config} data-testid={"avatar"}/> 
             <Heading as="h2" data-testid={"Welcome"}>{t("common.welcome") + " " + user.username}</Heading>
       
             <Box minW={{ md: "400px" }} shadow="2xl">
@@ -128,7 +128,7 @@ export default function Dashboard() {
                     <TabPanel>
                     {active && (
                       <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
-                        {modes.map(mode => (
+                        {modes.length > 0 && modes.map(mode => (
                           <Button
                             key={mode.internal_representation}
                             colorScheme={"green"}
@@ -179,6 +179,7 @@ export default function Dashboard() {
                       size={"lg"}
                       fontSize={"2xl"}
                       flex="1"
+                      id={"play"}
                     >
                       {t("common.play")}
                     </Button>
@@ -193,6 +194,7 @@ export default function Dashboard() {
                         className={"custom-button effect2"} 
                         onClick={initializeGameMode}
                         size={"lg"}
+                        id={"resumeBtn"}
                         fontSize={"2xl"}
                         flex="1"
                       >
