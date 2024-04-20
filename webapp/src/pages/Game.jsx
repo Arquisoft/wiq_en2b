@@ -25,6 +25,7 @@ export default function Game() {
     const [roundDuration, setRoundDuration] = useState(0);
     const [maxRoundNumber, setMaxRoundNumber] = useState(9);
     const [hasImage, setHasImage] = useState(false);
+    const [hasAnswered, setHasAnswered] = useState(false);
 
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,26 +69,29 @@ export default function Game() {
         setNextDisabled(!anyOptionSelected);
     };
 
-    const startNewRound = useCallback(async (gameId) => {
-        try{
-            const result = await startRound(gameId);
-            setTimeStartRound(new Date(result.data.round_start_time).getTime());
-            setRoundNumber(result.data.actual_round )
-            setRoundDuration(result.data.round_duration);
-            await assignQuestion(gameId);
-            setLoading(false);
-        }
-        catch(error){
-            console.log(error)
-            if(error.response.status === 409){
-                if(roundNumber >= 9){
-                    navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
-                } else {
-                    await assignQuestion(gameId)
+    const startNewRound = useCallback(async (gameId, startsGame) => {
+        console.log(`pepe desde fuera ${startsGame} y ${hasAnswered}`)
+        if (hasAnswered || startsGame) {
+            try{
+                console.log("pepe")
+                const result = await startRound(gameId);
+                setTimeStartRound(new Date(result.data.round_start_time).getTime());
+                setRoundNumber(result.data.actual_round )
+                setRoundDuration(result.data.round_duration);
+                await assignQuestion(gameId);
+                setLoading(false);
+            } catch(error){
+                console.log(error)
+                if(error.response.status === 409){
+                    if(roundNumber >= 9){
+                        navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
+                    } else {
+                        await assignQuestion(gameId)
+                    }
                 }
             }
         }
-    }, [setTimeStartRound, setRoundDuration, setRoundNumber,
+    }, [setTimeStartRound, setRoundDuration, setRoundNumber, hasAnswered,
         assignQuestion, setLoading, navigate, correctAnswers, roundNumber])
 
     const nextRound = useCallback(async () => {
@@ -113,6 +117,7 @@ export default function Game() {
             }
             setNextDisabled(true);
             setSelectedOption(null);
+            setLoading(true)
             await nextRound();
 
         } catch (error) {
@@ -131,11 +136,15 @@ export default function Game() {
                     setTimeStartRound(new Date(newGameResponse.round_start_time).getTime());
                     setRoundDuration(newGameResponse.round_duration)
                     setMaxRoundNumber(newGameResponse.rounds);
+                    setRoundNumber(newGameResponse.actual_round);
+
                     try{
                         await assignQuestion(newGameResponse.id);
+                        setCorrectAnswers(newGameResponse.correctly_answered_questions);
                         setLoading(false);
+                        setTimeElapsed(Math.round((Date.now() - new Date(newGameResponse.round_start_time).getTime()) / 1000));
                     }catch(error){
-                        startNewRound(newGameResponse.id);
+                        startNewRound(newGameResponse.id, true);
                     }
                 } else {
                     navigate("/dashboard");
@@ -149,7 +158,7 @@ export default function Game() {
             initializeGame();
         }
     }, [setGameId, gameId, setTimeStartRound, setRoundDuration, setMaxRoundNumber,
-        setQuestion, setLoading, startNewRound, navigate, assignQuestion]);
+        setQuestion, setLoading, startNewRound, navigate, assignQuestion, timeStartRound]);
     useEffect(() => { 
         let timeout;
         if (showConfetti)
@@ -159,8 +168,12 @@ export default function Game() {
 
     useEffect(() => {
         let timeout;
+        console.log(timeElapsed >= roundDuration && timeStartRound !== -1);
         if (timeElapsed >= roundDuration && timeStartRound !== -1) {
-            timeout = setTimeout(() => nextRound(), 1000);
+            timeout = setTimeout(() => {
+                setHasAnswered(true);
+                nextRound();
+            }, 1000);
 
         } else {
             timeout = setTimeout(() => {
@@ -168,7 +181,7 @@ export default function Game() {
             }, 1000); 
         }
         return () => clearTimeout(timeout);
-    }, [timeElapsed, timeStartRound, roundDuration, nextRound]);
+    }, [timeElapsed, timeStartRound, roundDuration, nextRound, setHasAnswered]);
 
 
     return (
