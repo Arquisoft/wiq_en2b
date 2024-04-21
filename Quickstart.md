@@ -68,7 +68,7 @@ We are going to use the first approach, creating a virtual machine in a cloud se
 
 The machine for deployment can be created in services like Microsoft Azure or Amazon AWS. These are in general the settings that it must have:
 
-- Linux machine with Ubuntu >= 20.04.
+- Linux machine with Ubuntu >= 20.04 (any Linux machine will do as long as you know which steps do not apply to you and how to perform the equivalent ones, though).
 - Docker and docker-compose installed.
 - Open ports for the applications installed (in this case, ports 3000 for the webapp and 8443 for the API, or whatever port configure the app to use).
 
