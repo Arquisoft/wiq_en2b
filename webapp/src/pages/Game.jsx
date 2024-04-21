@@ -45,6 +45,7 @@ export default function Game() {
             if (result.status === HttpStatusCode.Ok) {
                 setQuestion(result.data);
                 setTimeElapsed(0);
+                setHasAnswered(false)
                 if (result.data.image) {
                     setHasImage(true);
                 }
@@ -64,6 +65,7 @@ export default function Game() {
     const answerButtonClick = async (optionIndex, answer) => {
         const selectedOptionIndex = selectedOption === optionIndex ? null : optionIndex;
         setSelectedOption(selectedOptionIndex);
+        setHasAnswered(true);
         setAnswer(answer);
         const anyOptionSelected = selectedOptionIndex !== null;
         setNextDisabled(!anyOptionSelected);
