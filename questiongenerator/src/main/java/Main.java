@@ -4,10 +4,8 @@ import templates.*;
 
 public class Main {
 
-
-
     public static void main(String[] args) {
-
+        //Edit constraints of the DB
         GeneralRepositoryStorer.editConstraints();
 
         // TEXT
@@ -25,6 +23,21 @@ public class Main {
             new VideogamesPublisherQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.GAMES_GENRE)) {
+            new VideogamesGenreQuestion("en");
+            new VideogamesGenreQuestion("es");
+        }
+
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.GAMES_COUNTRY)) {
+            new VideogamesCountryQuestion("en");
+            new VideogamesCountryQuestion("es");
+        }
+
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.BASKETBALL_VENUE)) {
+            new BasketballVenueQuestion("en");
+            new BasketballVenueQuestion("es");
+        }
+
 
         // IMAGES
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {
@@ -37,9 +50,13 @@ public class Main {
             new PaintingQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.WTPOKEMON)) {
+            new WhosThatPokemonQuestion("en");
+            new WhosThatPokemonQuestion("es");
+        }
 
         /*
-        // VIDEOS
+        // VIDEOS not yet supported
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.SONG.toString())) {
             new SongQuestion("en");
             new SongQuestion("es");

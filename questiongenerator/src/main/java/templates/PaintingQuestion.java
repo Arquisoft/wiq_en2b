@@ -2,12 +2,14 @@ package templates;
 
 import model.*;
 import org.json.JSONObject;
-import repositories.GeneralRepositoryStorer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PaintingQuestion extends QuestionTemplate {
+
+    private static final String[] spanishStringsIni = {"¿Cómo se llama este cuadro?", "¿Cuál es este cuadro?", "¿Qué pintura es esta?", "¿Cuál es el nombre de este cuadro?"};
+    private static final String[] englishStringsIni= {"What is the name of this painting?", "Which painting is this?", "What painting is this?", "How's this painting called?"};
 
     List<String> paintingLabels;
 
@@ -50,7 +52,7 @@ public class PaintingQuestion extends QuestionTemplate {
             JSONObject imageObject = result.getJSONObject("image");
             String imageLink = imageObject.getString("value");
 
-            if (needToSkip(paintingLabel))
+            if (needToSkip(paintingLabel, imageLink))
                 continue;
 
             String answerText = "";
@@ -62,32 +64,29 @@ public class PaintingQuestion extends QuestionTemplate {
             Answer a = new Answer(answerText, AnswerCategory.PAINTING, langCode);
             answers.add(a);
 
+            imageLink = imageLink.replace("http://", "https://");
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es este cuadro?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
+                questions.add(new Question(a, spanishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which painting is this?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
+                questions.add(new Question(a, englishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.ART, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));
         repository.saveAll(new ArrayList<>(questions));
     }
 
-    private boolean needToSkip(String paintingLabel) {
+    private boolean needToSkip(String paintingLabel, String imageLink) {
         if (paintingLabels.contains(paintingLabel)) {
             return true;
         }
         paintingLabels.add(paintingLabel);
 
-        boolean isEntityName = true; // Check if it is like Q232334
-        if (paintingLabel.startsWith("Q") ){
-            for (int i=1; i<paintingLabel.length(); i++){
-                if (!Character.isDigit(paintingLabel.charAt(i))){
-                    isEntityName = false;
-                }
-            }
-            if (isEntityName){
-                return true;
-            }
+        if (QGHelper.isEntityName(paintingLabel)){
+            return true;
+        }
+
+        if (QGHelper.notAllowedExtension(imageLink)){
+            return true;
         }
 
         return false;

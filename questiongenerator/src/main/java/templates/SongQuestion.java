@@ -8,6 +8,9 @@ import java.util.List;
 
 public class SongQuestion extends QuestionTemplate {
 
+    private static final String[] spanishStringsIni = {"¿Cómo se llama esta canción?", "¿Cuál es esta canción?", "¿Qué canción es esta?", "¿Cómo se llama esta canción?"};
+    private static final String[] englishStringsIni= {"What is the name of this song?", "Which song is this?", "What song is this?", "What is the name of this song?"};
+
     List<String> songLabels;
 
     public SongQuestion(String langCode) {
@@ -59,9 +62,9 @@ public class SongQuestion extends QuestionTemplate {
             answers.add(a);
 
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es esta canción? " + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
+                questions.add(new Question(a, spanishStringsIni[i%4] + QGHelper.LINKCONCAT + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
             else
-                questions.add(new Question(a, "Which song is this? " + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
+                questions.add(new Question(a, englishStringsIni[i%4] + QGHelper.LINKCONCAT + musicVideoLink, QuestionCategory.MUSIC, QuestionType.AUDIO));
         }
 
         repository.saveAll(new ArrayList<>(answers));
@@ -73,6 +76,10 @@ public class SongQuestion extends QuestionTemplate {
             return true;
         }
         songLabels.add(songLabel);
+
+        if (QGHelper.isEntityName(songLabel)){
+            return true;
+        }
 
         return false;
     }

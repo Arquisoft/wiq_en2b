@@ -2,12 +2,14 @@ package templates;
 
 import model.*;
 import org.json.JSONObject;
-import repositories.GeneralRepositoryStorer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StadiumQuestion extends QuestionTemplate {
+
+    private static final String[] spanishStringsIni = {"¿Cómo se llama este estadio?", "¿Cuál es el nombre de este estadio?", "¿Cuál es este estadio?", "¿Con qué nombre se conoce a este estadio?"};
+    private static final String[] englishStringsIni= {"What is the name of this stadium?", "How's this stadium called", "Which stadium is this?", "How do they call this stadium?"};
 
     List<String> stadiumLabels;
 
@@ -33,6 +35,10 @@ public class StadiumQuestion extends QuestionTemplate {
 
     @Override
     public void processResults() {
+
+        System.out.println("Processing Stadiums");
+        System.out.println(results.toString());
+
         stadiumLabels = new ArrayList<>();
         List<Question> questions = new ArrayList<>();
         List<Answer> answers = new ArrayList<>();
@@ -48,39 +54,35 @@ public class StadiumQuestion extends QuestionTemplate {
             JSONObject imageObject = result.getJSONObject("image");
             String imageLink = imageObject.getString("value");
 
-            if (needToSkip(stadiumLabel))
+            if (needToSkip(stadiumLabel, imageLink))
                 continue;
 
 
             Answer a = new Answer(stadiumLabel, AnswerCategory.STADIUM, langCode);
             answers.add(a);
 
+            imageLink = imageLink.replace("http://", "https://");
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es este estadio?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, spanishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
             else
-                questions.add(new Question(a, "Which stadium is this?" + GeneralRepositoryStorer.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
+                questions.add(new Question(a, englishStringsIni[i%4] + QGHelper.LINKCONCAT + imageLink, QuestionCategory.SPORTS, QuestionType.IMAGE));
         }
 
         repository.saveAll(new ArrayList<>(answers));
         repository.saveAll(new ArrayList<>(questions));
     }
 
-    private boolean needToSkip(String stadiumLabel) {
+    private boolean needToSkip(String stadiumLabel, String imageLink) {
         if (stadiumLabels.contains(stadiumLabel)) {
             return true;
         }
         stadiumLabels.add(stadiumLabel);
 
-        boolean isEntityName = true; // Check if it is like Q232334
-        if (stadiumLabel.startsWith("Q") ){
-            for (int i=1; i<stadiumLabel.length(); i++){
-                if (!Character.isDigit(stadiumLabel.charAt(i))){
-                    isEntityName = false;
-                }
-            }
-            if (isEntityName){
-                return true;
-            }
+        if (QGHelper.notAllowedExtension(imageLink)){
+            return true;
+        }
+        if (QGHelper.isEntityName(stadiumLabel)){
+            return true;
         }
 
         return false;

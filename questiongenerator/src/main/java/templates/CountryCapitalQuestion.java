@@ -6,7 +6,6 @@ import model.Answer;
 import model.AnswerCategory;
 import model.Question;
 import org.json.JSONObject;
-import repositories.Storable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,12 @@ import java.util.List;
  * Implementation for a question where the capital of a country is asked and all the capitals are returned.
  */
 public class CountryCapitalQuestion extends QuestionTemplate {
+
+    private static final String[] spanishStringsIni = {"¿Cuál es la capital de ", "¿Dónde se encuentra la capital de ", "¿Qué ciudad es la capital de ", "¿Cuál es la ciudad capital de "};
+    private static final String[] englishStringsIni= {"What is the capital of ", "Where is the capital of ", "Which city is the capital of ", "What is the capital city of "};
+
+    private static final String[] spanishStringsFin = {"?", "?", "?", "?"};
+    private static final String[] englishStringsFin = {"?", "?", "?", "?"};
 
     /**
      * Only need to invoke the constructor, and it will automatically do the HTTP request and the response recovery.
@@ -57,11 +62,16 @@ public class CountryCapitalQuestion extends QuestionTemplate {
             Answer a = new Answer(capitalLabel, AnswerCategory.CAPITAL_CITY, langCode);
             answers.add(a);
 
+            String questionString = "";
+
+
             //Saving the question
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Cuál es la capital de " + countryLabel + "?", QuestionCategory.GEOGRAPHY, QuestionType.TEXT));
+                questionString = spanishStringsIni[i%4] + countryLabel + spanishStringsFin[i%4];
             else
-                questions.add(new Question(a, "What is the capital of " + countryLabel + "?", QuestionCategory.GEOGRAPHY, QuestionType.TEXT));
+                questionString = englishStringsIni[i%4] + countryLabel + englishStringsFin[i%4];
+
+            questions.add(new Question(a, questionString, QuestionCategory.GEOGRAPHY, QuestionType.TEXT));
         }
 
         repository.saveAll(new ArrayList<>(answers));

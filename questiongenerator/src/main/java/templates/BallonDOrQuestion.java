@@ -8,6 +8,12 @@ import java.util.List;
 
 public class BallonDOrQuestion extends QuestionTemplate {
 
+    private static final String[] spanishStringsIni = {"¿Quién ganó el Balón de Oro en ", "¿Quién fue el ganador del Balón de Oro en ", "¿Quién obtuvo el Balón de Oro en ", "¿Quién se llevó el Balón de Oro en "};
+    private static final String[] englishStringsIni= {"Who won the Ballon d'Or in ", "Who was the winner of the Ballon d'Or in ", "Who got the Ballon d'Or in ", "Who was given the Ballon d'Or in "};
+
+    private static final String[] spanishStringsFin = {"?", "?", "?", "?"};
+    private static final String[] englishStringsFin = {"?", "?", "?", "?"};
+
     /**
      * It is not necessary to specify the language code for this question
      * @param langCode IGNORED, spanish and english languages are generated at the same time
@@ -41,17 +47,19 @@ public class BallonDOrQuestion extends QuestionTemplate {
             if (needToSkip(playerLabel, year))
                 continue;
 
+
             // EXCEPTION FOR THIS TYPE OF QUESTION
             // English
             Answer a = new Answer(playerLabel, AnswerCategory.BALLON_DOR, "en");
             answers.add(a);
-            questions.add(new Question(a, "Who won the Ballon d'Or in " + year + "?", QuestionCategory.SPORTS, QuestionType.TEXT));
+
+            questions.add(new Question(a, englishStringsIni[i%4] + year + englishStringsFin[i%4], QuestionCategory.SPORTS, QuestionType.TEXT));
 
             // Spanish
             a = new Answer(playerLabel, AnswerCategory.BALLON_DOR, "es");
             answers.add(a);
-            questions.add(new Question(a, "¿Quién ganó el Balón de Oro en " + year + "?", QuestionCategory.SPORTS, QuestionType.TEXT));
 
+            questions.add(new Question(a, spanishStringsIni[i%4] + year + spanishStringsFin[i%4], QuestionCategory.SPORTS, QuestionType.TEXT));
         }
 
         repository.saveAll(new ArrayList<>(answers));
