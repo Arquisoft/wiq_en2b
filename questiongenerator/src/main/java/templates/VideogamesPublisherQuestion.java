@@ -44,7 +44,7 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
         List<Question> questions = new ArrayList<>();
         List<Answer> answers = new ArrayList<>();
 
-        for (int i = 0; i < results.length()-10; i++) {
+        for (int i = 0; i < results.length(); i++) {
 
             JSONObject result = results.getJSONObject(i);
 
