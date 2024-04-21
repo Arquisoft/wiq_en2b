@@ -29,7 +29,7 @@ public class VideogamesCountryQuestion extends QuestionTemplate {
                 "  OPTIONAL {\n" +
                 "    ?game wdt:P495 ?countryItem. " +
                 "    ?countryItem rdfs:label ?countryLabel. " +
-                "    FILTER(LANG(?countryLabel) IN (\"en\", \"es\")) " +
+                "    FILTER(LANG(?countryLabel) IN (\"" + langCode + "\")) " +
                 "  } " +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"" + langCode + "\". } " +
                 "} " +
