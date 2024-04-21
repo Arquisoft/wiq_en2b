@@ -70,10 +70,8 @@ export default function Game() {
     };
 
     const startNewRound = useCallback(async (gameId, startsGame) => {
-        console.log(`pepe desde fuera ${startsGame} y ${hasAnswered}`)
         if (hasAnswered || startsGame) {
             try{
-                console.log("pepe")
                 const result = await startRound(gameId);
                 setTimeStartRound(new Date(result.data.round_start_time).getTime());
                 setRoundNumber(result.data.actual_round )
@@ -168,7 +166,6 @@ export default function Game() {
 
     useEffect(() => {
         let timeout;
-        console.log(timeElapsed >= roundDuration && timeStartRound !== -1);
         if (timeElapsed >= roundDuration && timeStartRound !== -1) {
             timeout = setTimeout(() => {
                 setHasAnswered(true);
