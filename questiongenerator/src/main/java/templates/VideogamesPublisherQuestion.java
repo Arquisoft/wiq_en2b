@@ -9,6 +9,12 @@ import java.util.List;
 public class VideogamesPublisherQuestion extends QuestionTemplate {
     List<String> videoGameLabels;
 
+    private static final String[] spanishStringsIni = {"¿Que compañía publicó ", "¿Quién publicó ", "¿Qué empresa publicó ", "¿Quién fue el publicador de "};
+    private static final String[] englishStringsIni= {"Who published ", "What company published ", "Who was the publisher of ", "Which company published "};
+
+    private static final String[] spanishStringsFin = {"?", "?", "?", "?"};
+    private static final String[] englishStringsFin = {"?", "?", "?", "?"};
+
     public VideogamesPublisherQuestion(String langCode) {
         super(langCode);
     }
@@ -38,7 +44,7 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
         List<Question> questions = new ArrayList<>();
         List<Answer> answers = new ArrayList<>();
 
-        for (int i = 0; i < results.length()-10; i++) {
+        for (int i = 0; i < results.length(); i++) {
 
             JSONObject result = results.getJSONObject(i);
 
@@ -61,10 +67,15 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
             Answer a = new Answer(publisherLabel, AnswerCategory.GAMES_PUBLISHER, langCode);
             answers.add(a);
 
+
+            String questionString = "";
+
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Qué compañía publicó " + videoGameLabel + "?", QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
+                questionString = spanishStringsIni[i%4] + videoGameLabel + spanishStringsFin[i%4];
             else
-                questions.add(new Question(a, "Who published " + videoGameLabel + "?", QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
+                questionString = englishStringsIni[i%4] + videoGameLabel + englishStringsFin[i%4];
+
+            questions.add(new Question(a, questionString, QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
         }
 
         repository.saveAll(new ArrayList<>(answers));
@@ -77,29 +88,9 @@ public class VideogamesPublisherQuestion extends QuestionTemplate {
         }
         videoGameLabels.add(videoGameLabel);
 
-        boolean isEntityName = isEntityName(videoGameLabel);
-        if (isEntityName){
+        if (QGHelper.isEntityName(videoGameLabel) || QGHelper.isEntityName(publisherLabel))
             return true;
-        }
-        isEntityName = isEntityName(publisherLabel);
-        if (isEntityName){
-            return true;
-        }
-        return false;
-    }
 
-    private boolean isEntityName(String label){
-        boolean isEntityName = true; // Check if it is like Q232334
-        if (label.startsWith("Q") ){
-            for (int i=1; i<label.length(); i++){
-                if (!Character.isDigit(label.charAt(i))){
-                    isEntityName = false;
-                }
-            }
-            if (isEntityName){
-                return true;
-            }
-        }
         return false;
     }
 }

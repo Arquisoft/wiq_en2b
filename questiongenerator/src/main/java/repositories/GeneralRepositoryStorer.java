@@ -14,8 +14,6 @@ import java.util.List;
  */
 public class GeneralRepositoryStorer {
 
-    public static final String LINKCONCAT = "#* &%";
-
     public void saveAll(List<Storable> storableList) {
         EntityManagerFactory emf = Jpa.getEntityManagerFactory();
         EntityManager entityManager = emf.createEntityManager();
