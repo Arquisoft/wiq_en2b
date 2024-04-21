@@ -96,8 +96,8 @@ export default function Game() {
 
     const nextRound = useCallback(async () => {
         if (roundNumber + 1 > maxRoundNumber) {
-            await getGameDetails(gameId);
-            navigate("/dashboard/game/results", { state: { correctAnswers: correctAnswers } });
+            let gameDetails = (await getGameDetails(gameId)).data;
+            navigate("/dashboard/game/results", { state: { correctAnswers: gameDetails.correctly_answered_questions } });
         } else {
             setAnswer({});
             setHasImage(false);
