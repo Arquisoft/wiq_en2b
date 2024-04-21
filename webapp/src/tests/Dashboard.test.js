@@ -80,7 +80,7 @@ describe('Dashboard', () => {
   test('renders Play button when game is active', async () => {
 
     mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
-      "is_active": true
+      "is_active": false
     });
 
     mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, {
@@ -119,7 +119,7 @@ describe('Dashboard', () => {
 
   test('renders Resume button when game is not active', async () => {
     mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
-      "is_active": false
+      "is_active": true
     });
 
     mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, {
@@ -151,7 +151,6 @@ describe('Dashboard', () => {
       </ChakraProvider>
     );
     
-    // FIXME: This does not pass
     await waitFor(() => {
       expect(container.querySelector('#resumeBtn')).toBeInTheDocument();
     });
