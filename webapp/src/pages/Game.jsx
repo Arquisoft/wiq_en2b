@@ -198,7 +198,7 @@ export default function Game() {
             </CircularProgress>
             {
                 (!loading && hasImage) && <Flex maxH={"40vh"} 
-                                            maxW={"40vh"} justify={"center"}>
+                                            maxW={"40vw"} justify={"center"}>
                 <Image src={question.image} alt={t("game.image")}></Image>
                 </Flex>
             }
