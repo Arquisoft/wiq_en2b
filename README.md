@@ -49,3 +49,7 @@ Webapp | `webapp/` | Our own frontend to the backend. It is implemented in React
 ***
 
 Both the backend/API and the question generator use PostgreSQL.
+
+## Deploying the application
+
+Want to deploy the application? Check out [our quickstart guide](./Quickstart.md).
