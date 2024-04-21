@@ -60,8 +60,8 @@ export default function Dashboard() {
 
     useEffect(() => {
       async function checkActiveStatus() {
-          const active = await isActive();
-          setActive(active);
+          const i = await isActive();
+          setActive(i.data.is_active);
       }
       checkActiveStatus();
   }, []);
@@ -126,7 +126,7 @@ export default function Dashboard() {
                   </TabList>
                   <TabPanels>
                     <TabPanel>
-                    {active && (
+                    {!active && (
                       <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
                         {modes.length > 0 && modes.map(mode => (
                           <Button
@@ -167,7 +167,7 @@ export default function Dashboard() {
                   </TabPanels>
                 </Tabs>
                 <Flex justify="center">
-                  {active && (
+                  {!active ? (
                     <Button  
                       type="submit" 
                       data-testid={"Play"} 
@@ -183,8 +183,7 @@ export default function Dashboard() {
                     >
                       {t("common.play")}
                     </Button>
-                  )}
-                  {!active && (
+                  ) : (
                       <Button  
                         type="submit" 
                         data-testid={"Resume"} 
