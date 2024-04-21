@@ -77,6 +77,10 @@ public class SongQuestion extends QuestionTemplate {
         }
         songLabels.add(songLabel);
 
+        if (QGHelper.isEntityName(songLabel)){
+            return true;
+        }
+
         return false;
     }
 }

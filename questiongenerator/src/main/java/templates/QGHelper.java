@@ -1,8 +1,8 @@
 package templates;
 
 public class QGHelper {
-    public final static String LINKCONCAT = "%& #";
-    public final static String[] allowedExtensions = {"png", "jpg", "jpeg", "gif"};
+    public final static String LINKCONCAT = "#* &%";
+    public final static String[] allowedExtensions = {"png", "jpg", "jpeg", "gif", "svg"};
 
     private QGHelper() {
     }

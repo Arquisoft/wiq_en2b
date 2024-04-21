@@ -81,6 +81,9 @@ public class StadiumQuestion extends QuestionTemplate {
         if (QGHelper.notAllowedExtension(imageLink)){
             return true;
         }
+        if (QGHelper.isEntityName(stadiumLabel)){
+            return true;
+        }
 
         return false;
     }
