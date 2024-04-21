@@ -52,7 +52,7 @@ followed by
 npm start
 ```
 
-After all the components are launched, the app should be available in localhost in port 3000.
+After all the components are launched, the app should be available in localhost in port 3000 and 8443 for the API, or whatever port configure the app to use.
 
 ## Deployment
 
@@ -70,7 +70,7 @@ The machine for deployment can be created in services like Microsoft Azure or Am
 
 - Linux machine with Ubuntu >= 20.04.
 - Docker and docker-compose installed.
-- Open ports for the applications installed (in this case, ports 3000 for the webapp and 8000 for the gateway service).
+- Open ports for the applications installed (in this case, ports 3000 for the webapp and 8443 for the API, or whatever port configure the app to use).
 
 Once you have the virtual machine created, you can install **docker** and **docker-compose** using the following instructions:
 
