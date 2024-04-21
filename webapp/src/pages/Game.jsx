@@ -102,7 +102,7 @@ export default function Game() {
             setNextDisabled(true);
             await startNewRound(gameId);
         }
-    }, [navigate, setAnswer, setNextDisabled, startNewRound, correctAnswers, 
+    }, [navigate, setAnswer, setNextDisabled, startNewRound,
         gameId, maxRoundNumber, roundNumber]);
 
     const nextButtonClick = async () => {
