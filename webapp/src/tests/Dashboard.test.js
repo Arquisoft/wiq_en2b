@@ -196,5 +196,71 @@ describe('Dashboard', () => {
       expect(mockAxios.history.post.length).toBeGreaterThan(0);
     });
   });
+  
+  test('fetches user data and game modes on component mount', async () => {
+    mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
+      "is_active": true
+    });
 
+    mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, [
+      {
+        name: "KiWiQ",
+        description: "Test description of the game mode",
+        internal_representation: "KIWIQ_QUEST",
+        icon_name: "FaKiwiBird"
+      }
+    ]);
+
+    mockAxios.onGet(`${api}/users/details`).reply(HttpStatusCode.Ok, {
+      id: 1,
+      username: 'testUser',
+      email: 'test@example.com'
+    });
+
+    const {container} = render(
+      <ChakraProvider theme={theme}>
+        <MemoryRouter>
+          <Dashboard />
+        </MemoryRouter>
+      </ChakraProvider>
+    );
+
+    await waitFor(() => {
+      expect(mockAxios.history.get.length).toBe(3);
+    });
+  });
+
+  test('initializes a new game when Play button is clicked', async () => {
+    mockAxios.onGet(`${api}/games/is-active`).reply(HttpStatusCode.Ok, {
+      "is_active": false
+    });
+
+    mockAxios.onGet(`${api}/games/gamemodes`).reply(HttpStatusCode.Ok, [
+      {
+        name: "KiWiQ",
+        description: "Test description of the game mode",
+        internal_representation: "KIWIQ_QUEST",
+        icon_name: "FaKiwiBird"
+      }
+    ]);
+
+    mockAxios.onGet(`${api}/users/details`).reply(HttpStatusCode.Ok, {
+      id: 1,
+      username: 'testUser',
+      email: 'test@example.com'
+    });
+
+    const {container} = render(
+      <ChakraProvider theme={theme}>
+        <MemoryRouter>
+          <Dashboard />
+        </MemoryRouter>
+      </ChakraProvider>
+    );
+
+    await waitFor(() => {
+      fireEvent.click(container.querySelector("#play"));
+      expect(mockAxios.history.post.length).toBeGreaterThan(0);
+    });
+  });
 });
