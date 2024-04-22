@@ -202,19 +202,20 @@ export default function Game() {
                 </Flex>
             }
             <Box bg="white" p={"4 0.5"} borderRadius="md" boxShadow="md" mt={4} mb={4} w={["80%", "60%"]} shadow="2xl" rounded="1rem" alignItems="center">
-                {loading ? (
+                {(question === null) ? (
                     <Spinner
                         thickness='4px'
                         speed='0.65s'
                         emptyColor='gray.200'
                         color='green.500'
                         size='xl'
+                        data-testid={"spinner"}
                     />
                 ) : <> 
-                        <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"} textAlign={"center"}>{question.content}</Text>
+                        <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"} id={"question"} textAlign={"center"}>{question.content}</Text>
                         <Flex flexWrap={"wrap"} gap={4} mb={4} justify={"center"}>
                             {question.answers.map((answer, index) => (
-                                <Button
+                                <Button className={"question-answer"}
                                     key={index}
                                     data-testid={`Option${index + 1}`}
                                     variant={selectedOption === index ? "solid" : "outline"}
@@ -223,7 +224,7 @@ export default function Game() {
                                     fontSize={["0.85em", "1em"]} display={"flex"}
                                     style={{ backgroundColor: selectedOption === index ? "green" : "white", color: selectedOption === index ? "white" : "green" }}
                                 >
-                                    <Text noOfLines={[1,2,3]}>{answer.text}</Text>
+                                    {answer.text}
                                 </Button>
                             ))}
                         </Flex>
@@ -236,7 +237,7 @@ export default function Game() {
                         </Flex>
 
                         {showConfetti && (
-                            <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} />
+                            <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={200} data-testid={"confetti"} />
                         )}
                     </>
                 }
