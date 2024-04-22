@@ -40,11 +40,11 @@
         "login-send": "Your email or password are not found in our database",
         "validation": {
             "type": "Validation Error: ",
-            "message": "Incorrect data"
+            "message": "Invalid email format"
         },
         "conflict": {
             "type": "Conflict Error: ",
-            "message": "User already exists"
+            "message": "Invalid email format or credentials (username or email) already in use"
         },
         "unknown": {
             "type": "Unknown Error",
@@ -52,7 +52,7 @@
         },
         "authorized": {
             "type": "Authorization Error: ",
-            "message": "Incorrect password"
+            "message": "Invalid email or password, check for them to be correct"
         }
     },
     "rules": {
