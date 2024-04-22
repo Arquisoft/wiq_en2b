@@ -117,5 +117,7 @@ const theme = extendTheme({
             }
         },
     },
+    initialColorMode: 'system',
+    useSystemColorMode: true,
 });
 export default theme;

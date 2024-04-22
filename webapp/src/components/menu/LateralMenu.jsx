@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Box, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Select, Button, Text, IconButton, Flex, Image } from '@chakra-ui/react';
+import { Box, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Select, Button, Text, IconButton, Flex, Image, useColorMode } from '@chakra-ui/react';
 import { FaChartBar, FaBook, FaTachometerAlt } from 'react-icons/fa';
-import { InfoIcon, SettingsIcon } from '@chakra-ui/icons';
+import { InfoIcon, SettingsIcon, SunIcon, MoonIcon } from '@chakra-ui/icons';
 
 import AuthManager from "components/auth/AuthManager";
 
@@ -13,6 +13,7 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { t, i18n } = useTranslation();
+    const { colorMode, toggleColorMode } = useColorMode();
 
     useEffect(() => {
         checkIsLoggedIn();
@@ -55,6 +56,9 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
                     <Flex align="center">
                         <Image src="/kiwiq-icon.ico" alt="App icon" width="80px" height="80px"/>
                         <DrawerHeader color={"forest_green.500"}>KIWIQ</DrawerHeader>
+                        {
+                            colorMode === "light" ? <IconButton colorScheme={"forest_green"} onClick={toggleColorMode} icon={<MoonIcon />} aria-label={'DarkMode'} /> : <IconButton colorScheme={"forest_green"} onClick={toggleColorMode} icon={<SunIcon />} aria-label={'LightMode'} />
+                        }
                     </Flex>
                     <DrawerBody>
                         <Box flexDirection="column">
