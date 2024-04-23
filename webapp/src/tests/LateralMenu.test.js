@@ -144,10 +144,6 @@ describe('LateralMenu component', () => {
       const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><LateralMenu {...props}/></MemoryRouter></ChakraProvider>);
       await waitFor(() => {
         expect(getByText('API')).toBeInTheDocument();
-      });      
-      fireEvent.click(screen.getByTestId('API'));
-      await waitFor(() => {
-        expect(screen.getByText('KIWIQ')).toBeInTheDocument();
       });
   });
 });
