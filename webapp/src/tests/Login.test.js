@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router';
 import Login from '../pages/Login';
@@ -8,7 +8,6 @@ import MockAdapter from 'axios-mock-adapter';
 import { HttpStatusCode } from 'axios';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
-import Signup from 'pages/Signup';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -81,6 +80,34 @@ describe('Login Component', () => {
   
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(loginButton);
+  
+    await waitFor(() => {
+      expect(getByTestId('error-message')).toBeInTheDocument();
+    });
+  });
+
+  it('renders button "GoBack"', () => {
+    const { getByTestId } = render(
+      <ChakraProvider theme={theme}>
+        <MemoryRouter initialEntries={['/signup']}>
+          <Login />
+        </MemoryRouter>
+      </ChakraProvider>
+    );
+    const goBackButton = getByTestId('GoBack');
+    expect(goBackButton).toBeInTheDocument();
+  });
+
+  it('displays error message on failed format login attempt', async () => {
+    mockAxios.onPost().replyOnce(HttpStatusCode.BadRequest);
+    const { getByPlaceholderText, getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Login /></MemoryRouter></ChakraProvider>);
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
+    const loginButton = getByTestId('Login');
+  
+    fireEvent.change(emailInput, { target: { value: 'test' } });
+    fireEvent.change(passwordInput, { target: { value: 'test' } });
     fireEvent.click(loginButton);
   
     await waitFor(() => {
