@@ -114,4 +114,20 @@ describe('Login Component', () => {
       expect(getByTestId('error-message')).toBeInTheDocument();
     });
   });
+
+  it('displays error message on unauthorized login attempt', async () => {
+    mockAxios.onPost().replyOnce(HttpStatusCode.Unauthorized);
+    const { getByPlaceholderText, getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Login /></MemoryRouter></ChakraProvider>);
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
+    const loginButton = getByTestId('Login');
+  
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'test' } });
+    fireEvent.click(loginButton);
+  
+    await waitFor(() => {
+      expect(getByTestId('error-message')).toBeInTheDocument();
+    });
+  });
 });
