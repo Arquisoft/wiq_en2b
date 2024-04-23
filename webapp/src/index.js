@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import router from 'components/Router';
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import "./i18n";
 import theme from "./styles/theme";
 
@@ -13,7 +13,6 @@ const browserRouter = createBrowserRouter(router);
 
 root.render(
   <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <RouterProvider router={browserRouter} />
   </ChakraProvider>
 );
