@@ -46,9 +46,24 @@ export default function Login() {
             "password": password
         };
         try {
-            await new AuthManager().login(loginData, navigateToDashboard, setErrorMessage);
+            await new AuthManager().login(loginData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
-            setErrorMessage("Error desconocido");
+            const message = { type: t("error.login"), message: t("error.login-desc")};
+            setErrorMessage(message);
+        }
+    }
+
+    const setLocalizedErrorMessage = (error) => {
+        switch (error.response.status) {
+            case 400:
+                setErrorMessage({ type: t("error.validation.type"), message: t("error.validation.message")});
+                break;
+            case 401:
+                setErrorMessage({ type: t("error.authorized.type"), message: t("error.authorized.message")});
+                break;
+            default:
+                setErrorMessage({ type: t("error.login"), message: t("error.login-desc")});
+                break;
         }
     }
 
