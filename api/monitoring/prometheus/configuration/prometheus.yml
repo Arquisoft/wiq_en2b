@@ -4,6 +4,6 @@ scrape_configs:
     scrape_interval: 10s
     scheme: https
     static_configs:
-      - targets: ['<%= ENV["API_URI"] %>']
+      - targets: ['kiwiq.run.place:8443']
         labels:
           application: 'WIQ API'
