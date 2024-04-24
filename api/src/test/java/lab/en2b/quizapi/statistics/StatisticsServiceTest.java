@@ -1,7 +1,6 @@
 package lab.en2b.quizapi.statistics;
 
 import ch.qos.logback.core.util.TimeUtil;
-import jakarta.validation.constraints.AssertFalse;
 import lab.en2b.quizapi.commons.user.User;
 import lab.en2b.quizapi.commons.user.dtos.UserResponseDto;
 import lab.en2b.quizapi.commons.user.UserService;
@@ -23,7 +22,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,9 +37,6 @@ public class StatisticsServiceTest {
 
     @Mock
     private StatisticsRepository statisticsRepository;
-
-    @Mock
-    private Authentication authentication;
 
     @Mock
     private GameRepository gameRepository;

@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.util.List;
 
+@SuppressWarnings("java:S1068")
 @Entity
 @Table(name = "answers")
 @NoArgsConstructor
