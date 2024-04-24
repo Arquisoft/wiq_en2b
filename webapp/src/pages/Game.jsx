@@ -56,7 +56,6 @@ export default function Game() {
             if (error.response.status === HttpStatusCode.Conflict) {
                 throw error;
             } else {
-                console.error("Error fetching question:", error);
                 navigate("/dashboard");
             }
         }
