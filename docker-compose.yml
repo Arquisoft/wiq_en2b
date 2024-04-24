@@ -117,7 +117,7 @@
         - "9091:9091"
       environment:
         - GF_SERVER_HTTP_PORT=9091
-        - GF_AUTH_DISABLE_LOGIN_FORM=true
+        #- GF_AUTH_DISABLE_LOGIN_FORM=true
       depends_on:
         - prometheus  
   volumes:
