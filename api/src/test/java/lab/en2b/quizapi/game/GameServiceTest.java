@@ -476,4 +476,24 @@ public class GameServiceTest {
         assertFalse(gameService.getQuestionGameModes().isEmpty());
     }
 
+    @Test
+    public void testGameSetQuestionCategoriesInvalidGameMode(){
+        Game g = new Game();
+        g.setGameMode(GameMode.KIWI_QUEST);
+        assertThrows(IllegalStateException.class, () -> g.setQuestionCategoriesForCustom(List.of(QuestionCategory.GEOGRAPHY)));
+    }
+    @Test
+    public void testGameSetQuestionCategoriesInvalidNullCategories(){
+        Game g = new Game();
+        g.setGameMode(GameMode.CUSTOM);
+        assertThrows(IllegalArgumentException.class, () -> g.setQuestionCategoriesForCustom(null));
+    }
+    @Test
+    public void testGameSetQuestionCategoriesInvalidEmptyCategories(){
+        Game g = new Game();
+        g.setGameMode(null);
+        g.setGameMode(GameMode.CUSTOM);
+        List<QuestionCategory> qc = new ArrayList<>();
+        assertThrows(IllegalArgumentException.class, () -> g.setQuestionCategoriesForCustom(qc));
+    }
 }
