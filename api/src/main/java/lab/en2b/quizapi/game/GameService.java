@@ -4,7 +4,6 @@ import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.utils.GameModeUtils;
 import lab.en2b.quizapi.game.dtos.*;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
-import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import lab.en2b.quizapi.questions.question.dtos.QuestionCategoryDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -16,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
