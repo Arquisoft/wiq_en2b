@@ -95,6 +95,9 @@
         - "9090:9090"
       networks:
         mynetwork:
+      environment:
+        - API_URI=${API_URI}
+
       volumes:
         - prometheus_data:/prometheus
         - /certs:/etc/letsencrypt/kiwiq.run.place:ro
