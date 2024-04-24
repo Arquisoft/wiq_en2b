@@ -7,4 +7,4 @@ COPY ./configuration /etc/prometheus
 EXPOSE 9090
 
 # Run Prometheus in the foreground
-CMD ["prometheus"]
+CMD ["--config.file=/etc/prometheus/prometheus.yml"]
