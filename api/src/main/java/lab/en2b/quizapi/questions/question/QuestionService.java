@@ -84,13 +84,13 @@ public class QuestionService {
 
     private List<QuestionResponseDto> getPage(List<QuestionResponseDto> result, Long page) {
         try{
-            int QUESTION_PAGE_SIZE = 100;
-            int startIndex = Math.toIntExact((page-1)* QUESTION_PAGE_SIZE);
+            int questionPageSize = 100;
+            int startIndex = Math.toIntExact((page-1)* questionPageSize);
             if(startIndex > result.size())
-                throw new IllegalArgumentException("Invalid page number, maximum page is "+(result.size()/ QUESTION_PAGE_SIZE +1) + " and you requested page "+page);
-            if (result.size() < page* QUESTION_PAGE_SIZE)
+                throw new IllegalArgumentException("Invalid page number, maximum page is "+(result.size()/ questionPageSize +1) + " and you requested page "+page);
+            if (result.size() < page* questionPageSize)
                 return result.subList(startIndex,result.size());
-            return result.subList(startIndex, Math.toIntExact(page* QUESTION_PAGE_SIZE));
+            return result.subList(startIndex, Math.toIntExact(page* questionPageSize));
         } catch (ArithmeticException e) {
             throw new IllegalArgumentException("Invalid page number");
         }
@@ -101,7 +101,6 @@ public class QuestionService {
      * Load the answers for a question (The distractors and the correct one)
      * @param question The question to load the answers for
      */
-    //TODO: CHAPUZAS, FIXEAR ESTO
     private void loadAnswers(Question question) {
         // Create the new answers list with the distractors
         if(question.getAnswers().size() > 1) {
