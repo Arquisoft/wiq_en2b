@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static lab.en2b.quizapi.game.GameMode.*;
-
+@SuppressWarnings("java:S1068")
 @Entity
 @Table(name = "games")
 @NoArgsConstructor

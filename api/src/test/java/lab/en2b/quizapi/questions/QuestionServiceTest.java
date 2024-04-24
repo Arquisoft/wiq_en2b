@@ -190,7 +190,6 @@ public class QuestionServiceTest {
     @Test
     void getQuestionsWithPageGreaterThanSize() {
         when(questionRepository.findAll()).thenReturn(List.of(defaultQuestion));
-
         assertThrows(IllegalArgumentException.class,() -> questionService.getQuestionsWithPage(2L));
     }
 
@@ -198,6 +197,13 @@ public class QuestionServiceTest {
     void getQuestionsWithPageNoQuestions() {
         when(questionRepository.findAll()).thenReturn(List.of());
         Assertions.assertEquals(questionService.getQuestionsWithPage(1L), List.of());
+    }
+
+    @Test
+    void getQuestionsWithPageTooBig() {
+        when(questionRepository.findAll()).thenReturn(List.of(defaultQuestion));
+        Assertions.assertThrows(IllegalArgumentException.class, () ->  questionService.getQuestionsWithPage(100000000L));
+
     }
 
 }

@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static lab.en2b.quizapi.commons.utils.TestUtils.asJsonString;

@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lab.en2b.quizapi.game.dtos.*;
-import lab.en2b.quizapi.questions.question.QuestionCategory;
 import lab.en2b.quizapi.questions.question.dtos.QuestionCategoryDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
 import lombok.RequiredArgsConstructor;
