@@ -11,22 +11,22 @@ const DashboardButton = ({ label, selectedButton, onClick, iconName }) => {
 
   switch (iconName) {
     case "FaKiwiBird":
-      icon = <FaKiwiBird style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+      icon = <FaKiwiBird data-testid={"FaKiwiBird"} style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
       break;
     case "IoIosFootball":
-      icon = <IoIosFootball style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+      icon = <IoIosFootball data-testid={"IoIosFootball"} style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
       break;
     case "FaGlobeAmericas":
-      icon = <TbWorld style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+      icon = <TbWorld data-testid={"FaGlobeAmericas"} style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
       break;
     case "IoLogoGameControllerB":
-      icon = <IoLogoGameControllerB style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+      icon = <IoLogoGameControllerB data-testid={"IoLogoGameControllerB"} style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
       break;
     case "FaPalette":
-      icon = <FaPalette style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+      icon = <FaPalette data-testid={"FaPalette"} style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
       break;
     case "FaRandom":
-      icon = <FaRandom style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
+      icon = <FaRandom data-testid={"FaRandom"} style={{ marginBottom: '0.5em', marginRight: '0.25em', fontSize: '1.8em' }} />;
       break;
     default:
       break;
