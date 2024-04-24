@@ -12,6 +12,8 @@ import java.util.List;
 @Component
 public class QuestionHelper {
 
+    private QuestionHelper(){} // To hide the implicit public constructor as this is static only
+
     private static final int MAX_DISTRACTORS = 3;
 
     public static List<Answer> getDistractors(AnswerRepository answerRepository, Question question){
