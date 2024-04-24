@@ -4,9 +4,14 @@ import { MemoryRouter } from 'react-router';
 import Signup from '../pages/Signup';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
-import MockAdapter from 'axios-mock-adapter';
 import AuthManager from 'components/auth/AuthManager';
 import { HttpStatusCode } from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => {
@@ -19,7 +24,16 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
+const authManager = new AuthManager();
+let mockAxios = new MockAdapter(authManager.getAxiosInstance());
+
 describe('Signup Component', () => {
+
+  beforeEach(() => {
+    authManager.reset();
+    jest.clearAllMocks();
+    mockAxios = new MockAdapter(authManager.getAxiosInstance());
+  });
 
   it('renders form elements correctly', () => {
     const { getByPlaceholderText } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
@@ -74,4 +88,35 @@ describe('Signup Component', () => {
     expect(confirmPasswordInput.value).toBe('newPassword');
   });
 
+  it('displays error message on failed register attempt', async () => {
+    mockAxios.onPost().replyOnce(HttpStatusCode.BadRequest);
+    const { getByPlaceholderText, getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
+    const registerButton = getByTestId('Sign up');
+  
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(registerButton);
+  
+    await waitFor(() => {
+      expect(getByTestId('error-message')).toBeInTheDocument();
+    });
+  });
+
+  it('displays error message on unauthorized register attempt', async () => {
+    mockAxios.onPost().replyOnce(HttpStatusCode.Unauthorized);
+    const { getByPlaceholderText, getByTestId } = render(<ChakraProvider theme={theme}><MemoryRouter><Signup /></MemoryRouter></ChakraProvider>);
+    const emailInput = getByPlaceholderText('session.email');
+    const passwordInput = getByPlaceholderText('session.password');
+    const registerButton = getByTestId('Sign up');
+  
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'test' } });
+    fireEvent.click(registerButton);
+  
+    await waitFor(() => {
+      expect(getByTestId('error-message')).toBeInTheDocument();
+    });
+  });
 });

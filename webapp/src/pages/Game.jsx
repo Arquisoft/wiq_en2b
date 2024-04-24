@@ -56,7 +56,6 @@ export default function Game() {
             if (error.response.status === HttpStatusCode.Conflict) {
                 throw error;
             } else {
-                console.error("Error fetching question:", error);
                 navigate("/dashboard");
             }
         }
@@ -150,7 +149,6 @@ export default function Game() {
                     navigate("/dashboard");
                 }
             } catch (error) {
-                console.error("Error initializing game:", error);
                 navigate("/dashboard");
             }
         };
@@ -198,7 +196,7 @@ export default function Game() {
             {
                 (!loading && hasImage) && <Flex maxH={"40vh"} 
                                             maxW={"40vw"} justify={"center"}>
-                <Image src={question.image} alt={t("game.image")}></Image>
+                <Image src={question.image} data-testid={"image"} alt={t("game.image")}></Image>
                 </Flex>
             }
             <Box bg="white" p={"4 0.5"} borderRadius="md" boxShadow="md" mt={4} mb={4} w={["80%", "60%"]} shadow="2xl" rounded="1rem" alignItems="center">

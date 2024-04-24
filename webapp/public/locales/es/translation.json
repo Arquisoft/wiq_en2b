@@ -40,11 +40,11 @@
         "login-send": "Tu email o contraseña no se encuentran en nuestra base de datos",
         "validation": {
             "type": "Error de Validación: ",
-            "message": "Datos incorrectos"
+            "message": "El formato del correo electrónico no es correcto"
         },
         "conflict": {
             "type": "Error de Conflicto: ",
-            "message": "El usuario ya existe"
+            "message": "Formato de correo electrónico no válido o credenciales (nombre de usuario o correo electrónico) ya en uso"
         },
         "unknown": {
             "type": "Error Desconocido",
@@ -52,7 +52,7 @@
         },
         "authorized": {
             "type": "Error de Autorización: ",
-            "message": "Contraseña incorrecta"
+            "message": "Correo electrónico o contraseña no válidos, verifique que sean correctos"
         }
     },
     "rules": {

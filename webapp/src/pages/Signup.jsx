@@ -41,20 +41,21 @@ export default function Signup() {
         try {
             await new AuthManager().register(registerData, navigateToDashboard, setLocalizedErrorMessage);
         } catch {
-            setErrorMessage("Error desconocido");
+            const message = { type: t("error.register"), message: t("error.register-desc")};
+            setErrorMessage(message);
         }
     };
 
     const setLocalizedErrorMessage = (error) => {
-        switch (error.response ? error.response.status : null) {
+        switch (error.response.status) {
             case 400:
-                setErrorMessage({ type: t("error.validation.type"), message: t("error.validation.message")});
+                setErrorMessage({ type: t("error.conflict.type"), message: t("error.conflict.message")});
                 break;
             case 401:
                 setErrorMessage({ type: t("error.authorized.type"), message: t("error.authorized.message")});
                 break;
             default:
-                setErrorMessage({ type: t("error.unknown.type"), message: t("error.unknown.message")});
+                setErrorMessage({ type: t("error.register"), message: t("error.register-desc")});
                 break;
         }
     }

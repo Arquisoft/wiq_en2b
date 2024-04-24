@@ -86,6 +86,14 @@ const question = {
   "image": "https://www.example.com/image.jpg"
 }
 
+const mockFunction = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockFunction,
+}));
+
+
+
 describe('Game component', () => {
 
   describe("there is no prior game", () => {
@@ -162,6 +170,43 @@ describe('Game component', () => {
         expect(screen.getByTestId("confetti")).toBeEnabled();
       });
     });
+
+    describe("it tries to navigate to dashboard after", () => {
+
+      beforeEach(() => {
+        mockAxios.reset();
+      });
+
+      test("a not valid object is returned when trying to create a game", async () => {
+        mockAxios.onGet(`${api}/games/play`).reply(HttpStatusCode.Ok, undefined);
+        render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+
+        await waitFor(() => {
+          expect(mockFunction).toHaveBeenCalled();
+          expect(mockFunction).toHaveBeenCalledWith("/dashboard");
+        });
+      });
+
+      test("an object is returned when trying to create a game", async () => {
+        mockAxios.onGet(`${api}/games/play`).reply(HttpStatusCode.Ok, {});
+        render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+
+        await waitFor(() => {
+          expect(mockFunction).toHaveBeenCalled();
+          expect(mockFunction).toHaveBeenCalledWith("/dashboard");
+        });
+      });
+
+      test("the petition to get the game fails", async () => {
+        mockAxios.onGet(`${api}/games/play`).reply(HttpStatusCode.InternalServerError);
+        render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+
+        await waitFor(() => {
+          expect(mockFunction).toHaveBeenCalled();
+          expect(mockFunction).toHaveBeenCalledWith("/dashboard");
+        });
+      })
+    })
   });
 
   describe("there is a prior game", () => {
@@ -235,6 +280,27 @@ describe('Game component', () => {
 
       await waitFor(() => {
         expect(container.querySelectorAll("[data-testid='confetti']").length).toBe(0);
+      });
+    });
+
+    test("there is no image shown if the URI is not passed", async () => {
+      mockAxios.reset();
+      let clone = {...question};
+      delete clone.image;
+      mockAxios.onGet(`${api}/games/play`).reply(HttpStatusCode.Ok, game);
+      mockAxios.onGet(`${api}/games/${game.id}/question`).reply(HttpStatusCode.Ok, clone);
+      mockAxios.onPost(`${api}/games/${game.id}/startRound`).reply(HttpStatusCode.Ok, round);
+
+      const {container} = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+        expect(container.querySelectorAll("[data-testid='image']").length).toBe(0);
+      });
+    });
+
+    test("there is image shown if it is passed the URI", async () => {
+      const {container} = render(<ChakraProvider theme={theme}><MemoryRouter><Game/></MemoryRouter></ChakraProvider>);
+      await waitFor(() => {
+        expect(container.querySelectorAll("[data-testid='image']").length).toBe(1);
       });
     });
   });

@@ -55,6 +55,11 @@ public class Main {
             new WhosThatPokemonQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.COUNTRY_FLAG)) {
+            new CountryFlagQuestion("en");
+            new CountryFlagQuestion("es");
+        }
+
         /*
         // VIDEOS not yet supported
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.SONG.toString())) {

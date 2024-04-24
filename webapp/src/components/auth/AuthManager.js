@@ -5,6 +5,7 @@ export default class AuthManager {
   static #instance = null;
   #isLoggedIn = false;
   #axiosInstance = null;
+  
 
   constructor() {
     if (!AuthManager.#instance) {
@@ -46,7 +47,7 @@ export default class AuthManager {
             throw requestAnswer;
         }
     } catch (error) {
-        onError(error);
+      onError(error);
     }
   }
 
@@ -100,19 +101,7 @@ export default class AuthManager {
             throw requestAnswer;
         }
     } catch (error) {
-        let errorType;
-        switch (error.response ? error.response.status : null) {
-            case 400:
-                errorType = { type: "error.validation.type", message: "error.validation.message"};
-                break;
-            case 409:
-                errorType = { type: "error.conflict.type", message: "error.conflict.message"};
-                break;
-            default:
-                errorType = { type: "error.unknown.type", message: "error.unknown.message"};
-                break;
-        }
-        onError(errorType);
+        onError(error);
     }
 }
 }
