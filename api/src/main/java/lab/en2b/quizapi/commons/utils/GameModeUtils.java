@@ -70,7 +70,7 @@ public class GameModeUtils {
                         .description("Are you an art expert? Prove it!")
                         .internalRepresentation(QuestionCategory.ART)
                         .build(),
-                /**
+                /*
                 QuestionCategoryDto.builder()
                         .name("Music")
                         .description("Are you a music lover? Prove it!")
@@ -101,7 +101,7 @@ public class GameModeUtils {
                         .description("¿Eres un experto en arte? ¡Demuéstralo!")
                         .internalRepresentation(QuestionCategory.ART)
                         .build(),
-                /**
+                /*
                 QuestionCategoryDto.builder()
                         .name("Música")
                         .description("¿Eres un melómano? ¡Demuéstralo!")
