@@ -1,9 +1,11 @@
 package lab.en2b.quizapi.game;
 
+import lab.en2b.quizapi.commons.exceptions.InternalApiErrorException;
 import lab.en2b.quizapi.commons.user.UserService;
 import lab.en2b.quizapi.commons.utils.GameModeUtils;
 import lab.en2b.quizapi.game.dtos.*;
 import lab.en2b.quizapi.game.mappers.GameResponseDtoMapper;
+import lab.en2b.quizapi.questions.question.Question;
 import lab.en2b.quizapi.questions.question.QuestionService;
 import lab.en2b.quizapi.questions.question.dtos.QuestionCategoryDto;
 import lab.en2b.quizapi.questions.question.dtos.QuestionResponseDto;
@@ -55,16 +57,26 @@ public class GameService {
      * @param authentication the authentication of the user
      * @return the game with the new round started
      */
-    @Transactional
     public GameResponseDto startRound(Long id, Authentication authentication) {
         // Get the game by id and user
         Game game = gameRepository.findByIdForUser(id, userService.getUserByAuthentication(authentication).getId()).orElseThrow();
         // Check if the game should be over
         wasGameMeantToBeOver(game);
         // Start a new round
-        game.newRound(questionService.findRandomQuestion(game.getLanguage(),game.getQuestionCategoriesForGamemode()));
 
+        game.newRound(generateQuestionForGame(game));
         return gameResponseDtoMapper.apply(gameRepository.save(game));
+    }
+
+    private Question generateQuestionForGame(Game game){
+        Optional<Question> question = questionService.findRandomQuestion(game.getLanguage(),game.getQuestionCategoriesForGamemode());
+        if(question.isPresent()){
+            return question.get();
+        } else {
+            game.isGameOver();
+            gameRepository.save(game);
+            throw new InternalApiErrorException("Could not find a question for the game");
+        }
     }
 
     /**

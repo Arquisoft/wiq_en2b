@@ -102,7 +102,7 @@ public class QuestionServiceTest {
 
     @Test
     void testGetRandomQuestion() {
-        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(Optional.of(defaultQuestion));
         QuestionResponseDto response =  questionService.getRandomQuestion("");
 
         assertEquals(response.getId(), defaultResponseDto.getId());
@@ -112,7 +112,7 @@ public class QuestionServiceTest {
     void testGetRandomQuestionImageType() {
         defaultQuestion.setType(QuestionType.IMAGE);
         defaultQuestion.setContent("What is the capital of France?#* &%https://www.example.com/image.jpg");
-        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(Optional.of(defaultQuestion));
         QuestionResponseDto response =  questionService.getRandomQuestion("en");
         defaultResponseDto.setType(QuestionType.IMAGE);
         defaultResponseDto.setImage("https://www.example.com/image.jpg");
@@ -121,7 +121,7 @@ public class QuestionServiceTest {
 
     @Test
     void testGetRandomQuestionAnswersNotYetLoaded() {
-        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(defaultQuestion);
+        when(questionRepository.findRandomQuestion(any(),any())).thenReturn(Optional.of(defaultQuestion));
         defaultQuestion.setAnswers(List.of());
         QuestionResponseDto response =  questionService.getRandomQuestion("en");
         defaultResponseDto.setAnswers(List.of(AnswerResponseDto.builder()
