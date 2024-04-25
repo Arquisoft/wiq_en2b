@@ -15,11 +15,11 @@ public class GameModeUtils {
             gamemode = KIWI_QUEST;
         }
         return switch (gamemode) {
-            case KIWI_QUEST -> List.of(QuestionCategory.ART, QuestionCategory.MUSIC, QuestionCategory.GEOGRAPHY);
+            case KIWI_QUEST -> List.of(QuestionCategory.ART,/* QuestionCategory.MUSIC, */ QuestionCategory.GEOGRAPHY);
             case FOOTBALL_SHOWDOWN -> List.of(QuestionCategory.SPORTS);
             case GEO_GENIUS -> List.of(QuestionCategory.GEOGRAPHY);
             case VIDEOGAME_ADVENTURE -> List.of(QuestionCategory.VIDEOGAMES);
-            case ANCIENT_ODYSSEY -> List.of(QuestionCategory.MUSIC,QuestionCategory.ART);
+            case ANCIENT_ODYSSEY -> List.of(/*QuestionCategory.MUSIC,*/QuestionCategory.ART);
             case RANDOM -> List.of(QuestionCategory.values());
             case CUSTOM -> questionCategoriesForCustom;
         };
@@ -101,11 +101,12 @@ public class GameModeUtils {
                         .description("¿Eres un experto en arte? ¡Demuéstralo!")
                         .internalRepresentation(QuestionCategory.ART)
                         .build(),
+                /**
                 QuestionCategoryDto.builder()
                         .name("Música")
                         .description("¿Eres un melómano? ¡Demuéstralo!")
                         .internalRepresentation(QuestionCategory.MUSIC)
-                        .build(),
+                        .build(),*/
                 QuestionCategoryDto.builder()
                         .name("Geografía")
                         .description("¿Eres un experto en geografía? ¡Demuéstralo!")
