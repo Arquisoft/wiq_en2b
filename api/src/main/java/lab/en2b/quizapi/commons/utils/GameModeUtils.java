@@ -70,11 +70,12 @@ public class GameModeUtils {
                         .description("Are you an art expert? Prove it!")
                         .internalRepresentation(QuestionCategory.ART)
                         .build(),
+                /**
                 QuestionCategoryDto.builder()
                         .name("Music")
                         .description("Are you a music lover? Prove it!")
                         .internalRepresentation(QuestionCategory.MUSIC)
-                        .build(),
+                        .build(),*/
                 QuestionCategoryDto.builder()
                         .name("Geography")
                         .description("Are you a geography expert? Prove it!")
