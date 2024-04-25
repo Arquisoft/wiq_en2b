@@ -12,24 +12,18 @@ import { newGame, gameCategories } from 'components/game/Game';
 
 const CustomGameMenu = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
+
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
     const [rounds, setRounds] = useState(9);
     const [time, setTime] = useState(20);
-    const [allCategories, setAllCategories] = useState([]);
+    
     const { t, i18n } = useTranslation();
 
     useEffect(() => {
         async function fetchCategories() {
             try {
-                let lang = i18n.language;
-                if (lang.includes("en")) {
-                    lang = "en";
-                } else if (lang.includes("es")) {
-                    lang = "es"
-                } else {
-                    lang = "en";
-                }
-
+                const lang = getNormalizedLanguage(i18n.language);
                 const categoriesData = (await gameCategories(lang)).data;
                 setAllCategories(categoriesData.map(category => category));
             } catch (error) {
@@ -39,43 +33,47 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
         fetchCategories();
     }, [i18n.language]); 
 
+    const getNormalizedLanguage = (language) => {
+        if (language.includes("en"))
+            return "en";
+        else if (language.includes("es"))
+            return "es";
+        else
+            return "en";
+    };
+
     const manageCategory = (category) => {
-        if (selectedCategories.includes(category.internal_representation)) {
+        if (selectedCategories.includes(category.internal_representation))
             setSelectedCategories(selectedCategories.filter(item => item !== category.internal_representation));
-        } else {
+        else
             setSelectedCategories([...selectedCategories, category.internal_representation]);
-        }
     };
 
     const initializeCustomGameMode = async () => {
         try {
-            let lang = i18n.language;
-            if (lang.includes("en")) {
-                lang = "en";
-            } else if (lang.includes("es")) {
-                lang = "es"
-            } else {
-                lang = "en";
-            }
+            const lang = getNormalizedLanguage(i18n.language);
 
-            let categoriesCustom = selectedCategories;
             const gamemode = 'CUSTOM';
+            
+            let categoriesCustom = selectedCategories;
             if (categoriesCustom.length === 0)
                 categoriesCustom = allCategories.map(category => category.internal_representation);
             
             const customGameDto = {
                 rounds: rounds,
                 categories: categoriesCustom,
-                round_duration: time  
+                round_duration: time
             }
+
             const newGameResponse = await newGame(lang, gamemode, customGameDto);
-            if (newGameResponse) {
-              navigate("/dashboard/game");
-            }
-          } catch (error) {
+            
+            if (newGameResponse)
+                navigate("/dashboard/game");
+
+        } catch (error) {
             console.error("Error initializing game:", error);
-          }
-      };
+        }
+    };
 
     return (
         <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
