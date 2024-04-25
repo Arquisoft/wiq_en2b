@@ -4,7 +4,14 @@ import { Center } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
-import {  startRound, getCurrentQuestion, answerQuestion, getCurrentGame, getGameDetails } from '../components/game/Game';
+import {
+    startRound,
+    getCurrentQuestion,
+    answerQuestion,
+    getCurrentGame,
+    getGameDetails,
+    changeGameLanguage
+} from '../components/game/Game';
 import LateralMenu from '../components/menu/LateralMenu';
 import MenuButton from '../components/menu/MenuButton';
 import { HttpStatusCode } from "axios";
@@ -30,8 +37,9 @@ export default function Game() {
     const { t, i18n } = useTranslation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const changeLanguage = (selectedLanguage) => {
-        i18n.changeLanguage(selectedLanguage);
+    const changeLanguage = async (selectedLanguage) => {
+        await i18n.changeLanguage(selectedLanguage);
+        await changeGameLanguage(gameId, selectedLanguage);
     };
 
     const calculateProgress = () => {

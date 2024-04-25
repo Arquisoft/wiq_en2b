@@ -37,7 +37,7 @@ export async function getCurrentQuestion(gameId) {
     return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/question");
 }
 
-export async function changeLanguage(gameId, language) {
+export async function changeGameLanguage(gameId, language) {
     await authManager.getAxiosInstance().put(process.env.REACT_APP_API_ENDPOINT + "/games/" + gameId + "/language?language=" + language);
 }
 
