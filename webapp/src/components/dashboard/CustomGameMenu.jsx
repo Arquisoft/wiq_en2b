@@ -15,7 +15,7 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [rounds, setRounds] = useState(9);
     const [time, setTime] = useState(20);
-    const [categories, setCategories] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
     const { t, i18n } = useTranslation();
 
     useEffect(() => {
@@ -29,10 +29,9 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
                 } else {
                     lang = "en";
                 }
-                
+
                 const categoriesData = (await gameCategories(lang)).data;
-                const formattedCategories = categoriesData.map(category => category.name);
-                setCategories(formattedCategories);
+                setAllCategories(categoriesData.map(category => category));
             } catch (error) {
                 console.error("Error fetching game categories:", error);
             }
@@ -41,10 +40,10 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
     }, [i18n.language]); 
 
     const manageCategory = (category) => {
-        if (selectedCategories.includes(category)) {
-            setSelectedCategories(selectedCategories.filter(item => item !== category));
+        if (selectedCategories.includes(category.internal_representation)) {
+            setSelectedCategories(selectedCategories.filter(item => item !== category.internal_representation));
         } else {
-            setSelectedCategories([...selectedCategories, category]);
+            setSelectedCategories([...selectedCategories, category.internal_representation]);
         }
     };
 
@@ -59,17 +58,15 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
                 lang = "en";
             }
 
+            let categoriesCustom = selectedCategories;
             const gamemode = 'CUSTOM';
-            let uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
-            if (uppercaseCategories.length === 0) {
-                uppercaseCategories = ["GEOGRAPHY", "SPORTS", "MUSIC", "ART", "VIDEOGAMES"];
-            }
-
+            if (categoriesCustom.length === 0)
+                categoriesCustom = allCategories.map(category => category.internal_representation);
+            
             const customGameDto = {
                 rounds: rounds,
-                categories: uppercaseCategories,
-                round_duration: time
-                
+                categories: categoriesCustom,
+                round_duration: time  
             }
             const newGameResponse = await newGame(lang, gamemode, customGameDto);
             if (newGameResponse) {
@@ -112,16 +109,16 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
                             <Box marginTop="2em">
                                 <Text color={"forest_green.500"}>{t("game.categories")}</Text>
                                 <Flex direction="column">
-                                    {categories.map(category => (
+                                    {allCategories.map(category => (
                                         <Button
-                                            key={category}
+                                            key={category.name}
                                             className={"custom-button effect2"}
-                                            variant={selectedCategories.includes(category) ? "solid" : "outline"}
+                                            variant={selectedCategories.includes(category.internal_representation) ? "solid" : "outline"}
                                             colorScheme="green"
                                             margin={"10px"}
                                             onClick={() => manageCategory(category)}
                                         >
-                                            {category}
+                                            {category.name}
                                         </Button>
                                     ))}
                                 </Flex>
