@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,10 @@ public class QuestionService {
     }
 
     public QuestionResponseDto getRandomQuestion(String lang) {
-        return questionResponseDtoMapper.apply(findRandomQuestion(lang, List.of(QuestionCategory.values())));
+        Optional<Question> q = findRandomQuestion(lang, List.of(QuestionCategory.values()));
+        if(q.isEmpty())
+            throw new InternalApiErrorException("No questions found");
+        return questionResponseDtoMapper.apply(q.get());
     }
 
     /**
@@ -51,15 +55,13 @@ public class QuestionService {
      * @return The random question
      */
 
-    public Question findRandomQuestion(String language, List<QuestionCategory> questionCategoriesForCustom) {
+    public Optional<Question> findRandomQuestion(String language, List<QuestionCategory> questionCategoriesForCustom) {
         if (language==null || language.isBlank()) {
             language = "en";
         }
-        Question q = questionRepository.findRandomQuestion(language,questionCategoriesForCustom.stream().map(Enum::toString).toList());
-        if(q==null) {
-            throw new InternalApiErrorException("No questions found for the specified language!");
-        }
-        loadAnswers(q);
+        Optional<Question> q = questionRepository.findRandomQuestion(language,questionCategoriesForCustom.stream().map(Enum::toString).toList());
+        q.ifPresent(this::loadAnswers);
+
         return q;
     }
 
