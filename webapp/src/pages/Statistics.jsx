@@ -1,4 +1,4 @@
-import { Box,  Center, Heading, Stack, StackDivider, Table, Tbody, Text,
+import { Box,  Center, Heading, Stack, Table, Tbody, Text,
         Td, Th, Thead, Tr, CircularProgress} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
@@ -80,9 +80,7 @@ export default function Statistics() {
                     t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
-                <Stack spacing={4} divider={<StackDivider />} minH="50vh" 
-                    p="1rem" backgroundColor="whiteAlpha.900" shadow="1.25em"
-                    boxShadow="md" rounded="1rem" alignItems={"center"} data-testid={"leaderboard-component"}>
+                <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem" data-testid={"leaderboard-component"}>
                         {retrievedData ? 
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
                             <Heading as="h2" fontSize={"1.75em"}>
@@ -111,8 +109,8 @@ export default function Statistics() {
                         : <CircularProgress data-testid="leaderboard-spinner" isIndeterminate color={"green"} />
                         }
                     <UserStatistics />
+                    <GoBack />
                 </Stack>
-                <GoBack />
             </Stack>
         </Center>
     );
