@@ -15,7 +15,7 @@ public class GameModeUtils {
             gamemode = KIWI_QUEST;
         }
         return switch (gamemode) {
-            case KIWI_QUEST -> List.of(QuestionCategory.ART,QuestionCategory.MUSIC,QuestionCategory.GEOGRAPHY);
+            case KIWI_QUEST -> List.of(QuestionCategory.ART,QuestionCategory.GEOGRAPHY);
             case FOOTBALL_SHOWDOWN -> List.of(QuestionCategory.SPORTS);
             case GEO_GENIUS -> List.of(QuestionCategory.GEOGRAPHY);
             case VIDEOGAME_ADVENTURE -> List.of(QuestionCategory.VIDEOGAMES);
