@@ -1,0 +1,21 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+!include <c4/C4_Context.puml>
+
+title Context Diagram for the WIQ System (C4 Level 1)
+AddElementTag("Person", $bgColor="#salmon", $fontColor="#white")
+AddElementTag("Internal system", $bgColor="#peachpuff", $fontColor="#963b17")
+AddElementTag("External system", $bgColor="#darksalmon", $fontColor="#white")
+
+'Containers
+Person(player, Player,"An authenticated player that wants to play Kiwiq games", $tags="Person")
+
+Container(kiwiq, "Kiwiq Application","", "Application that allows the users to play Kiwiq games", $tags="Internal system")
+
+
+System_Ext(wikidata,"WikiData API","Contains the information used for the question generation", $tags="External system")
+
+'RELATIONS
+Rel(player,kiwiq,"Plays games")
+Rel(kiwiq,wikidata,"Asks for data for question generation")
+@enduml
