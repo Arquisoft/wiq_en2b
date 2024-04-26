@@ -73,7 +73,7 @@ public class GameService {
         if(question.isPresent()){
             return question.get();
         } else {
-            game.isGameOver();
+            game.setGameOver(true);
             gameRepository.save(game);
             throw new InternalApiErrorException("Could not find a question for the game");
         }
