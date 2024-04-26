@@ -11,6 +11,7 @@ AddElementTag("Database", $bgColor="#darksalmon", $fontColor="#white")
 Person(player, Player's Browser,"Preferred browser (Firefox, Chrome, Opera...)")
 
 System_Boundary(wiq,"WIQ Server"){
+    Container(proxy,"Proxy","Nginx","Nginx web server", $tags="Internal system")
     Container(web_app, "WIQ Client", "React, Typescript", "nginx web server", $tags="Internal system")
     Container(backend_api, "WIQ REST API","Java SpringBoot 3",".jar file", $tags="Internal system")
     Container(question_generator,"Question generator","Java, JPA",".jar file",$tags="Internal system")
@@ -19,7 +20,8 @@ System_Boundary(wiq,"WIQ Server"){
 System_Ext(wikidata,"WikiData API","REST API", $tags="External system")
 
 'RELATIONS
-Rel(player,web_app,"Uses","HTTPS")
+Rel(player,proxy,"Uses","HTTPS")
+Rel(proxy,web_app,"Serves","HTTPS")
 Rel(question_generator,wikidata,"Asks for data","SPARQL,HTTPS")
 Rel(web_app,backend_api,"Asks for user/game information","JSON,HTTPS")
 Rel(question_generator, database,"Stores questions ","JPA")
