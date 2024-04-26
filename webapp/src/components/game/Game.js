@@ -10,8 +10,8 @@ export async function getCurrentGame() {
     return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/play");
 }
 
-export async function gameCategories() {
-    return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/question-categories");
+export async function gameCategories(lang) {
+    return await authManager.getAxiosInstance().get(process.env.REACT_APP_API_ENDPOINT + "/games/question-categories?lang=" + lang);
 }
 
 export async function gameModes() {

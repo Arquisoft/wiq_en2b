@@ -12,27 +12,20 @@ import { newGame, gameCategories } from 'components/game/Game';
 
 const CustomGameMenu = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
+
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
     const [rounds, setRounds] = useState(9);
     const [time, setTime] = useState(20);
-    const [categories, setCategories] = useState([]);
+    
     const { t, i18n } = useTranslation();
 
     useEffect(() => {
         async function fetchCategories() {
             try {
-                let lang = i18n.language;
-                if (lang.includes("en")) {
-                    lang = "en";
-                } else if (lang.includes("es")) {
-                    lang = "es"
-                } else {
-                    lang = "en";
-                }
-                
+                const lang = getNormalizedLanguage(i18n.language);
                 const categoriesData = (await gameCategories(lang)).data;
-                const formattedCategories = categoriesData.map(category => category.name);
-                setCategories(formattedCategories);
+                setAllCategories(categoriesData.map(category => category));
             } catch (error) {
                 console.error("Error fetching game categories:", error);
             }
@@ -40,45 +33,47 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
         fetchCategories();
     }, [i18n.language]); 
 
+    const getNormalizedLanguage = (language) => {
+        if (language.includes("en"))
+            return "en";
+        else if (language.includes("es"))
+            return "es";
+        else
+            return "en";
+    };
+
     const manageCategory = (category) => {
-        if (selectedCategories.includes(category)) {
-            setSelectedCategories(selectedCategories.filter(item => item !== category));
-        } else {
-            setSelectedCategories([...selectedCategories, category]);
-        }
+        if (selectedCategories.includes(category.internal_representation))
+            setSelectedCategories(selectedCategories.filter(item => item !== category.internal_representation));
+        else
+            setSelectedCategories([...selectedCategories, category.internal_representation]);
     };
 
     const initializeCustomGameMode = async () => {
         try {
-            let lang = i18n.language;
-            if (lang.includes("en")) {
-                lang = "en";
-            } else if (lang.includes("es")) {
-                lang = "es"
-            } else {
-                lang = "en";
-            }
+            const lang = getNormalizedLanguage(i18n.language);
 
             const gamemode = 'CUSTOM';
-            let uppercaseCategories = selectedCategories.map(category => category.toUpperCase());
-            if (uppercaseCategories.length === 0) {
-                uppercaseCategories = ["GEOGRAPHY", "SPORTS", "MUSIC", "ART", "VIDEOGAMES"];
-            }
-
+            
+            let categoriesCustom = selectedCategories;
+            if (categoriesCustom.length === 0)
+                categoriesCustom = allCategories.map(category => category.internal_representation);
+            
             const customGameDto = {
                 rounds: rounds,
-                categories: uppercaseCategories,
+                categories: categoriesCustom,
                 round_duration: time
-                
             }
+
             const newGameResponse = await newGame(lang, gamemode, customGameDto);
-            if (newGameResponse) {
-              navigate("/dashboard/game");
-            }
-          } catch (error) {
+            
+            if (newGameResponse)
+                navigate("/dashboard/game");
+
+        } catch (error) {
             console.error("Error initializing game:", error);
-          }
-      };
+        }
+    };
 
     return (
         <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
@@ -112,16 +107,16 @@ const CustomGameMenu = ({ isOpen, onClose }) => {
                             <Box marginTop="2em">
                                 <Text color={"forest_green.500"}>{t("game.categories")}</Text>
                                 <Flex direction="column">
-                                    {categories.map(category => (
+                                    {allCategories.map(category => (
                                         <Button
-                                            key={category}
+                                            key={category.name}
                                             className={"custom-button effect2"}
-                                            variant={selectedCategories.includes(category) ? "solid" : "outline"}
+                                            variant={selectedCategories.includes(category.internal_representation) ? "solid" : "outline"}
                                             colorScheme="green"
                                             margin={"10px"}
                                             onClick={() => manageCategory(category)}
                                         >
-                                            {category}
+                                            {category.name}
                                         </Button>
                                     ))}
                                 </Flex>
