@@ -32,14 +32,26 @@ The application must be developed according to some constraints that were define
 
 image::wireframe-Root.png[align="center", title="Root Wireframe"]
 
+image::wireframe-About.png[align="center", title="About Wireframe"]
+
 image::wireframe-SignUp.png[align="center", title="Sign up Wireframe"]
 
 image::wireframe-SignIn.png[align="center", title="Sign in Wireframe"]
 
-image::wireframe-Dashboard.png[align="center", title="Dashboard Wireframe"]
+image::wireframe-Dashboard-GameModes.png[align="center", title="Dashboard game modes Wireframe"]
+
+image::wireframe-Dashboard-customGameMode.png[align="center", title="Dashboard custom game mode Wireframe"]
+
+image::wireframe-Dashboard-UserPanel.png[align="center", title="Dashboard user panel Wireframe"]
+
+image::wireframe-Dashboard-ResumeGame.png[align="center", title="Dashboard resume game Wireframe"]
 
 image::wireframe-Rules.png[align="center", title="Rules Wireframe"]
 
 image::wireframe-Game.png[align="center", title="Game Wireframe"]
 
+image::wireframe-Statistics.png[align="center", title="Statistics Wireframe"]
+
 image::wireframe-Menu.png[align="center", title="Menu Wireframe"]
+
+image::wireframe-Results.png[align="center", title="Results Wireframe"]
