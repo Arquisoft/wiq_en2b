@@ -8,13 +8,12 @@ RTVE has hired the company HappySw, composed of students from the Oviedo School 
 * The system shall provide non-registered users with the option to sign up.
 * The system shall provide unidentified users with the option to log in.
 * The system shall only be used by registered users.
-* The system shall have a game mode with 9 rounds.
-* In each round, the system shall generate a question.
-* In each round, the system shall generate four answers, with only one being correct.
+* The system shall have a game mode with a 9 rounds.
+* In each round, the system shall fetch and display a question.
+* In each round, the system shall display four answers, with only one being correct.
 * The system shall offer registered users access to the number of games they have played.
 * The system shall offer registered users access the number of questions they have answered correctly.
 * The system shall offer registered users access the number of questions they have answered incorrectly.
-* The system shall offer registered users access the time they have spent within the system.
 * The system shall offer registered users access the ranking of the game.
 * The system shall set a time limit for registered users to respond to each question.
 
