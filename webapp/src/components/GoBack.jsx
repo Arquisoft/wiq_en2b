@@ -6,8 +6,8 @@ import { useNavigate } from "react-router";
 export default function GoBack() {
     const {t} = useTranslation();
     const navigate = useNavigate();
-    return <Flex direction="row" justifyContent="center" alignItems="center">
-        <Button data-testid={"GoBack"} type="submit" colorScheme="pigment_green" margin={"10px"} className={"custom-button effect1"} onClick={() => navigate("/dashboard")} w="100%">
+    return <Flex justify={"center"}>
+        <Button size={"lg"} fontSize={"2xl"} flex={1} data-testid={"GoBack"} type="submit" colorScheme="pigment_green" margin={"0.5rem"} className={"custom-button effect1"} onClick={() => navigate("/dashboard")}>
             {t("common.goBack")}
         </Button>
     </Flex>
