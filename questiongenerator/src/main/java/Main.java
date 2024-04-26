@@ -38,6 +38,11 @@ public class Main {
             new BasketballVenueQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.SONG)) {
+            new MusicAuthorQuestion("en");
+            new MusicAuthorQuestion("es");
+        }
+
 
         // IMAGES
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {
