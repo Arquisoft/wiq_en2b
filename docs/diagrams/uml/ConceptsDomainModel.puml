@@ -1,0 +1,95 @@
+@startuml
+enum QuestionCategory {
+    GEOGRAPHY
+    SPORTS
+    MUSIC
+    ART
+    VIDEOGAMES
+}
+
+enum AnswerCategory {
+    CAPITAL_CITY
+    COUNTRY
+    SONG
+    STADIUM
+    BALLON_DOR
+    GAMES_PUBLISHER
+    PAINTING
+    WTPOKEMON
+    GAMES_COUNTRY
+    GAMES_GENRE
+    BASKETBALL_VENUE
+    COUNTRY_FLAG
+}
+
+enum QuestionType {
+    TEXT
+    IMAGE
+}
+
+enum GameMode {
+    KIWI_QUEST
+    FOOTBALL_SHOWDOWN
+    GEO_GENIUS
+    VIDEOGAME_ADVENTURE
+    ANCIENT_ODYSSEY
+    RANDOM
+    CUSTOM
+}
+
+class Question {
+    content: String
+    answers: List<Answer>
+    correctAnswer: Answer
+    questionCategory: QuestionCategory
+    type: QuestionType
+    games: List<Game>
+}
+
+class User {
+    username: String
+    email: String
+    password: String
+    role: String
+    games: List<Game>
+    statistics: Statistics
+}
+
+class Statistics {
+    correct: Long
+    wrong: Long
+    total: Long
+    user: User
+}
+
+class Answer {
+    text: String
+    category: AnswerCategory
+    language: String
+}
+
+class Game {
+    rounds: long
+    actualRound: long
+    user: User
+    questions: List<Question>
+    correctlyAnsweredQuestions: int
+    language: String
+    roundStartTime: LocalDateTime
+    roundDuration: Integer
+    currentQuestionAnswered: boolean
+    isGameOver: boolean
+    gamemode: GameMode
+    questionCategoriesForCustom: List<QuestionCategory>
+}
+
+
+User "1"--"1" Statistics
+Game "n"--"n" Question
+Game "n" -- "1" User
+Question "n" -- "n" Answer
+GameMode -- Game
+Question -- QuestionCategory
+Answer -- AnswerCategory
+Question -- QuestionType
+@enduml
