@@ -3,10 +3,11 @@
 !include <c4/C4_Context.puml>
 
 title Container Diagram for the Kiwiq System (C4 Level 2)
-AddElementTag("Person", $bgColor="#salmon", $fontColor="#white")
-AddElementTag("Internal system", $bgColor="#peachpuff", $fontColor="#963b17")
+AddElementTag("Person", $bgColor="#darkgreen", $fontColor="#white")
+AddElementTag("Internal system", $bgColor="#darkseagreen", $fontColor="#003300")
 AddElementTag("External system", $bgColor="#gray", $fontColor="#white")
-AddElementTag("Database", $bgColor="#darksalmon", $fontColor="#white")
+AddElementTag("Database", $bgColor="#darkgreen", $fontColor="#white")
+AddElementTag("Component", $bgColor="#darkolivegreen", $fontColor="#white")
 'Containers
 Person(player, Player's Browser,"Preferred browser (Firefox, Chrome, Opera...)")
 
