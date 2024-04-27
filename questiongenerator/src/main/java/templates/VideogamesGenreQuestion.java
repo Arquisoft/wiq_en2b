@@ -28,7 +28,7 @@ public class VideogamesGenreQuestion extends QuestionTemplate {
                 "  OPTIONAL { " +
                 "    ?game wdt:P136 ?genreItem. " +
                 "    ?genreItem rdfs:label ?genreLabel. " +
-                "    FILTER(LANG(?genreLabel) IN (\"en\", \"es\")) " +
+                "    FILTER(LANG(?genreLabel) IN (\"" + langCode + "\")) " +
                 "  } " +
                 "  SERVICE wikibase:label { bd:serviceParam wikibase:language \"" + langCode + "\". } " +
                 "} " +
