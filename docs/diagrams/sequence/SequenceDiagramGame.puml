@@ -1,34 +1,34 @@
 @startuml Game's life cycle
 title Game Sequence Diagram
-actor Client #darksalmon
-participant API #darksalmon
-database DB #salmon
+actor Client #darkolivegreen
+participant API #darkolivegreen
+database DB #darkolivegreen
 
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
 Client -> API : start game
-activate API #darksalmon
+activate API #darkolivegreen
 API -> DB : store game info
-activate DB #salmon
+activate DB #darkolivegreen
 DB --> API : game info stored
 deactivate DB
 API --> Client : return game info
 deactivate API
-loop #PeachPuff Round
+loop #darkseagreen Round
   Client -> API : start round
-  activate API #darksalmon
+  activate API #darkolivegreen
   API -> DB : ask for question
-  activate DB  #salmon
+  activate DB  #darkolivegreen
   DB --> API : return question
   deactivate DB
   API --> Client : return question with all answers
   deactivate API
   Client -> API  : send chosen answer
-  activate API #darksalmon
+  activate API #darkolivegreen
   API -> API    : check answer is correct
   API -> DB     : update game info
-  activate DB #salmon
+  activate DB #darkolivegreen
   DB --> API    : game info updated
  deactivate DB
   API --> Client : inform user if guessed right
@@ -37,7 +37,7 @@ loop #PeachPuff Round
 end loop One question
 
 API -> DB : [if last round] update ranking
-activate DB #salmon
+activate DB #darkolivegreen
 DB --> API : ranking updated
 deactivate DB
 API --> Client : inform user if guessed right
