@@ -1,22 +1,21 @@
 # 🧠🤔 KiWiq 🥝❓📚
 Visit our page [here!!!](http://kiwiq.run.place/).
 
-WIQ is a quiz game project inspired by the engaging and thought-provoking show "Saber y Ganar." 
+KiWiq is a quiz game project inspired by the engaging and thought-provoking show "Saber y Ganar." 
 We aim to create a platform that not only challenges your knowledge but also sparks curiosity and the thrill of discovery.
 
 
 ## What Sets WIQ Apart
-🤔 Thoughtful Questions: Dive into a world of intriguing and diverse questions, all generated procedurally using WikiData.  
-🌐 Encourage to improve: WIQ lets you keep track of your score to see in which areas you need to improve. 
+🤔 Thoughtful Questions: Dive into a world of intriguing and diverse questions, all generated procedurally using WikiData.
 
-😭 It works! after the final version final re-final (FINAL) true (final) (hotfix)
+🌐 Encourage to improve: KiWiq lets you keep track of your score to motivate you into learning more.
+
+🔣 Question diversity: KiWiq offers you a variety of questions so you can test your knowledge in a variety of fields.
 
 ## Features
-🏆 Adaptable  difficulty: You can adjust the difficulty to push your limits.  
+🏆 Adaptable  difficulty: You can adjust the difficulty to push your limits.
 
-🌐 Multiplayer: Compete with friends and strangers to prove you are the best.
-
-🌐 Localized: Available in Spanish and English.
+🌍 Localized: Available in Spanish and English.
 
 ## Contributors
 Contributor | Contact
@@ -43,7 +42,7 @@ This repo is a basic application composed of several components.
 Component | Route | Description
 -- | -- | --
 Backend/API | `api/` | The main backend service, implemented in Java SpringBoot. It serves all requests from the frontend, and it doubles as main API. It also has a JWT-based authentication system.
-Question generator | `questiongenerator/` | A SpringBoot-based service, ran alongside the main backend service, that generates questions and inserts them into the database
+Question generator | `questiongenerator/` | A Java program that generates questions and inserts them into the database, from where they are fetched by the API.
 Webapp | `webapp/` | Our own frontend to the backend. It is implemented in React 18.
     
 ***
