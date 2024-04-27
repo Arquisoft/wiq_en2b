@@ -46,7 +46,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 ** FR-DMU 1.1. Registered users shall be able to access the number of games they have played.
 ** FR-DMU 1.2. Registered users shall be able to access the number of questions they have answered correctly.
 ** FR-DMU 1.3. Registered users shall be able to access the number of questions they have answered incorrectly.
-** FR-DMU 1.4. Registered users shall be able to access the time they have spent within the system.
 ** FR-DMU 1.5. Registered users shall be able to access the ranking of the game.
 
 ==== Play to WIQ.
@@ -66,7 +65,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [none or no-bullet]
 **** FR-PWIQ 3.1.1.1. When the answer is correct:
 [none or no-bullet]
-***** FR-PWIQ 3.1.1.1.1. The registered user shall earn 10 points.
+***** FR-PWIQ 3.1.1.1.1. The registered user shall be notified.
 ***** FR-PWIQ 3.1.1.1.2. When the registered user is in the ninth round, the system shall end the game.
 ***** FR-PWIQ 3.1.1.1.3. When the registered user is not in the ninth round, the system shall move to the next round.
 **** FR-PWIQ 3.1.1.2. When the answer is incorrect:
@@ -77,3 +76,11 @@ ifndef::imagesdir[:imagesdir: ../images]
 [none or no-bullet]
 *** FR-PWIQ 3.2.1. When the registered user is in the ninth round, the system shall end the game.
 *** FR-PWIQ 3.2.2. When the registered user is not in the ninth round, the system shall move to the next round.
+[none or no-bullet]
+* FR-PWIQ 4. The system shall allow the user to create custom games.
+[none or no-bullet]
+** FR-PWIQ 4.1. The user may select.
+[none or no-bullet]
+*** FR-PWIQ 4.1.1 The number of rounds.
+*** FR-PWIQ 4.1.2 The time per round.
+*** FR-PWIQ 4.1.3 The categories of the questions.
