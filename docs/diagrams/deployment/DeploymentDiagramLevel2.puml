@@ -1,0 +1,25 @@
+@startuml
+
+title KIWIQ API Deployment View
+
+legend right
+    |Color| Type |
+    |<#darkseagreen>| WIQ artifact |
+    |<#OliveDrab>| Package |
+end legend
+
+node "KIWIQ_API.jar" #darkseagreen {
+  component "auth" #OliveDrab
+  component "commons"#OliveDrab
+  component "game" #OliveDrab
+  component "questions" #OliveDrab
+  component "statistics" #OliveDrab
+
+}
+"auth" ..> "commons"
+"game" ..> "commons"
+"questions" ..> "commons"
+"statistics" ..> "commons"
+"game" ..> "questions"
+"game" ..> "statistics"
+@enduml

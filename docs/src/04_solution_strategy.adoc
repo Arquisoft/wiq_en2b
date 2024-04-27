@@ -13,7 +13,7 @@ Regarding the technologies, we decided to use the following ones:
 
  ** As a consecuence of this, pure JavaScript is being used due to React 18 not supporting Typescript 5.
 
- * **PostgreSQL** as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those who did, preferred SQL. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.
+ * **PostgreSQL** as DBMS to store the information. We nearly immediately discarded using MongoDB due to many of us not having experience with it, and those who did, preferred relational databases. Many modern DBMS also include either JSON or JSONB data types, so using a DBMS whose main appeal is JSON and not many of us have experience with did not sit well with us.
 
  * **Java SpringBoot 3** for the backend/API, it being a language we are all comfortable with. The server will easily support multithreading if needed due to SpringBoot being an abstraction over servlets, something we would be able only to simulate if we used Node.js as it uses a single-threaded event loop.
 
@@ -31,21 +31,69 @@ We also have a Whatsapp community for the team, and a Notion wiki.
 |===
 |Quality attribute pursued|Solution chosen
 |Privacy|All stored password will be hashed, both client-side and server-side, to avoid password disclosure. The client-side password is also intended to prevent password discoverage in case it is a repeated one.
-|Robustness|Currently, all validations will take place server-side to avoid not being properly taken care of due to JavaScript desactivation, such as when using the NoScript plug-in
-|Availability|Since Wikidata has a 1 minute limit related to the API, the backend will start querying it upon start and fill the database with questions to increase speed and thus improve user experience|
+|Robustness|Currently, all validations will take place server-side to avoid not being properly taken care of due to JavaScript desactivation, such as when using the NoScript plug-in or sending a request via cURL.
+|Availability|Since Wikidata has a 1-minute limit related to the API, the backend will start querying it upon start and fill the database with questions to increase speed and thus improve user experience. This makes it so we are not dependent on the Wikidata API to be up for our system to work|
 |===
 
 === Workflow
 
+==== Team Workflow:
 We have divided ourselves in teams related to our own areas of expertise, but those divisions are indicative, and frontend teams may review or comment PRs if they wish, or vice versa. The frontend team may also ask input from the backend team if they wish, and the backend team may do the same.
 
-All in all, we strive to achieve a very flexible workflow in which everyone's input may be considered if they wish to give it.
+Separation of the group into teams though, tends to reflect on the final structure of the project, as stated in Conway's law. To prevent this, we employed the use of API definition tools such as Swagger to make the integration of frontend and backend not dependent on having members of both teams present. Conway's law still affected in other aspects, though.
 
-=== Code Style
+Meetings are also organized each week so as to keep the team updated, decide what should be worked on next and discuss any problems that may arise from implementation.
 
-Regarding the code style, we must make two important distinctions: the frontend and backend. In the latter, we will mainly use Object Oriented Programming because our language of choice is Java, which strongly favours it. Regarding the former, it will be more of a case-by-case approach, as for instance, OOP-oriented React is deprecated in favor of a functional approach, but sometimes we may need OOP's strengths.
+==== Coding workflow:
+Pair programming was implemented in the backend team, which helped immensely to shorten the existing knowledge gaps and achieve a consistent coding style. This also reduced the number of PRs that needed to be validated, since having 2 people write the code increases its reliability.
 
- * In the backend, the structure will be that of a typical Maven project.
+==== Git workflow:
+Trunk Based Development was used as source-control branching model, using develop as our trunk branch, and merging into master for tested releases.
+
+For commit messages we used the specification on https://www.conventionalcommits.org/en/v1.0.0/ so as to keep them consistent.
+
+For branch naming we used a variation of Conventional Commits commit naming, naming branches with its purpose first (docs,feat,fix...).
+
+Pull Requests were the main method of contributing to the project, these needing to be validated by at least 2 other teammates before merging to ensure code quality.
+
+=== Code Style/Structure
+
+Regarding the code style, we must make two important distinctions: the frontend and backend. In the latter, we will mainly use Object-Oriented Programming because our language of choice is Java, which strongly favours it. Regarding the former, it will be more of a case-by-case approach, as for instance, OOP-oriented React is deprecated in favor of a functional approach, but sometimes we may need OOP's strengths.
+
+==== Backend
+===== API
+In the backend, the structure will be that of a typical Maven project, using different packages for different modules of the project:
+
+ * The `auth` package is used for *authentication* related endpoints and configuration.
+ * The `game` package is used for *game* related endpoints and logic
+ * The `questions` package is used for *question* related endpoints and logic
+ * The `statistics` package is used for *statistics* related endpoints and logic
+ * The `commons` package is used for common logic that may be used among different packages, such as *utils* classes or *user* logic.
+
+In each of this packages, the following structure is followed:
+
+ * The `dtos` package stores *Data Transfer Objects*, used for sending or receiving data
+ * The `mappers` package stores classes used for mapping from *models* to *DTOs* or vice versa.
+
+In our Spring Boot project the following structure is found in each of our modules, following a Domain Driven Design approach:
+
+ * A `Controller` handles the requests done to our API.
+ * A `Service` handles the retrieval of the *Models* from the database using *Repositories*.
+ * A `Model` is retrieved and handles its domain logic.
+ * A `Repository` is used for retrieving *Models* from the database.
+
+A crucial part of the design is that the models are the ones handling the logic, as described in Jimmy Bogard's talk: https://www.youtube.com/watch?v=UYmTUw5LXwQ
+
+In regard to testing, a Test First approach was employed when possible, and the logic of the *Models* and the *Services* was tested, as well as the responses given by the *Controllers* in different situations.
+
+===== Question Generator
+In the question generator, the structure is simple, using three packages to structurize the code:
+
+ * The `model` package is used to store the classes that model the questions and answers.
+ * The `repositories` package, where classes related to storing the questions and answers in the DB can be found.
+ * The `templates` package, where all the classes where the questions are created by using calls to wikidata can be found.
+
+==== Frontend
  * In the frontend, the structure will be quite different:
  ** The `src/components` will contain single components which we may reuse.
  ** The `src/pages` will contain the endpoints and will follow a simple structure. For instance, given a `/statistics/personal` and a `/statistics/general` endpoints, both will be independent React components that will return the page and be placed under the `src/pages/statistics` folder.

@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Deployment View
 [plantuml,"Deployment diagram",png]
 ----
-include::../diagrams/deployment/DeploymentDiagram.puml[]
+include::../diagrams/deployment/DeploymentDiagramLevel1.puml[]
 ----
 
 === Infrastructure Level 1
@@ -21,10 +21,13 @@ As stated before, we consider the main advantage of this architecture the interc
 Mapping of Building Blocks to Infrastructure::
 
  * The webapp/frontend/client is contained within the `webapp` subfolder.
- * The API/backend is contained within the `api` subfolder.
+ * The API/backend is contained within the `quiz-api` subfolder.
  ** The database will be generated on deployment.
  ** Wikidata is an external component, so although it is an important part of the deployment architecture, it is something we do not have access to changing.
+ ** The grafana config is found within the `monitoring/grafana` subdirectory
+ ** The prometheus config is found within the `monitoring/prometheus` subdirectory
  * The question generator is a separate component that will be deployed on the server only at the beginning of the system. It is contained within the `questiongenerator` subfolder.
+ * The configuration for the proxy container is found within the `proxy_conf` subfolder.
 
 === Infrastructure Level 2
 
@@ -33,14 +36,17 @@ Mapping of Building Blocks to Infrastructure::
 This component is self-contained and does not require much explanation.
 
 ==== API/Backend
-
+[plantuml,"API Deployment diagram",png]
+----
+include::../diagrams/deployment/DeploymentDiagramLevel2.puml[]
+----
 ===== Server
 
-Our main idea is that the server will be a self-contained .jar file with all the dependencies required within. It will communicate with the database and periodically query Wikidata to generate questions until a certain number has been obtained once per minute to fill up the database and improve speed.
+Our main idea is that the server will be a self-contained .jar file with all the dependencies required within. It will communicate with the database to retrieve the questions.
 
 ===== Database
 
-The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers. The databases to store the questions (and therefore the answers) and the user data might be different, though.
+The database will contain the data used by the system. Therefore, it will contain user data, as well as the data related to the questions and their answers.
 
 ===== Question Generator
 The question generator will be run only at the beginning of the application. It will connect with Wikidata using SPARQL to generate questions and answers and store them in the database. This question generation will generate all the questions used by the application at once. It could be run again to generate new questions if they are added.

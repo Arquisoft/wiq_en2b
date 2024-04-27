@@ -1,30 +1,30 @@
 @startuml login
 title Login Sequence Diagram
-actor Client #darksalmon
-participant API #darksalmon
-database DB #salmon
+actor Client #darkolivegreen
+participant API #darkolivegreen
+database DB #darkolivegreen
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
 Client -> API : enters credentials
-activate API #darksalmon
+activate API #darkolivegreen
 API -> DB    : check credentials correct
-alt #PeachPuff credentials correct
-    activate DB #salmon
+alt #darkseagreen credentials correct
+    activate DB #darkolivegreen
     DB --> API     : returns result
     deactivate DB
     API -> API : generate jwt and refresh tokens
     API -> DB    : save tokens
-    activate DB #salmon
+    activate DB #darkolivegreen
     DB --> API     : saves tokens
     deactivate DB
     API --> Client : return jwt dto
     deactivate API
 else credentials incorrect
-    activate DB #salmon
+    activate DB #darkolivegreen
     DB --> API     : returns error
     deactivate DB
-    activate API #darksalmon
+    activate API #darkolivegreen
     API --> Client : return 403 error
     deactivate API
 end

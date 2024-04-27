@@ -2,19 +2,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
 == Introduction and Goals
-RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new experimental version of the quiz show Saber y Ganar. This application will be called KiWiq, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. For each question answered correctly, points will be obtained.
+RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new game-show like web application. This application will be called KiWiq, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. Questions answered correctly will count towards statistics that are displayed in a ranking.
 
 === Requirements Overview
 * The system shall provide non-registered users with the option to sign up.
 * The system shall provide unidentified users with the option to log in.
 * The system shall only be used by registered users.
-* The system shall have a game mode with 9 rounds.
-* In each round, the system shall generate a question.
-* In each round, the system shall generate four answers, with only one being correct.
+* The system shall have a game mode with a 9 rounds.
+* In each round, the system shall fetch and display a question.
+* In each round, the system shall display four answers, with only one being correct.
 * The system shall offer registered users access to the number of games they have played.
 * The system shall offer registered users access the number of questions they have answered correctly.
 * The system shall offer registered users access the number of questions they have answered incorrectly.
-* The system shall offer registered users access the time they have spent within the system.
 * The system shall offer registered users access the ranking of the game.
 * The system shall set a time limit for registered users to respond to each question.
 
@@ -39,7 +38,7 @@ See the complete functional requirements in the xref:#section-annex[Annex] of th
 [options="header",cols="1,2"]
 |===
 |Role/Name|Expectations
-| RTVE  | To have a new experimental version of the Saber y Ganar quiz show.
+| RTVE  | To have a new application for a quiz game.
 | HappySw | Develop a good application that fulfills the requirements expected by the client.
 | Registered user | To play with an entertaining and easy-to-use application. An application with which the user learn about different topics.
 | Wikidata | Being able to offer service allowing people to use the data through the API.
