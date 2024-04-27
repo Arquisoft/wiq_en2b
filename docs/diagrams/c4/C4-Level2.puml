@@ -7,7 +7,6 @@ AddElementTag("Person", $bgColor="#darkgreen", $fontColor="#white")
 AddElementTag("Internal system", $bgColor="#darkseagreen", $fontColor="#003300")
 AddElementTag("External system", $bgColor="#gray", $fontColor="#white")
 AddElementTag("Database", $bgColor="#darkgreen", $fontColor="#white")
-AddElementTag("Component", $bgColor="#darkolivegreen", $fontColor="#white")
 'Containers
 Person(player, Player's Browser,"Preferred browser (Firefox, Chrome, Opera...)")
 
