@@ -5,13 +5,12 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
 
-
-=== Whitebox Overall System
+=== Whitebox Overall System (C4 Level 1)
 
 _**Overview Diagram**_
 [plantuml,"Business context diagram",png, align="center", title="Overall view of the business context"]
 ----
-include::../diagrams/BusinessContextDiagram.puml[]
+include::../diagrams/c4/C4-Level1.puml[]
 ----
 
 Motivation::
@@ -21,31 +20,59 @@ Contained Building Blocks::
 ****
 
 * **Player:** This is the user that will be playing with our application. They will need to be authenticated to be able to play.
-* **WIQ Application:** This is the main application that will reproduce how the game will work. This part will be more detailed in the following parts.
+* **Kiwiq Application:** This is the main application that will reproduce how the game will work. This part will be more detailed in the following parts.
 * **WikiData API:** This is an external API, which will provide us with the information to produce the questions.
 
 ****
 
 Important Interfaces::
-This part will be more detailed later, since the structure of the different interfaces/classes has not been discussed by the team yet.
+The user will interact with the system via the web client, which will allow them to play games. The system will then interact with the WikiData API via the question generator module by doing HTTPs requests with SPARQL queries in them.
 
 
-=== Level 2
-
+=== Container Diagram (C4 Level 2)
+[plantuml,"Container diagram",png, align="center", title="Overall view of the container context"]
+----
+include::../diagrams/c4/C4-Level2.puml[]
+----
 Motivation::
-An inner view on the WIQ Application and its components inside. How the WIQ application will be structured inside and its main components.
+An inner view on the Kiwiq Application and its components inside. How the Kiwiq application will be structured inside and its main components.
 
 Contained Building Blocks::
 ****
-* **WIQ Client:** This is the connection between the user and the application. It will allow the users to play the WIQ game. This part will be developed in React with Typescript for its clear component structure, simplified code quality and separation of concerns.
-* **WIQ REST API:** This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in SpringBoot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.
+* **Kiwiq Proxy: **
+When interacting with the server, an nginx proxy will be tasked with redirecting the queries to the petitions to the Kiwiq client will also be deployed on a nginx web server.
+
+* **Kiwiq Client:** This is the connection between the user and the application. It will allow the users to play the WIQ game. This part will be developed in React with Typescript for its clear component structure, simplified code quality and separation of concerns.
+* **Kiwiq REST API:** This is the part responsible for managing the users that log into the application, managing also the logic of the game and sending the request to the Wikidata API for the question generation. This part is going to be developed in SpringBoot due to its foundations on the Java programming language, which is the language that the developers find the easiest to develop in.
 * **Question Generator Module:** This component is in charge of everything related with the questions. It retrieves the information from WikiData QS and stores it in the WIQ Database, which later is queried for questions and answers from the REST API.
-* **WIQ Database:** This is where the most important data is going to be stored. Such as, users questions and other game info that will be specified in the future. The database we chose to use is PostgreSQL, since it is compatible with Docker and it's an object-relational kind of database, which is easier for the developers to use. Another alternative would've been to use MySQL.
+* **Kiwiq Database:** This is where the most important data is going to be stored. Such as, users questions and other game info that will be specified in the future. The database we chose to use is PostgreSQL, since it is compatible with Docker and it's an object-relational kind of database, which is easier for the developers to use. Another alternative would've been to use MySQL.
 ****
 
 Important Interfaces::
-We are connecting the front end with the back end via REST API. Also, the Question Generator Module communicates with WikiData QS this way.
-The Question Generator Module connects to the WIQ DataBase through JPA.
-In the near future, we are planning on allowing HTTPS connections, so there would be a proxy server in between the user's agent and the back end.
+We are connecting the front end with the back end via a REST API, using HTTPs requests. Also, the Question Generator Module communicates with WikiData QS this way.
+The Question Generator Module connects to the WIQ DataBase through JPA, where it stores the questions that will later be used by the REST API.
+
+=== Component Diagram (C4 Level 3)
+[plantuml,"Component diagram",png, align="center", title="Overall view of the component context"]
+----
+include::../diagrams/c4/C4-Level3.puml[]
+----
+Motivation::
+An inner view on the Kiwiq API and its components inside. How the Kiwiq API will be structured inside and its main components.
+
+Contained Components::
+****
+* **Authentication module:**
+Tasked with handling of the login and register of the users as well as restricting the user access.
+* **Game module:**
+Tasked with handling the games allowing for creating new games, starting rounds, sending answers and updating statistics.
+* **Question module:**
+Tasked with handling the questions, allowing to get any question from the system, as well as retrieving them from the database.
+* **Statistics module:**
+Tasked with handling the statistics, allowing to check the top 10 users in the system, as well as saving the statistics.
+
+All the previously mentioned modules also use a common module named *commons*, that contains logic common to all of them, like the user handling or some util classes.
+****
+
 
 
