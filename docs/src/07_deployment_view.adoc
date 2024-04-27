@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Deployment View
 [plantuml,"Deployment diagram",png]
 ----
-include::../diagrams/deployment/DeploymentDiagram.puml[]
+include::../diagrams/deployment/DeploymentDiagramLevel1.puml[]
 ----
 
 === Infrastructure Level 1
