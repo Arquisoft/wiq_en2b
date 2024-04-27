@@ -2,7 +2,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
 == Introduction and Goals
-RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new experimental version of the quiz show Saber y Ganar. This application will be called KiWiq, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. For each question answered correctly, points will be obtained.
+RTVE has hired the company HappySw, composed of students from the Oviedo School of Software Engineering, to develop a new game-show like web application. This application will be called KiWiq, where users will be able to register and log in to play. The application will consist of answering questions of different types generated with Wikidata. Questions answered correctly will count towards statistics that are displayed in a ranking.
 
 === Requirements Overview
 * The system shall provide non-registered users with the option to sign up.
