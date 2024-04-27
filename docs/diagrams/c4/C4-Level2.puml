@@ -1,0 +1,31 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+!include <c4/C4_Context.puml>
+
+title Container Diagram for the Kiwiq System (C4 Level 2)
+AddElementTag("Person", $bgColor="#salmon", $fontColor="#white")
+AddElementTag("Internal system", $bgColor="#peachpuff", $fontColor="#963b17")
+AddElementTag("External system", $bgColor="#gray", $fontColor="#white")
+AddElementTag("Database", $bgColor="#darksalmon", $fontColor="#white")
+'Containers
+Person(player, Player's Browser,"Preferred browser (Firefox, Chrome, Opera...)")
+
+System_Boundary(wiq,"Kiwiq Server"){
+    Container(proxy,"Proxy","Nginx","Nginx web server", $tags="Internal system")
+    Container(web_app, "Kiwiq Client", "React, Typescript", "nginx web server", $tags="Internal system")
+    Container(backend_api, "Kiwiq REST API","Java SpringBoot 3",".jar file", $tags="Internal system")
+    Container(question_generator,"Question generator","Java, JPA",".jar file",$tags="Internal system")
+    ContainerDb(database,"Kiwiq Database","PostgreSQL","PostgreSQL docker container", $tags="Database")
+}
+System_Ext(wikidata,"WikiData API","REST API", $tags="External system")
+
+'RELATIONS
+Rel(player,proxy,"Uses","HTTPS")
+Rel(proxy,web_app,"Serves","HTTPS")
+Rel(question_generator,wikidata,"Asks for data","SPARQL,HTTPS")
+Rel(web_app,backend_api,"Asks for user/game information","JSON,HTTPS")
+Rel(question_generator, database,"Stores questions ","JPA")
+Rel(backend_api,database,"Stores game/user information","JPA")
+
+
+@enduml

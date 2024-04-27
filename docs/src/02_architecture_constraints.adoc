@@ -3,7 +3,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-architecture-constraints]]
 == Architecture Constraints
 
-The application must be developed according to some constraints that were defined by the professors. These constraints are meant to be the cornerstones of our project as they are mandatory and provide a baseline to work on. The following tables will define the constraints.
+The application must be developed according to some constraints that were defined by the client. These constraints are meant to be the cornerstones of our project as they are mandatory and provide a baseline to work on. The following tables will define the constraints.
 
 
 *Technical constraints*
