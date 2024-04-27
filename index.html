@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.22">
 <title>KIWIQ</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -327,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -825,7 +826,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_business_context">3.1. Business Context</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/C4%20Level%201%20-%20Business%20context%20diagram.png" alt="C4 Level 1   Business context diagram" width="1008" height="578">
+<img src="./images/C4%20Level%201%20-%20Business%20context%20diagram.png" alt="C4 Level 1   Business context diagram" width="377" height="591">
 </div>
 <div class="title">Figure 14. Overall view of the business context</div>
 </div>
@@ -837,7 +838,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_technical_context">3.2. Technical Context</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/C4%20Level%202%20-%20Container%20context%20diagram.png" alt="C4 Level 2   Container context diagram" width="1006" height="578">
+<img src="./images/C4%20Level%202%20-%20Container%20context%20diagram.png" alt="C4 Level 2   Container context diagram" width="687" height="1111">
 </div>
 <div class="title">Figure 15. Overall view of the technical context</div>
 </div>
@@ -1105,7 +1106,7 @@ The Question Generator will also use the WikiData REST API to retrieve informati
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Business%20context%20diagram.png" alt="Business context diagram" width="1033" height="578">
+<img src="./images/Business%20context%20diagram.png" alt="Business context diagram" width="377" height="591">
 </div>
 <div class="title">Figure 16. Overall view of the business context</div>
 </div>
@@ -1148,7 +1149,7 @@ The Question Generator will also use the WikiData REST API to retrieve informati
 <h3 id="_container_diagram_c4_level_2">5.2. Container Diagram (C4 Level 2)</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Container%20diagram.png" alt="Container diagram" width="1021" height="578">
+<img src="./images/Container%20diagram.png" alt="Container diagram" width="687" height="1111">
 </div>
 <div class="title">Figure 17. Overall view of the container context</div>
 </div>
@@ -1199,7 +1200,7 @@ The Question Generator Module connects to the WIQ DataBase through JPA, where it
 <h3 id="_component_diagram_c4_level_3">5.3. Component Diagram (C4 Level 3)</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Component%20diagram.png" alt="Component diagram" width="1026" height="578">
+<img src="./images/Component%20diagram.png" alt="Component diagram" width="1176" height="1308">
 </div>
 <div class="title">Figure 18. Overall view of the component context</div>
 </div>
@@ -1296,7 +1297,7 @@ Tasked with handling the statistics, allowing to check the top 10 users in the s
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
-<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="1067" height="578">
+<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="704" height="903">
 </div>
 </div>
 <div class="sect2">
@@ -1361,7 +1362,7 @@ Tasked with handling the statistics, allowing to check the top 10 users in the s
 <h4 id="_apibackend">7.2.2. API/Backend</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/API%20Deployment%20diagram.png" alt="API Deployment diagram" width="1008" height="578">
+<img src="./images/API%20Deployment%20diagram.png" alt="API Deployment diagram" width="435" height="478">
 </div>
 </div>
 <div class="sect4">
@@ -1396,7 +1397,7 @@ Tasked with handling the statistics, allowing to check the top 10 users in the s
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Concept%20Domain%20Model.png" alt="Concept Domain Model" width="1039" height="593">
+<img src="./images/Concept%20Domain%20Model.png" alt="Concept Domain Model" width="660" height="1232">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1548,7 +1549,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Quality%20Tree.png" alt="Quality Tree" width="1031" height="578">
+<img src="./images/Quality%20Tree.png" alt="Quality Tree" width="1234" height="246">
 </div>
 </div>
 </div>
@@ -1963,7 +1964,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-08 23:24:17 +0200
+Last updated 2024-04-07 22:57:59 +0200
 </div>
 </div>
 </body>
