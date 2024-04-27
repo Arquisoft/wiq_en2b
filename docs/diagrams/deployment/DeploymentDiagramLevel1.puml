@@ -4,31 +4,32 @@ title WIQ Deployment View
 
 legend right
     |Color| Type |
-    |<#darkseagreen>| WIQ Server |
-    |<#darkolivegreen>| External Service |
+    |<#darkseagreen>| Container |
+    |<#darkolivegreen>| WIQ Server |
+    |<#OliveDrab>| External Service |
 end legend
 
-node "Server Hosting WIQ" #darkseagreen {
-  node "KIWIQ Proxy"
-  node "KIWIQ WebApp Server" {
+node "Server Hosting WIQ" #darkolivegreen {
+  node "KIWIQ Proxy" #darkseagreen
+  node "KIWIQ WebApp Server" #darkseagreen {
     component "KIWIQ React Application"
   }
-  node "KIWIQ API"{
+  node "KIWIQ API" #darkseagreen{
       component "KIWIQ_API.jar"
   }
-  node "PostgreSQL Docker" {
+  node "PostgreSQL Docker" #darkseagreen{
     database "KIWIQ Database"
   }
-  node "Question generator" {
+  node "Question generator" #darkseagreen{
     component "Question_Generator.jar"
   }
-  node "Grafana"
-  node "Prometheus"
+  node "Grafana" #darkseagreen
+  node "Prometheus" #darkseagreen
 }
-node "User Computer" #darkolivegreen{
+node "User Computer" #OliveDrab {
   frame "Web Client"
 }
-node "WikiData Server" #darkolivegreen {
+node "WikiData Server" #OliveDrab {
     frame "WikiData REST API"
 }
 "Web Client" ..> "KIWIQ Proxy" : "HTTPS"
