@@ -1,20 +1,20 @@
 @startuml question generator
 title Question Generator Sequence Diagram
-participant QuestionGenerator #darksalmon
-participant WikiDataQS #darksalmon
-database DB #salmon
+participant QuestionGenerator #darkolivegreen
+participant WikiDataQS #darkolivegreen
+database DB #darkolivegreen
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
-loop #PeachPuff Generate question templates
-activate QuestionGenerator #darksalmon
+loop #darkseagreen Generate question templates
+activate QuestionGenerator #darkolivegreen
 QuestionGenerator -> WikiDataQS  : request query template
-activate WikiDataQS #darksalmon
+activate WikiDataQS #darkolivegreen
 QuestionGenerator <-- WikiDataQS  : returns query answers
 deactivate WikiDataQS
 QuestionGenerator -> QuestionGenerator  : process query answer
 QuestionGenerator -> DB  : store answers
-activate DB #salmon
+activate DB #darkolivegreen
 QuestionGenerator -> DB  : store questions
 DB --> QuestionGenerator  :  info saved
 deactivate DB
