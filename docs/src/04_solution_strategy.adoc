@@ -87,7 +87,11 @@ A crucial part of the design is that the models are the ones handling the logic,
 In regard to testing, a Test First approach was employed when possible, and the logic of the *Models* and the *Services* was tested, as well as the responses given by the *Controllers* in different situations.
 
 ===== Question Generator
- //fill in here pls
+In the question generator, the structure is simple, using three packages to structurize the code:
+
+ * The `model` package is used to store the classes that model the questions and answers.
+ * The `repositories` package, where classes related to storing the questions and answers in the DB can be found.
+ * The `templates` package, where all the classes where the questions are created by using calls to wikidata can be found.
 
 ==== Frontend
  * In the frontend, the structure will be quite different:
