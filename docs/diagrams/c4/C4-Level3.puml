@@ -1,0 +1,48 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+!include <c4/C4_Container.puml>
+!include <c4/C4_Component.puml>
+title Container Diagram for the Kiwiq System (C4 Level 3)
+AddElementTag("Person", $bgColor="#darkgreen", $fontColor="#white")
+AddElementTag("Internal system", $bgColor="#darkseagreen", $fontColor="#003300")
+AddElementTag("External system", $bgColor="#gray", $fontColor="#white")
+AddElementTag("Database", $bgColor="#darkgreen", $fontColor="#white")
+AddElementTag("Component", $bgColor="#darkolivegreen", $fontColor="#white")
+'Containers
+Person(player, Player's Browser,"Preferred browser (Firefox, Chrome, Opera...)")
+
+System_Boundary(wiq,"Kiwiq Server"){
+    Container(proxy,"Proxy","Nginx","Nginx web server", $tags="Internal system")
+    Container(web_app, "Kiwiq Client", "React, Typescript", "nginx web server", $tags="Internal system")
+    System_Boundary(backend_api,"Kiwiq REST API"){
+        Component(auth,"Authentication module")
+        Component(games,"Game module")
+        Component(questions,"Question module")
+        Component(statistics,"Statistics module")
+    }
+
+    Container(question_generator,"Question generator","Java, JPA",".jar file",$tags="Internal system")
+    ContainerDb(database,"Kiwiq Database","PostgreSQL","PostgreSQL docker container", $tags="Database")
+}
+
+System_Ext(wikidata,"WikiData API","REST API", $tags="External system")
+
+'RELATIONS
+Rel(player,proxy,"Uses","HTTPS")
+Rel(proxy,web_app,"Serves","HTTPS")
+Rel(question_generator,wikidata,"Asks for data","SPARQL,HTTPS")
+Rel(question_generator, database,"Stores questions ","JPA")
+
+Rel(web_app,questions,"Asks for question information","JSON,HTTPS")
+Rel(web_app,games,"Plays a game","JSON,HTTPS")
+Rel(web_app,auth,"Ask for login and register","JSON,HTTPS")
+Rel(web_app,statistics,"Asks for statistics","JSON,HTTPS")
+
+
+Rel(games,database,"Stores game/user information","JPA")
+
+Rel(games,questions,"Gets questions")
+Rel(questions,database,"Stores game/user information","JPA")
+Rel(statistics,database,"Stores game/user information","JPA")
+Rel(auth,database,"Stores game/user information","JPA")
+@enduml
