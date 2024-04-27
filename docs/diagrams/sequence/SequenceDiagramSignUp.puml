@@ -1,31 +1,31 @@
 @startuml sign up
 title Sign Up Sequence Diagram
-actor Client #darksalmon
-participant API #darksalmon
-database DB #salmon
+actor Client #darkolivegreen
+participant API #darkolivegreen
+database DB #darkolivegreen
 skinparam Style strictuml
 skinparam SequenceMessageAlignment center
 
 Client -> API : account details
-activate API #darksalmon
+activate API #darkolivegreen
 API -> API : validate details
 API -> DB  : check email is unused
-alt #PeachPuff email is unused
-    activate DB #salmon
+alt #darkseagreen email is unused
+    activate DB #darkolivegreen
     DB --> API  : email is unused
     deactivate DB
 
     API -> DB  : register user
-    activate DB #salmon
+    activate DB #darkolivegreen
     DB --> API  : user registered
     deactivate DB
     API --> Client  : return confirmation
     deactivate API
 else email is used
-    activate DB #salmon
+    activate DB #darkolivegreen
     DB --> API  : email is used
     deactivate DB
-    activate API #darksalmon
+    activate API #darkolivegreen
     API --> Client  : 400 error
     deactivate API
 end

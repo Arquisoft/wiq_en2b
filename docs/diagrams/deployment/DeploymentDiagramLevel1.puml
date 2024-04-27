@@ -1,0 +1,43 @@
+@startuml
+
+title WIQ Deployment View
+
+legend right
+    |Color| Type |
+    |<#darkseagreen>| Container |
+    |<#darkolivegreen>| WIQ Server |
+    |<#OliveDrab>| External Service |
+end legend
+
+node "Server Hosting WIQ" #darkolivegreen {
+  node "KIWIQ Proxy" #darkseagreen
+  node "KIWIQ WebApp Server" #darkseagreen {
+    component "KIWIQ React Application"
+  }
+  node "KIWIQ API" #darkseagreen{
+      component "KIWIQ_API.jar"
+  }
+  node "PostgreSQL Docker" #darkseagreen{
+    database "KIWIQ Database"
+  }
+  node "Question generator" #darkseagreen{
+    component "Question_Generator.jar"
+  }
+  node "Grafana" #darkseagreen
+  node "Prometheus" #darkseagreen
+}
+node "User Computer" #OliveDrab {
+  frame "Web Client"
+}
+node "WikiData Server" #OliveDrab {
+    frame "WikiData REST API"
+}
+"Web Client" ..> "KIWIQ Proxy" : "HTTPS"
+"KIWIQ Proxy" ..> "KIWIQ React Application"
+"KIWIQ React Application" ..> "KIWIQ_API.jar" : "HTTPS"
+"KIWIQ_API.jar" ..> "KIWIQ Database" : "JPA"
+"Question_Generator.jar" ..> "WikiData REST API" : "HTTPS, SPARQL"
+"Question_Generator.jar" ..> "KIWIQ Database" : "JPA"
+"Prometheus" ..> "KIWIQ_API.jar" : "Actuator"
+"Grafana" ..> "Prometheus"
+@enduml

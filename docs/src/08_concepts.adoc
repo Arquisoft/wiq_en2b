@@ -4,90 +4,25 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Cross-cutting Concepts
 
 .Domain Model
-This is the first version of the diagram, it will be updated if needed.
+This is the diagram that includes the domain model of the backend.
 
-[plantuml,"ConceptsDomainModel1",png]
+[plantuml,"Concept Domain Model",png]
 ----
-@startuml
-enum QuestionCategory {
-    GEOGRAPHY
-    SPORTS
-    MUSIC
-}
-
-enum AnswerCategory {
-    CAPITAL_CITY
-    COUNTRY
-    SONG
-    STADIUM
-    BALLON_DOR
-}
-
-enum QuestionType{
-    TEXT
-    IMAGE
-    AUDIO
-}
-
-class Question{
-    content: String
-    answers: List<Answer>
-    correctAnswer: Answer
-    questionCategory: QuestionCategory
-    type: QuestionType
-    games: List<Game>
-}
-
-class User{
-    username: String
-    email: String
-    password: String
-    role: String
-    games: List<Game>
-}
-
-class Statistics{
-    correct: Long
-    wrong: Long
-    total: Long
-    user: User
-}
-
-class Answer {
-    text: String
-    category: AnswerCategory
-    language: String
-}
-
-class Game {
-    user: User
-    questions: List<Question>
-    rounds: int
-    actualRound: int
-    correctlyAnsweredQuestions: int
-    language: String
-    roundStartTime: LocalDateTime
-    roundDuration: Integer
-    currentQuestionAnswered: boolean
-    isGameOver: boolean
-}
-
-
-User "1"--"1" Statistics
-Game "n"--"n" Question
-Game "n" -- "1" User
-Question "n" -- "n" Answer
-
-@enduml
+include::../diagrams/uml/ConceptsDomainModel.puml[]
 ----
 
 |===
-| Class | Explanation
-| Question | The model of the questions, has a type to specify if it is text, image or audio. Stores both right and wrong answers
+| *Class* | *Explanation*
+| Question | The model of the questions, has a type to specify if it is text or image. Stores both right and wrong answers
 | User | The people using the application, they have statistics and take part in a ranking to compete
 | Answer | Models each possible answer, created to reuse answers that are common to different questions, as well as distractors
 | Game | It is created when the user starts a game and includes the rounds that the user has to answer
 | Statistics | Stores information about the amount of correct and wrong answers that each user has answered
+| *Enum* | *Explanation*
+| QuestionCategory | Category for the question
+| QuestionType | Type of the question (if it shows a text or an image etc)
+| AnswerCategory | Category of the answer (used also for getting distractors)
+| GameMode | Game mode for the game
 |===
 
 .Question Generator
