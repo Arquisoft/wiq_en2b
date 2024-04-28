@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Center, Heading, Stack, Box, Text, Table, Thead, Tr, Td, Th, Tbody, Container } from '@chakra-ui/react';
+import { Center, Heading, Stack, Box, Text, Table, Tr, Td, Tbody, Container, Link, Avatar } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
 import LateralMenu from '../components/menu/LateralMenu';
 import MenuButton from '../components/menu/MenuButton';
 import GoBack from "components/GoBack";
-
+import "../styles/animations.css";
 export default function About() {
   const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,41 +27,36 @@ export default function About() {
             </Box> 
             <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem" data-testid={"About page"}>
               <Text>{t("about.description1")}</Text>
+              <Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.tableheader")}</Text>
               <Table variant="simple">
-                <Thead>
-                  <Tr>
-                    <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table1")}</Text></Th>
-                    <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table2")}</Text></Th>
-                  </Tr>
-                </Thead>
                 <Tbody>
-                  <Tr>
-                    <Td>Gonzalo Alonso Fernández</Td>
-                    <Td>UO282104</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Gonzalo Alonso Fernández' src='./img/avatar/avatar-gonzaa.jpg' /></Td>
+                    <Td><Link href='https://www.linkedin.com/in/gonzalo-alonso-fern%C3%A1ndez-277436219//' isExternal > Gonzalo Alonso Fernández</Link></Td>
                   </Tr>
-                  <Tr>
-                    <Td>Sergio Rodríguez García</Td>
-                    <Td>UO282598</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Sergio Rodríguez García' src='./img/avatar/avatar-sergior.jpg' /></Td>
+                    <Td><Link href='https://www.linkedin.com/in/sergio-rodr%C3%ADguez-garc%C3%ADa/' isExternal >Sergio Rodríguez García</Link></Td>
                   </Tr>
-                  <Tr>
-                    <Td>Jorge Joaquín Gancedo Fernández</Td>
-                    <Td>UO282161</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Jorge Joaquín Gancedo Fernández' src='./img/avatar/avatar-jorge.jpg' /></Td>
+                    <Td><Link href='mailto:uo282161@uniovi.es' isExternal >Jorge Joaquín Gancedo Fernández</Link></Td>
                   </Tr>
-                  <Tr>
-                    <Td>Darío Gutiérrez Mori</Td>
-                    <Td>UO282435</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Dario G. Mori' src='./img/avatar/avatar-dario.jpg'/></Td>
+                    <Td><Link href='https://www.linkedin.com/in/dariogmori/' isExternal >Darío G. Mori </Link></Td>
                   </Tr>
-                  <Tr>
-                    <Td>Sergio Quintana Fernández</Td>
-                    <Td>UO288090</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Sergio Quintana Fernández' src='./img/avatar/avatar-sergioq.jpg' /></Td>
+                    <Td><Link href='https://www.linkedin.com/in/sergio-quintana-fern%C3%A1ndez-b9845a27a/' isExternal >Sergio Quintana Fernández</Link></Td>
                   </Tr>
-                  <Tr>
-                    <Td>Diego Villanueva Berros</Td>
-                    <Td>UO283615</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Diego Villanueva Berros' src='./img/avatar/avatar-diego.jpg' /></Td>
+                    <Td><Link href='https://www.linkedin.com/in/diegovillanuevaberros/' isExternal >Diego Villanueva Berros</Link></Td>
                   </Tr>
-                  <Tr>
-                    <Td>Gonzalo Suárez Losada</Td>
-                    <Td>UO283928</Td>
+                  <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
+                    <Td><Avatar name='Gonzalo Suárez Losada' src='./img/avatar/avatar-gonzas.jpg' /></Td>
+                    <Td><Link href='https://www.linkedin.com/in/gonzalo-suarez-losada/' isExternal>Gonzalo Suárez Losada</Link></Td>
                   </Tr>
                 </Tbody>
               </Table>
