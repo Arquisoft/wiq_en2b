@@ -19,6 +19,7 @@ export default function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false); 
 
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
@@ -32,7 +33,13 @@ export default function Signup() {
             navigate("/dashboard");
         }
     }
+
     const sendRegistration = async () => {
+        setIsSubmitting(true); 
+        if (confirmPassword.trim() === "") {
+            setErrorMessage({ type: t("error.conflict.type"), message: t("error.empty_password") });
+            return;
+        }
         const registerData = {
             "email": email,
             "username": username,
@@ -169,7 +176,7 @@ export default function Signup() {
                                 </InputRightElement>
                             </InputGroup>
                             {confirmPassword && password && confirmPassword !== password && (
-                                <FormHelperText color="red">Las contraseñas no coinciden</FormHelperText>
+                                <FormHelperText color="red">{t("error.password_mismatch")}</FormHelperText>
                             )}
                         </FormControl>
                         <Flex>
