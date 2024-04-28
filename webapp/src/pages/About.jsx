@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Center, Heading, Stack, Box, Text, Table, Thead, Tr, Td, Th, Tbody, Container } from '@chakra-ui/react';
+import { Center, Heading, Stack, Box, Text, Table, Thead, Tr, Td, Th, Tbody, Container, Link, Avatar } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
 import LateralMenu from '../components/menu/LateralMenu';
@@ -32,34 +32,42 @@ export default function About() {
                   <Tr>
                     <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table1")}</Text></Th>
                     <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table2")}</Text></Th>
+                    <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table3")}</Text></Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   <Tr>
+                    <Td><Avatar name='Gonzalo Alonso Fernández' src='./img/avatar/avatar-gonzaa.jpg' /></Td>
                     <Td>Gonzalo Alonso Fernández</Td>
                     <Td>UO282104</Td>
                   </Tr>
                   <Tr>
+                    <Td><Avatar name='Sergio Rodríguez García' src='./img/avatar/avatar-sergior.jpg' /></Td>
                     <Td>Sergio Rodríguez García</Td>
                     <Td>UO282598</Td>
                   </Tr>
                   <Tr>
+                    <Td><Avatar name='Jorge Joaquín Gancedo Fernández' src='./img/avatar/avatar-jorge.jpg' /></Td>
                     <Td>Jorge Joaquín Gancedo Fernández</Td>
                     <Td>UO282161</Td>
                   </Tr>
                   <Tr>
-                    <Td>Darío Gutiérrez Mori</Td>
-                    <Td>UO282435</Td>
+                    <Td><Avatar name='Dario G. Mori' src='./img/avatar/avatar-dario.jpg' /></Td>
+                    <Td>Darío G. Mori</Td>
+                    <Td><Link href='https://dariogmori.com' isExternal >dariogmori.com</Link></Td>
                   </Tr>
                   <Tr>
+                    <Td><Avatar name='Sergio Quintana Fernández' src='./img/avatar/avatar-sergioq.jpg' /></Td>
                     <Td>Sergio Quintana Fernández</Td>
                     <Td>UO288090</Td>
                   </Tr>
                   <Tr>
+                    <Td><Avatar name='Diego Villanueva Berros' src='./img/avatar/avatar-diego.jpg' /></Td>
                     <Td>Diego Villanueva Berros</Td>
                     <Td>UO283615</Td>
                   </Tr>
                   <Tr>
+                    <Td><Avatar name='Gonzalo Suárez Losada' src='./img/avatar/avatar-gonzalos.jpg' /></Td>
                     <Td>Gonzalo Suárez Losada</Td>
                     <Td>UO283928</Td>
                   </Tr>
