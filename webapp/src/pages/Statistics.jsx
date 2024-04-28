@@ -122,7 +122,7 @@ export default function Statistics() {
                     t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
-                <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" minW={"30vw"}
+                <Stack spacing={4} backgroundColor="whiteAlpha.900" w={"90%"}
                        boxShadow="md" rounded="1rem" data-testid={"leaderboard-component"}>
                         {retrievedData ? 
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
