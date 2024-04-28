@@ -5,33 +5,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 === Quality Tree
 This quality tree is a high-level overview of the quality goals and requirements. The Quality tree uses "quality" as a root while the rest of the quality categories will be displayed as branches.
 
-[plantuml,"Quality Tree",png]
+[plantuml,"Quality Tree",png,align="center"]
 ----
-@startuml 
-title Quality attributes
-agent Quality
-agent Security
-agent Reliability
-agent Transferability
-agent Usability
-agent "Performance Efficiency"
-agent Maintainability
-agent Availability
-agent Compatibility
-agent "Functional Suitability"
-
-Quality --- Security
-Quality --- Reliability
-Quality --- Transferability
-Quality --- Usability
-Quality --- "Performance Efficiency"
-Quality --- Maintainability
-Quality --- Availability
-Quality --- Compatibility
-Quality --- "Functional Suitability"
-@enduml
+include::../diagrams/10_Quality_Tree.puml[]
 ----
-
 === Quality Scenarios
 To obtain a measurable system response to stimulus corresponding to the various quality branches outlined in the mindmap, we will use quality scenarios. Scenarios make quality requirements concrete and allow to more easily measure or decide whether they are fulfilled.
 
@@ -42,17 +19,74 @@ To obtain a measurable system response to stimulus corresponding to the various 
 | Functional suitability | Users shall be able to register, log in, play the quiz, and access historical data without encountering errors or glitches. | High, Medium
 | Reliability | The system shall reliably generate accurate and diverse questions from Wikidata. User registrations, logins, and game data storage shall be handled without errors. | High, Medium
 | Availability | The system shall be available 99% of the time when a user attempts to access it. | High, High
-| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. It shall efficiently generate questions from Wikidata and handle real-time gameplay with up to N concurrent users. | High, High
+| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. It shall efficiently generate questions from Wikidata and handle real-time gameplay with up to 1000 concurrent users. | High, High
 | Usability | The system shall provide a user-friendly interface, allowing users to register, log in, and play the game with a learning time of less than 4 hours. | High, Medium
 | Security | User data shall be securely handled. Robust authentication mechanisms shall be in place for user registration and login. API access points for user information and generated questions shall be secured with proper authorization. | Medium, High 
 | Compatibility | The system shall be compatible with various web browsers and devices, providing a seamless experience for users regardless of their choice of platform. It shall be well-optimized for different screen sizes and functionalities. | High, Medium
-| Transferability | The system shall allow for easy transfer of user data and game-related information through its APIs. | Medium, High
 | Testability | The unit tests shall have at least 80% coverage. | High, Medium
+| Monitoring | The system shall have monitoring in place to track the performance and availability of the system. | High, Medium
 |===
 ==== Change Scenarios
 [options="header",cols="1,3,1"]
 |===
 |Quality attribute|Scenario|Priority
-| Maintainability | The system shall be designed and implemented in a way that allows for easy maintenance and updates. | High, Medium
+| Modifiability | The system shall be designed and implemented in a way that allows for easy maintenance and updates. | High, Medium
 | Maintainability | The code of the system shall be well-documented, and modular, allowing for efficient troubleshooting and modifications. | High, Medium
 |===
+
+==== Implementation
+
+===== Performance efficiency
+The tests were done with a 2 core and 4 GB of memory system.
+This system's efficiency has been measured with Gatling. For the script that we used, a user already created, logged in and played a full game. After that, the user clicked to look the statistics.
+The scripts were run a total of 4 times. One with 1 user, other with 100 users, another one with 1000 users and finally one with 10000 users.
+The results of this scripts show that response times are reasonable up until 1000 users. Having 10000 users playing a game at the same time make a lot of failures.
+Here are the results.
+
+**1 user:**
+
+image::Gatling_1_user.png[align="center", title="Gatling results with 1 user"]
+
+**100 users:**
+
+image::Gatling_100_users.png[align="center", title="Gatling results with 100 user"]
+
+**1000 users:**
+
+image::Gatling_1000_users.png[align="center", title="Gatling results with 1000 user"]
+
+**10000 users:**
+
+image::Gatling_10000_users.png[align="center", title="Gatling results with 10000 user"]
+
+===== Security
+The system is secured using Spring Security. The user data is stored in a database and the passwords are hashed using BCrypt. The API access points are secured with proper authorization. HTTPS is used to encrypt the data in transit.
+
+The system is also protected against SQL injection via using JPA repositories and prepared statements.
+
+The system is also designed in such a way that prevents cheating, by limiting the options available for the user and doing all validation in the backend, such as checking if the answer is correct, preventing request forgery.
+
+===== Testability
+
+===== Monitoring
+The system is monitored using Spring Boot Actuator and Prometheus. The monitoring data is visualized using Grafana.
+
+The actuator is deployed in https://kiwiq.run.place:8443/actuator/prometheus.
+
+image::actuator.png[align="center", title="Spring Boot Actuator"]
+
+The Prometheus server is deployed in http://20.199.84.5:9090.
+
+image::prometheus.png[align="center", title="Prometheus"]
+
+The Grafana is deployed in http://20.199.84.5:9091. The Grafana dashboard is available at the following link with user asw@uniovi.es and password aswgrafana.
+
+The dashboard used is: https://grafana.com/grafana/dashboards/6756-spring-boot-statistics/
+Make sure to put kiwiq.run.place:8443 as the Instance and WIQ API as the application.
+
+image::grafana.png[align="center", title="Graphana Spring Boot dashboard"]
+
+===== Maintainability
+In our CodeScene analysis we find that our knowledge distribution is well-balanced as well as a nice code health, excepting one hotspot on a test that is not relevant.
+
+image::codescene-general.png[align="center", title="CodeScene general view"]
