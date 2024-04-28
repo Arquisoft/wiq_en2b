@@ -67,10 +67,11 @@
     "statistics": {
         "position": "Posición",
         "username": "Nombre",
-        "rightAnswers": "Respuestas correctas",
-        "wrongAnswers": "Respuestas falladas",
+        "rightAnswers": "Correctas",
+        "wrongAnswers": "Falladas",
         "totalAnswers": "En total",
         "percentage": "Acierto",
+        "points": "Puntos",
         "empty": "Actualmente, no hay estadísticas guardadas",
         "texts": {
             "personalRight": "{{right, number}} respuestas correctas",
