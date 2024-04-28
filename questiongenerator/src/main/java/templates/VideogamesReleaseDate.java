@@ -65,10 +65,14 @@ public class VideogamesReleaseDate extends QuestionTemplate {
             Answer a = new Answer(publishDateLabel, AnswerCategory.GAMES_RELEASE, langCode);
             answers.add(a);
 
+            String questionString = "";
+
             if (langCode.equals("es"))
-                questions.add(new Question(a, "¿Qué compañía publicó " + videoGameLabel + "?", QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
+                questionString = spanishStringsIni[i%4] + videoGameLabel + spanishStringsFin[i%4];
             else
-                questions.add(new Question(a, "Who published " + videoGameLabel + "?", QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
+                questionString = englishStringsIni[i%4] + videoGameLabel + englishStringsFin[i%4];
+
+            questions.add(new Question(a, questionString, QuestionCategory.VIDEOGAMES, QuestionType.TEXT));
         }
 
         repository.saveAll(new ArrayList<>(answers));
