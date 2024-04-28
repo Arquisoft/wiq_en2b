@@ -66,7 +66,7 @@ export default function Statistics() {
                         <Flex justifyContent="space-between">
                             <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"} >{counter + 1}</Text>
                             <Text fontSize='l'>{element.user.username} </Text>
-                            <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"}>{element.points} 🥝 </Text>
+                            <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"}>{element.points} {element.user.username !== 'Dario G. Mori'? '🥝': '🍌' } </Text>
                         </Flex>
                     </Box>
                     <AccordionIcon />
@@ -108,16 +108,16 @@ export default function Statistics() {
     return (
         <Center display={"flex"} data-testid={"background"}
             flexDirection={"column"} w={"100vw"} h={"100vh"} 
-            justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'}>
+            justifyContent={"center"} alignItems={"center"} bgImage={'/background.svg'} >
             <MenuButton onClick={() => setIsMenuOpen(true)}/>
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} 
                 changeLanguage={changeLanguage} isDashboard={false}/>
-            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"} spacing={"12px"}>
+            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"} spacing={"12px"} >
                 <ErrorMessageAlert errorMessage={errorMessage} 
-                    t={t} errorWhere={"error.statistics.top"}/> 
+                    t={t} errorWhere={"error.statistics.top"} />
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
                 <Heading as="h1">{t("common.statistics.title")}</Heading>
-                <Stack spacing={4} backgroundColor="whiteAlpha.900" w={"90%"}
+                <Stack spacing={4} backgroundColor="whiteAlpha.900" maxWidth={"600px"}  w={"90vw"}
                        boxShadow="md" rounded="1rem" data-testid={"leaderboard-component"}>
                         {retrievedData ? 
                             <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"}>
