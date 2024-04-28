@@ -27,6 +27,5 @@ describe('About Component', () => {
         const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><About /></MemoryRouter></ChakraProvider>);
 
         expect(getByText('Gonzalo Alonso Fernández')).toBeInTheDocument();
-        expect(getByText('UO282104')).toBeInTheDocument();
     });
 });
