@@ -4,7 +4,7 @@
         "api_docs": "Documentación de la API",
         "statistics": {
             "title": "Estadísticas",
-            "personal": "Mis estadísticas",
+            "personal": "Estadísticas totales",
             "general": "Clasificación"
         },
         "play": "Jugar",
@@ -93,7 +93,8 @@
     "about": {
         "title": "Sobre nosotros",
         "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Disfruta!!!",
-        "table1": "Desarrolladores",
-        "table2": "Contacto"
+        "table1": "Avatar",
+        "table2": "Desarrolladores",
+        "table3": "Contacto"
     }
 }

@@ -4,7 +4,7 @@
         "api_docs": "API Documentation",
         "statistics": {
             "title": "Statistics",
-            "personal": "My statistics",
+            "personal": "Total statistics",
             "general": "Leaderboard"
         },
         "play": "Play",
@@ -94,7 +94,8 @@
     "about": {
         "title": "About",
         "description1": "We are the WIQ_EN2B group and we are delighted that you like 🥝KIWIQ🥝. Enjoy!!!",
-        "table1": "Developers",
-        "table2": "Contact"
+        "table1": "Avatar",
+        "table2": "Developers",
+        "table3": "Contact"
     }
 }
