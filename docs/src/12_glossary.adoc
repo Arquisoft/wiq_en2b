@@ -9,5 +9,5 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Term |Definition
 |Distractor | Incorrect answer shown to the user alongside the correct one in each question
 |KiWiq | The name of our project
-|Question Generator |A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB
+|Question Generator (QG) |A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB
 |===
