@@ -53,7 +53,9 @@
         "authorized": {
             "type": "Authorization Error: ",
             "message": "Invalid email or password, check for them to be correct"
-        }
+        },
+        "empty_password": "The confirm password label can not be empty",
+        "password_mismatch": "The password and confirm password labels must match"
     },
     "rules": {
         "description1": "Welcome to the exciting world of KiWiQ! In this challenging game, your goal is to embark on a journey full of knowledge and fun.",

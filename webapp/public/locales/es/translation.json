@@ -53,7 +53,9 @@
         "authorized": {
             "type": "Error de Autorización: ",
             "message": "Correo electrónico o contraseña no válidos, verifique que sean correctos"
-        }
+        },
+        "empty_password": "La confirmación de contraseña no puede estar vacía",
+        "password_mismatch": "Las contraseñas no coinciden"
     },
     "rules": {
         "description1": "¡Bienvenidos al emocionante mundo de KiWiQ! En este desafiante juego, tu objetivo es embarcarte en un viaje lleno de conocimiento y diversión.",
