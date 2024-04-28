@@ -18,8 +18,10 @@ public class StatisticsResponseDto {
     private Long wrong;
     private Long total;
     private UserResponseDto user;
-    @JsonProperty("correct_rate")
-    private Long correctRate;
+    @JsonProperty("percentage")
+    private Long percentage;
+    @JsonProperty("points")
+    private Long points;
     @JsonProperty("finished_games")
     private Long finishedGames;
 

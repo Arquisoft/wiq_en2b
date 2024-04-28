@@ -86,7 +86,7 @@ public class StatisticsServiceTest {
                 .right(5L)
                 .wrong(5L)
                 .total(10L)
-                .correctRate(50L)
+                .points(50L)
                 .user(defaultUserResponseDto)
                 .finishedGames(1L)
                 .build();
@@ -105,7 +105,7 @@ public class StatisticsServiceTest {
                 .right(7L)
                 .wrong(3L)
                 .total(10L)
-                .correctRate(70L)
+                .points(70L)
                 .user(defaultUserResponseDto)
                 .finishedGames(1L)
                 .build();
@@ -131,7 +131,7 @@ public class StatisticsServiceTest {
                 .right(0L)
                 .wrong(0L)
                 .total(0L)
-                .correctRate(0L)
+                .points(0L)
                 .finishedGames(0L)
                 .user(defaultUserResponseDto).build()
                 , result);
@@ -172,7 +172,7 @@ public class StatisticsServiceTest {
                 .right(5L)
                 .wrong(5L)
                 .total(10L)
-                .correctRate(50L)
+                .points(50L)
                 .user(defaultUserResponseDto)
                 .finishedGames(1L)
                 .build();

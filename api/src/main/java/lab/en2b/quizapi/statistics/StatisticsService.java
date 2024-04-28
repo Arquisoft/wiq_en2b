@@ -47,10 +47,7 @@ public class StatisticsService {
     }
 
     public List<StatisticsResponseDto> getTopTenStatistics(){
-        List<Statistics> all = new ArrayList<>(statisticsRepository.findAll());
-        all.sort(Comparator.comparing(Statistics::getCorrectRate).reversed());
-        List<Statistics> topTen = all.stream().limit(10).toList();
-        return topTen.stream().map(statisticsResponseDtoMapper).collect(Collectors.toList());
+        return statisticsRepository.findTopTen().stream().map(statisticsResponseDtoMapper).collect(Collectors.toList());
     }
 
 }
