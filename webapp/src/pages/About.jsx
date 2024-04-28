@@ -32,44 +32,36 @@ export default function About() {
                   <Tr>
                     <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table1")}</Text></Th>
                     <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table2")}</Text></Th>
-                    <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table3")}</Text></Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   <Tr>
                     <Td><Avatar name='Gonzalo Alonso Fernández' src='./img/avatar/avatar-gonzaa.jpg' /></Td>
-                    <Td>Gonzalo Alonso Fernández</Td>
-                    <Td>UO282104</Td>
+                    <Td><Link href='https://www.linkedin.com/in/gonzalo-alonso-fern%C3%A1ndez-277436219//' isExternal > Gonzalo Alonso Fernández</Link></Td>
                   </Tr>
                   <Tr>
                     <Td><Avatar name='Sergio Rodríguez García' src='./img/avatar/avatar-sergior.jpg' /></Td>
-                    <Td>Sergio Rodríguez García</Td>
-                    <Td>UO282598</Td>
+                    <Td><Link href='mailto:uo282598@uniovi.es' isExternal >Sergio Rodríguez García</Link></Td>
                   </Tr>
                   <Tr>
                     <Td><Avatar name='Jorge Joaquín Gancedo Fernández' src='./img/avatar/avatar-jorge.jpg' /></Td>
-                    <Td>Jorge Joaquín Gancedo Fernández</Td>
-                    <Td>UO282161</Td>
+                    <Td><Link href='mailto:uo282161@uniovi.es' isExternal >Jorge Joaquín Gancedo Fernández</Link></Td>
                   </Tr>
                   <Tr>
-                    <Td><Avatar name='Dario G. Mori' src='./img/avatar/avatar-dario.jpg' /></Td>
-                    <Td>Darío G. Mori</Td>
-                    <Td><Link href='https://dariogmori.com' isExternal >dariogmori.com</Link></Td>
+                    <Td><Avatar name='Dario G. Mori' src='./img/avatar/avatar-dario.jpg'/></Td>
+                    <Td><Link href='https://www.linkedin.com/in/dariogmori/' isExternal >Darío G. Mori</Link></Td>
                   </Tr>
                   <Tr>
                     <Td><Avatar name='Sergio Quintana Fernández' src='./img/avatar/avatar-sergioq.jpg' /></Td>
-                    <Td>Sergio Quintana Fernández</Td>
-                    <Td>UO288090</Td>
+                    <Td><Link href='mailto:uo288090@uniovi.es' isExternal >Sergio Quintana Fernández</Link></Td>
                   </Tr>
                   <Tr>
                     <Td><Avatar name='Diego Villanueva Berros' src='./img/avatar/avatar-diego.jpg' /></Td>
-                    <Td>Diego Villanueva Berros</Td>
-                    <Td>UO283615</Td>
+                    <Td><Link href='mailto:uo283615@uniovi.es' isExternal >Diego Villanueva Berros</Link></Td>
                   </Tr>
                   <Tr>
-                    <Td><Avatar name='Gonzalo Suárez Losada' src='./img/avatar/avatar-gonzalos.jpg' /></Td>
-                    <Td>Gonzalo Suárez Losada</Td>
-                    <Td>UO283928</Td>
+                    <Td><Avatar name='Gonzalo Suárez Losada' src='./img/avatar/avatar-gonzas.jpg' /></Td>
+                    <Td><Link href='mailto:gonzalo.suarez.losada@gmail.com' isExternal>Gonzalo Suárez Losada</Link></Td>
                   </Tr>
                 </Tbody>
               </Table>
