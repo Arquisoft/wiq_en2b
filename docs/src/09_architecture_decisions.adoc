@@ -26,7 +26,13 @@ During the application development process, decisions had to be made as issues e
 
 |Architecture of the Question Generator
 |It has been decided to implement the QG in an independent module so it is only run once and it is not generating questions at real time, this way, we are not dependent on wikidata for having our application available.
+
+|Template method pattern
+|We chose to apply our software design knowledge and generate the questions following a template method in Java. This allows us to create new questions easily and without duplicating too much code.
+
+|Use of JPA in the Question Generator
+|We used JPA in favor of JDBC as when tables are related in a DB, JPA makes it easier to write into the DB.
 |===
 
-If needed, a more descriptive record can be seen link:https://github.com/Arquisoft/wiq_en2b/wiki[here].
+If needed, more details are given in the link:https://github.com/Arquisoft/wiq_en2b/wiki[wiki].
 
