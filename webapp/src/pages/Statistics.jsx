@@ -6,18 +6,13 @@ import {
     Table,
     Tbody,
     Text,
-    Td,
-    Th,
-    Thead,
-    Tr,
     CircularProgress,
     AccordionItem,
     Accordion,
     AccordionButton,
     AccordionIcon,
     AccordionPanel,
-    Flex,
-    List, ListItem, ListIcon, UnorderedList
+    Flex, ListItem, ListIcon, UnorderedList
 } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
@@ -71,7 +66,7 @@ export default function Statistics() {
                         <Flex justifyContent="space-between">
                             <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"} >{counter + 1}</Text>
                             <Text fontSize='l'>{element.user.username} </Text>
-                            <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"}>{element.points}</Text>
+                            <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"}>{element.points} 🥝 </Text>
                         </Flex>
                     </Box>
                     <AccordionIcon />
