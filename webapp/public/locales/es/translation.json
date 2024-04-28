@@ -92,9 +92,7 @@
     },
     "about": {
         "title": "Sobre nosotros",
-        "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Disfruta!!!",
-        "table1": "Avatar",
-        "table2": "Desarrolladores",
-        "table3": "Contacto"
+        "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Que aproveche!!!",
+        "tableheader": "Desarrolladores"
     }
 }

@@ -60,7 +60,7 @@
         "description2": "Each question is a door to a universe of possibilities, with four options before you. But be careful, only one of those options is the golden key that will unlock the treasure of the correct answer.",
         "description3": "With just 30 seconds for each question, you'll feel the adrenaline rushing through your veins as you fight against the clock to find the perfect answer. Take on the standard challenge with 9 questions waiting for you in each match, or venture into the custom terrain, where you can choose your own route. Do you feel brave? Or do you prefer strategy?",
         "description4": "At the end of the road, your score will be your badge of honor. Can you achieve maximum glory and become the KiWiQ champion? Only time will tell!",
-        "description5": "Let the game begin!"
+        "description5": "Enjoy your meal!"
         
     },
     "statistics": {
@@ -93,9 +93,7 @@
     },
     "about": {
         "title": "About",
-        "description1": "We are the WIQ_EN2B group and we are delighted that you like 🥝KIWIQ🥝. Enjoy!!!",
-        "table1": "Avatar",
-        "table2": "Developers",
-        "table3": "Contact"
+        "description1": "We are the WIQ_EN2B group and we are delighted that you like 🥝KIWIQ🥝. Enjoy your meal!!!",
+        "tableheader": "Developers"
     }
 }

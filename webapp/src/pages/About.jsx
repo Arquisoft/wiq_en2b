@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Center, Heading, Stack, Box, Text, Table, Thead, Tr, Td, Th, Tbody, Container, Link, Avatar } from '@chakra-ui/react';
+import { Center, Heading, Stack, Box, Text, Table, Tr, Td, Tbody, Container, Link, Avatar } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
 import LateralMenu from '../components/menu/LateralMenu';
@@ -27,13 +27,8 @@ export default function About() {
             </Box> 
             <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem" data-testid={"About page"}>
               <Text>{t("about.description1")}</Text>
+              <Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.tableheader")}</Text>
               <Table variant="simple">
-                <Thead>
-                  <Tr>
-                    <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table1")}</Text></Th>
-                    <Th><Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("about.table2")}</Text></Th>
-                  </Tr>
-                </Thead>
                 <Tbody>
                   <Tr>
                     <Td><Avatar name='Gonzalo Alonso Fernández' src='./img/avatar/avatar-gonzaa.jpg' /></Td>
@@ -49,7 +44,7 @@ export default function About() {
                   </Tr>
                   <Tr>
                     <Td><Avatar name='Dario G. Mori' src='./img/avatar/avatar-dario.jpg'/></Td>
-                    <Td><Link href='https://www.linkedin.com/in/dariogmori/' isExternal >Darío G. Mori</Link></Td>
+                    <Td><Link href='https://www.linkedin.com/in/dariogmori/' isExternal >Darío G. Mori </Link></Td>
                   </Tr>
                   <Tr>
                     <Td><Avatar name='Sergio Quintana Fernández' src='./img/avatar/avatar-sergioq.jpg' /></Td>
