@@ -38,6 +38,7 @@ To obtain a measurable system response to stimulus corresponding to the various 
 ===== Testability
 
 ===== Performance efficiency
+The tests were done with a 2 core and 4 GB of memory system.
 This system's efficiency has been measured with Gatling. For the script that we used, a user already created, logged in and played a full game. After that, the user clicked to look the statistics.
 The scripts were run a total of 4 times. One with 1 user, other with 100 users, another one with 1000 users and finally one with 10000 users.
 The results of this scripts show that response times are reasonable up until 1000 users. Having 10000 users playing a game at the same time make a lot of failures.
