@@ -71,7 +71,11 @@ public class GameService {
     private Question generateQuestionForGame(Game game){
         Optional<Question> question = questionService.findRandomQuestion(game.getLanguage(),game.getQuestionCategoriesForGamemode());
         if(question.isPresent()){
-            return question.get();
+            Question q = question.get();
+            if (game.getQuestions().contains(q)){
+                return generateQuestionForGame(game);
+            }
+            return q;
         } else {
             game.setGameOver(true);
             gameRepository.save(game);
