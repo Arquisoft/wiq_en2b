@@ -7,6 +7,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [cols="e,2e" options="header"]
 |===
 |Term |Definition
-|Question Generator
-|A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB.
+|Distractor | Incorrect answer shown to the user alongside the correct one in each question
+|KiWiq | The name of our project
+|Question Generator |A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB
 |===
