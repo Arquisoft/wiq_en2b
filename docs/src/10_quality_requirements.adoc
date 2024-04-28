@@ -35,7 +35,6 @@ To obtain a measurable system response to stimulus corresponding to the various 
 |===
 
 ==== Implementation
-===== Testability
 
 ===== Performance efficiency
 The tests were done with a 2 core and 4 GB of memory system.
@@ -60,6 +59,15 @@ image::Gatling_1000_users.png[align="center", title="Gatling results with 1000 u
 
 image::Gatling_10000_users.png[align="center", title="Gatling results with 10000 user"]
 
+===== Security
+The system is secured using Spring Security. The user data is stored in a database and the passwords are hashed using BCrypt. The API access points are secured with proper authorization. HTTPS is used to encrypt the data in transit.
+
+The system is also protected against SQL injection via using JPA repositories and prepared statements.
+
+The system is also designed in such a way that prevents cheating, by limiting the options available for the user and doing all validation in the backend, such as checking if the answer is correct, preventing request forgery.
+
+===== Testability
+
 ===== Monitoring
 The system is monitored using Spring Boot Actuator and Prometheus. The monitoring data is visualized using Grafana.
 
@@ -78,3 +86,7 @@ Make sure to put kiwiq.run.place:8443 as the Instance and WIQ API as the applica
 
 image::grafana.png[align="center", title="Graphana Spring Boot dashboard"]
 
+===== Maintainability
+In our CodeScene analysis we find that our knowledge distribution is well-balanced as well as a nice code health, excepting one hotspot on a test that is not relevant.
+
+image::codescene-general.png[align="center", title="CodeScene general view"]
