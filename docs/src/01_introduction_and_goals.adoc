@@ -28,8 +28,8 @@ See the complete functional requirements in the xref:#section-annex[Annex] of th
 | Reliability | The system should be reliable in generating questions from Wikidata, ensuring that questions are accurate and diverse. The system shall handle user registrations, logins, and game data storage without errors.
 | Availability | The system shall be available 99% of the time a user tries to access it.
 | Maintainability | The system shall be designed and implemented in a way that facilitates easy maintenance and updates.
-| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. The automatic generation of questions from Wikidata and the real-time gameplay shall be efficient. The system shall handle N concurrent users.
-| Security | The system shall prioritize user data security. It shall implement robust authentication mechanisms for user registration and login. The API access points for user information and generated questions shall be secured with proper authorization. 
+| Performance efficiency | The system shall deliver optimal performance, ensuring responsive interactions for users. The automatic generation of questions from Wikidata and the real-time gameplay shall be efficient. The system shall handle 1000 concurrent users.
+| Security | The system shall prioritize user data security. It shall implement robust authentication mechanisms for user registration and login. The API access points for user information and generated questions shall be secured with proper authorization.
 | Usability | The system shall provide a user-friendly interface, making it easy for users to register, log in, and play the game. The system learning time for a user should be less than 4 hours.
 | Compatibility | The system shall be compatible with various web browsers and devices, ensuring a seamless experience for users regardless of their choice of platform. It has to be well-optimized for different screen sizes and functionalities.
 |===
