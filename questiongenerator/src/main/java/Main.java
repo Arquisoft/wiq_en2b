@@ -43,6 +43,11 @@ public class Main {
             new MusicAuthorQuestion("es");
         }
 
+        if (GeneralRepositoryStorer.doesntExist(AnswerCategory.GAMES_RELEASE)) {
+            new VideogamesReleaseDate("en");
+            new VideogamesReleaseDate("es");
+        }
+
 
         // IMAGES
         if(GeneralRepositoryStorer.doesntExist(AnswerCategory.STADIUM)) {
@@ -64,6 +69,8 @@ public class Main {
             new CountryFlagQuestion("en");
             new CountryFlagQuestion("es");
         }
+
+
 
         /*
         // VIDEOS not yet supported
