@@ -15,7 +15,7 @@ public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
     @Query(value = "SELECT *, \n" +
             "       CASE \n" +
             "           WHEN total = 0 THEN 0 \n" +
-            "           ELSE (correct * 100.0 / NULLIF(total, 0)) * total \n" +
+            "           ELSE (correct * 100.0 / NULLIF(total, 0)) * correct \n" +
             "       END AS points \n" +
             "FROM Statistics \n" +
             "ORDER BY points DESC LIMIT 10 ", nativeQuery = true)

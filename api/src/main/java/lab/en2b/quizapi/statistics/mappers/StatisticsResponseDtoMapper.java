@@ -23,7 +23,7 @@ public class StatisticsResponseDtoMapper implements Function<Statistics, Statist
                 .total(statistics.getTotal())
                 .percentage(statistics.getCorrectRate())
                 .user(userResponseDtoMapper.apply(statistics.getUser()))
-                .points(statistics.getCorrectRate() * statistics.getTotal() )
+                .points(statistics.getCorrectRate() * statistics.getCorrect() )
                 .finishedGames(statistics.getFinishedGames())
                 .build();
     }
