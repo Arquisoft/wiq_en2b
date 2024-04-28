@@ -1,6 +1,23 @@
 import {
-    Box, Center, Heading, Stack, Table, Tbody, Text,
-    Td, Th, Thead, Tr, CircularProgress, AccordionItem, Accordion, AccordionButton, AccordionIcon, AccordionPanel, Flex
+    Box,
+    Center,
+    Heading,
+    Stack,
+    Table,
+    Tbody,
+    Text,
+    Td,
+    Th,
+    Thead,
+    Tr,
+    CircularProgress,
+    AccordionItem,
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionPanel,
+    Flex,
+    List, ListItem, ListIcon, UnorderedList
 } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
@@ -8,10 +25,10 @@ import GoBack from "components/GoBack";
 import AuthManager from "components/auth/AuthManager";
 import { HttpStatusCode } from "axios";
 import ErrorMessageAlert from "components/ErrorMessageAlert";
-import UserStatistics from "components/statistics/UserStatistics";
 import { FaChartBar } from 'react-icons/fa';
 import MenuButton from '../components/menu/MenuButton';
 import LateralMenu from '../components/menu/LateralMenu';
+import {MdCheckCircle, MdClear, MdPercent} from "react-icons/md";
 
 export default function Statistics() {
     const { t, i18n } = useTranslation();
@@ -48,10 +65,10 @@ export default function Statistics() {
 
     const formatTopTen = () => { 
         return topTen.map((element, counter) => { 
-            return <AccordionItem >
+            return <AccordionItem key={`row-${counter}`}>
                 <AccordionButton _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
                     <Box as='span' flex='1' textAlign='space-between'>
-                        <Flex justifyContent="space-between" spacing="12px">
+                        <Flex justifyContent="space-between">
                             <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"} >{counter + 1}</Text>
                             <Text fontSize='l'>{element.user.username} </Text>
                             <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"}>{element.points}</Text>
@@ -60,24 +77,20 @@ export default function Statistics() {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel pb={4}>
-                    <Table mt={4} mb={4} variant="simple" className="statistics-table" data-testid={"top-ten"}>
-                        <Thead>
-                            <Tr fontWeight='extrabold' color={"pigment_green.400"} textAlign={"center"} fontSize={"1.25em"}>
-                                <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.rightAnswers")}</Th>
-                                <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.wrongAnswers")}</Th>
-                                <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.totalAnswers")}</Th>
-                                <Th fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"1.25em"} scope="col">{t("statistics.percentage")}</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr fontSize={"1.25em"} key={`row-${counter}`}>
-                                <Td isNumeric>{element.right}</Td>
-                                <Td isNumeric>{element.wrong}</Td>
-                                <Td isNumeric>{element.total}</Td>
-                                <Td>{element.percentage}%</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
+                    <UnorderedList spacing={3}>
+                        <ListItem key={`row-${counter}-right`}>
+                            <ListIcon as={MdCheckCircle} color={"green"} />
+                            {t("statistics.texts.personalRight", {right: element.right})}
+                        </ListItem>
+                        <ListItem key={`row-${counter}-wrong`}>
+                            <ListIcon as={MdClear} color={"red"}/>
+                            {t("statistics.texts.personalWrong", {wrong: element.wrong})}
+                        </ListItem>
+                        <ListItem key={`row-${counter}-percentage`}>
+                            <ListIcon as={MdPercent} color={"blue"}/>
+                            {t("statistics.texts.personalRate", {rate: element.percentage})}
+                        </ListItem>
+                    </UnorderedList>
                 </AccordionPanel>
             </AccordionItem>
 
@@ -104,7 +117,7 @@ export default function Statistics() {
             <MenuButton onClick={() => setIsMenuOpen(true)}/>
             <LateralMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} 
                 changeLanguage={changeLanguage} isDashboard={false}/>
-            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"}>
+            <Stack flexDir={"column"} justifyContent="center" alignItems={"center"} spacing={"12px"}>
                 <ErrorMessageAlert errorMessage={errorMessage} 
                     t={t} errorWhere={"error.statistics.top"}/> 
                 <FaChartBar style={{ fontSize: '2.5rem', color: 'green' }} /> 
