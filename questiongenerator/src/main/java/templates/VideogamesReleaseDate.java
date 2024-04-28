@@ -9,7 +9,7 @@ import java.util.List;
 public class VideogamesReleaseDate extends QuestionTemplate {
     List<String> videoGameLabels;
 
-    private static final String[] spanishStringsIni = {"¿Cuándo fue publicado ", "¿En qué fecha fue lanzado ", "¿Cuándo fue lanzado ", "¿En qué fecha fue publicado "};
+    private static final String[] spanishStringsIni = {"¿Cuándo se publicó ", "¿En qué fecha fue lanzado ", "¿Cuándo fue lanzado ", "¿En qué fecha fue publicado "};
     private static final String[] englishStringsIni= {"When was ", "On what date was ", "When was ", "On what date was "};
 
     private static final String[] spanishStringsFin = {"?", "?", "?", "?"};
