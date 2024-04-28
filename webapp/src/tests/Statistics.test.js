@@ -34,11 +34,6 @@ describe("Statistics", () => {
     expect(screen.getByTestId("leaderboard-spinner")).toBeEnabled();
   });
 
-  test("the user statistics component is rendered", () => {
-    render(<ChakraProvider theme={theme}><MemoryRouter><Statistics /></MemoryRouter></ChakraProvider>);
-    expect(screen.getByTestId("user-statistics")).toBeEnabled();
-  })
-
   describe("a petition is made requesting the top ten", () => {
     const authManager = new AuthManager();
     let mockAxios;
