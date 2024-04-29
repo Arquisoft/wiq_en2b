@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Center, Heading, Stack, Box, Text, Image, Container, SimpleGrid} from '@chakra-ui/react';
+import { Center, Heading, Stack, Box, Text, Image, Container} from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
 
 import LateralMenu from '../components/menu/LateralMenu';
@@ -26,7 +26,7 @@ export default function About() {
               <Heading as="h2">{t('page404.title')}</Heading>
             </Box> 
             <Stack spacing={4} p="1rem" backgroundColor="whiteAlpha.900" boxShadow="md" rounded="1rem" data-testid={"About page"} alignItems="center">
-                <Image src='/img/kiwi.png' alt='404Kiwi' boxSize='120px' />
+                <Image src='/img/kiwi.gif' alt='404Kiwi' boxSize='120px' />
                 <Text fontWeight='extrabold' color={"forest_green.400"} textAlign={"center"} fontSize={"md"}>{t("page404.text")}</Text>
                 <GoBack/>
             </Stack>

@@ -100,6 +100,7 @@ const LateralMenu = ({ isOpen, onClose, changeLanguage, isDashboard }) => {
                         </Box>
                     </DrawerBody>
                     <DrawerFooter>
+                        <Image src='/img/kiwi-3.gif' alt='404Kiwi' boxSize='60px' />
                         <Flex justify="flex-end" align="center" w="100%">
                             {isLoggedIn && (
                                 <Button data-testid={"LogOut"} type="submit" colorScheme="raw_umber" margin={"10px"} className={"custom-button effect1"} onClick={handleLogout} width="70%">{t("common.logout")}</Button>
