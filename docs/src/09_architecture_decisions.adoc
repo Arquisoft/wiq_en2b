@@ -58,7 +58,6 @@ The team has agreed to drop MongoDB and to use *PostgreSQL*.
 *Scope:* frontend, webapp
 
 *Description:*
-
 To enhance the efficiency and effectiveness of our development process, we've taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.
 
 *Decision taken:*
