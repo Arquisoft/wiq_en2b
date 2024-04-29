@@ -1,6 +1,7 @@
 Feature: Preventing wrong user creation
 
-  Scenario: The user is not registered in the site and tries to create an account
+  Scenario: The user is not registered in the root directory of the website and tries to create an account
     Given An unregistered user
-    When I fill the data in the form with a wrong email format and press submit
+    When The user fills its data in the form placing a wrong email format
+    And Press Log in button
     Then Log in screen shows an informative error message and does not allow the user to log in
