@@ -12,6 +12,7 @@ import Statistics from "pages/Statistics";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Logout from "pages/Logout";
 import About from "pages/About";
+import NotFound from "pages/NotFound";
 
 export default createRoutesFromElements(
   <Route path="/">
@@ -27,5 +28,6 @@ export default createRoutesFromElements(
       <Route path="/dashboard/statistics" element={<Statistics />} />
       <Route path="/logout" element={<Logout />} />
     </Route>
+      <Route path="*" element={<NotFound />} />
   </Route>
 )
