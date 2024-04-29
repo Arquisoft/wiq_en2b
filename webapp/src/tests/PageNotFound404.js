@@ -19,7 +19,7 @@ describe('404 page', () => {
     it('renders title and description correctly', () => {
         const { getByText } = render(<ChakraProvider theme={theme}><MemoryRouter><PageNotFound /></MemoryRouter></ChakraProvider>);
 
-        expect(getByText('404 - Page not found')).toBeInTheDocument();
-        expect(getByText('Woops! You seem lost! Click on go back to find your way.')).toBeInTheDocument();
+        expect(getByText('page404.title')).toBeInTheDocument();
+        expect(getByText('page404.text')).toBeInTheDocument();
     });
 });
