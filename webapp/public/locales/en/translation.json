@@ -98,5 +98,9 @@
         "title": "About",
         "description1": "We are the WIQ_EN2B group and we are delighted that you like 🥝KIWIQ🥝. Enjoy your meal!!!",
         "tableheader": "Developers"
+    },
+    "page404": {
+        "title": "404 - Page not found",
+        "text": "Woops! You seem lost! Click on go back to find your way."
     }
 }

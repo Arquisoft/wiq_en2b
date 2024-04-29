@@ -97,5 +97,9 @@
         "title": "Sobre nosotros",
         "description1": "Somos el grupo WIQ_EN2B y estamos encantados de que te guste 🥝KIWIQ🥝. Que aproveche!!!",
         "tableheader": "Desarrolladores"
+    },
+    "page404": {
+        "title": "404 - Página no encontrada",
+        "text": "Qué liaste ho? Haz click en volver para regresar pa casina."
     }
 }
