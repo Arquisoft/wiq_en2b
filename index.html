@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.22">
+<meta name="generator" content="Asciidoctor 2.0.20">
 <title>KIWIQ</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,7 +162,6 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
-body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -328,7 +327,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -490,7 +489,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a></li>
-<li><a href="#section-design-decisions">9. Architecture Decisions</a></li>
+<li><a href="#section-design-decisions">9. Architecture Decisions</a>
+<ul class="sectlevel2">
+<li><a href="#_main_webapp_technology">9.1. Main webapp technology</a></li>
+<li><a href="#_react_technology_to_be_used">9.2. React technology to be used</a></li>
+<li><a href="#_main_backend_technology">9.3. Main backend technology</a></li>
+<li><a href="#_replacing_mongodb_with_a_relational_dbms">9.4. Replacing MongoDB with a relational DBMS</a></li>
+<li><a href="#_libraries_for_react">9.5. Libraries for React</a></li>
+<li><a href="#_http2_and_https">9.6. HTTP/2 and HTTPS</a></li>
+<li><a href="#_architecture_of_the_question_generator_process">9.7. Architecture of the question generator process</a></li>
+<li><a href="#_connect_to_the_database_with_the_question_generator">9.8. Connect to the database with the question generator</a></li>
+<li><a href="#_workflow_of_the_game_logic">9.9. Workflow of the game logic</a></li>
+</ul>
+</li>
 <li><a href="#section-quality-scenarios">10. Quality Requirements</a>
 <ul class="sectlevel2">
 <li><a href="#_quality_tree">10.1. Quality Tree</a></li>
@@ -826,7 +837,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_business_context">3.1. Business Context</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/C4%20Level%201%20-%20Business%20context%20diagram.png" alt="C4 Level 1   Business context diagram" width="377" height="591">
+<img src="./images/C4%20Level%201%20-%20Business%20context%20diagram.png" alt="C4 Level 1   Business context diagram" width="1022" height="578">
 </div>
 <div class="title">Figure 14. Overall view of the business context</div>
 </div>
@@ -838,7 +849,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_technical_context">3.2. Technical Context</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/C4%20Level%202%20-%20Container%20context%20diagram.png" alt="C4 Level 2   Container context diagram" width="687" height="1111">
+<img src="./images/C4%20Level%202%20-%20Container%20context%20diagram.png" alt="C4 Level 2   Container context diagram" width="1008" height="578">
 </div>
 <div class="title">Figure 15. Overall view of the technical context</div>
 </div>
@@ -1106,7 +1117,7 @@ The Question Generator will also use the WikiData REST API to retrieve informati
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Business%20context%20diagram.png" alt="Business context diagram" width="377" height="591">
+<img src="./images/Business%20context%20diagram.png" alt="Business context diagram" width="1017" height="578">
 </div>
 <div class="title">Figure 16. Overall view of the business context</div>
 </div>
@@ -1149,7 +1160,7 @@ The Question Generator will also use the WikiData REST API to retrieve informati
 <h3 id="_container_diagram_c4_level_2">5.2. Container Diagram (C4 Level 2)</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Container%20diagram.png" alt="Container diagram" width="687" height="1111">
+<img src="./images/Container%20diagram.png" alt="Container diagram" width="1026" height="578">
 </div>
 <div class="title">Figure 17. Overall view of the container context</div>
 </div>
@@ -1200,7 +1211,7 @@ The Question Generator Module connects to the WIQ DataBase through JPA, where it
 <h3 id="_component_diagram_c4_level_3">5.3. Component Diagram (C4 Level 3)</h3>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Component%20diagram.png" alt="Component diagram" width="1176" height="1308">
+<img src="./images/Component%20diagram.png" alt="Component diagram" width="1012" height="578">
 </div>
 <div class="title">Figure 18. Overall view of the component context</div>
 </div>
@@ -1297,7 +1308,7 @@ Tasked with handling the statistics, allowing to check the top 10 users in the s
 <div class="sectionbody">
 <div class="imageblock">
 <div class="content">
-<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="704" height="903">
+<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="1040" height="578">
 </div>
 </div>
 <div class="sect2">
@@ -1362,7 +1373,7 @@ Tasked with handling the statistics, allowing to check the top 10 users in the s
 <h4 id="_apibackend">7.2.2. API/Backend</h4>
 <div class="imageblock">
 <div class="content">
-<img src="./images/API%20Deployment%20diagram.png" alt="API Deployment diagram" width="435" height="478">
+<img src="./images/API%20Deployment%20diagram.png" alt="API Deployment diagram" width="1033" height="578">
 </div>
 </div>
 <div class="sect4">
@@ -1397,7 +1408,7 @@ Tasked with handling the statistics, allowing to check the top 10 users in the s
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Concept%20Domain%20Model.png" alt="Concept Domain Model" width="660" height="1232">
+<img src="./images/Concept%20Domain%20Model.png" alt="Concept Domain Model" width="1017" height="593">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1495,56 +1506,162 @@ In order to archieve this, we will implement two modules regarding questions, on
 <div class="paragraph">
 <p>During the application development process, decisions had to be made as issues emerged. The most interesting design decisions are reflected in this architectural records:</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 20%;">
-<col style="width: 80%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Decision</th>
-<th class="tableblock halign-left valign-top">Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Offers a powerful combination of performance, flexibility, and developer experience, making it a popular choice for building modern web applications. One of the members of the group has already worked with it in the past. It allows us to build a good user interface for the application.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SpringBoot</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">This choice is based on the extensive experience accumulated by our team in developing with Java, as well as the familiarity and comfort offered by the tools and practices associated with the Spring Boot ecosystem.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">PostgreSQL</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We have chosen to use the PostgreSQL database instead of MongoDB due to the relational nature of PostgreSQL, which offers a robust and coherent structure for storing and relating data. We made this decision to ensure data integrity, perform complex queries, and maintain consistency in our storage operations.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React Libraries</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">To enhance the efficiency and effectiveness of our development process, we&#8217;ve taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HTTPS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">To improve security we have decided to make HTTPS as one main requirements in out project as can be seen in issue #51.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Architecture of the Question Generator</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It has been decided to implement the QG in an independent module so it is only run once and it is not generating questions at real time, this way, we are not dependent on wikidata for having our application available.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Template method pattern</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We chose to apply our software design knowledge and generate the questions following a template method in Java. This allows us to create new questions easily and without duplicating too much code.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of JPA in the Question Generator</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We used JPA in favor of JDBC as when tables are related in a DB, JPA makes it easier to write into the DB.</p></td>
-</tr>
-</tbody>
-</table>
+<div class="sect2">
+<h3 id="_main_webapp_technology">9.1. Main webapp technology</h3>
 <div class="paragraph">
-<p>If needed, more details are given in the <a href="https://github.com/Arquisoft/wiq_en2b/wiki">wiki</a>.</p>
+<p><strong>Date Recorded:</strong> 01/02/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> frontend, webapp</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+Offers a powerful combination of performance, flexibility, and developer experience, making it a popular choice for building modern web applications. One of the members of the group has already worked with it in the past. It allows us to build a good user interface for the application.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The frontend team has agreed to use <strong>React</strong> or a React framework, as all members agree they are not up to the task of maintaining a personalised stylesheet.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_react_technology_to_be_used">9.2. React technology to be used</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 01/02/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> frontend, webapp</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+The frontend team has been discussing whether to use React or a React framework like Next.js as it is the currently recommended option.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The frontend team has agreed to use a <strong>pure React-based approach</strong> due to most members not having any kind of prior experience with React and those that do have it are do not feel confident enough in their skills.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_main_backend_technology">9.3. Main backend technology</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 01/02/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> backend, API</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+The backend team wants to deprecate the given Node.js microservices system in favour of a monolithic Springboot-based approach. This is mainly due to only one member having prior experience in Node.js development. No members support keeping the current approach, and when asked if SpringBoot would allow a possible microservices constraint, a member of the backend team has stated that a proper-developed SpringBoot application should be easy to divide between different microservices.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The backend team has agreed to use <strong>SpringBoot</strong> and <strong>JPA</strong> for the backend.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_replacing_mongodb_with_a_relational_dbms">9.4. Replacing MongoDB with a relational DBMS</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 01/02/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> database</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+A member of the backend has proposed the replacement of MongoDB as DBMS, with PostgreSQL replacing it. A member of the frontend team has supported it, remarking modern DBMS have built-in JSON support if needed. Other members of the backend team have stated their agreement, as many of them do not have prior experience with MongoDB and prefer relational databases.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The team has agreed to drop MongoDB and to use <strong>PostgreSQL</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_libraries_for_react">9.5. Libraries for React</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 09/02/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> frontend, webapp</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong></p>
+</div>
+<div class="paragraph">
+<p>To enhance the efficiency and effectiveness of our development process, we&#8217;ve taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The team has agreed to use Chakra UI as the main library for the frontend.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_http2_and_https">9.6. HTTP/2 and HTTPS</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 23/02/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> security</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+To improve security we have decided to make HTTP/2 and HTTPS  one of the main requirements in our project as can be seen in issue #51.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The team has agreed to use <strong>HTTP/2</strong> and <strong>HTTPS</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_architecture_of_the_question_generator_process">9.7. Architecture of the question generator process</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 03/03/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> backend, question generator</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+The question generator must be a part of our application, but different to the webapp or the API, it doesnt need to be running on a loop. It just needs to be run once everytime we want to load or update questions. Implementing it in the API module would result on more coupling but not duplicating code for the model. On the other hand, implementing it in a new module would make the application cleaner and easier to change.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The team has decided to implement the question generator as a <strong>separate module</strong> of our application.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connect_to_the_database_with_the_question_generator">9.8. Connect to the database with the question generator</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 10/03/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> backend, question generator, database</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+The backend team has been discussing whether to use JPA or JDBC to connect to the database with the question generator. When researching JPA it was found that although it is easier to use since the models already exist in our API, the models cannot be used from a different package, which makes us duplicate code as we do not have time to research another way of implementing it. On the other hand, JDBC would be more complex to use and does not have the same level of flexibility as JPA.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The team has agreed to use <strong>JPA</strong> to connect to the database with the question generator. Although this will generate duplication of code in the models, it should be manageable due to the small size of the project. This will be recorded as technical debt and  new approach should be looked into if the project grows in size.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_workflow_of_the_game_logic">9.9. Workflow of the game logic</h3>
+<div class="paragraph">
+<p><strong>Date Recorded:</strong> 19/03/2024</p>
+</div>
+<div class="paragraph">
+<p><strong>Scope:</strong> backend, game logic</p>
+</div>
+<div class="paragraph">
+<p><strong>Description:</strong>
+The game logic must be implemented in the backend, since implementing it in the frontend would make it very dependent on performance and prone to allowing cheating and exploits. The questions will be served to the frontend each round but then validated in the backend, to prevent cheating. Points will also be automatically calculated in the backend.</p>
+</div>
+<div class="paragraph">
+<p><strong>Decision taken:</strong>
+The team has agreed to implement the game logic in the backend to make it more robust and prevent cheating.</p>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1557,7 +1674,7 @@ In order to archieve this, we will implement two modules regarding questions, on
 </div>
 <div class="imageblock text-center">
 <div class="content">
-<img src="./images/Quality%20Tree.png" alt="Quality Tree" width="1234" height="246">
+<img src="./images/Quality%20Tree.png" alt="Quality Tree" width="1057" height="578">
 </div>
 </div>
 </div>
@@ -1809,61 +1926,6 @@ Make sure to put kiwiq.run.place:8443 as the Instance and WIQ API as the applica
 <td class="tableblock halign-left valign-top"><p class="tableblock">It is probably the first time involvement in developing a project from scratch, including decisions on architecture, design, and implementation, introduces various challenges. Misunderstandings regarding tasks and version control management errors can result in individuals inadvertently disrupting the work of others. Additionally, the necessity to make numerous decisions and reach agreements increases the likelihood of errors, potentially consuming significant time and effort.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">To ensure effective collaboration and organization, adhere to the teachers' instructions concerning GitHub, including utilizing features such as issues and pull requests, and maintain a disciplined approach to your work. Furthermore, leverage the collective knowledge and suggestions of every team member, integrating them with your existing expertise.</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Hardcoded url in prometheus.yml</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We do not have the expertise in prometheus to know how to properly set up the URL, so we decided to harcode it.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Investigate the way to use a variable in the file and use it.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Hardcoded ip in graphana dashboard.yml</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">As in the previous case, we do not have the expertise in graphana to know how to properly set up the IP, so we decided to harcode it.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Investigate the way to use a variable in the file and use it.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Non optimal code (loadAnswers)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">When designing the application we did not take into account that two users may have the same question given to them at the same time. To solve a problem that would arise with that, we decided to just load the distractors of a question once and use the same distractors for all following games, this means that a question always has the same distractors which can get boring.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Rewrite the code (which means altering the workflow) so the distractors are load per game and user, so everytime a questions is asked, the distractors are different.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of "supress warnings"</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We use Lombok to annotate our classes and make the code lighter, this means that getters and setters are generated by the annotations and not explicitly written in our code, due to this, SonarCloud thinks that our private attributes are not used (the getters and setters are public and used by outside classes, but SonarCloud does not detect that).</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sadly, at this moment we do not think this can be avoided, so the mitigation is just to wait for a SonarCloud update that does detect this.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Questions tied to ID</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Questions are tied to the game entities by means of relational tables via id, which makes it difficult to update if they change.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Creating a unique identifier for each question that can stay throughout versions, so we do not need the BD autogenerated ID to access them.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JWT handling could be improved</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Handling the session has been difficult and we came up with a solution that works, but can be improved.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We should investigate how to improve session handling, as an example using React context</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usage of React</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">React has proven to be a pain to work with, so we could change it for better options in case we shall continue the developing of the application.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Changing to Vue.js should be considered.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Queries are hardcoded</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">To write the questions faster and prevent losing time with possible bugs we hardcoded the queries to Wikidata, which makes the code less readable and maintainable.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The queries can be written in an external file and then read in the code, possibly using a properties file.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG code can be refactored for lighter classes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">As with all the projects in Software developing, as you code you find yourself repeating lines, this has happened in the Question templates, which makes it a bit tedious to change those files.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">More abstract classes should be included between the QuestionTemplate.java class and each implementation of it.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Use of relational DB for questions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We started using a relational DB as we were more comfortable with it, but it caused its own troubles, as repeating many lines in the DB.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Using a NoSQL DB as Neo4j for storing the questions could be better as it would be lighter and we would keep the relations that exist in Wikidata between questions.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">e2e ran in local</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We had many troubles trying to set up the e2e in the actions, as they include setting up the db and filling it before this tests are started.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">We should investigate about this and learn how to set up the tests.</p></td>
-</tr>
 </tbody>
 </table>
 <div class="paragraph">
@@ -1896,7 +1958,7 @@ Make sure to put kiwiq.run.place:8443 as the Instance and WIQ API as the applica
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>The name of our project</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Question Generator (QG)</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Question Generator</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>A module of the application responsible for querying Wikidata, creating the questions and storing them in our DB</em></p></td>
 </tr>
 </tbody>
@@ -2169,7 +2231,7 @@ Make sure to put kiwiq.run.place:8443 as the Instance and WIQ API as the applica
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-07 22:57:59 +0200
+Last updated 2024-04-08 23:24:17 +0200
 </div>
 </div>
 </body>
