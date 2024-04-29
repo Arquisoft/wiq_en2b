@@ -6,27 +6,110 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 During the application development process, decisions had to be made as issues emerged. The most interesting design decisions are reflected in this architectural records:
 
-[options="header",cols="1,4"]
-|===
-|Decision|Explanation
-|React
-|Offers a powerful combination of performance, flexibility, and developer experience, making it a popular choice for building modern web applications. One of the members of the group has already worked with it in the past. It allows us to build a good user interface for the application.
+=== Main webapp technology
+*Date Recorded:* 01/02/2024
 
-|SpringBoot
-|This choice is based on the extensive experience accumulated by our team in developing with Java, as well as the familiarity and comfort offered by the tools and practices associated with the Spring Boot ecosystem.
+*Scope:* frontend, webapp
 
-|PostgreSQL
-|We have chosen to use the PostgreSQL database instead of MongoDB due to the relational nature of PostgreSQL, which offers a robust and coherent structure for storing and relating data. We made this decision to ensure data integrity, perform complex queries, and maintain consistency in our storage operations.
+*Description:*
+Offers a powerful combination of performance, flexibility, and developer experience, making it a popular choice for building modern web applications. One of the members of the group has already worked with it in the past. It allows us to build a good user interface for the application.
 
-|React Libraries
-|To enhance the efficiency and effectiveness of our development process, we've taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.
+*Decision taken:*
+The frontend team has agreed to use *React* or a React framework, as all members agree they are not up to the task of maintaining a personalised stylesheet.
 
-|HTTPS
-|To improve security we have decided to make HTTPS as one main requirements in out project as can be seen in issue #51.
+=== React technology to be used
+*Date Recorded:* 01/02/2024
 
-|Architecture of the Question Generator
-|It has been decided to implement the QG in an independent module so it is only run once and it is not generating questions at real time, this way, we are not dependent on wikidata for having our application available.
-|===
+*Scope:* frontend, webapp
 
-If needed, a more descriptive record can be seen link:https://github.com/Arquisoft/wiq_en2b/wiki[here].
+*Description:*
+The frontend team has been discussing whether to use React or a React framework like Next.js as it is the currently recommended option.
+
+*Decision taken:*
+The frontend team has agreed to use a *pure React-based approach* due to most members not having any kind of prior experience with React and those that do have it are do not feel confident enough in their skills.
+
+=== Main backend technology
+
+*Date Recorded:* 01/02/2024
+
+*Scope:* backend, API
+
+*Description:*
+The backend team wants to deprecate the given Node.js microservices system in favour of a monolithic Springboot-based approach. This is mainly due to only one member having prior experience in Node.js development. No members support keeping the current approach, and when asked if SpringBoot would allow a possible microservices constraint, a member of the backend team has stated that a proper-developed SpringBoot application should be easy to divide between different microservices.
+
+*Decision taken:*
+The backend team has agreed to use *SpringBoot* and *JPA* for the backend.
+
+=== Replacing MongoDB with a relational DBMS
+
+*Date Recorded:* 01/02/2024
+
+*Scope:* database
+
+*Description:*
+A member of the backend has proposed the replacement of MongoDB as DBMS, with PostgreSQL replacing it. A member of the frontend team has supported it, remarking modern DBMS have built-in JSON support if needed. Other members of the backend team have stated their agreement, as many of them do not have prior experience with MongoDB and prefer relational databases.
+
+*Decision taken:*
+The team has agreed to drop MongoDB and to use *PostgreSQL*.
+
+=== Libraries for React
+*Date Recorded:* 09/02/2024
+
+*Scope:* frontend, webapp
+
+*Description:*
+
+To enhance the efficiency and effectiveness of our development process, we've taken proactive steps to incorporate specific libraries into our project. These carefully chosen libraries, meticulously outlined in detail within issue #16.
+
+*Decision taken:*
+The team has agreed to use Chakra UI as the main library for the frontend.
+
+
+=== HTTP/2 and HTTPS
+*Date Recorded:* 23/02/2024
+
+*Scope:* security
+
+*Description:*
+To improve security we have decided to make HTTP/2 and HTTPS  one of the main requirements in our project as can be seen in issue #51.
+
+*Decision taken:*
+The team has agreed to use *HTTP/2* and *HTTPS*.
+
+=== Architecture of the question generator process
+*Date Recorded:* 03/03/2024
+
+*Scope:* backend, question generator
+
+*Description:*
+The question generator must be a part of our application, but different to the webapp or the API, it doesnt need to be running on a loop. It just needs to be run once everytime we want to load or update questions. Implementing it in the API module would result on more coupling but not duplicating code for the model. On the other hand, implementing it in a new module would make the application cleaner and easier to change.
+
+*Decision taken:*
+The team has decided to implement the question generator as a *separate module* of our application.
+
+=== Connect to the database with the question generator
+*Date Recorded:* 10/03/2024
+
+*Scope:* backend, question generator, database
+
+*Description:*
+The backend team has been discussing whether to use JPA or JDBC to connect to the database with the question generator. When researching JPA it was found that although it is easier to use since the models already exist in our API, the models cannot be used from a different package, which makes us duplicate code as we do not have time to research another way of implementing it. On the other hand, JDBC would be more complex to use and does not have the same level of flexibility as JPA.
+
+
+*Decision taken:*
+The team has agreed to use *JPA* to connect to the database with the question generator. Although this will generate duplication of code in the models, it should be manageable due to the small size of the project. This will be recorded as technical debt and  new approach should be looked into if the project grows in size.
+
+=== Workflow of the game logic
+*Date Recorded:* 19/03/2024
+
+*Scope:* backend, game logic
+
+*Description:*
+The game logic must be implemented in the backend, since implementing it in the frontend would make it very dependent on performance and prone to allowing cheating and exploits. The questions will be served to the frontend each round but then validated in the backend, to prevent cheating. Points will also be automatically calculated in the backend.
+
+*Decision taken:*
+The team has agreed to implement the game logic in the backend to make it more robust and prevent cheating.
+
+
+
 
