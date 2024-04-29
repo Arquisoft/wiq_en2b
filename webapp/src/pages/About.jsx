@@ -32,7 +32,7 @@ export default function About() {
                 <Tbody>
                   <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
                     <Td><Avatar name='Gonzalo Alonso Fernández' src='./img/avatar/avatar-gonzaa.jpg' /></Td>
-                    <Td><Link href='https://www.linkedin.com/in/gonzalo-alonso-fern%C3%A1ndez-277436219//' isExternal > Gonzalo Alonso Fernández</Link></Td>
+                    <Td><Link href='https://www.linkedin.com/in/gonzalo-alonso-fern%C3%A1ndez-277436219/' isExternal > Gonzalo Alonso Fernández</Link></Td>
                   </Tr>
                   <Tr _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
                     <Td><Avatar name='Sergio Rodríguez García' src='./img/avatar/avatar-sergior.jpg' /></Td>

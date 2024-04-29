@@ -27,7 +27,7 @@ export default function UserStatistics() {
                             value: request.data.wrong,
                         },
                     ],
-                    rate: request.data.correct_rate
+                    rate: request.data.percentage
                 });
                 setRetrievedData(true);
             } else {
