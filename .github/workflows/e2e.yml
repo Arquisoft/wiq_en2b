@@ -1,12 +1,9 @@
 name: End 2 End Tests
 
 on:
-  workflow_dispatch:
-    inputs:
-      message:
-        description: 'Message for the workflow'
-        required: false
-        default: 'Manually triggered workflow'
+  push:
+    branches:
+      - test/e2e
 
 jobs:
   e2e-tests:
