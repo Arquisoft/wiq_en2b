@@ -35,6 +35,7 @@ Gonzalo Suárez Losada | <a href="https://github.com/uo283928"><img src="https:/
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2b)
 
+[![Run Workflow](https://img.shields.io/badge/Run%20Workflow-Click%20Here-blue?style=for-the-badge)](.github/workflows/e2e.yml)
 This is a repository for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
 
 This repo is a basic application composed of several components.
