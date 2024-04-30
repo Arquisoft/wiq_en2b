@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: apt install openssl
+      - run: sudo apt install -y openssl
       - run: openssl req -newkey rsa:2048 -nodes -keyout server.key -out server.csr -subj "/CN=localhost"
       - run: openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
       - run: openssl pkcs12 -export -out server.p12 -inkey server.key -in server.crt -password pass:{{ secrets.E2E_SSL_PASSWORD }}
