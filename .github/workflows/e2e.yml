@@ -25,8 +25,9 @@ jobs:
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "REACT_APP_API_ENDPOINT=https://localhost:8443" >> ./webapp/.env
           echo "SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}" >> .env
-      - run: docker compose -f ./webapp/e2e/docker-compose.yml up -d
+      - run: docker compose -f ./webapp/e2e/docker-compose.yml up -d -e DATABASE_USER=${{ secrets.DATABASE_USER }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e JWT_SECRET=${{ secrets.JWT_SECRET }} -e SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}
       - run: npm --prefix webapp install
       - run: docker ps -a
+      - run: docker logs api-defaultASW
       #- run: npm --prefix webapp run build
       - run: npm --prefix webapp run test:e2e
