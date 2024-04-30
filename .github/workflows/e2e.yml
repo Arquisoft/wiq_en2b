@@ -1,0 +1,22 @@
+name: End 2 End Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message for the workflow'
+        required: false
+        default: 'Manually triggered workflow'
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: docker compose --profile e2e up -d --pull always
+      - run: npm --prefix webapp install
+      - run: npm --prefix webapp run build
+      - run: npm --prefix webapp run test:e2e
