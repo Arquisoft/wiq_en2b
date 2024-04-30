@@ -53,18 +53,6 @@
       depends_on:
         - WIQ_DB
 
-    webapp: 
-      container_name: webapp-${teamname:-defaultASW}
-      build: 
-        args: 
-          REACT_APP_API_ENDPOINT: ${API_URI} 
-        context: ../../webapp
-        dockerfile: Dockerfile
-      environment: 
-        - REACT_APP_API_ENDPOINT=${API_URI} 
-      networks: 
-        mynetwork: 
-
   volumes:
     postgres_data:
     certs:
