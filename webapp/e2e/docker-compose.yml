@@ -8,7 +8,6 @@
       volumes:
         - postgres_data:/var/lib/postgresql/data
       image: postgres:latest
-      profiles: ["dev", "prod","e2e"]
       networks:
         mynetwork:
 
