@@ -14,7 +14,7 @@
     api:
       container_name: api-${teamname:-defaultASW}
       build:
-        context: ./api
+        context: ../../api
         args:
           DATABASE_USER: ${DATABASE_USER}
           DATABASE_PASSWORD: ${DATABASE_PASSWORD}
@@ -39,7 +39,7 @@
     question-generator:
       container_name: question-generator-${teamname:-defaultASW}
       build:
-        context: ./questiongenerator
+        context: ../../questiongenerator
         args:
           DATABASE_USER: ${DATABASE_USER}
           DATABASE_PASSWORD: ${DATABASE_PASSWORD}
@@ -58,7 +58,7 @@
       build: 
         args: 
           REACT_APP_API_ENDPOINT: ${API_URI} 
-        context: ./webapp
+        context: ../../webapp
         dockerfile: Dockerfile
       environment: 
         - REACT_APP_API_ENDPOINT=${API_URI} 
