@@ -36,7 +36,6 @@
         - /certs:/etc/letsencrypt/live/kiwiq.run.place:ro
       depends_on:
         - WIQ_DB
-        - kiwiq
 
     question-generator:
       container_name: question-generator-${teamname:-defaultASW}
