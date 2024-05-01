@@ -14,6 +14,7 @@ import {
     AccordionPanel,
     Flex, ListItem, ListIcon, UnorderedList
 } from "@chakra-ui/react";
+import Avatar, { genConfig } from 'react-nice-avatar';
 import React, {useEffect, useState} from "react";
 import { useTranslation } from "react-i18next";
 import GoBack from "components/GoBack";
@@ -24,6 +25,7 @@ import { FaChartBar } from 'react-icons/fa';
 import MenuButton from '../components/menu/MenuButton';
 import LateralMenu from '../components/menu/LateralMenu';
 import {MdCheckCircle, MdClear, MdPercent} from "react-icons/md";
+import {Cell, Pie, PieChart} from "recharts";
 
 export default function Statistics() {
     const { t, i18n } = useTranslation();
@@ -57,14 +59,13 @@ export default function Statistics() {
             setErrorMessage(errorType);
         }
     }
-
     const formatTopTen = () => { 
         return topTen.map((element, counter) => { 
             return <AccordionItem key={`row-${counter}`}>
                 <AccordionButton _hover={{animation:"zoomIn 0.05s ease-in forwards"}}>
-                    <Box as='span' flex='1' textAlign='space-between'>
+                    <Box as='span' flex='1' textAlign='space-around'>
                         <Flex justifyContent="space-between">
-                            <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"} >{counter + 1}</Text>
+                            <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"} minW={"10%"} >{counter + 1}</Text>
                             <Text fontSize='l'>{element.user.username} </Text>
                             <Text fontSize='l' fontWeight='extrabold' color={"pigment_green.400"}>{element.points} {element.user.username !== 'Dario G. Mori'? '🥝': '🍌' } </Text>
                         </Flex>
@@ -72,20 +73,41 @@ export default function Statistics() {
                     <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel pb={4}>
-                    <UnorderedList spacing={3}>
-                        <ListItem key={`row-${counter}-right`}>
-                            <ListIcon as={MdCheckCircle} color={"green"} />
-                            {t("statistics.texts.personalRight", {right: element.right})}
-                        </ListItem>
-                        <ListItem key={`row-${counter}-wrong`}>
-                            <ListIcon as={MdClear} color={"red"}/>
-                            {t("statistics.texts.personalWrong", {wrong: element.wrong})}
-                        </ListItem>
-                        <ListItem key={`row-${counter}-percentage`}>
-                            <ListIcon as={MdPercent} color={"blue"}/>
-                            {t("statistics.texts.personalRate", {rate: element.percentage})}
-                        </ListItem>
-                    </UnorderedList>
+                    <Flex justifyContent={"space-around"}>
+                        <Avatar style={{ width: '6rem', height: '6rem' }} {...genConfig(element.user.email)} data-testid={"avatar"}/>
+                        <Flex minW={"60%"} justifyContent={"space-between"}>
+                            <PieChart width={100} height={100} data-testid={"chart"}>
+                                <Pie data={[
+                                    {
+                                        name: t("statistics.texts.personalRight"),
+                                        value: element.right,
+                                    },
+                                    {
+                                        name: t("statistics.texts.personalWrong"),
+                                        value: element.wrong,
+                                    },
+                                ]} dataKey="value" innerRadius={28} outerRadius={40} fill="#82ca9d" paddingAngle={5}
+                                     cx={50} cy={50} labelLine={false} >
+                                    <Cell key={"cell-right"} fill={"green"}/>
+                                    <Cell key={"cell-right"} fill={"#955e42"}/>
+                                </Pie>
+                            </PieChart>
+                            <UnorderedList spacing={3}>
+                                <ListItem key={`row-${counter}-right`}>
+                                    <ListIcon as={MdCheckCircle} color={"green"} />
+                                    {t("statistics.texts.personalRight", {right: element.right})}
+                                </ListItem>
+                                <ListItem key={`row-${counter}-wrong`}>
+                                    <ListIcon as={MdClear} color={"red"}/>
+                                    {t("statistics.texts.personalWrong", {wrong: element.wrong})}
+                                </ListItem>
+                                <ListItem key={`row-${counter}-percentage`}>
+                                    <ListIcon as={MdPercent} color={"blue"}/>
+                                    {t("statistics.texts.personalRate", {rate: element.percentage})}
+                                </ListItem>
+                            </UnorderedList>
+                        </Flex>
+                    </Flex>
                 </AccordionPanel>
             </AccordionItem>
 
