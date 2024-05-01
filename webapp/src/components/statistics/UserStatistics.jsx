@@ -65,7 +65,7 @@ export default function UserStatistics() {
                         {t("common.statistics.personal")}
                     </Heading>
                     <Stack width="100%" direction={"row"} justifyContent={"space-between"} alignItems={"flex-start"}>
-                        <Stack paddingLeft={"6rem"}>
+                        <Stack >
                             <Box>
                                 <Heading mt={2} mb={2} display={"flex"} justifyContent={"center"} alignItems={"center"} as="h3" fontSize={"1.25em"}>
                                     {t("statistics.rightAnswers")}
@@ -75,10 +75,10 @@ export default function UserStatistics() {
                                 </Text>
                             </Box>
                             <Box>
-                                <Heading mt={2} mb={2} display={"flex"} justifyContent={"center"} alignItems={"center"} as="h3" fontSize={"1.25em"}>
+                                <Heading mt={2} mb={2} display={"flex"} justifyContent={"center"} alignItems={"center"} as="h3" fontSize={"1.25em"} color={"#955e42"}>
                                     {t("statistics.wrongAnswers")}
                                 </Heading>
-                                <Text display={"flex"} justifyContent={"center"} alignItems={"center"}>
+                                <Text display={"flex"} justifyContent={"center"} alignItems={"center"} >
                                     {t("statistics.texts.personalWrong", { wrong: userData.raw[1].value })}
                                 </Text>
                             </Box>
@@ -92,10 +92,11 @@ export default function UserStatistics() {
                             </Box>
                         </Stack>
                         <Box width={"50%"} height={"50%"} paddingLeft={"2rem"}>
-                            <PieChart width={200} height={200} data-testid={"chart"}>
-                                <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65} fill="#82ca9d" paddingAngle={5}>
-                                    <Cell key={"cell-right"} fill={"green"} />
-                                    <Cell key={"cell-right"} fill={"red"} />
+                            <PieChart width={140} height={140} data-testid={"chart"}>
+                                <Pie data={userData.raw} dataKey="value" innerRadius={48} outerRadius={65} fill="#82ca9d" paddingAngle={5}
+                                     cx={65} cy={65} labelLine={false} >
+                                    <Cell key={"cell-right"} fill={"green"}/>
+                                    <Cell key={"cell-right"} fill={"#955e42"}/>
                                 </Pie>
                             </PieChart>
                         </Box>

@@ -19,7 +19,6 @@ export default function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false); 
 
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
@@ -35,7 +34,6 @@ export default function Signup() {
     }
 
     const sendRegistration = async () => {
-        setIsSubmitting(true); 
         if (confirmPassword.trim() === "") {
             setErrorMessage({ type: t("error.conflict.type"), message: t("error.empty_password") });
             return;

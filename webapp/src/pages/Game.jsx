@@ -19,6 +19,7 @@ import { HttpStatusCode } from "axios";
 export default function Game() {
     const navigate = useRef(useNavigate()).current;
     const [loading, setLoading] = useState(true);
+    const [questionLoading, setQuestionLoading] = useState(true);
     const [gameId, setGameId] = useState(null); 
     const [question, setQuestion] = useState(null);
     const [answer, setAnswer] = useState({});
@@ -57,6 +58,7 @@ export default function Game() {
                 if (result.data.image) {
                     setHasImage(true);
                 }
+                setQuestionLoading(false);
             } else {
                 navigate("/dashboard");
             }
@@ -106,12 +108,13 @@ export default function Game() {
             let gameDetails = (await getGameDetails(gameId)).data;
             navigate("/dashboard/game/results", { state: { correctAnswers: gameDetails.correctly_answered_questions } });
         } else {
+            setQuestionLoading(true);
             setAnswer({});
             setHasImage(false);
             setNextDisabled(true);
             await startNewRound(gameId);
         }
-    }, [navigate, setAnswer, setNextDisabled, startNewRound,
+    }, [navigate, setAnswer, setNextDisabled, startNewRound, setQuestionLoading,
         gameId, maxRoundNumber, roundNumber]);
 
     const nextButtonClick = async () => {
@@ -208,15 +211,17 @@ export default function Game() {
                 </Flex>
             }
             <Box bg="white" p={"4 0.5"} borderRadius="md" boxShadow="md" mt={4} mb={4} w={["80%", "60%"]} shadow="2xl" rounded="1rem" alignItems="center">
-                {(question === null) ? (
-                    <Spinner
-                        thickness='4px'
-                        speed='0.65s'
-                        emptyColor='gray.200'
-                        color='green.500'
-                        size='xl'
-                        data-testid={"spinner"}
-                    />
+                {(question === null || questionLoading) ? (
+                    <Flex flexWrap={"wrap"} gap={4} mb={4} justify={"center"}>
+                        <Spinner
+                            thickness='9px'
+                            speed='0.65s'
+                            emptyColor='gray.200'
+                            color='green.500'
+                            size='xl'
+                            data-testid={"spinner"}
+                        />
+                    </Flex>
                 ) : <> 
                         <Text fontWeight='extrabold' fontSize="2xl" color={"forest_green.400"} id={"question"} textAlign={"center"}>{question.content}</Text>
                         <Flex flexWrap={"wrap"} gap={4} mb={4} justify={"center"}>
