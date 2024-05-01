@@ -67,7 +67,6 @@ defineFeature(feature, test => {
       }, 600000);
 
     afterAll(async (done) => {
-        done();
         await browser.close();
     });
 });
