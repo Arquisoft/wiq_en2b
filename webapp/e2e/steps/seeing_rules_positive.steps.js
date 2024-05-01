@@ -42,6 +42,7 @@ defineFeature(feature, test => {
           await expect(page).toClick("button[data-testid='Login'");
 
           // Checking user is in main screen
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("h2[class='chakra-heading css-79qjat']", (element) => {
             return element.innerHTML
           })

@@ -31,6 +31,7 @@ defineFeature(feature, test => {
         let gameURL = "http://localhost:3000/dashboard/game";
 
         given('A non-logged user in main menu', async () => {
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
