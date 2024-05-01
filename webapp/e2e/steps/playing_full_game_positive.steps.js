@@ -341,7 +341,7 @@ defineFeature(feature, test => {
         
       }, TEST_TIMEOUT);
 
-  afterAll(async (done) => {
-    await browser.close();
-  });
+      afterAll((done) => {
+        done();
+      });
 });
