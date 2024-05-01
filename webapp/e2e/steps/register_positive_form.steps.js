@@ -11,8 +11,8 @@ defineFeature(feature, test => {
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+            ? await puppeteer.launch({ ignoreHTTPSErrors: true})
+            : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -31,9 +31,7 @@ defineFeature(feature, test => {
         // Convert bytes to hex
         let hexString = randomBytes.toString('hex');
         // Take the first 16 characters
-        let randomHash = hexString.substring(0, 20);
-  
-
+        let randomHash = hexString.substring(0, 4);
 
         let username = "test" + randomHash
         let user = username + "@email.com"
