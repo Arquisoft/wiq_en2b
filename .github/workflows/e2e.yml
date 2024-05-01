@@ -24,7 +24,7 @@ jobs:
           echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "REACT_APP_API_ENDPOINT=https://localhost:8443" >> ./webapp/.env
+          echo "REACT_APP_API_ENDPOINT=http://localhost:8080" >> ./webapp/.env
           echo "SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}" >> .env
       - run: mv .env ./webapp/e2e/.env
       - run: ls ./webapp -la
