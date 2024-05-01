@@ -1,3 +1,7 @@
+import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
+import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +11,9 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.regis.pos";
+    let email;
+    let password; 
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,15 +28,21 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
+
+        
+         // Registering the user before the tests
+         let credentials = registerUserFromRootDirectory(username, page);
+         email = credentials[0]; 
+         username = credentials[1];
+         
+         // Logging it out
+         logOutUser(page);
       });
 
       test("A registered user wants to log in using his correct credentials", ({given,when,and,then}) => {
-        let username = "pepe"
-        let user = username + "@pepe.com"
-        let password = "pepe"
 
         given('A registered user in the root screen', async () => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -43,7 +56,7 @@ defineFeature(feature, test => {
         });
 
         and('User enters in the log in screen', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -53,7 +66,7 @@ defineFeature(feature, test => {
         });
 
         and('User fills the form with his credentials properly', async() => {
-          await expect(page).toFill("#user", user);
+          await expect(page).toFill("#user", email);
           await expect(page).toFill("#password", password);
         });
 
@@ -62,7 +75,7 @@ defineFeature(feature, test => {
         });
 
         then('The main menu screen shows on the user device', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
