@@ -35,5 +35,5 @@ jobs:
       - run: curl --location 'https://localhost:8443/questions?page=10'
       - run: docker ps -a
       - run: docker logs api-defaultASW
-      #- run: npm --prefix webapp run build
+      - run: npm --prefix webapp run build
       - run: npm --prefix webapp run test:e2e
