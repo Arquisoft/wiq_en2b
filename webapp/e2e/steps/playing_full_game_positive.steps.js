@@ -343,5 +343,6 @@ defineFeature(feature, test => {
 
       afterAll((done) => {
         done();
+        browser.close();
       });
 });
