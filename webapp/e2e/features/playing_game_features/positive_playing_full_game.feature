@@ -1,7 +1,7 @@
 Feature: Starting an entire game
 
-Scenario: A non-logged user wants to play an entire game (Kiwi Quest gamemode)
-    Given A non-logged user in the main menu
+Scenario: A logged user wants to play an entire game (Kiwi Quest gamemode)
+    Given A logged user in the main menu
     When Clicking the button to start a new game (Kiwi Quest gamemode)
     
     And Waiting for the question to load 
