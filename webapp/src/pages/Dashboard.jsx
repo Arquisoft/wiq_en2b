@@ -92,6 +92,34 @@ export default function Dashboard() {
       }
     };
 
+    const menuButtons = (modes) => {
+        return <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
+            {modes.length > 0 && modes.map(mode => (
+                <Button
+                    key={mode.internal_representation}
+                    colorScheme={"green"}
+                    variant={selectedButton === mode.name ? "solid" : "ghost"}
+                    textAlign="center"
+                    m="1em"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    size="lg"
+                    height="4rem"
+                    maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
+                    onClick={() => {
+                        setSelectedButton(mode.name);
+                        setGameMode(mode.internal_representation);
+                    }}
+                >
+                    {selectIcon(mode.icon_name)}
+                    <Box>{mode.name}</Box>
+                </Button>
+            ))}
+            <SettingsButton onClick={() => setIsSettingsOpen(true)} name={t("game.custom")}/>
+            <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}/>
+        </Flex>
+    }
     const initializeGameMode = async () => {
       try {
         let lang = i18n.language;
@@ -139,34 +167,7 @@ export default function Dashboard() {
                           </TabList>
                           <TabPanels>
                             <TabPanel>
-                            {!active && (
-                              <Flex justify="center" flexWrap="wrap" flexDirection={{ base: "column", md: "row" }}>
-                                {modes.length > 0 && modes.map(mode => (
-                                  <Button
-                                    key={mode.internal_representation}
-                                    colorScheme={"green"}
-                                    variant={selectedButton === mode.name ? "solid" : "ghost"}
-                                    textAlign="center"
-                                    m="1em"
-                                    display="flex"
-                                    flexDirection="column"
-                                    alignItems="center"
-                                    size="lg"
-                                    height="4rem"
-                                    maxW={{ base: "100%", md: "calc(100% / 3 - 2em)" }}
-                                    onClick={() => {
-                                      setSelectedButton(mode.name);
-                                      setGameMode(mode.internal_representation);
-                                    }}
-                                  >
-                                    {selectIcon(mode.icon_name)}
-                                    <Box>{mode.name}</Box>
-                                  </Button>
-                                ))}
-                                <SettingsButton onClick={() => setIsSettingsOpen(true)} name={t("game.custom")}/>
-                                <CustomGameMenu isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}/>
-                              </Flex>
-                            )}
+                                { (!active)  ? <>{ menuButtons(modes) }</> : <></> }
                             </TabPanel>
                             <TabPanel>
                               <Stack spacing={2}>
