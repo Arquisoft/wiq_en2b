@@ -27,7 +27,8 @@ jobs:
           echo "REACT_APP_API_ENDPOINT=https://localhost:8443" >> ./webapp/.env
           echo "SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}" >> .env
       - run: mv .env ./webapp/e2e/.env
-      - run: ls ./webapp/e2e -la
+      - run: ls ./webapp -la
+      - run: cat ./webapp/.env
       - run: docker compose -f ./webapp/e2e/docker-compose.yml up -d
       - run: npm --prefix webapp install
       - run: docker ps -a
