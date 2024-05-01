@@ -14,6 +14,7 @@ jobs:
         with:
           node-version: 20
       - run: sudo apt install -y openssl
+      - run: sudo apt install -y curl
       - run: openssl req -newkey rsa:2048 -nodes -keyout server.key -out server.csr -subj "/CN=localhost"
       - run: openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
       - run: openssl pkcs12 -export -out server.p12 -inkey server.key -in server.crt -passout pass:${{ secrets.E2E_SSL_PASSWORD }} -name tomcat
@@ -31,6 +32,7 @@ jobs:
       - run: cat ./webapp/.env
       - run: docker compose -f ./webapp/e2e/docker-compose.yml up -d
       - run: npm --prefix webapp install
+      - run: curl --location 'https://localhost:8443/questions?page=10'
       - run: docker ps -a
       - run: docker logs api-defaultASW
       #- run: npm --prefix webapp run build
