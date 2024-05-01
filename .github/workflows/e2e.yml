@@ -28,7 +28,7 @@ jobs:
           echo "SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}" >> .env
       - run: mv .env ./webapp/e2e/.env
       - run: ls ./webapp/e2e -la
-      - run: docker compose up -f ./webapp/e2e/docker-compose.yml -d
+      - run: docker compose -f ./webapp/e2e/docker-compose.yml up -d
       - run: npm --prefix webapp install
       - run: docker ps -a
       - run: docker logs api-defaultASW
