@@ -66,6 +66,7 @@ defineFeature(feature, test => {
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
+          console.log("H2 retrieved from webpage: " + header);
           let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
 
           expect(value).toBeTruthy();
