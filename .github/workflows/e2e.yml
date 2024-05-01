@@ -20,17 +20,15 @@ jobs:
       - run: sudo mkdir /certs
       - run: sudo mv server.p12 /certs/keystore.p12
       - name: Set up environment variables
-        working-directory: webapp/e2e
         run: | 
           echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "REACT_APP_API_ENDPOINT=https://localhost:8443" >> ./webapp/.env
           echo "SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}" >> .env
-      - run: ls -la
-        working-directory: webapp/e2e
-      - run: docker compose up -d
-        working-directory: webapp/e2e
+      - run: mv .env ./webapp/e2e/.env
+      - run: ls ./webapp/e2e -la
+      - run: docker compose up -f ./webapp/e2e/docker-compose.yml -d
       - run: npm --prefix webapp install
       - run: docker ps -a
       - run: docker logs api-defaultASW
