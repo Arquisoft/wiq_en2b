@@ -8,7 +8,7 @@ let browser;
 
 
 defineFeature(feature, test => {
-    let userName = "t.reg.pos"
+    let userName = "t.reg.pos" 
     let userEmail = userName + "@gmail.com";
     let password = userName + ".psw";
 
