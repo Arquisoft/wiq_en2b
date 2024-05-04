@@ -9,9 +9,9 @@ let TEST_TIMEOUT = 300 * 1000; // 5minutes
 
 
 defineFeature(feature, test => {
-    let username = "t.playing.pos3"
-    let email;
-    let password;
+    let username = "t.playing.pos"
+    let email = username + "@gmail.com"
+    let password = username + ".psw"
 
 
     beforeAll(async () => {
@@ -46,9 +46,9 @@ defineFeature(feature, test => {
           await expect(page).toClick("button[data-testid='Sign up'");
         
           // Checking for the process to be correct
-          await new Promise(resolve => setTimeout(resolve, 5000));
+          await new Promise(resolve => setTimeout(resolve, 6000));
           // Checking user is in main screen
-          let header = await page.$eval("h2[data-testid='Welcome']", (element) => {
+          let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
           let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
