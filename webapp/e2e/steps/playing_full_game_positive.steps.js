@@ -28,12 +28,6 @@ defineFeature(feature, test => {
           })
           .catch(() => {});
 
-        
-      });
-
-      test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
-
-        given('A logged user in the main menu', async () => {
           // Registering process
           await expect(page).toClick("span[class='chakra-link css-1bicqx'");
           await expect(page).toFill("input[id='user'", email);
@@ -44,6 +38,14 @@ defineFeature(feature, test => {
         
           // Checking for the process to be correct
           await new Promise(resolve => setTimeout(resolve, 6000));
+        
+      });
+
+      test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
+
+        given('A logged user in the main menu', async () => {
+          await new Promise(resolve => setTimeout(resolve, 6000));
+
           // Checking user is in main screen
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
