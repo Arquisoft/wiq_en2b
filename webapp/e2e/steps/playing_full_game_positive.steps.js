@@ -17,7 +17,7 @@ defineFeature(feature, test => {
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
           ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+          : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -34,9 +34,6 @@ defineFeature(feature, test => {
       test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
 
         given('A logged user in the main menu', async () => {
-          let email = username + "@email.com"
-          let password = username + "psw"
-        
           // Registering process
           await expect(page).toClick("span[class='chakra-link css-1bicqx'");
           await expect(page).toFill("input[id='user'", email);
