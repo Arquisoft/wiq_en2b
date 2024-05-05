@@ -9,8 +9,8 @@ let browser;
 defineFeature(feature, test => {
 
     let username = "t.login.neg.bad_crd"
-    let user;
-    let password;
+    let user = "@email.com";
+    let password = "wrongpassword";
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS

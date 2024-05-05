@@ -8,8 +8,8 @@ let browser;
 
 defineFeature(feature, test => {
     let username = "t.stats.pos"
-    let user;
-    let password;
+    let user = username + "@email.com";
+    let password = username +"psw";
 
 
     beforeAll(async () => {

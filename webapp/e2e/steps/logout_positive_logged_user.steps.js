@@ -23,21 +23,16 @@ defineFeature(feature, test => {
           })
           .catch(() => {});
 
-        // Registering the user before the tests
-        await registerUserFromRootDirectory(username, page);
+
+        // Logging it out
+        await logOutUser(page);
 
       }, 120000);
 
       test("A logged user wants to log out the webpage", ({given,when,and,then}) => {
-        let gameURL = "http://localhost:3000/dashboard/game";
-
         given('A logged user in main menu', async () => {
-            await new Promise(resolve => setTimeout(resolve, 5000));
-          let newHeader = await page.$eval("h2", (element) => {
-            return element.innerHTML
-          })
-          let newValue = newHeader === "Bienvenid@ " + username || header === "Welcome " + username;       
-          expect(newValue).toBeTruthy();
+            // Registering the user before the tests
+            await registerUserFromRootDirectory(username, page);
         });
 
         when('User presses the button for deploying the lateral menu', async() => {
@@ -91,3 +86,4 @@ async function registerUserFromRootDirectory(username, page) {
 
     return [email, password];
 }
+

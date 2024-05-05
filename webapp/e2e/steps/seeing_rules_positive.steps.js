@@ -8,8 +8,8 @@ let browser;
 
 defineFeature(feature, test => {
     let username = "t.rules.pos"
-    let user;
-    let password;
+    let user = username + "@email.com";
+    let password = username + "psw";
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
