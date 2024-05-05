@@ -9,8 +9,8 @@ defineFeature(feature, test => {
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true})
+          : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -24,7 +24,7 @@ defineFeature(feature, test => {
 
       test("A logged user wants to see the about screen of the webpage", ({given,when,and,then}) => {
         
-        let username = "test";
+        let username = "t.about";
 
         given("A logged user in the main menu", async () => {
             await registerUserFromRootDirectory(username,page)

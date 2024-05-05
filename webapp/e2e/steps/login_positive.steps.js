@@ -7,7 +7,7 @@ let browser;
 
 
 defineFeature(feature, test => {
-    let username = "t.regis.pos";
+    let username = "t.log.pos";
     let email = username + "@email.com";
     let password = username + "psw";
 
@@ -29,7 +29,7 @@ defineFeature(feature, test => {
          await registerUserFromRootDirectory(username, page);
          
           // Logging it out
-          await logOutUser(page)
+          await logOutUser(page);
 
       }, 120000);
 
