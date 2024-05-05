@@ -7,7 +7,7 @@ let browser;
 
 
 defineFeature(feature, test => {
-    let username = "t.about.pos";
+    let username = "about_pos";
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
