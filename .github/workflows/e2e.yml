@@ -1,0 +1,37 @@
+name: End 2 End Tests
+
+on:
+  push:
+    branches:
+      - test/e2e
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: sudo apt install -y openssl
+      - run: openssl req -newkey rsa:2048 -nodes -keyout server.key -out server.csr -subj "/CN=localhost"
+      - run: openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+      - run: openssl pkcs12 -export -out server.p12 -inkey server.key -in server.crt -passout pass:${{ secrets.E2E_SSL_PASSWORD }} -name tomcat
+      - run: sudo mkdir /certs
+      - run: sudo mv server.p12 /certs/keystore.p12
+      - name: Set up environment variables
+        run: | 
+          echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
+          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "REACT_APP_API_ENDPOINT=https://localhost:8443" >> ./webapp/.env
+          echo "SSL_PASSWORD=${{ secrets.E2E_SSL_PASSWORD }}" >> .env
+      - run: mv .env ./webapp/e2e/.env
+      - run: ls ./webapp -la
+      - run: cat ./webapp/.env
+      - run: docker compose -f ./webapp/e2e/docker-compose.yml up -d
+      - run: npm --prefix webapp install
+      - run: docker ps -a
+      - run: docker logs api-defaultASW
+      - run: npm --prefix webapp run build
+      - run: npm --prefix webapp run test:e2eci

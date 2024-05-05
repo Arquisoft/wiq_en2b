@@ -8,11 +8,14 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let userName = "t.reg.pos" 
+    let userEmail = userName + "@gmail.com";
+    let password = userName + ".psw";
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+            ? await puppeteer.launch({ ignoreHTTPSErrors: true})
+            : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -25,29 +28,14 @@ defineFeature(feature, test => {
       });
 
       test("The user is not registered in the root directory of the website", ({given,when,and,then}) => {
-        // Trying to avoid repeated users:
-        // Generate random bytes
-        let randomBytes = crypto.randomBytes(8); // 8 bytes = 64 bits
-        // Convert bytes to hex
-        let hexString = randomBytes.toString('hex');
-        // Take the first 16 characters
-        let randomHash = hexString.substring(0, 20);
-  
-
-
-        let username = "test" + randomHash
-        let user = username + "@email.com"
-        let password = "password"
-            
-
         given("An unregistered user", async () => {
 
         });
 
         when("I fill the data in the form", async () => {
             await expect(page).toClick("span[class='chakra-link css-1bicqx'");
-            await expect(page).toFill("input[id='user'", user);
-            await expect(page).toFill("input[id='username'", username);
+            await expect(page).toFill("input[id='user'", userEmail);
+            await expect(page).toFill("input[id='username'", userName);
             await expect(page).toFill("#password", password);
             await expect(page).toFill("input[id='field-:r5:']", password);
             
@@ -59,11 +47,11 @@ defineFeature(feature, test => {
         });
 
         then("The main menu screen is shown", async () => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          await new Promise(resolve => setTimeout(resolve, 6000));
             let header = await page.$eval("h2", (element) => {
                 return element.innerHTML
               })
-            let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
+            let value = header === "Bienvenid@ " + userName || header === "Welcome " + userName;       
 
             expect(value).toBeTruthy();
         });
@@ -71,5 +59,6 @@ defineFeature(feature, test => {
 
       afterAll((done) => {
         done();
+        browser.close();
       });
 });
