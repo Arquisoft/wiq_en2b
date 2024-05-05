@@ -1,5 +1,3 @@
-import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
-
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -9,14 +7,12 @@ let browser;
 
 
 defineFeature(feature, test => {
-    let username = "t.login.neg.blnk_psw"
-    let user;
-    let password;
+    let username = "t.login.neg.blnk_psw";
 
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true })
           : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
@@ -33,7 +29,7 @@ defineFeature(feature, test => {
         
 
         given('A registered user in the root screen', async () => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -47,7 +43,7 @@ defineFeature(feature, test => {
         });
 
         and('User enters in the log in screen', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -57,8 +53,8 @@ defineFeature(feature, test => {
         });
 
         and('User fills the form with his proper email but leaves the password in blank', async() => {
-          await expect(page).toFill("#user", user);
-          await expect(page).toFill("#password", password);
+          await expect(page).toFill("#user", username+"@test.com");
+          await expect(page).toFill("#password", "");
         });
 
         and('User presses the log in button', async() => {
@@ -66,7 +62,7 @@ defineFeature(feature, test => {
         });
 
         then('Log in screen shows an informative error message and does not allow the user to log in', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("div[class='chakra-alert__desc css-zzks76'", (element) => {
             return element.innerHTML
           })
