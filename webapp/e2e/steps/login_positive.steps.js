@@ -54,7 +54,7 @@ defineFeature(feature, test => {
       test("A registered user wants to log in using his correct credentials", ({given,when,and,then}) => {
 
         given('A registered user in the root screen', async () => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -68,7 +68,7 @@ defineFeature(feature, test => {
         });
 
         and('User enters in the log in screen', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -87,7 +87,7 @@ defineFeature(feature, test => {
         });
 
         then('The main menu screen shows on the user device', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
