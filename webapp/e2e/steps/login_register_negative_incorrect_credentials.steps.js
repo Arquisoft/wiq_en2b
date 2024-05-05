@@ -8,8 +8,8 @@ let browser;
 
 defineFeature(feature, test => {
 
-    let username = "t.login.neg.bad_crd"
-    let user = "@email.com";
+    let username = "login_bad_crd"
+    let user = username + "@email.com";
     let password = "wrongpassword";
 
     beforeAll(async () => {
