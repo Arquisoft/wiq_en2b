@@ -8,7 +8,7 @@ let browser;
 
 defineFeature(feature, test => {
     let username = "t.reg.neg.wr_em";
-    let user = username + "@gmail.com";
+    let user = username ;
     let password = username + ".psw";
 
     beforeAll(async () => {
