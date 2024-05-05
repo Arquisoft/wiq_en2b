@@ -1,3 +1,8 @@
+import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
+import { loginUserFromRootDirectory } from '../e2e_utils/e2e_utils_login.js'
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +12,9 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.rules.pos"
+    let user;
+    let password;
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,13 +29,9 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("A logged user wants to see the rules for the game", ({given,when,and,then}) => {
-        let username = "pepe"
-        let user = username + "@pepe.com"
-        let password = "pepe"
-
         let gameURL = "http://localhost:3000/dashboard/game";
 
         given('A logged user in the main menu', async () => {
@@ -42,7 +46,7 @@ defineFeature(feature, test => {
           await expect(page).toClick("button[data-testid='Login'");
 
           // Checking user is in main screen
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          waitForPageToLoad();
           let header = await page.$eval("h2[class='chakra-heading css-79qjat']", (element) => {
             return element.innerHTML
           })
@@ -53,7 +57,7 @@ defineFeature(feature, test => {
         });
 
         when('The user presses the button for deploying the lateral menu', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          waitForPageToLoad();
           await expect(page).toClick("#lateralMenuButton"); 
 
         });
@@ -64,7 +68,7 @@ defineFeature(feature, test => {
         });
 
         then("The screen shows redirects the user to the rules' screen", async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          waitForPageToLoad();
           let header = await page.$eval("h2[class='chakra-heading css-79qjat']", (element) => {
             return element.innerHTML
           })

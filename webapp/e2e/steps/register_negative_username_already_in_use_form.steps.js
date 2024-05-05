@@ -1,3 +1,8 @@
+import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
+import { loginUserFromRootDirectory } from '../e2e_utils/e2e_utils_login.js'
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -8,6 +13,10 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.reg.neg.un_aiu"
+    let user;
+    let password;
+
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -22,13 +31,9 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("The user is not registered in the root directory of the website and tries to create an account", ({given,when,and,then}) => {
-        let username = "test" 
-        let user = username + "@emailNonRepeated.com"
-        let password = "password"
-            
         given("An unregistered user", async () => {
 
         });
@@ -48,7 +53,7 @@ defineFeature(feature, test => {
         });
 
         then("Log in screen shows an informative error message and does not allow the user to log in", async () => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
             let header = await page.$eval("div[class='chakra-alert__desc css-zzks76'", (element) => {
                 return element.innerHTML
               })

@@ -7,6 +7,9 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.logOu.pos.logged"
+    let userEmail;
+    let password;
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,13 +24,14 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+
+             // Registering the user before the tests
+        let credentials = registerUserFromRootDirectory(username, page);
+        userEmail = credentials[0]; 
+        username = credentials[1];
+      }, 120000);
 
       test("A logged user wants to log out the webpage", ({given,when,and,then}) => {
-        let username = "pepe"
-        let user = username + "@pepe.com"
-        let password = "pepe"
-
         let gameURL = "http://localhost:3000/dashboard/game";
 
         given('A logged user in main menu', async () => {
@@ -38,12 +42,8 @@ defineFeature(feature, test => {
 
           expect(value).toBeTruthy(); 
 
-          await expect(page).toClick("button[data-testid='Login'");
-          await expect(page).toFill("#user", user);
-          await expect(page).toFill("#password", password);
-          await expect(page).toClick("button[data-testid='Login'");
-
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          
+          waitForPageToLoad();
           let newHeader = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -52,7 +52,7 @@ defineFeature(feature, test => {
         });
 
         when('User presses the button for deploying the lateral menu', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          waitForPageToLoad();
           await expect(page).toClick("#lateralMenuButton"); 
 
         });
@@ -63,7 +63,7 @@ defineFeature(feature, test => {
         });
 
         then('The login screen shows on the user device and the user is no longer logged in', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -78,3 +78,7 @@ defineFeature(feature, test => {
         browser.close();
       });
 });
+
+async function waitForPageToLoad (timeout_ms = 6000) {
+  await new Promise(resolve => setTimeout(resolve, timeout_ms));
+}

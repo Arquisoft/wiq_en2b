@@ -1,3 +1,5 @@
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +9,9 @@ let browser;
 
 
 defineFeature(feature, test => {
+  let username = "t.about.pos"
+  let user;
+  let password;
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,7 +26,15 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+
+         // Registering the user before the tests
+         let credentials = registerUserFromRootDirectory(username, page);
+         email = credentials[0]; 
+         username = credentials[1];
+         
+         // Logging it out
+         logOutUser(page);
+      }, 120000);
 
       test("A non-logged user wants to see the about screen of the webpage", ({given,when,and,then}) => {
         
@@ -38,7 +51,7 @@ defineFeature(feature, test => {
         });
 
         then("The user is presented to the about screen", async () => {
-            await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+            waitForPageToLoad();
             let header = await page.$eval("h2", (element) => {
                 return element.innerHTML
               })

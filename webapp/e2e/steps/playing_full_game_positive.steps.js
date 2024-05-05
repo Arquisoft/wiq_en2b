@@ -2,6 +2,7 @@ const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
 const feature = loadFeature('./features/playing_game_features/positive_playing_full_game.feature');
+
 let page;
 let browser;
 let NUMBER_OF_ANSWERS = 4;
@@ -51,7 +52,6 @@ defineFeature(feature, test => {
             return element.innerHTML
           })
           let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
-          console.log(header)
           expect(value).toBeTruthy();
 
         });

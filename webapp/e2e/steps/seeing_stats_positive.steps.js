@@ -1,3 +1,8 @@
+import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
+import { loginUserFromRootDirectory } from '../e2e_utils/e2e_utils_login.js'
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +12,10 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.stats.pos"
+    let user;
+    let password;
+
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,13 +30,9 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("A logged user with many games wants to see its stats", ({given,when,and,then}) => {
-        let username = "pepe"
-        let user = username + "@pepe.com"
-        let password = "pepe"
-
         let gameURL = "http://localhost:3000/dashboard/game";
 
         given('A logged user in the main menu with many games', async () => {

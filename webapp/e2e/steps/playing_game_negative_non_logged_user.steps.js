@@ -1,3 +1,8 @@
+import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
+import { loginUserFromRootDirectory } from '../e2e_utils/e2e_utils_login.js'
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +12,10 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.play.neg"
+    let user;
+    let password;
+
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,7 +30,7 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("A non-logged user wants to play a new game", ({given,when,then}) => {
         let username = "pepe"
@@ -35,7 +44,7 @@ defineFeature(feature, test => {
         });
 
         when('Entering the endpoint via URL', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          waitForPageToLoad();
           await page
           .goto(gameURL, {
             waitUntil: "networkidle0",
@@ -46,7 +55,7 @@ defineFeature(feature, test => {
 
 
         then('No new game is created and the user is redirected to the log in screen', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })

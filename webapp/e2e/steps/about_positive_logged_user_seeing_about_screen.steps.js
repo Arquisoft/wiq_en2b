@@ -1,3 +1,8 @@
+
+const {registerUserFromRootDirectory} = require('../e2e_utils/e2e_utils_register.js');
+const {waitForPageToLoad} = require('../e2e_utils/e2e_utils_timeout.js');
+const {logOutUser} = require('../e2e_utils/e2e_utils_logout.js');
+const {loginUserFromRootDirectory} = require('../e2e_utils/e2e_utils_login.js');
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +12,9 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.about.pos";
+    let email;
+    let password; 
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,21 +29,21 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+
+        // Registering the user before the tests
+        let credentials = registerUserFromRootDirectory(username, page);
+        email = credentials[0]; 
+        username = credentials[1];
+        
+        // Logging it out
+        logOutUser(page);
+
+      }, 120000);
 
       test("A logged user wants to see the about screen of the webpage", ({given,when,and,then}) => {
-        
-        let username;
-        let password;
 
-        given("A logged user in the main menu", async () => {
-            username = "test@email.com"
-            password = "password"
-            
-            await expect(page).toClick("button[data-testid='Login'");
-            await expect(page).toFill("#user", username);
-            await expect(page).toFill("#password", password);
-            await expect(page).toClick("button[data-testid='Login'");
+        given("A logged user in the main menu", async () => {            
+            loginUserFromRootDirectory(username, email, password, page);
         });
 
         when("The user presses the button for deploying the lateral menu", async () => {
@@ -47,7 +55,7 @@ defineFeature(feature, test => {
         });
 
         then("The user is presented to the about screen", async () => {
-            await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+            waitForPageToLoad();
             let header = await page.$eval("h2", (element) => {
                 return element.innerHTML
               })

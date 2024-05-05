@@ -1,3 +1,5 @@
+import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
+
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -7,6 +9,10 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.login.neg.bad_em"
+    let user;
+    let password;
+
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -21,15 +27,13 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+          
+      }, 120000);
 
       test("A registered user wants to log in using his credentials but with an invalid email", ({given,when,and,then}) => {
-        let username = "pepe"
-        let user = username + "email.com" // Bad formatted email
-        let password = "Password" 
 
         given('A registered user in the root screen', async () => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -43,7 +47,7 @@ defineFeature(feature, test => {
         });
 
         and('User enters in the log in screen', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -62,7 +66,7 @@ defineFeature(feature, test => {
         });
 
         then('Log in screen shows an informative error message and does not allow the user to log in', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          waitForPageToLoad();
           let header = await page.$eval("div[class='chakra-alert__desc css-zzks76'", (element) => {
             return element.innerHTML
           })
