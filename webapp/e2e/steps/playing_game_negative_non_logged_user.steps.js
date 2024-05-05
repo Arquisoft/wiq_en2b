@@ -7,11 +7,10 @@ let browser;
 
 
 defineFeature(feature, test => {
-
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true })
+          : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -21,12 +20,9 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("A non-logged user wants to play a new game", ({given,when,then}) => {
-        let username = "pepe"
-        let user = username + "@pepe.com"
-        let password = "pepe"
 
         let gameURL = "http://localhost:3000/dashboard/game";
 
@@ -35,7 +31,7 @@ defineFeature(feature, test => {
         });
 
         when('Entering the endpoint via URL', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+            await new Promise(resolve => setTimeout(resolve, 5000));
           await page
           .goto(gameURL, {
             waitUntil: "networkidle0",
@@ -46,7 +42,7 @@ defineFeature(feature, test => {
 
 
         then('No new game is created and the user is redirected to the log in screen', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+            await new Promise(resolve => setTimeout(resolve, 5000));
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })

@@ -7,11 +7,10 @@ let browser;
 
 
 defineFeature(feature, test => {
-
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true})
+          : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -21,7 +20,7 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("A non-logged user wants to see the about screen of the webpage", ({given,when,and,then}) => {
         
@@ -34,11 +33,12 @@ defineFeature(feature, test => {
         });
 
         and("the user presses the button for seeing the about section (i)", async () => {
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
             await expect(page).toClick("#aboutButton");
         });
 
         then("The user is presented to the about screen", async () => {
-            await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
             let header = await page.$eval("h2", (element) => {
                 return element.innerHTML
               })

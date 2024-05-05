@@ -370,7 +370,8 @@ async function loginUserFromRootDirectory(username, page) {
 }
 async function logOutUser(page) {
   // Logging out
-  await expect(page).toClick("#lateralMenuButton"); 
+  await expect(page).toClick("#lateralMenuButton");
+  await new Promise(resolve => setTimeout(resolve, 5000));
   await expect(page).toClick("button[data-testid='LogOut']"); 
 
   // Checking for the log out to be sucessful
