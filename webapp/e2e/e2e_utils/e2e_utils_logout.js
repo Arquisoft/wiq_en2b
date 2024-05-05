@@ -8,7 +8,7 @@ const {waitForPageToLoad} = require('../e2e_utils/e2e_utils_timeout.js');
  *  
  * @param {*} page      The website
  */
-async function logOutUser(page) {
+export async function logOutUser(page) {
     // Logging out
     await expect(page).toClick("#lateralMenuButton"); 
     await expect(page).toClick("button[data-testid='LogOut']"); 
@@ -23,4 +23,3 @@ async function logOutUser(page) {
     expect(value).toBeTruthy(); 
 }
 modules.export = {logOutUser}
- 

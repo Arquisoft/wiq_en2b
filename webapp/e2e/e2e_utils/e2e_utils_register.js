@@ -7,7 +7,7 @@
  * @param {*} page      The website
  * @returns             An array with the credentials of the user created [email, username]
  */
-async function registerUserFromRootDirectory(username, page) {
+export async function registerUserFromRootDirectory(username, page) {
     // Credentials for the new user
     let email = username + "@email.com"
     let password = username + "ps"
