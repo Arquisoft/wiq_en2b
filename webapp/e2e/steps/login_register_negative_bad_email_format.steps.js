@@ -25,12 +25,6 @@ defineFeature(feature, test => {
           })
           .catch(() => {});
 
-        // Registering the user before the tests
-        await registerUserFromRootDirectory(username, page);
-
-        // Logging it out
-        await logOutUser(page);
-
       }, 120000);
 
       test("A registered user wants to log in using his credentials but with an invalid email", ({given,when,and,then}) => {
@@ -60,7 +54,7 @@ defineFeature(feature, test => {
         });
 
         and('User fills the form with his proper password but writes a wrong formatted email', async() => {
-          await expect(page).toFill("#user", username + "a");
+          await expect(page).toFill("#user", username );
           await expect(page).toFill("#password", password);
         });
 
