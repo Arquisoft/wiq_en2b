@@ -1,5 +1,3 @@
-import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
-
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -26,13 +24,9 @@ defineFeature(feature, test => {
       }, 120000);
 
       test("A registered user wants to log in using his credentials but leaving the email in blank", ({given,when,and,then}) => {
-        let username = "t.login.neg.blank_em"
-        let user;
-        let password;
-
 
         given('A registered user in the root screen', async () => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -46,7 +40,7 @@ defineFeature(feature, test => {
         });
 
         and('User enters in the log in screen', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -56,8 +50,8 @@ defineFeature(feature, test => {
         });
 
         and('User fills the form with his proper password but leaves the email in blank', async() => {
-          await expect(page).toFill("#user", user);
-          await expect(page).toFill("#password", password);
+          await expect(page).toFill("#user", "");
+          await expect(page).toFill("#password", "password");
         });
 
         and('User presses the log in button', async() => {
@@ -65,7 +59,7 @@ defineFeature(feature, test => {
         });
 
         then('Log in screen shows an informative error message and does not allow the user to log in', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("div[class='chakra-alert__desc css-zzks76'", (element) => {
             return element.innerHTML
           })
