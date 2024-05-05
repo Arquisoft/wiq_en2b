@@ -10,9 +10,6 @@ let TEST_TIMEOUT = 300 * 1000; // 5minutes
 
 defineFeature(feature, test => {
     let username = "t.playing.pos"
-    let email = username + "@gmail.com"
-    let password = username + ".psw"
-
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -27,33 +24,13 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-
-          // Registering process
-          await expect(page).toClick("span[class='chakra-link css-1bicqx'");
-          await expect(page).toFill("input[id='user'", email);
-          await expect(page).toFill("input[id='username'", username);
-          await expect(page).toFill("#password", password);
-          await expect(page).toFill("input[id='field-:r5:']", password);
-          await expect(page).toClick("button[data-testid='Sign up'");
-        
-          // Checking for the process to be correct
-          await new Promise(resolve => setTimeout(resolve, 6000));
         
       },120000);
 
       test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
 
         given('A logged user in the main menu', async () => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
-
-          // Checking user is in main screen
-          let header = await page.$eval("h2", (element) => {
-            return element.innerHTML
-          })
-          let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
-          console.log(header)
-          expect(value).toBeTruthy();
-
+          await registerUserFromRootDirectory(username,page)
         });
 
         when('Clicking the button to start a new game (Kiwi Quest gamemode)', async() => {
@@ -347,25 +324,6 @@ async function waitForPageToLoad(timeout_ms = 5000) {
 
 }
 
-async function loginUserFromRootDirectory(username, email = username + "@gmail.com", password = username + ".ps", page) {
-    
-  // login process
-  await expect(page).toClick("button[data-testid='Login'");
-  await expect(page).toFill("#user", email);
-  await expect(page).toFill("#password", password);
-  await expect(page).toClick("button[data-testid='Login'");
-
-  // Checking for the process to be correct
-  await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
-  let header = await page.$eval("h2", (element) => {
-      return element.innerHTML
-      })
-  let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
-  expect(value).toBeTruthy();
-
-}
-
-
 async function registerUserFromRootDirectory(username, page) {
   // Credentials for the new user
   let email = username + "@email.com"
@@ -390,6 +348,26 @@ async function registerUserFromRootDirectory(username, page) {
   return [email, password];
 }
 
+async function loginUserFromRootDirectory(username, page) {
+  // Credentials for the new user
+  let email = username + "@email.com"
+  let password = username + "psw"
+
+  // login process
+  await expect(page).toClick("button[data-testid='Login'");
+  await expect(page).toFill("#user", email);
+  await expect(page).toFill("#password", password);
+  await expect(page).toClick("button[data-testid='Login'");
+
+  // Checking for the process to be correct
+  await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
+  let header = await page.$eval("h2", (element) => {
+    return element.innerHTML
+  })
+  let value = header === "Bienvenid@ " + username || header === "Welcome " + username;
+  expect(value).toBeTruthy();
+
+}
 async function logOutUser(page) {
   // Logging out
   await expect(page).toClick("#lateralMenuButton"); 
