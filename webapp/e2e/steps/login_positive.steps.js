@@ -47,6 +47,7 @@ defineFeature(feature, test => {
          
           // Logging it out
           await expect(page).toClick("#lateralMenuButton"); 
+          await new Promise(resolve => setTimeout(resolve, 6000));
           await expect(page).toClick("button[data-testid='LogOut']"); 
 
       }, 120000);
