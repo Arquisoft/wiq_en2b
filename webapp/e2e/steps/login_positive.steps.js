@@ -1,7 +1,6 @@
-import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
-import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
-import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
-
+const { logOutUser } = require('../e2e_utils/e2e_utils_logout.js');
+const { waitForPageToLoad } = require('../e2e_utils/e2e_utils_timeout.js')
+const { registerUserFromRootDirectory } = require('../e2e_utils/e2e_utils_register.js')
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
