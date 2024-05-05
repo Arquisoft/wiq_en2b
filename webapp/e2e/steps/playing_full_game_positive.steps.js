@@ -57,6 +57,7 @@ defineFeature(feature, test => {
         });
 
         when('Clicking the button to start a new game (Kiwi Quest gamemode)', async() => {
+          await new Promise(resolve => setTimeout(resolve, 6000));
           await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
           await expect(page).toClick("button[data-testid='Play']");
         });
