@@ -33,6 +33,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   e2e-tests:
     runs-on: ubuntu-latest
+    needs: [ unit-tests ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -58,7 +59,7 @@ jobs:
       - run: npm --prefix webapp run test:e2eci
   docker-push-api:
     runs-on: ubuntu-latest
-    needs: [ unit-tests ]
+    needs: [ e2e-tests ]
     steps:
       - uses: actions/checkout@v4
       - name: Publish to Registry
@@ -81,7 +82,7 @@ jobs:
             SSL_PASSWORD
   docker-push-prometheus:
     runs-on: ubuntu-latest
-    needs: [ unit-tests ]
+    needs: [ e2e-tests ]
     steps:
       - uses: actions/checkout@v4
       - name: Publish to Registry
@@ -94,7 +95,7 @@ jobs:
           workdir: api/monitoring/prometheus
   docker-push-grafana:
     runs-on: ubuntu-latest
-    needs: [ unit-tests ]
+    needs: [ e2e-tests ]
     steps:
       - uses: actions/checkout@v4
       - name: Publish to Registry
@@ -107,7 +108,7 @@ jobs:
           workdir: api/monitoring/grafana
   docker-push-reverse-proxy:
     runs-on: ubuntu-latest
-    needs: [ unit-tests ]
+    needs: [ e2e-tests ]
     steps:
       - uses: actions/checkout@v4
       - name: Publish to Registry
@@ -123,7 +124,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    needs: [ unit-tests ]
+    needs: [ e2e-tests ]
     steps:
       - uses: actions/checkout@v4
       - name: Create .env file
@@ -144,7 +145,7 @@ jobs:
             REACT_APP_API_ENDPOINT
   docker-push-question-generator:
     runs-on: ubuntu-latest
-    needs: [ unit-tests ]
+    needs: [ e2e-tests ]
     steps:
       - uses: actions/checkout@v4
       - name: Publish to Registry
