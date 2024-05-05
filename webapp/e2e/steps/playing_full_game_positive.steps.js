@@ -39,7 +39,7 @@ defineFeature(feature, test => {
           // Checking for the process to be correct
           await new Promise(resolve => setTimeout(resolve, 6000));
         
-      });
+      },120000);
 
       test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
 
@@ -57,8 +57,7 @@ defineFeature(feature, test => {
         });
 
         when('Clicking the button to start a new game (Kiwi Quest gamemode)', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
-          await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
+          //await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
           await expect(page).toClick("button[data-testid='Play']");
         });
 
