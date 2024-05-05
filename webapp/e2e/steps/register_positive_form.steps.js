@@ -2,7 +2,6 @@ const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
 const feature = loadFeature('./features/register_form_features/positive_register_form.feature');
-const crypto = require('crypto');
 let page;
 let browser;
 
@@ -25,7 +24,7 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("The user is not registered in the root directory of the website", ({given,when,and,then}) => {
         given("An unregistered user", async () => {
@@ -37,7 +36,7 @@ defineFeature(feature, test => {
             await expect(page).toFill("input[id='user'", userEmail);
             await expect(page).toFill("input[id='username'", userName);
             await expect(page).toFill("#password", password);
-            await expect(page).toFill("input[id='field-:r5:']", password);
+            await expect(page).toFill("input[data-testid='repeat-password']", password);
             
         });
 

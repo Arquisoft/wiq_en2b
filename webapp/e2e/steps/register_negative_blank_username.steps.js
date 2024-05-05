@@ -8,11 +8,14 @@ let browser;
 
 
 defineFeature(feature, test => {
+    let username = "t.reg.blk_un"
+    let user = username + "@gmail.com";
+    let password = username + ".psw";
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true })
+          : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -22,13 +25,10 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+      }, 120000);
 
       test("The user is not registered in the root directory of the website and tries to create an account", ({given,when,and,then}) => {
-        let username = ""  // Blank username
-        let user = "test@email.com"
-        let password = "password"
-            
+         
         given("An unregistered user", async () => {
 
         });
@@ -36,9 +36,9 @@ defineFeature(feature, test => {
         when("The user fills its data in the form leaving the username field in blank", async () => {
             await expect(page).toClick("span[class='chakra-link css-1bicqx'");
             await expect(page).toFill("input[id='user'", user);
-            await expect(page).toFill("input[id='username'", username);
+            await expect(page).toFill("input[id='username'", "");
             await expect(page).toFill("#password", password);
-            await expect(page).toFill("input[id='field-:r5:']", password);
+            await expect(page).toFill("input[data-testid='repeat-password']", password);
             
         });
 
@@ -48,7 +48,9 @@ defineFeature(feature, test => {
         });
 
         then("Log in screen shows an informative error message and does not allow the user to log in", async () => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+              await new Promise(resolve => setTimeout(resolve, 6000));
+
+
             let header = await page.$eval("div[class='chakra-alert__desc css-zzks76'", (element) => {
                 return element.innerHTML
               })
@@ -64,3 +66,5 @@ defineFeature(feature, test => {
         browser.close();
       });
 });
+
+

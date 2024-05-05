@@ -165,6 +165,7 @@ export default function Signup() {
                                 </InputLeftElement>
                                 <Input
                                     type={showConfirmPassword ? "text" : "password"}
+                                    data-testid={"repeat-password"}
                                     placeholder={t("session.confirm_password")}
                                     value={confirmPassword}
                                     onChange={handleConfirmPasswordChange}
