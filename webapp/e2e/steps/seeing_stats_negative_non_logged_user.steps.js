@@ -1,8 +1,3 @@
-import { registerUserFromRootDirectory}from '../e2e_utils/e2e_utils_register.js';
-import { waitForPageToLoad } from '../e2e_utils/e2e_utils_timeout.js';
-import { logOutUser } from '../e2e_utils/e2e_utils_logout.js';
-import { loginUserFromRootDirectory } from '../e2e_utils/e2e_utils_login.js'
-
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -12,11 +7,6 @@ let browser;
 
 
 defineFeature(feature, test => {
-    let username = "t.stats.neg"
-    let user;
-    let password;
-
-
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
           ? await puppeteer.launch({ ignoreHTTPSErrors: true })
@@ -36,7 +26,7 @@ defineFeature(feature, test => {
         let gameURL = "http://localhost:3000/dashboard/game";
 
         given('A non-logged user in main menu', async () => {
-          waitForPageToLoad(); // Waiting for page to fully load
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -54,7 +44,7 @@ defineFeature(feature, test => {
         });
 
         then('The user is redirected to the log in screen', async() => {
-          waitForPageToLoad();
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
           let header = await page.$eval("h2[class='chakra-heading css-79qjat']", (element) => {
             return element.innerHTML
           })
