@@ -26,7 +26,7 @@ defineFeature(feature, test => {
           .catch(() => {});
         
          // Registering the user before the tests
-         await registerUserFromRootDirectory(username, page);
+          await registerUserFromRootDirectory(username, page);
          
           // Logging it out
           await logOutUser(page);
@@ -113,6 +113,7 @@ async function registerUserFromRootDirectory(username, page) {
 async function logOutUser(page) {
     // Logging out
     await expect(page).toClick("#lateralMenuButton");
+    await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
     await expect(page).toClick("button[data-testid='LogOut']");
 
     // Checking for the log out to be sucessful
