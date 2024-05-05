@@ -9,7 +9,7 @@ let browser;
 defineFeature(feature, test => {
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true})
           : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout

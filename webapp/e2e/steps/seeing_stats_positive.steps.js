@@ -65,7 +65,8 @@ defineFeature(feature, test => {
         });
 
         and('The user presses the button for seeing stats', async() => {
-          await expect(page).toClick("button[data-testid='statistics']"); 
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
+          await expect(page).toClick("button[data-testid='statistics']");
 
         });
 

@@ -38,7 +38,8 @@ defineFeature(feature, test => {
         });
 
         and('User presses the log out button', async() => {
-          await expect(page).toClick("button[data-testid='LogOut']"); 
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
+            await expect(page).toClick("button[data-testid='LogOut']");
 
         });
 
