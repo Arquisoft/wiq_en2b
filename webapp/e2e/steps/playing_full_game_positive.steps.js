@@ -16,7 +16,7 @@ defineFeature(feature, test => {
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true})
           : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
@@ -56,8 +56,8 @@ defineFeature(feature, test => {
 
         });
 
-        when('Clicking the button to start a new game (Kiwi Quest gamemode)', async() => {
-          //await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
+        when('Clicking the button to start a new game (Default gamemode)', async() => {
+          await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
           await expect(page).toClick("button[data-testid='Play']");
         });
 
