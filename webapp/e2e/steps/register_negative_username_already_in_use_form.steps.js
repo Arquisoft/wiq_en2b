@@ -40,10 +40,10 @@ defineFeature(feature, test => {
 
         when("The user fills the data in the form using an already used username", async () => {
             await expect(page).toClick("span[class='chakra-link css-1bicqx'");
-            await expect(page).toFill("input[id='user'", user);
+            await expect(page).toFill("input[id='user'", user+"a");
             await expect(page).toFill("input[id='username'", username);
             await expect(page).toFill("#password", password);
-            await expect(page).toFill("input[id='field-:r5:']", password);
+            await expect(page).toFill("input[data-testid='repeat-password']", password);
             
         });
 

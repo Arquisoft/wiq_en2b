@@ -37,7 +37,7 @@ defineFeature(feature, test => {
             await expect(page).toFill("input[id='user'", user);
             await expect(page).toFill("input[id='username'", username);
             await expect(page).toFill("#password", password); 
-            await expect(page).toFill("input[id='field-:r5:']", ""); // Blank password
+            await expect(page).toFill("input[data-testid='repeat-password']", ""); // Blank password
             
         });
 
