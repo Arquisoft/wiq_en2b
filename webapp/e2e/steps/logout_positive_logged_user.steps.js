@@ -23,10 +23,6 @@ defineFeature(feature, test => {
           })
           .catch(() => {});
 
-
-        // Logging it out
-        await logOutUser(page);
-
       }, 120000);
 
       test("A logged user wants to log out the webpage", ({given,when,and,then}) => {
