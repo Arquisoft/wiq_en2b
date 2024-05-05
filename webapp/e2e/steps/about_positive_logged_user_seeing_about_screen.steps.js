@@ -42,6 +42,7 @@ defineFeature(feature, test => {
         });
 
         and("the user presses the button for seeing the about section (i)", async () => {
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
             await expect(page).toClick("#aboutButton");
         });
 
