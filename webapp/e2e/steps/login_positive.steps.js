@@ -1,6 +1,3 @@
-const { logOutUser } = require('../e2e_utils/e2e_utils_logout.js');
-const { waitForPageToLoad } = require('../e2e_utils/e2e_utils_timeout.js')
-const { registerUserFromRootDirectory } = require('../e2e_utils/e2e_utils_register.js')
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const puppeteer = require('puppeteer');
 const setDefaultOptions = require("expect-puppeteer").setDefaultOptions;
@@ -11,8 +8,8 @@ let browser;
 
 defineFeature(feature, test => {
     let username = "t.regis.pos";
-    let email;
-    let password; 
+    let email = username + "@gmail.com";
+    let password = username + ".psw"; 
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
@@ -28,20 +25,37 @@ defineFeature(feature, test => {
           })
           .catch(() => {});
 
+          // Registering process
+          await expect(page).toClick("span[class='chakra-link css-1bicqx'");
+          await expect(page).toFill("input[id='user'", email);
+          await expect(page).toFill("input[id='username'", username);
+          await expect(page).toFill("#password", password);
+          await expect(page).toFill("input[id='field-:r5:']", password);
+          await expect(page).toClick("button[data-testid='Sign up'");
         
-         // Registering the user before the tests
-         let credentials = registerUserFromRootDirectory(username, page);
-         email = credentials[0]; 
-         username = credentials[1];
+          // Checking for the process to be correct
+          await new Promise(resolve => setTimeout(resolve, 6000));
+          
+          // Checking user is in main screen
+          let header = await page.$eval("h2", (element) => {
+            return element.innerHTML
+          })
+          let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
+          expect(value).toBeTruthy();
+        
+  
          
-         // Logging it out
-         logOutUser(page);
-      });
+          // Logging it out
+          await expect(page).toClick("#lateralMenuButton"); 
+          await new Promise(resolve => setTimeout(resolve, 6000));
+          await expect(page).toClick("button[data-testid='LogOut']"); 
+
+      }, 120000);
 
       test("A registered user wants to log in using his correct credentials", ({given,when,and,then}) => {
 
         given('A registered user in the root screen', async () => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("button[data-testid='Login']", (element) => {
             return element.innerHTML
           })
@@ -55,7 +69,7 @@ defineFeature(feature, test => {
         });
 
         and('User enters in the log in screen', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
@@ -74,7 +88,7 @@ defineFeature(feature, test => {
         });
 
         then('The main menu screen shows on the user device', async() => {
-          waitForPageToLoad();
+          await new Promise(resolve => setTimeout(resolve, 6000));
           let header = await page.$eval("h2", (element) => {
             return element.innerHTML
           })
