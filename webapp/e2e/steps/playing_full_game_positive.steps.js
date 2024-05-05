@@ -6,15 +6,15 @@ let page;
 let browser;
 let NUMBER_OF_ANSWERS = 4;
 let TEST_TIMEOUT = 300 * 1000; // 5minutes
-const crypto = require('crypto');
 
 
 defineFeature(feature, test => {
+    let username = "t.playing.pos"
 
     beforeAll(async () => {
         browser = process.env.GITHUB_ACTIONS
-          ? await puppeteer.launch()
-          : await puppeteer.launch({ headless: false, slowMo: 100 });
+          ? await puppeteer.launch({ ignoreHTTPSErrors: true})
+          : await puppeteer.launch({ headless: false, slowMo: 100, ignoreHTTPSErrors: true });
         page = await browser.newPage();
         //Way of setting up the timeout
         setDefaultOptions({ timeout: 10000 })
@@ -24,50 +24,22 @@ defineFeature(feature, test => {
             waitUntil: "networkidle0",
           })
           .catch(() => {});
-      });
+        
+      },120000);
 
-      test("A non-logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
-        // Trying to avoid repeated users:
-        // Generate random bytes
-        let randomBytes = crypto.randomBytes(8); // 8 bytes = 64 bits
-        // Convert bytes to hex
-        let hexString = randomBytes.toString('hex');
-        // Take the first 16 characters
-        let randomHash = hexString.substring(0, 8);
-  
+      test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
 
-
-        let username = "test" + randomHash
-        let user = username + "@pepe.com"
-        let password = "pepe" + randomHash
-
-        given('A non-logged user in the main menu', async () => {
-          // Registering a new user for simplicity of testing purposes
-          await expect(page).toClick("span[class='chakra-link css-1bicqx'");
-          await expect(page).toFill("input[id='user'", user);
-          await expect(page).toFill("input[id='username'", username);
-          await expect(page).toFill("#password", password);
-          await expect(page).toFill("input[id='field-:r5:']", password);
-          await expect(page).toClick("button[data-testid='Sign up'"); 
-
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
-          // Checking user is in main screen
-          let header = await page.$eval("h2[class='chakra-heading css-79qjat']", (element) => {
-            return element.innerHTML
-          })
-          let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
-
-          expect(value).toBeTruthy();
-
+        given('A logged user in the main menu', async () => {
+          await registerUserFromRootDirectory(username,page)
         });
 
         when('Clicking the button to start a new game (Kiwi Quest gamemode)', async() => {
-          await expect(page).toClick("button[class='chakra-button css-4ctvp9'");
+          await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
           await expect(page).toClick("button[data-testid='Play']");
         });
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting for page to fully load
+          await new Promise(resolve => setTimeout(resolve, 5000));
 
         });
         
@@ -96,7 +68,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -126,7 +98,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -156,7 +128,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -186,7 +158,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -215,7 +187,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -244,7 +216,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -274,7 +246,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
 
@@ -304,7 +276,7 @@ defineFeature(feature, test => {
 
 
         and('Waiting for the question to load', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000));
+          await new Promise(resolve => setTimeout(resolve, 5000));
           
         });
         
@@ -330,7 +302,7 @@ defineFeature(feature, test => {
         });
 
         then('The user statistics are shown', async() => {
-          await new Promise(resolve => setTimeout(resolve, 6000)); // Waiting till page is loaded
+          await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting till page is loaded
           let header = await page.$eval("h2[class='chakra-heading css-79qjat']", (element) => {
             return element.innerHTML
           })
@@ -343,5 +315,70 @@ defineFeature(feature, test => {
 
       afterAll((done) => {
         done();
+        //browser.close();
       });
 });
+
+async function waitForPageToLoad(timeout_ms = 5000) {
+  await new Promise(resolve => setTimeout(resolve, timeout_ms));
+
+}
+
+async function registerUserFromRootDirectory(username, page) {
+  // Credentials for the new user
+  let email = username + "@email.com"
+  let password = username + "psw"
+
+  // Registering process
+  await expect(page).toClick("span[class='chakra-link css-1bicqx'");
+  await expect(page).toFill("input[id='user'", email);
+  await expect(page).toFill("input[id='username'", username);
+  await expect(page).toFill("#password", password);
+  await expect(page).toFill("input[id='field-:r5:']", password);
+  await expect(page).toClick("button[data-testid='Sign up'");
+
+  // Checking for the process to be correct
+  await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
+  let header = await page.$eval("h2", (element) => {
+      return element.innerHTML
+      })
+  let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
+  expect(value).toBeTruthy();
+
+  return [email, password];
+}
+
+async function loginUserFromRootDirectory(username, page) {
+  // Credentials for the new user
+  let email = username + "@email.com"
+  let password = username + "psw"
+
+  // login process
+  await expect(page).toClick("button[data-testid='Login'");
+  await expect(page).toFill("#user", email);
+  await expect(page).toFill("#password", password);
+  await expect(page).toClick("button[data-testid='Login'");
+
+  // Checking for the process to be correct
+  await new Promise(resolve => setTimeout(resolve, 5000)); // Waiting for page to fully load
+  let header = await page.$eval("h2", (element) => {
+    return element.innerHTML
+  })
+  let value = header === "Bienvenid@ " + username || header === "Welcome " + username;
+  expect(value).toBeTruthy();
+
+}
+async function logOutUser(page) {
+  // Logging out
+  await expect(page).toClick("#lateralMenuButton"); 
+  await expect(page).toClick("button[data-testid='LogOut']"); 
+
+  // Checking for the log out to be sucessful
+  await new Promise(resolve => setTimeout(resolve, 5000));
+  let header = await page.$eval("button[data-testid='Login']", (element) => {
+  return element.innerHTML
+  })
+  let value = header === "Login" || "Iniciar sesión";       
+
+  expect(value).toBeTruthy(); 
+}
