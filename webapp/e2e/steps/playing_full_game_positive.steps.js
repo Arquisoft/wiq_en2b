@@ -44,6 +44,11 @@ defineFeature(feature, test => {
       test("A logged user wants to play an entire game (Kiwi Quest gamemode)", ({given,when,and,then}) => {
 
         given('A logged user in the main menu', async () => {
+          await page
+              .goto("http://localhost:3000/dashboard", {
+                waitUntil: "networkidle0",
+              })
+              .catch(() => {});
           await new Promise(resolve => setTimeout(resolve, 6000));
 
           // Checking user is in main screen
@@ -52,7 +57,7 @@ defineFeature(feature, test => {
           })
           let value = header === "Bienvenid@ " + username || header === "Welcome " + username;       
           console.log(header)
-          //expect(value).toBeTruthy();
+          expect(value).toBeTruthy();
 
         });
 
