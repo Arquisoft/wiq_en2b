@@ -131,6 +131,7 @@ export default function Dashboard() {
                         {modes.length > 0 && modes.map(mode => (
                           <Button
                             key={mode.internal_representation}
+                            data-testid={"Mode-"+mode.internal_representation}
                             colorScheme={"green"}
                             variant={selectedButton === mode.name ? "solid" : "ghost"}
                             textAlign="center"

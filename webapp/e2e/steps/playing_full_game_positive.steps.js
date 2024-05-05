@@ -57,7 +57,7 @@ defineFeature(feature, test => {
         });
 
         when('Clicking the button to start a new game (Kiwi Quest gamemode)', async() => {
-          await expect(page).toClick("button[class='chakra-button css-4ctvp9'");
+          await expect(page).toClick("button[data-testid='Mode-KIWI_QUEST'");
           await expect(page).toClick("button[data-testid='Play']");
         });
 
